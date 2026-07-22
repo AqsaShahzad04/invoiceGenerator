@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/onboardingFragmentOne">
+
+    <fragment
+        android:id="@+id/onboardingFragmentOne"
+        android:name="com.learner.invoicegenerator.ui.onboarding.OnboardingFragmentOne"
+        android:label="onboardingFragmentOne"
+        tools:layout="@layout/fragment_onboarding_one">
+        <action
+            android:id="@+id/action_onboardingFragmentOne_to_onboardingFragmentTwo"
+            app:destination="@id/onboardingFragmentTwo"
+        />
+        <action
+            android:id="@+id/action_onboardingFragmentOne_to_logInFragment"
+            app:destination="@id/loginScreenFragment"
+            app:popUpTo="@id/onboardingFragmentOne"
+            app:popUpToInclusive="true"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardingFragmentTwo"
+        android:name="com.learner.invoicegenerator.ui.onboarding.OnboardingFragmentTwo"
+        tools:layout="@layout/fragment_onboarding_two">
+        <action
+            android:id="@+id/action_onboardingFragmentTwo_to_onboardingFragmentThree"
+            app:destination="@id/OnboardingFragmentThree"
+        />
+        <action
+            android:id="@+id/action_onboardingFragmentTwo_to_logInFragment"
+            app:destination="@id/loginScreenFragment"
+            app:popUpTo="@id/onboardingFragmentTwo"
+            app:popUpToInclusive="true"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/OnboardingFragmentThree"
+        android:name="com.learner.invoicegenerator.ui.onboarding.OnboardingFragmentThree"
+        tools:layout="@layout/fragment_onboarding_three">
+        <action
+            android:id="@+id/action_onboardingFragmentThree_to_login_screen_fragment"
+            app:destination="@id/loginScreenFragment"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/loginScreenFragment"
+        android:name="com.learner.invoicegenerator.ui.auth.LoginScreenFragment"
+        tools:layout="@layout/fragment_login_screen">
+        <action
+            android:id="@+id/action_loginScreenFragment_to_onboardingFragmentThree"
+            app:destination="@id/OnboardingFragmentThree"
+            app:popUpTo="@id/OnboardingFragmentThree"
+            app:popUpToInclusive="true"
+            />
+        <action
+            android:id="@+id/action_loginScreenFragment_to_signUpScreenFragment"
+            app:destination="@id/signUpScreenFragment"
+            app:popUpTo="@id/loginScreenFragment"
+            app:popUpToInclusive="true"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/signUpScreenFragment"
+        android:name="com.learner.invoicegenerator.ui.auth.SignupScreenFragment"
+        tools:layout="@layout/fragment_signup_screen">
+        <action
+            android:id="@+id/action_signUpScreenFragment_to_onboardingFragmentThree"
+            app:destination="@id/OnboardingFragmentThree"
+            app:popUpTo="@id/OnboardingFragmentThree"
+            app:popUpToInclusive="true"
+            />
+        <action
+            android:id="@+id/action_signUpScreenFragment_to_loginScreenFragment"
+            app:destination="@id/loginScreenFragment"
+            app:popUpTo="@id/signUpScreenFragment"
+            app:popUpToInclusive="true"
+            />
+    </fragment>
+
+
+</navigation>

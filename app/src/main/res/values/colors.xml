@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="bg_cream">#FBFAF7</color>
+    <color name="text_grey">#5C625E</color>
+    <color name="onboarding_line">#0C867E</color>
+    <color name="btn_text_dark">#171817</color>
+    <color name="btn_border_light">#E8E5DF</color>
+    <color name="btn_bg_dark">#171817</color>
+    <color name="btn_text_light">#FBFAF7</color>
+    <color name="avatar_green_bg">#7E8E6B</color>
+    <color name="subheading_color_home">#5C625E</color>
+    <color name="primary_green">#0C861A</color>
+</resources>
