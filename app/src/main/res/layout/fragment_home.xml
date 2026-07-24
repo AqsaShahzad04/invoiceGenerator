@@ -159,9 +159,10 @@
             android:background="@drawable/empty_progress_bar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/progressText"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/welcomesubheading"
-            app:layout_constraintVertical_bias="0.5" />
+            app:layout_constraintVertical_bias="0.357" />
 
         <TextView
             android:id="@+id/progressText"
@@ -245,7 +246,7 @@
             app:layout_constraintTop_toBottomOf="@id/nameWorkspace"
             android:layout_marginStart="12dp"
             android:layout_marginTop="2dp"
-            android:lineSpacingMultiplier="1.0"
+            android:lineSpacingMultiplier="1.2"
             app:layout_constraintEnd_toStartOf="@id/setupBtn"
             />
         <Button
@@ -312,7 +313,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="just a name to begin. Details can came later"
+            android:text="just a name to begin. Details can come later"
             android:fontFamily="@font/inter"
             android:textSize="11sp"
             android:textColor="#5C625E"
@@ -321,7 +322,7 @@
             app:layout_constraintTop_toBottomOf="@id/addFirstCient"
             android:layout_marginStart="12dp"
             android:layout_marginTop="2dp"
-            android:lineSpacingMultiplier="1.0"
+            android:lineSpacingMultiplier="1.2"
             app:layout_constraintEnd_toStartOf="@id/AddBtn"
             />
         <Button
@@ -398,7 +399,7 @@
             app:layout_constraintTop_toBottomOf="@id/setCurrency"
             android:layout_marginStart="12dp"
             android:layout_marginTop="2dp"
-            android:lineSpacingMultiplier="1.0"
+            android:lineSpacingMultiplier="1.2"
             app:layout_constraintEnd_toStartOf="@id/chooseBtn"
             />
         <Button
@@ -475,7 +476,7 @@
             app:layout_constraintTop_toBottomOf="@id/addItems"
             android:layout_marginStart="12dp"
             android:layout_marginTop="2dp"
-            android:lineSpacingMultiplier="1.0"
+            android:lineSpacingMultiplier="1.2"
             app:layout_constraintEnd_toStartOf="@id/Add4Btn"
             />
         <Button
@@ -529,7 +530,7 @@
            android:textSize="12sp"
            android:textColor="#5C625E"
            android:fontFamily="@font/inter"
-           android:lineSpacingMultiplier="1.1"
+           android:lineSpacingMultiplier="1.2"
            android:layout_marginStart="10dp"
            app:layout_constraintStart_toEndOf="@id/infoIcon"
            app:layout_constraintEnd_toEndOf="parent"

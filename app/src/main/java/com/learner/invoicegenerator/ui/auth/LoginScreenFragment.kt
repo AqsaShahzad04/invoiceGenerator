@@ -45,7 +45,7 @@ class LoginScreenFragment : Fragment(R.layout.fragment_login_screen) {
               is LoginState.Success->{
                   binding.button2.isEnabled=true
                   binding.loginProgressBar.visibility=View.GONE
-                  findNavController().navigate(R.id.action_loginScreenFragment_to_onboardingFragmentThree)
+                  findNavController().navigate(R.id.action_loginScreenFragment_to_homeScreenFragment)
               }
                is LoginState.Error->{
                    binding.button2.isEnabled=true

@@ -63,6 +63,12 @@
             app:popUpTo="@id/loginScreenFragment"
             app:popUpToInclusive="true"
             />
+        <action
+            android:id="@+id/action_loginScreenFragment_to_homeScreenFragment"
+            app:destination="@id/homeScreenFragment"
+            app:popUpTo="@id/loginScreenFragment"
+            app:popUpToInclusive="true"
+            />
     </fragment>
 
     <fragment
@@ -81,7 +87,40 @@
             app:popUpTo="@id/signUpScreenFragment"
             app:popUpToInclusive="true"
             />
+        <action
+            android:id="@+id/action_signUpScreenFragment_to_homeScreenFragment"
+            app:destination="@id/homeScreenFragment"
+            app:popUpTo="@id/signUpScreenFragment"
+            app:popUpToInclusive="true"
+            />
     </fragment>
 
+    <fragment
+        android:id="@+id/homeScreenFragment"
+        android:name="com.learner.invoicegenerator.ui.HomeFragment"
+        tools:layout="@layout/fragment_home"
+        >
+    </fragment>
+   <fragment
+       android:id="@+id/clientsFragment"
+       android:name="com.learner.invoicegenerator.ui.clientsFragment"
+       tools:layout="@layout/fragment_clients"
+       >
 
+   </fragment>
+    <fragment
+        android:id="@+id/invoicesFragment"
+        android:name="com.learner.invoicegenerator.ui.InvoicesFragment"
+        tools:layout="@layout/fragment_invoices"
+        >
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.learner.invoicegenerator.ui.SettingsFragment"
+        tools:layout="@layout/fragment_settings"
+        >
+
+    </fragment>
 </navigation>

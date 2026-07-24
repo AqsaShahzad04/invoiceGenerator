@@ -1,4 +1,7 @@
 package com.learner.invoicegenerator.ui
 
-class InvoicesFragment {
+import com.learner.invoicegenerator.R
+import androidx.fragment.app.Fragment
+
+class InvoicesFragment: Fragment(R.layout.fragment_invoices) {
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
@@ -14,4 +15,214 @@
         app:navGraph="@navigation/nav_graph"
         app:defaultNavHost="true" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:id="@+id/bottomNavBar"
+        android:layout_width="match_parent"
+        android:layout_height="93dp"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/bg_bottom_bar_final"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="24dp">
+
+        <!-- Home (selected) -->
+        <LinearLayout
+            android:id="@+id/navHome"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingTop="0dp"
+            android:paddingBottom="6dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless">
+
+            <View
+                android:id="@+id/indicatorHome"
+                android:layout_width="22dp"
+                android:layout_height="2dp"
+                android:background="@drawable/bg_top_indicator" />
+
+            <ImageView
+                android:id="@+id/iconHome"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="7dp"
+                android:src="@drawable/ic_home" />
+
+            <TextView
+                android:id="@+id/labelHome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Home"
+                android:fontFamily="@font/inter"
+                android:textColor="#0C861A"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Invoices -->
+        <LinearLayout
+            android:id="@+id/navInvoices"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingTop="0dp"
+            android:paddingBottom="6dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless">
+
+            <View
+                android:id="@+id/indicatorInvoices"
+                android:layout_width="22dp"
+                android:layout_height="2dp"
+                android:background="@android:color/transparent" />
+
+            <ImageView
+                android:id="@+id/iconInvoices"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="7dp"
+                android:src="@drawable/ic_invoices" />
+
+            <TextView
+                android:id="@+id/labelInvoices"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Invoices"
+                android:fontFamily="@font/inter"
+                android:textStyle="bold"
+                android:textColor="#5C625E"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <!-- Spacer for FAB -->
+        <View
+            android:layout_width="64dp"
+            android:layout_height="1dp" />
+
+        <!-- Clients -->
+        <LinearLayout
+            android:id="@+id/navClients"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingTop="0dp"
+            android:paddingBottom="6dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless">
+
+            <View
+                android:id="@+id/indicatorClients"
+                android:layout_width="22dp"
+                android:layout_height="2dp"
+                android:background="@android:color/transparent" />
+
+            <ImageView
+                android:id="@+id/iconClients"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="7dp"
+                android:src="@drawable/ic_clients" />
+
+            <TextView
+                android:id="@+id/labelClients"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/inter"
+                android:text="Clients"
+                android:textStyle="bold"
+                android:textColor="#5C625E"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <!-- Settings -->
+        <LinearLayout
+            android:id="@+id/navSettings"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingTop="0dp"
+            android:paddingBottom="6dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless">
+
+            <View
+                android:id="@+id/indicatorSettings"
+                android:layout_width="22dp"
+                android:layout_height="2dp"
+                android:background="@android:color/transparent" />
+
+            <ImageView
+                android:id="@+id/iconSettings"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="7dp"
+                android:src="@drawable/ic_settings" />
+
+            <TextView
+                android:id="@+id/labelSettings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/inter"
+                android:text="Settings"
+                android:textColor="#5C625E"
+                android:textSize="10sp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- FAB anchored to the nav bar -->
+
+    <View
+        android:id="@+id/fabRing"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="2dp"
+        android:background="@drawable/bg_fab_ring"
+        app:layout_anchor="@+id/fab"
+        app:layout_anchorGravity="center" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
+        android:layout_marginBottom="32dp"
+        android:src="@drawable/ic_fab"
+        app:backgroundTint="#0C861A"
+        app:elevation="10dp"
+        app:fabCustomSize="54dp"
+        app:layout_anchor="@id/bottomNavBar"
+        app:layout_anchorGravity="center"
+        app:maxImageSize="22dp"
+
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Circle"
+        app:tint="@android:color/white" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

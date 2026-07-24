@@ -46,7 +46,7 @@ class SignupScreenFragment: Fragment(R.layout.fragment_signup_screen) {
                 is SignUpState.Success->{
                     binding.createAccountbtn.isEnabled = true
                     binding.signupProgressBar.visibility = View.GONE
-                    findNavController().navigate(R.id.action_signUpScreenFragment_to_loginScreenFragment)
+                    findNavController().navigate(R.id.action_signUpScreenFragment_to_homeScreenFragment)
                 }
                 is SignUpState.Error->{
                     binding.createAccountbtn.isEnabled = true
