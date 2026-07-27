@@ -5,27 +5,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.learner.invoicegenerator.R
-import com.learner.invoicegenerator.databinding.FragmentClientsBinding
+import com.learner.invoicegenerator.databinding.FragmentAddEditClientBinding
 
-class clientsFragment: Fragment(R.layout.fragment_clients)  {
-    private var _binding: FragmentClientsBinding? = null
-    private val binding get() = _binding!!
+class AddEditClientFragment: Fragment(R.layout.fragment_add_edit_client)  {
 
+    private var _binding: FragmentAddEditClientBinding? = null
+    private val binding get()=_binding!!
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        _binding= FragmentClientsBinding.inflate(inflater,container,false)
+    ): View?{
+        _binding= FragmentAddEditClientBinding.inflate(inflater,container,false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.addClientbtn.setOnClickListener {
-            findNavController().navigate(R.id.action_clientFragment_to_addEditClientFragment)
-        }
     }
+    val businessName=binding.BusinessName
+
+
 }

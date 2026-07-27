@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_cream"
+    android:paddingTop="20dp"
+    android:paddingHorizontal="28dp"
+    android:paddingBottom="28dp">
+
+
+    <View
+        android:id="@+id/backbtnview"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:background="@drawable/bg_login_back_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+    <ImageView
+        android:id="@+id/backbtn"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="@drawable/ic_login_screen"
+        android:clickable="true"
+        app:layout_constraintStart_toStartOf="@+id/backbtnview"
+        app:layout_constraintTop_toTopOf="@+id/backbtnview"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="@+id/backbtnview"
+        app:layout_constraintBottom_toBottomOf="@+id/backbtnview"
+        />
+
+    <TextView
+        android:id="@+id/newClient"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_bold"
+        android:letterSpacing="-0.015"
+        android:layout_marginStart="10dp"
+        android:textColor="#171817"
+        android:text="New Client"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@id/backbtnview"
+        app:layout_constraintTop_toTopOf="@id/backbtnview"
+        app:layout_constraintBottom_toBottomOf="@id/backbtnview"
+        />
+
+
+
+    <TextView
+        android:id="@+id/BusinessnameLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_medium"
+        android:text="Business Name"
+        android:textColor="#5C625E"
+        android:textSize="11sp"
+        tools:layout_editor_absoluteX="46dp"
+        tools:layout_editor_absoluteY="194dp"
+        android:layout_marginTop="22dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/newClient"/>
+
+    <EditText
+        android:id="@+id/BusinessName"
+        android:layout_width="match_parent"
+        android:layout_marginTop="6dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_input_field"
+        android:layout_marginBottom="14dp"
+        android:fontFamily="@font/inter_medium"
+        android:hint="Al-Barka store"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="12dp"
+        android:textColor="#171817"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="197dp"
+        app:layout_constraintTop_toBottomOf="@+id/BusinessnameLabel"
+        />
+
+    <TextView
+        android:id="@+id/ContactPersonLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="14dp"
+        android:fontFamily="@font/inter_medium"
+        android:text="Contact Person"
+        android:textColor="#5C625E"
+        android:textSize="11sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BusinessName" />
+
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_marginTop="6dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_input_field"
+        android:ems="10"
+        android:fontFamily="@font/inter_medium"
+        android:hint="yusuf Mehmood"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="12dp"
+        android:textColor="#171817"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="197dp"
+        app:layout_constraintTop_toBottomOf="@+id/ContactPersonLabel"
+        />
+
+
+    <TextView
+        android:id="@+id/emailLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:fontFamily="@font/inter_medium"
+        android:text="Email"
+        android:textColor="#5C625E"
+        android:textSize="11sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name" />
+
+    <EditText
+        android:id="@+id/email"
+        android:inputType="textEmailAddress"
+        android:layout_width="match_parent"
+        android:layout_marginTop="6dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_input_field"
+        android:ems="10"
+        android:fontFamily="@font/inter_medium"
+        android:hint="name@example.pk"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="12dp"
+        android:textColor="#171817"
+        android:textSize="13sp"
+        tools:layout_editor_absoluteX="38dp"
+        tools:layout_editor_absoluteY="293dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/phonelabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:fontFamily="@font/inter_medium"
+        android:text="Phone"
+        android:textColor="#5C625E"
+        android:textSize="11sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/email" />
+
+    <EditText
+        android:id="@+id/phoneNum"
+        android:inputType="number"
+        android:layout_width="match_parent"
+        android:layout_marginTop="6dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_input_field"
+        android:ems="10"
+        android:fontFamily="@font/inter_medium"
+        android:hint="+92 312 345678"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="12dp"
+        android:textColor="#171817"
+        android:textSize="13sp"
+        tools:layout_editor_absoluteX="38dp"
+        tools:layout_editor_absoluteY="293dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/phonelabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/addresslabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:fontFamily="@font/inter_medium"
+        android:text="Adress"
+        android:textColor="#5C625E"
+        android:textSize="11sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/phoneNum" />
+
+    <EditText
+        android:id="@+id/address"
+        android:inputType="textMultiLine"
+        android:minLines="3"
+         android:gravity="top|start"
+        android:layout_width="match_parent"
+        android:layout_marginTop="6dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_input_field"
+        android:ems="10"
+        android:fontFamily="@font/inter_medium"
+        android:hint="Main Bazar,Multan"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="12dp"
+        android:textColor="#171817"
+        android:textSize="13sp"
+        tools:layout_editor_absoluteX="38dp"
+        tools:layout_editor_absoluteY="293dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addresslabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+
+
+
+    <Button
+        android:id="@+id/createAccountbtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/sign_in_button_bg"
+        android:fontFamily="@font/inter_semibold"
+        android:paddingHorizontal="14dp"
+        android:text="Create client"
+        android:textColor="#FBFAF7"
+        android:textSize="14sp"
+        app:backgroundTint="@null"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/address"
+        android:gravity="center"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
