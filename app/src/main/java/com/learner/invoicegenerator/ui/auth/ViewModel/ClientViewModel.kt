@@ -40,6 +40,7 @@ class ClientViewModel(private val repository: ClientRepository) : ViewModel() {
 
     fun deleteClient(client: Client) {
         viewModelScope.launch {
+            _addClientState.value = ClientState.Loading
             try {
                 repository.deleteClient(client)
                 _addClientState.value = ClientState.Success

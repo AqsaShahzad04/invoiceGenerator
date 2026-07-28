@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingVertical="10dp">
+
+    <TextView
+
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/client_profile_circle_bg"
+        android:id="@+id/client_profile"
+        android:text="A"
+        android:textColor="#FFFFFF"
+        android:gravity="center"
+        android:textSize="14sp"
+        android:fontFamily="@font/inter_bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+    <TextView
+        android:id="@+id/BusinessName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="al-jannat"
+        android:textSize="13sp"
+        android:textColor="#171817"
+        android:fontFamily="@font/inter_semibold"
+        android:layout_marginStart="12dp"
+        app:layout_constraintStart_toEndOf="@id/client_profile"
+        app:layout_constraintTop_toTopOf="@id/client_profile"
+
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/clientname"
+        android:text="jannat"
+        android:textColor="#5C625E"
+        android:textSize="11sp"
+        android:fontFamily="@font/inter"
+        app:layout_constraintStart_toEndOf="@id/client_profile"
+        app:layout_constraintTop_toBottomOf="@id/BusinessName"
+        app:layout_constraintBottom_toBottomOf="@id/client_profile"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="2dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/amount"
+        android:text="0"
+        android:textSize="13sp"
+        android:fontFamily="@font/inter_bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/client_profile"
+
+
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/invoicesCount"
+        android:text="0 invoices"
+        android:textSize="10sp"
+        android:textColor="#5C625E"
+        app:layout_constraintTop_toBottomOf="@id/amount"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="2dp"
+        android:fontFamily="@font/inter"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
