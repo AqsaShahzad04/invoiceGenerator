@@ -21,6 +21,7 @@
         />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/addclientBtn2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/client_add_btn_bg"
@@ -103,6 +104,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
        <!-- no clients yet section-->
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/emptyStateLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:paddingVertical="48dp"
@@ -203,9 +205,14 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:id="@+id/clientsList"
-/>
+        app:layout_constraintTop_toBottomOf="@id/searchContainer"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="18dp"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
