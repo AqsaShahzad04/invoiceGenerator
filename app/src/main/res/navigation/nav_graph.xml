@@ -110,6 +110,10 @@
            android:id="@+id/action_clientFragment_to_addEditClientFragment"
            app:destination="@id/addEditClientFragment"
            />
+       <action
+           android:id="@+id/action_clientFragment_to_ClientdetailsFragment"
+           app:destination="@id/clientDetailFragment"
+           />
 
    </fragment>
     <fragment
@@ -134,6 +138,15 @@
         android:id="@+id/addEditClientFragment"
         android:name="com.learner.invoicegenerator.ui.AddEditClientFragment"
         tools:layout="@layout/fragment_add_edit_client"
+        >
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/clientDetailFragment"
+        android:name="com.learner.invoicegenerator.ui.ClientDetailFragment"
+        tools:layout="@layout/fragment_client_detail"
+
         >
 
     </fragment>

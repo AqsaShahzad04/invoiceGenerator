@@ -43,7 +43,9 @@ class clientsFragment: Fragment(R.layout.fragment_clients)  {
         val viewModel = ViewModelProvider(this, viewModelFactory).get(ClientViewModel::class.java)
 
         // Step 1: Adapter banao (abhi khaali list ke sath)
-        clientAdapter = ClientAdapter(emptyList())
+        clientAdapter = ClientAdapter(emptyList()) { client ->
+           findNavController().navigate(R.id.action_clientFragment_to_ClientdetailsFragment)
+        }
 
         // Step 2: LayoutManager set karo (vertical list)
         binding.clientsList.layoutManager = LinearLayoutManager(requireContext())
