@@ -13,8 +13,8 @@ interface Clientdao {
     @Insert
     suspend fun insertClient(client: Client)
 
-    @Query("SELECT * FROM Clients")
-     fun getAllClients(): Flow<List<Client>>
+    @Query("SELECT * FROM Clients WHERE workspaceId = :workspaceId")
+     fun getAllClientsOfWorkspace(workspaceId:Int): Flow<List<Client>>
 
     @Query("SELECT * FROM Clients WHERE id = :id")
     suspend fun getClientById(id: Int): Client?
@@ -24,6 +24,7 @@ interface Clientdao {
 
     @Update
     suspend fun updateClient(client: Client)
+
 
     @Query("SELECT * FROM Clients WHERE businessName LIKE '%' || :query || '%'")
      fun searchClientsByBusinessName(query: String): Flow<List<Client>>

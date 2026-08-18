@@ -46,7 +46,20 @@
         app:layout_constraintBottom_toBottomOf="@id/backbtnview"
         />
 
-
+    <TextView
+        android:id="@+id/previewAvatar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/client_profile_circle_bg"
+        android:gravity="center"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:layout_marginTop="22dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/newClient"
+        android:visibility="gone"
+         />
 
     <TextView
         android:id="@+id/BusinessnameLabel"
@@ -58,9 +71,9 @@
         android:textSize="11sp"
         tools:layout_editor_absoluteX="46dp"
         tools:layout_editor_absoluteY="194dp"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/newClient"/>
+        app:layout_constraintTop_toBottomOf="@id/previewAvatar"/>
 
     <EditText
         android:id="@+id/BusinessName"

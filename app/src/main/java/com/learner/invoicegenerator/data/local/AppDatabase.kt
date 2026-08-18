@@ -6,14 +6,21 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.learner.invoicegenerator.data.local.Dao.Clientdao
 import com.learner.invoicegenerator.data.local.Dao.Userdao
+import com.learner.invoicegenerator.data.local.Dao.ItemDao
+import com.learner.invoicegenerator.data.local.Dao.WorkspaceDao
 import com.learner.invoicegenerator.data.local.entity.User
+import com.learner.invoicegenerator.data.local.entity.Workspace
 import com.learner.invoicegenerator.data.local.entity.Client
+import com.learner.invoicegenerator.data.local.entity.Item
 
 
-@Database(entities = [User::class,Client::class], version = 3)
+@Database(entities = [User::class,Client::class,Item::class,Workspace::class], version = 6)
 abstract class InvoiceDatabase: RoomDatabase() {
     abstract fun userDao(): Userdao
     abstract fun clientDao(): Clientdao
+    abstract fun itemDao(): ItemDao
+
+    abstract fun workspaceDao(): WorkspaceDao
 }
 object DatabaseProvider{
     @Volatile

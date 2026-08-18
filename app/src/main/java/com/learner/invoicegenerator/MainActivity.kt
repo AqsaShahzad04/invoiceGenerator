@@ -3,22 +3,55 @@ package com.learner.invoicegenerator
 import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.navOptions
 import com.learner.invoicegenerator.R
+import com.learner.invoicegenerator.data.local.DatabaseProvider
+import com.learner.invoicegenerator.data.local.SessionManager
+import com.learner.invoicegenerator.data.repository.ClientRepository
+import com.learner.invoicegenerator.data.repository.ItemRepository
+import com.learner.invoicegenerator.data.repository.WorkspaceRepository
 import com.learner.invoicegenerator.databinding.ActivityMainBinding
+import com.learner.invoicegenerator.ui.auth.ViewModel.ItemViewModel
+import com.learner.invoicegenerator.ui.auth.ViewModel.ItemViewModelFactory
+import com.learner.invoicegenerator.ui.auth.ViewModel.WorkSpaceViewModelFactory
+import com.learner.invoicegenerator.ui.auth.ViewModel.WorkspaceViewModel
+import com.learner.invoicegenerator.ui.clients.viewmodel.ClientViewModel
+import com.learner.invoicegenerator.ui.clients.viewmodel.ClientViewModelFactory
+
 
 class MainActivity : AppCompatActivity() {
 
+     val database= DatabaseProvider.getDatabase(this)
+    val clientDao=database.clientDao()
+    val clientRepository= ClientRepository(clientDao)
+    val itemDao=database.itemDao()
+    val itemRepository= ItemRepository(itemDao)
+    val workspaceDao=database.workspaceDao()
+    val workspaceRepository= WorkspaceRepository(workspaceDao)
+
+
+    private val clientViewModel: ClientViewModel by viewModels {
+        ClientViewModelFactory(clientRepository)
+    }
+
+    private val itemViewModel: ItemViewModel by viewModels {
+        ItemViewModelFactory(itemRepository)
+    }
+
+    private val workspaceViewModel: WorkspaceViewModel by viewModels {
+        WorkSpaceViewModelFactory(workspaceRepository)
+    }
+
     private var _binding: ActivityMainBinding?=null
     private val binding get()=_binding!!
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +59,16 @@ class MainActivity : AppCompatActivity() {
 
         enableEdgeToEdge()
         setContentView(binding.root)
+
+        val sessionManager = SessionManager(this)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
+        val navController = navHostFragment.navController
+
+        if (sessionManager.isLoggedIn()) {
+            val navGraph = navController.navInflater.inflate(R.navigation.nav_graph)
+            navGraph.setStartDestination(R.id.homeScreenFragment)
+            navController.graph = navGraph
+        }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -37,8 +80,6 @@ class MainActivity : AppCompatActivity() {
         controller.hide(WindowInsetsCompat.Type.navigationBars())
         controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
-        val navController = navHostFragment.navController
         val navOptions = navOptions {
             launchSingleTop = true
             restoreState = true
@@ -48,7 +89,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         val bottomNavBar = findViewById<View>(R.id.bottomNavBar)
-
         val fabbtn = findViewById<View>(R.id.fab)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
@@ -73,9 +113,9 @@ class MainActivity : AppCompatActivity() {
       }
         binding.navSettings.setOnClickListener {
             navController.navigate(R.id.settingsFragment, null, navOptions)
-
         }
     }
+
     private fun updateSelectedTab(selectedId: Int) {
         val tabs = mapOf(
             R.id.homeScreenFragment to Triple(binding.iconHome, binding.labelHome, binding.indicatorHome),
@@ -96,5 +136,10 @@ class MainActivity : AppCompatActivity() {
                 indicator.setBackgroundColor(getColor(android.R.color.transparent))
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

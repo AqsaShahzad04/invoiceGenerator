@@ -45,7 +45,8 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
-    implementation(libs.material)
+    implementation(libs.androidx.ui.graphics)
+    implementation("com.google.android.material:material:1.12.0")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
@@ -53,6 +54,5 @@ dependencies {
     implementation(libs.navigation.ui)
     implementation("androidx.room:room-runtime:2.7.1")
     implementation("androidx.room:room-ktx:2.7.1")
-    implementation("com.google.android.material:material:1.3.0-alpha03")
     ksp("androidx.room:room-compiler:2.7.1")
 }

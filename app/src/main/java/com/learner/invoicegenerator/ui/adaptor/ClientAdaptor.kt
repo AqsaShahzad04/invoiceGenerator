@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.learner.invoicegenerator.data.local.entity.Client
 import com.learner.invoicegenerator.databinding.ClientRowBinding
+import com.learner.invoicegenerator.utils.AvatarUtils
 
 class ClientAdapter(
     private var clients: List<Client>,
@@ -41,16 +42,17 @@ class ClientAdapter(
 
         holder.binding.BusinessName.text = client.businessName
         holder.binding.clientname.text = client.contactPerson ?: ""
-        val colorIndex = client.businessName.hashCode() % avatarColors.size
-        val selectedColor = avatarColors[Math.abs(colorIndex)]
 
-        holder.binding.clientProfile.background.setTint(Color.parseColor(selectedColor))
-        // Abhi invoice count ka data nahi hai, tou default rakh diya
+        val letter = AvatarUtils.getLetter(client.businessName)
+        val color = AvatarUtils.getColor(client.businessName)
+
+        holder.binding.clientProfile.text = letter
+        holder.binding.clientProfile.background.setTint(Color.parseColor(color))
+
         holder.binding.amount.text = "0"
         holder.binding.invoicesCount.text = "0 invoices"
         holder.itemView.setOnClickListener { onClientClick(client) }
     }
-
     // Total items kitne hain
     override fun getItemCount(): Int = clients.size
 

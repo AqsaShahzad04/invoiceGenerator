@@ -11,6 +11,7 @@ import com.learner.invoicegenerator.R
 import com.learner.invoicegenerator.data.local.DatabaseProvider
 import com.learner.invoicegenerator.data.repository.UserRepository
 import com.learner.invoicegenerator.databinding.FragmentLoginScreenBinding
+import com.learner.invoicegenerator.data.local.SessionManager
 import com.learner.invoicegenerator.ui.auth.ViewModel.LoginState
 import com.learner.invoicegenerator.ui.auth.ViewModel.LoginViewModel
 import com.learner.invoicegenerator.ui.auth.ViewModel.LoginViewModelFactory
@@ -34,6 +35,7 @@ class LoginScreenFragment : Fragment(R.layout.fragment_login_screen) {
         val repository= UserRepository(dao)
         val factory= LoginViewModelFactory(repository)
         val viewModel= ViewModelProvider(this, factory)[LoginViewModel::class.java]
+        val sessionManager = SessionManager(requireContext())
 
 
        viewModel.loginState.observe(viewLifecycleOwner){state->
@@ -45,6 +47,7 @@ class LoginScreenFragment : Fragment(R.layout.fragment_login_screen) {
               is LoginState.Success->{
                   binding.button2.isEnabled=true
                   binding.loginProgressBar.visibility=View.GONE
+                  sessionManager.createLoginSession(state.user.id)
                   findNavController().navigate(R.id.action_loginScreenFragment_to_homeScreenFragment)
               }
                is LoginState.Error->{

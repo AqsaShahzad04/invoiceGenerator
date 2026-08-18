@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.learner.invoicegenerator.R
 import com.learner.invoicegenerator.data.local.DatabaseProvider
+import com.learner.invoicegenerator.data.local.SessionManager
 import com.learner.invoicegenerator.data.local.entity.User
 import com.learner.invoicegenerator.data.repository.UserRepository
 import com.learner.invoicegenerator.databinding.FragmentSignupScreenBinding
@@ -35,6 +36,7 @@ class SignupScreenFragment: Fragment(R.layout.fragment_signup_screen) {
         val repository= UserRepository(dao)
         val factory= SignUpViewModelFactory(repository)
         val viewModel= ViewModelProvider(this,factory)[SignUPViewModel::class.java]
+        val sessionManager = SessionManager(requireContext())
 
 
         viewModel.signUpState.observe(viewLifecycleOwner){state->
@@ -46,6 +48,7 @@ class SignupScreenFragment: Fragment(R.layout.fragment_signup_screen) {
                 is SignUpState.Success->{
                     binding.createAccountbtn.isEnabled = true
                     binding.signupProgressBar.visibility = View.GONE
+                    sessionManager.createLoginSession(state.user.id)
                     findNavController().navigate(R.id.action_signUpScreenFragment_to_homeScreenFragment)
                 }
                 is SignUpState.Error->{

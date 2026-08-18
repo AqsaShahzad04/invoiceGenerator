@@ -139,15 +139,62 @@
         android:name="com.learner.invoicegenerator.ui.AddEditClientFragment"
         tools:layout="@layout/fragment_add_edit_client"
         >
-
+        <argument
+            android:name="clientId"
+            app:argType="integer"
+            android:defaultValue="-1"/>
     </fragment>
 
     <fragment
         android:id="@+id/clientDetailFragment"
         android:name="com.learner.invoicegenerator.ui.ClientDetailFragment"
         tools:layout="@layout/fragment_client_detail"
-
         >
+        <action
+            android:id="@+id/action_clientDetailFragment_to_clientFragment"
+            app:destination="@id/clientsFragment"
+            />
+        <action
+            android:id="@+id/action_clientDetailFragment_to_addEditClientFragment"
+            app:destination="@id/addEditClientFragment"/>
 
+        <argument
+            android:name="clientId"
+            app:argType="integer"
+            android:defaultValue="-1"/>
+        <argument
+            android:name="clientProfileLetter"
+            app:argType="string"/>
+        <argument
+            android:name="profileBackgroundColor"
+            app:argType="string"/>
+    </fragment>
+    <fragment
+        android:id="@+id/itemsFragment"
+        android:name="com.learner.invoicegenerator.ui.ItemsFragment"
+        tools:layout="@layout/fragment_items">
+        <action
+            android:id="@+id/action_itemsFragment_to_addEditItemsFragment"
+            app:destination="@id/addEditItemsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addEditItemsFragment"
+        android:name="com.learner.invoicegenerator.ui.AddEditItemsFragment"
+        tools:layout="@layout/fragment_add_edit_items">
+        <argument
+            android:name="itemId"
+            android:defaultValue="-1"
+            app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addEditWorkspaceFragment"
+        android:name="com.learner.invoicegenerator.ui.AddEditWorkspaceFragment"
+        tools:layout="@layout/fragment_add_edit_workspace">
+        <argument
+            android:name="workspaceId"
+            android:defaultValue="-1"
+            app:argType="integer" />
     </fragment>
 </navigation>

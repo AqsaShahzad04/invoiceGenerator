@@ -6,7 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.learner.invoicegenerator.data.local.entity.Client
 import com.learner.invoicegenerator.data.repository.ClientRepository
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 
 class ClientViewModel(private val repository: ClientRepository) : ViewModel() {
@@ -14,7 +18,16 @@ class ClientViewModel(private val repository: ClientRepository) : ViewModel() {
     private val _addClientState = MutableLiveData<ClientState>()
     val addClientState: LiveData<ClientState> get() = _addClientState
 
-    val allClients: Flow<List<Client>> = repository.getAllClients()
+    private val workspaceIdFlow = MutableStateFlow(1)
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val allClients: Flow<List<Client>> = workspaceIdFlow.flatMapLatest { id ->
+        repository.getAllClients(id)
+    }
+
+    fun setWorkspaceId(id: Int) {
+        workspaceIdFlow.value = id
+    }
 
     fun addClient(client: Client) {
         viewModelScope.launch {
@@ -27,13 +40,16 @@ class ClientViewModel(private val repository: ClientRepository) : ViewModel() {
         }
     }
 
+    private val _updateState = MutableStateFlow<ClientState>(ClientState.Idle)
+    val updateState: StateFlow<ClientState> = _updateState
+
     fun updateClient(client: Client) {
         viewModelScope.launch {
             try {
                 repository.updateClient(client)
-                _addClientState.value = ClientState.Success
+                _updateState.value = ClientState.Success
             } catch (e: Exception) {
-                _addClientState.value = ClientState.Error(e.message ?: "Unknown error")
+                _updateState.value = ClientState.Error(e.message ?: "Update failed")
             }
         }
     }
@@ -48,5 +64,9 @@ class ClientViewModel(private val repository: ClientRepository) : ViewModel() {
                 _addClientState.value = ClientState.Error(e.message ?: "Unknown error")
             }
         }
+    }
+
+    suspend fun getClientById(id:Int):Client?{
+        return repository.getClientById(id)
     }
 }
