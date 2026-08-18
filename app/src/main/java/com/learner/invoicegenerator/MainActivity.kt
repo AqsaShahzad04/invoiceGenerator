@@ -9,7 +9,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.navOptions
 import com.learner.invoicegenerator.R
@@ -21,46 +20,47 @@ import com.learner.invoicegenerator.data.repository.WorkspaceRepository
 import com.learner.invoicegenerator.databinding.ActivityMainBinding
 import com.learner.invoicegenerator.ui.auth.ViewModel.ItemViewModel
 import com.learner.invoicegenerator.ui.auth.ViewModel.ItemViewModelFactory
-import com.learner.invoicegenerator.ui.auth.ViewModel.WorkSpaceViewModelFactory
 import com.learner.invoicegenerator.ui.auth.ViewModel.WorkspaceViewModel
+import com.learner.invoicegenerator.ui.auth.ViewModel.WorkspaceViewModelFactory
 import com.learner.invoicegenerator.ui.clients.viewmodel.ClientViewModel
 import com.learner.invoicegenerator.ui.clients.viewmodel.ClientViewModelFactory
 
-
 class MainActivity : AppCompatActivity() {
 
-     val database= DatabaseProvider.getDatabase(this)
-    val clientDao=database.clientDao()
-    val clientRepository= ClientRepository(clientDao)
-    val itemDao=database.itemDao()
-    val itemRepository= ItemRepository(itemDao)
-    val workspaceDao=database.workspaceDao()
-    val workspaceRepository= WorkspaceRepository(workspaceDao)
-
+    private val database by lazy { DatabaseProvider.getDatabase(this) }
+    private val sessionManager by lazy { SessionManager(this) }
+    
+    private val clientRepository by lazy { ClientRepository(database.clientDao()) }
+    private val itemRepository by lazy { ItemRepository(database.itemDao()) }
+    private val workspaceRepository by lazy { WorkspaceRepository(database.workspaceDao()) }
 
     private val clientViewModel: ClientViewModel by viewModels {
-        ClientViewModelFactory(clientRepository)
+        ClientViewModelFactory(clientRepository, sessionManager)
     }
 
     private val itemViewModel: ItemViewModel by viewModels {
-        ItemViewModelFactory(itemRepository)
+        ItemViewModelFactory(itemRepository, sessionManager)
     }
 
     private val workspaceViewModel: WorkspaceViewModel by viewModels {
-        WorkSpaceViewModelFactory(workspaceRepository)
+        WorkspaceViewModelFactory(workspaceRepository, sessionManager)
     }
 
-    private var _binding: ActivityMainBinding?=null
-    private val binding get()=_binding!!
+    private var _binding: ActivityMainBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding= ActivityMainBinding.inflate(layoutInflater)
+        _binding = ActivityMainBinding.inflate(layoutInflater)
+
+        // Initialize ViewModels early to prevent Fragment crashes
+        clientViewModel
+        itemViewModel
+        workspaceViewModel
 
         enableEdgeToEdge()
         setContentView(binding.root)
 
-        val sessionManager = SessionManager(this)
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         val navController = navHostFragment.navController
 
@@ -92,7 +92,8 @@ class MainActivity : AppCompatActivity() {
         val fabbtn = findViewById<View>(R.id.fab)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.homeScreenFragment || destination.id == R.id.invoicesFragment || destination.id == R.id.clientsFragment || destination.id == R.id.settingsFragment) {
+            if (destination.id == R.id.homeScreenFragment || destination.id == R.id.invoicesFragment || 
+                destination.id == R.id.clientsFragment || destination.id == R.id.settingsFragment) {
                 bottomNavBar.visibility = View.VISIBLE
                 fabbtn.visibility = View.VISIBLE
             } else {
@@ -101,16 +102,19 @@ class MainActivity : AppCompatActivity() {
             }
             updateSelectedTab(destination.id)
         }
+        
         binding.navHome.setOnClickListener {
             navController.navigate(R.id.homeScreenFragment, null, navOptions)
         }
 
-      binding.navInvoices.setOnClickListener {
-          navController.navigate(R.id.invoicesFragment, null, navOptions)
-      }
-      binding.navClients.setOnClickListener {
-          navController.navigate(R.id.clientsFragment, null, navOptions)
-      }
+        binding.navInvoices.setOnClickListener {
+            navController.navigate(R.id.invoicesFragment, null, navOptions)
+        }
+        
+        binding.navClients.setOnClickListener {
+            navController.navigate(R.id.clientsFragment, null, navOptions)
+        }
+
         binding.navSettings.setOnClickListener {
             navController.navigate(R.id.settingsFragment, null, navOptions)
         }

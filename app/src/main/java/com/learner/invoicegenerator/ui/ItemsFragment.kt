@@ -9,17 +9,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.learner.invoicegenerator.R
-import com.learner.invoicegenerator.data.local.DatabaseProvider
-import com.learner.invoicegenerator.data.local.SessionManager
-import com.learner.invoicegenerator.data.repository.ItemRepository
 import com.learner.invoicegenerator.databinding.FragmentItemsBinding
 import com.learner.invoicegenerator.ui.auth.ViewModel.ItemViewModel
-import com.learner.invoicegenerator.ui.auth.ViewModel.ItemViewModelFactory
 import com.learner.invoicegenerator.ui.items.ItemAdapter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -28,7 +23,8 @@ class ItemsFragment : Fragment(R.layout.fragment_items) {
 
     private var _binding: FragmentItemsBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: ItemViewModel
+    
+    private val viewModel: ItemViewModel by activityViewModels()
     private lateinit var adapter: ItemAdapter
 
     override fun onCreateView(
@@ -42,17 +38,10 @@ class ItemsFragment : Fragment(R.layout.fragment_items) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val sessionManager = SessionManager(requireContext())
-        val viewModel: ItemViewModel by activityViewModels()
-        viewModel.setWorkspaceId(sessionManager.getActiveWorkspaceId())
-
         setupRecyclerView()
         setupListeners()
         observeItems()
     }
-
-
 
     private fun setupRecyclerView() {
         adapter = ItemAdapter(
@@ -73,20 +62,17 @@ class ItemsFragment : Fragment(R.layout.fragment_items) {
             findNavController().navigateUp()
         }
         
-        // Header Add Button
         binding.addclientBtn2.setOnClickListener {
             val action = ItemsFragmentDirections.actionItemsFragmentToAddEditItemsFragment(-1)
             findNavController().navigate(action)
         }
         
-        // Empty State Add Button
         binding.addClientbtn.setOnClickListener {
             val action = ItemsFragmentDirections.actionItemsFragmentToAddEditItemsFragment(-1)
             findNavController().navigate(action)
         }
         
         binding.scanbtn.setOnClickListener {
-            // Scanner implementation later
             Toast.makeText(requireContext(), "Scanner coming soon", Toast.LENGTH_SHORT).show()
         }
 
@@ -100,7 +86,7 @@ class ItemsFragment : Fragment(R.layout.fragment_items) {
     }
 
     private fun observeItems() {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.allItems.collectLatest { items ->
                 val query = binding.etSearch.text.toString().trim()
                 

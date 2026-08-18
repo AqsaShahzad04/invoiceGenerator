@@ -7,17 +7,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.learner.invoicegenerator.R
-import com.learner.invoicegenerator.data.local.DatabaseProvider
 import com.learner.invoicegenerator.data.local.SessionManager
 import com.learner.invoicegenerator.data.local.entity.Workspace
-import com.learner.invoicegenerator.data.repository.WorkspaceRepository
 import com.learner.invoicegenerator.databinding.FragmentAddEditWorkspaceBinding
-import com.learner.invoicegenerator.ui.auth.ViewModel.WorkSpaceViewModelFactory
 import com.learner.invoicegenerator.ui.auth.ViewModel.WorkspaceState
 import com.learner.invoicegenerator.ui.auth.ViewModel.WorkspaceViewModel
 import kotlinx.coroutines.launch
@@ -26,7 +22,8 @@ class AddEditWorkspaceFragment : Fragment(R.layout.fragment_add_edit_workspace) 
 
     private var _binding: FragmentAddEditWorkspaceBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: WorkspaceViewModel
+    
+    private val viewModel: WorkspaceViewModel by activityViewModels()
     private val args: AddEditWorkspaceFragmentArgs by navArgs()
 
     override fun onCreateView(
@@ -40,13 +37,9 @@ class AddEditWorkspaceFragment : Fragment(R.layout.fragment_add_edit_workspace) 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val viewModel: WorkspaceViewModel by activityViewModels()
         setupUI()
         observeState()
     }
-
-
 
     private fun setupUI() {
         val workspaceId = args.workspaceId
@@ -68,7 +61,6 @@ class AddEditWorkspaceFragment : Fragment(R.layout.fragment_add_edit_workspace) 
 
     private fun loadWorkspace(workspaceId: Int) {
         lifecycleScope.launch {
-            // Since getWorkspacesByUserId returns a flow, for a single fetch we can do this:
             val sessionManager = SessionManager(requireContext())
             val userId = sessionManager.getUserId()
             viewModel.getWorkspacesByUserId(userId).collect { list ->
@@ -107,7 +99,7 @@ class AddEditWorkspaceFragment : Fragment(R.layout.fragment_add_edit_workspace) 
             phone = phone,
             taxNumber = tax,
             address = address,
-            isDefault = args.workspaceId == -1 // Make it default if it's the first one or being added
+            isDefault = args.workspaceId == -1
         )
 
         if (args.workspaceId == -1) {

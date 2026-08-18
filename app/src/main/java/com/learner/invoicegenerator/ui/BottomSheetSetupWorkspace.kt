@@ -7,27 +7,24 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.learner.invoicegenerator.data.local.DatabaseProvider
 import com.learner.invoicegenerator.data.local.SessionManager
 import com.learner.invoicegenerator.data.local.entity.Workspace
-import com.learner.invoicegenerator.data.repository.WorkspaceRepository
 import com.learner.invoicegenerator.databinding.BottomSheetSetupWorkspaceBinding
 import com.learner.invoicegenerator.ui.auth.ViewModel.WorkspaceState
 import com.learner.invoicegenerator.ui.auth.ViewModel.WorkspaceViewModel
-import com.learner.invoicegenerator.ui.auth.ViewModel.WorkSpaceViewModelFactory
 
 class BottomSheetSetupWorkspace : BottomSheetDialogFragment() {
 
     private var _binding: BottomSheetSetupWorkspaceBinding? = null
     private val binding get() = _binding!!
 
+    private val viewModel: WorkspaceViewModel by activityViewModels()
+
     override fun onStart() {
         super.onStart()
         dialog?.window?.apply {
             setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-            // Make navigation bar transparent for immersive look
             navigationBarColor = android.graphics.Color.TRANSPARENT
         }
     }
@@ -43,8 +40,6 @@ class BottomSheetSetupWorkspace : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val viewModel: WorkspaceViewModel by activityViewModels()
         val sessionManager = SessionManager(requireContext())
 
         binding.closeBtn.setOnClickListener { dismiss() }

@@ -4,29 +4,25 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.learner.invoicegenerator.data.local.SessionManager
 import com.learner.invoicegenerator.data.local.entity.Client
 import com.learner.invoicegenerator.data.repository.ClientRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 
-class ClientViewModel(private val repository: ClientRepository) : ViewModel() {
+class ClientViewModel(
+    private val repository: ClientRepository,
+    private val sessionManager: SessionManager
+) : ViewModel() {
 
     private val _addClientState = MutableLiveData<ClientState>()
     val addClientState: LiveData<ClientState> get() = _addClientState
 
-    private val workspaceIdFlow = MutableStateFlow(1)
-
     @OptIn(ExperimentalCoroutinesApi::class)
-    val allClients: Flow<List<Client>> = workspaceIdFlow.flatMapLatest { id ->
+    val allClients: Flow<List<Client>> = sessionManager.activeWorkspaceId.flatMapLatest { id ->
         repository.getAllClients(id)
-    }
-
-    fun setWorkspaceId(id: Int) {
-        workspaceIdFlow.value = id
     }
 
     fun addClient(client: Client) {
@@ -40,8 +36,8 @@ class ClientViewModel(private val repository: ClientRepository) : ViewModel() {
         }
     }
 
-    private val _updateState = MutableStateFlow<ClientState>(ClientState.Idle)
-    val updateState: StateFlow<ClientState> = _updateState
+    private val _updateState = MutableLiveData<ClientState>(ClientState.Idle)
+    val updateState: LiveData<ClientState> = _updateState
 
     fun updateClient(client: Client) {
         viewModelScope.launch {
@@ -66,7 +62,7 @@ class ClientViewModel(private val repository: ClientRepository) : ViewModel() {
         }
     }
 
-    suspend fun getClientById(id:Int):Client?{
+    suspend fun getClientById(id: Int): Client? {
         return repository.getClientById(id)
     }
 }

@@ -4,19 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.learner.invoicegenerator.R
-import com.learner.invoicegenerator.data.local.DatabaseProvider
 import com.learner.invoicegenerator.data.local.SessionManager
-import com.learner.invoicegenerator.data.repository.WorkspaceRepository
 import com.learner.invoicegenerator.databinding.BottomSheetSwitchWorkspaceBinding
-import com.learner.invoicegenerator.ui.auth.ViewModel.WorkSpaceViewModelFactory
 import com.learner.invoicegenerator.ui.auth.ViewModel.WorkspaceViewModel
 import com.learner.invoicegenerator.ui.items.WorkspaceAdapter
 import kotlinx.coroutines.flow.collectLatest
@@ -26,6 +21,8 @@ class BottomSheetSwitchWorkspace : BottomSheetDialogFragment() {
 
     private var _binding: BottomSheetSwitchWorkspaceBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel: WorkspaceViewModel by activityViewModels()
 
     override fun onStart() {
         super.onStart()
@@ -46,9 +43,7 @@ class BottomSheetSwitchWorkspace : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-       val viewModel: WorkspaceViewModel by activityViewModels()
         val sessionManager = SessionManager(requireContext())
-
         val activeId = sessionManager.getActiveWorkspaceId()
         val userId = sessionManager.getUserId()
 
@@ -73,8 +68,7 @@ class BottomSheetSwitchWorkspace : BottomSheetDialogFragment() {
         
         binding.btnNewWorkspace.setOnClickListener {
             dismiss()
-            val navController = findNavController()
-            navController.navigate(R.id.addEditWorkspaceFragment)
+            findNavController().navigate(R.id.addEditWorkspaceFragment)
         }
     }
 
