@@ -197,4 +197,18 @@
             android:defaultValue="-1"
             app:argType="integer" />
     </fragment>
+
+    <fragment
+        android:id="@+id/manageWorkspacesFragment"
+        android:name="com.learner.invoicegenerator.ui.ManageWorkspacesFragment"
+        tools:layout="@layout/fragment_manage_workspaces">
+        <action
+            android:id="@+id/action_manageWorkspacesFragment_to_addEditWorkspaceFragment"
+            app:destination="@id/addEditWorkspaceFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/bottomSheetAddFirstItem"
+        android:name="com.learner.invoicegenerator.ui.BottomSheetAddFirstItem"
+        android:label="BottomSheetAddFirstItem" />
+
 </navigation>

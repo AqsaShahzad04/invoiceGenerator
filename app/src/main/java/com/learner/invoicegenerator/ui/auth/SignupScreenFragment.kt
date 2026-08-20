@@ -36,7 +36,7 @@ class SignupScreenFragment: Fragment(R.layout.fragment_signup_screen) {
         val repository= UserRepository(dao)
         val factory= SignUpViewModelFactory(repository)
         val viewModel= ViewModelProvider(this,factory)[SignUPViewModel::class.java]
-        val sessionManager = SessionManager(requireContext())
+        val sessionManager = SessionManager.getInstance(requireContext())
 
 
         viewModel.signUpState.observe(viewLifecycleOwner){state->

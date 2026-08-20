@@ -41,9 +41,10 @@ class AddEditClientFragment : Fragment(R.layout.fragment_add_edit_client) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.resetState()
 
         val clientId = args.clientId ?: -1
-        val sessionManager = SessionManager(requireContext())
+        val sessionManager = SessionManager.getInstance(requireContext())
 
         if (clientId == -1) {
             binding.addClientbtn.text = "Add Client"

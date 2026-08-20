@@ -35,7 +35,7 @@ class LoginScreenFragment : Fragment(R.layout.fragment_login_screen) {
         val repository= UserRepository(dao)
         val factory= LoginViewModelFactory(repository)
         val viewModel= ViewModelProvider(this, factory)[LoginViewModel::class.java]
-        val sessionManager = SessionManager(requireContext())
+        val sessionManager = SessionManager.getInstance(requireContext())
 
 
        viewModel.loginState.observe(viewLifecycleOwner){state->

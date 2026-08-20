@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="settings_row_title_styles">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">13sp</item>
+        <item name="fontFamily">@font/inter_medium</item>
+        <item name="android:textColor">@color/btn_text_dark</item>
+    </style>
+
+    <style name="settings_row_subtitle_styles">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">11sp</item>
+        <item name="fontFamily">@font/inter</item>
+        <item name="android:textColor">@color/subheading_color_home</item>
+        <item name="android:layout_marginTop">2dp</item>
+    </style>
+
+    <style name="settings_sections_name_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">10sp</item>
+        <item name="fontFamily">@font/inter_semibold</item>
+        <item name="android:textColor">@color/sectionsHeadingColor</item>
+        <item name="android:letterSpacing">0.1</item>
+        <item name="android:paddingBottom">8dp</item>
+    </style>
+
+    <style name="settings_row_rightSideText_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">12sp</item>
+        <item name="fontFamily">@font/inter_medium</item>
+        <item name="android:textColor">@color/subheading_color_home</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
+</resources>

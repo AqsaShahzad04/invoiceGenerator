@@ -43,15 +43,12 @@ class BottomSheetSwitchWorkspace : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val sessionManager = SessionManager(requireContext())
+        val sessionManager = SessionManager.getInstance(requireContext())
         val activeId = sessionManager.getActiveWorkspaceId()
         val userId = sessionManager.getUserId()
 
         val adapter = WorkspaceAdapter(activeId) { selectedWorkspace ->
             sessionManager.setActiveWorkspace(selectedWorkspace.id)
-            parentFragmentManager.setFragmentResult("workspace_changed", Bundle().apply {
-                putInt("workspace_id", selectedWorkspace.id)
-            })
             dismiss()
         }
 
@@ -60,7 +57,8 @@ class BottomSheetSwitchWorkspace : BottomSheetDialogFragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getWorkspacesByUserId(userId).collectLatest { workspaces ->
-                adapter.submitList(workspaces)
+                // Only show 4 workspaces in the quick-switch bottom sheet
+                adapter.submitList(workspaces.take(4))
             }
         }
 
@@ -69,6 +67,11 @@ class BottomSheetSwitchWorkspace : BottomSheetDialogFragment() {
         binding.btnNewWorkspace.setOnClickListener {
             dismiss()
             findNavController().navigate(R.id.addEditWorkspaceFragment)
+        }
+
+        binding.btnManage.setOnClickListener {
+            dismiss()
+            findNavController().navigate(R.id.manageWorkspacesFragment)
         }
     }
 

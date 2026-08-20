@@ -38,6 +38,7 @@ class AddEditItemsFragment : Fragment(R.layout.fragment_add_edit_items) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.resetState()
         setupUI()
         observeState()
     }
@@ -112,7 +113,7 @@ class AddEditItemsFragment : Fragment(R.layout.fragment_add_edit_items) {
             return
         }
 
-        val sessionManager = SessionManager(requireContext())
+        val sessionManager = SessionManager.getInstance(requireContext())
         val item = Item(
             id = if (args.itemId == -1) 0 else args.itemId,
             itemName = name,

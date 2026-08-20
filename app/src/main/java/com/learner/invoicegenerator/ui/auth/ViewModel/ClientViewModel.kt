@@ -17,8 +17,12 @@ class ClientViewModel(
     private val sessionManager: SessionManager
 ) : ViewModel() {
 
-    private val _addClientState = MutableLiveData<ClientState>()
+    private val _addClientState = MutableLiveData<ClientState>(ClientState.Idle)
     val addClientState: LiveData<ClientState> get() = _addClientState
+
+    fun resetState() {
+        _addClientState.value = ClientState.Idle
+    }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val allClients: Flow<List<Client>> = sessionManager.activeWorkspaceId.flatMapLatest { id ->
@@ -27,6 +31,7 @@ class ClientViewModel(
 
     fun addClient(client: Client) {
         viewModelScope.launch {
+            _addClientState.value = ClientState.Loading
             try {
                 repository.insertClient(client)
                 _addClientState.value = ClientState.Success

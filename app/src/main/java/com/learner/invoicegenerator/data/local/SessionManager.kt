@@ -5,18 +5,28 @@ import android.content.SharedPreferences
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-class SessionManager public constructor(context: Context) {
+class SessionManager private constructor(context: Context) {
     private val prefs: SharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
 
-    private var _activeWorkspaceId = MutableStateFlow(prefs.getInt(KEY_ACTIVE_WORKSPACE_ID, 1))
-    var activeWorkspaceId: StateFlow<Int> = _activeWorkspaceId
-
+    private val _activeWorkspaceId = MutableStateFlow(prefs.getInt(KEY_ACTIVE_WORKSPACE_ID, 1))
+    val activeWorkspaceId: StateFlow<Int> = _activeWorkspaceId
 
     companion object {
         private const val PREF_NAME = "user_session"
         private const val KEY_IS_LOGGED_IN = "is_logged_in"
         private const val KEY_USER_ID = "user_id"
         private const val KEY_ACTIVE_WORKSPACE_ID = "active_workspace_id"
+
+        @Volatile
+        private var INSTANCE: SessionManager? = null
+
+        fun getInstance(context: Context): SessionManager {
+            return INSTANCE ?: synchronized(this) {
+                val instance = SessionManager(context.applicationContext)
+                INSTANCE = instance
+                instance
+            }
+        }
     }
 
     fun createLoginSession(userId: Int) {
@@ -36,9 +46,10 @@ class SessionManager public constructor(context: Context) {
         _activeWorkspaceId.value = workspaceId
     }
 
-    fun getActiveWorkspaceId(): Int = prefs.getInt(KEY_ACTIVE_WORKSPACE_ID, 1) // Default to 1 for now
+    fun getActiveWorkspaceId(): Int = prefs.getInt(KEY_ACTIVE_WORKSPACE_ID, 1)
 
     fun logout() {
         prefs.edit().clear().apply()
+        _activeWorkspaceId.value = 1
     }
 }

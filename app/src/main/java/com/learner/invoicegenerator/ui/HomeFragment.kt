@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -19,6 +20,7 @@ import com.learner.invoicegenerator.ui.auth.ViewModel.WorkspaceViewModel
 import com.learner.invoicegenerator.ui.clients.viewmodel.ClientViewModel
 import com.learner.invoicegenerator.utils.AvatarUtils
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -40,7 +42,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val sessionManager = SessionManager(requireContext())
+        val sessionManager = SessionManager.getInstance(requireContext())
         val userId = sessionManager.getUserId()
 
         binding.AddBtn.setOnClickListener {
@@ -48,7 +50,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
 
         binding.Add4Btn.setOnClickListener {
-            findNavController().navigate(R.id.itemsFragment)
+            findNavController().navigate(R.id.bottomSheetAddFirstItem)
         }
 
         binding.setupBtn.setOnClickListener {
@@ -59,31 +61,53 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             BottomSheetSwitchWorkspace().show(parentFragmentManager, "Switch Workspace")
         }
 
+        binding.chooseBtn.setOnClickListener {
+            Toast.makeText(requireContext(), "Currency selection coming soon", Toast.LENGTH_SHORT).show()
+        }
+
+        // 1. Reactive Header Update (Dedicated Flow)
+        viewLifecycleOwner.lifecycleScope.launch {
+            combine(
+                sessionManager.activeWorkspaceId,
+                workspaceViewModel.getWorkspacesByUserId(userId)
+            ) { activeId, workspaces ->
+                workspaces.find { it.id == activeId }
+            }.collect { activeWorkspace ->
+                updateHeaderUI(activeWorkspace)
+            }
+        }
+
+        // 2. Reactive Data Counts Update
         viewLifecycleOwner.lifecycleScope.launch {
             combine(
                 clientViewModel.allClients,
                 itemViewModel.allItems,
-                workspaceViewModel.getWorkspacesByUserId(userId)
-            ) { clients, items, workspaces ->
-                val activeWorkspace = workspaces.find { it.id == sessionManager.getActiveWorkspaceId() }
-                Triple(clients.size, items.size, activeWorkspace)
-            }.collect { (clientsCount, itemsCount, activeWorkspace) ->
-                updateUI(activeWorkspace, clientsCount, itemsCount)
+                sessionManager.activeWorkspaceId
+            ) { clients, items, _ ->
+                Pair(clients.size, items.size)
+            }.collect { (clientsCount, itemsCount) ->
+                updateProgressUI(clientsCount, itemsCount)
             }
         }
     }
 
-    private fun updateUI(activeWorkspace: com.learner.invoicegenerator.data.local.entity.Workspace?, clientsCount: Int, itemsCount: Int) {
-        val step1Done = activeWorkspace != null
-        val step2Done = clientsCount > 0
-        val step3Done = false 
-        val step4Done = itemsCount > 0
-        
+    private fun updateHeaderUI(activeWorkspace: com.learner.invoicegenerator.data.local.entity.Workspace?) {
         activeWorkspace?.let {
             binding.myBusiness.text = it.name
             binding.avatar.text = AvatarUtils.getLetter(it.name)
             binding.avatar.background.setTint(android.graphics.Color.parseColor(AvatarUtils.getColor(it.name)))
+        } ?: run {
+            binding.myBusiness.text = "My Business"
+            binding.avatar.text = "MB"
         }
+    }
+
+    private fun updateProgressUI(clientsCount: Int, itemsCount: Int) {
+        val sessionManager = SessionManager.getInstance(requireContext())
+        val step1Done = sessionManager.getActiveWorkspaceId() > 0 // Simplification for now
+        val step2Done = clientsCount > 0
+        val step3Done = false 
+        val step4Done = itemsCount > 0
 
         var completedCount = 0
         if (step1Done) completedCount++

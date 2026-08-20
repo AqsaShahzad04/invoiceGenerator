@@ -25,7 +25,8 @@ class AddClientBottomSheet : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val sessionManager = SessionManager(requireContext())
+        viewModel.resetState()
+        val sessionManager = SessionManager.getInstance(requireContext())
 
         binding.closeBtn.setOnClickListener { dismiss() }
 

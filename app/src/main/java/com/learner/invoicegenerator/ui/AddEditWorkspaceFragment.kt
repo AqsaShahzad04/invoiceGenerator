@@ -37,6 +37,7 @@ class AddEditWorkspaceFragment : Fragment(R.layout.fragment_add_edit_workspace) 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.resetState()
         setupUI()
         observeState()
     }
@@ -61,7 +62,7 @@ class AddEditWorkspaceFragment : Fragment(R.layout.fragment_add_edit_workspace) 
 
     private fun loadWorkspace(workspaceId: Int) {
         lifecycleScope.launch {
-            val sessionManager = SessionManager(requireContext())
+            val sessionManager = SessionManager.getInstance(requireContext())
             val userId = sessionManager.getUserId()
             viewModel.getWorkspacesByUserId(userId).collect { list ->
                 val workspace = list.find { it.id == workspaceId }
@@ -88,7 +89,7 @@ class AddEditWorkspaceFragment : Fragment(R.layout.fragment_add_edit_workspace) 
             return
         }
 
-        val sessionManager = SessionManager(requireContext())
+        val sessionManager = SessionManager.getInstance(requireContext())
         val userId = sessionManager.getUserId()
 
         val workspace = Workspace(

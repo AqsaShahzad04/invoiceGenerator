@@ -28,7 +28,7 @@ import com.learner.invoicegenerator.ui.clients.viewmodel.ClientViewModelFactory
 class MainActivity : AppCompatActivity() {
 
     private val database by lazy { DatabaseProvider.getDatabase(this) }
-    private val sessionManager by lazy { SessionManager(this) }
+    private val sessionManager by lazy { SessionManager.getInstance(this) }
     
     private val clientRepository by lazy { ClientRepository(database.clientDao()) }
     private val itemRepository by lazy { ItemRepository(database.itemDao()) }

@@ -17,6 +17,10 @@ class WorkspaceViewModel(
     private val _workspaceState = MutableLiveData<WorkspaceState>(WorkspaceState.Idle)
     val workspaceState: MutableLiveData<WorkspaceState> get() = _workspaceState
 
+    fun resetState() {
+        _workspaceState.value = WorkspaceState.Idle
+    }
+
     fun addWorkspace(workspace: Workspace) {
         viewModelScope.launch {
             _workspaceState.value = WorkspaceState.Loading

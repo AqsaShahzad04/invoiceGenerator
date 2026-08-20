@@ -1,15 +1,1031 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:background="@color/bg_cream">
+<androidx.core.widget.NestedScrollView
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <TextView
-        android:layout_width="wrap_content"
+    android:layout_height="0dp"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent">
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-         android:text="Settings screen fragment"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+        android:orientation="vertical"
+        android:paddingBottom="120dp">
+
+        <LinearLayout
+            android:id="@+id/headerSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="12dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/settingsHeading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Settings"
+                android:fontFamily="@font/inter_bold"
+                android:textSize="24sp"
+                android:textColor="@color/btn_text_dark"
+                android:letterSpacing="-0.02"
+                android:layout_marginBottom="12dp"
+                />
+            <FrameLayout
+                android:id="@+id/searchBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/etSearchSettings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_input_field"
+                    android:hint="Search settings…"
+                    android:fontFamily="@font/inter_medium"
+                    android:textSize="13sp"
+                    android:textColor="#171817"
+                    android:textColorHint="#9CA3A0"
+                    android:paddingStart="36dp"
+                    android:paddingEnd="32dp"
+                    android:paddingTop="9dp"
+                    android:paddingBottom="9dp"
+                    android:singleLine="true"
+                    android:inputType="text"
+                    android:imeOptions="actionSearch"
+                    android:importantForAutofill="no" />
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="12dp"
+                    android:src="@drawable/ic_search"
+                    app:tint="#9CA3A0"
+                    android:contentDescription="@null" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:id="@+id/settingsSection1"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:layout_marginBottom="22dp"
+            >
+            <TextView
+                android:id="@+id/workspaceSectionHeading"
+                android:text="WORKSPACE"
+                style="@style/settings_sections_name_style"
+                />
+
+            <LinearLayout
+                android:id="@+id/workspaceSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="14dp"
+                >
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    >
+                    <TextView
+                        android:id="@+id/workspaceTitle"
+                        android:text="Workspaces"
+                        style="@style/settings_row_title_styles"/>
+                    <TextView
+                        android:id="@+id/workspaceSubtitle"
+                        android:text="Ayesha Enterprise"
+                        style="@style/settings_row_subtitle_styles"
+                        />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/workspaceNum"
+                    android:text="1"
+                    style="@style/settings_row_rightSideText_style"/>
+                <ImageView
+                    android:id="@+id/ic_chiv_workspace"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/ic_chivron_right"
+                    android:layout_marginLeft="8dp"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#0F171817"
+                />
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:id="@+id/settingsSection2"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:layout_marginBottom="22dp"
+            >
+            <TextView
+                android:id="@+id/invoicingSectionHeading"
+                android:text="INVOICING"
+                style="@style/settings_sections_name_style"
+                />
+
+            <LinearLayout
+                android:id="@+id/invoivingSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="14dp"
+                >
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    >
+                    <TextView
+                        android:id="@+id/invoicePrefixTitle"
+                        android:text="Invoice prefix"
+                        style="@style/settings_row_title_styles"/>
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/invoiceDate"
+                    android:text="INV-2026-"
+                    style="@style/settings_row_rightSideText_style"/>
+                <ImageView
+                    android:id="@+id/ic_chiv_invoicePrefix"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/ic_chivron_right"
+                    android:layout_marginLeft="8dp"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#0F171817"
+                />
+
+            <LinearLayout
+                android:id="@+id/numberingResetSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="14dp"
+                >
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    >
+                    <TextView
+                        android:id="@+id/numResetTitle"
+                        android:text="Numbering reset"
+                        style="@style/settings_row_title_styles"/>
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/numResettime"
+                    android:text="Yearly"
+                    style="@style/settings_row_rightSideText_style"/>
+                <ImageView
+                    android:id="@+id/ic_chiv_numReset"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/ic_chivron_right"
+                    android:layout_marginLeft="8dp"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#0F171817"
+                />
+            <LinearLayout
+                android:id="@+id/paymentTermsSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="14dp"
+                >
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    >
+                    <TextView
+                        android:id="@+id/paymentTermsTitle"
+                        android:text="Payment Terms"
+                        style="@style/settings_row_title_styles"/>
+                    <TextView
+                        android:id="@+id/paymentTermsSubtitle"
+                        android:text="Default due date offset"
+                        style="@style/settings_row_subtitle_styles"
+                        />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/payment_net_rate"
+                    android:text="Net 14"
+                    style="@style/settings_row_rightSideText_style"/>
+                <ImageView
+                    android:id="@+id/ic_chiv_paymentTerms"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/ic_chivron_right"
+                    android:layout_marginLeft="8dp"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#0F171817"
+                />
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:id="@+id/settingsSection3"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:layout_marginBottom="22dp"
+            >
+            <TextView
+                android:id="@+id/taxAndFeesSectionHeading"
+                android:text="TAX &amp; FEES"
+                style="@style/settings_sections_name_style"
+                />
+
+            <LinearLayout
+                android:id="@+id/defaultTaxSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="14dp"
+                >
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    >
+                    <TextView
+                        android:id="@+id/defaultTaxTitle"
+                        android:text="Default tax"
+                        style="@style/settings_row_title_styles"/>
+                    <TextView
+                        style="@style/settings_row_subtitle_styles"
+                        android:id="@+id/defaultTaxSubtitle"
+                        android:text="no tax on new invoices"/>
+                </LinearLayout>
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/defaultTaxToggleBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:thumb="@drawable/switch_custom_thumb"
+                    app:thumbTint="#ffffff"
+                    app:track="@drawable/switch_custom_track"
+                    app:trackTint="@color/switch_track_tint"
+                    />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#0F171817"
+                />
+
+            <LinearLayout
+                android:id="@+id/taxRateSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="14dp"
+                >
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    >
+                    <TextView
+                        android:id="@+id/taxrateTitle"
+                        android:text="Tax rate"
+                        style="@style/settings_row_title_styles"/>
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/taxPercentage"
+                    android:text="17%"
+                    style="@style/settings_row_rightSideText_style"/>
+                <ImageView
+                    android:id="@+id/ic_chiv_taxRate"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/ic_chivron_right"
+                    android:layout_marginLeft="8dp"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#0F171817"
+                />
+            <LinearLayout
+                android:id="@+id/lateFeeSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="14dp"
+                >
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    >
+                    <TextView
+                        android:id="@+id/lateFeeTitle"
+                        android:text="Late fee"
+                        style="@style/settings_row_title_styles"/>
+                    <TextView
+                        android:id="@+id/latefeeSubtitle"
+                        android:text="Per month after due date"
+                        style="@style/settings_row_subtitle_styles"
+                        />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/toggleLateFee"
+                    android:text="off"
+                    style="@style/settings_row_rightSideText_style"/>
+                <ImageView
+                    android:id="@+id/ic_chiv_lateFee"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/ic_chivron_right"
+                    android:layout_marginLeft="8dp"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#0F171817"
+                />
+            <LinearLayout
+                android:id="@+id/PaymentMethodsSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="14dp"
+                >
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    >
+                    <TextView
+                        android:id="@+id/paymentMethodsTitle"
+                        android:text="Payment methods"
+                        style="@style/settings_row_title_styles"/>
+                    <TextView
+                        android:id="@+id/paymentMethodsSubtitle"
+                        android:text="Bank transfer. Cash"
+                        style="@style/settings_row_subtitle_styles"
+                        />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/NumOfPaymentMethods"
+                    android:text="2 active"
+                    style="@style/settings_row_rightSideText_style"/>
+                <ImageView
+                    android:id="@+id/ic_chiv_paymentMethods"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/ic_chivron_right"
+                    android:layout_marginLeft="8dp"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#0F171817"
+                />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:id="@+id/settingsSection4"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:layout_marginBottom="22dp"
+            >
+            <TextView
+                android:id="@+id/documentSectionHeading"
+                android:text="DOCUMENT"
+                style="@style/settings_sections_name_style"
+                />
+
+            <LinearLayout
+                android:id="@+id/discountLineSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="14dp"
+                >
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    >
+                    <TextView
+                        android:id="@+id/discountLineTitle"
+                        android:text="Show discount line"
+                        style="@style/settings_row_title_styles"/>
+                    <TextView
+                        style="@style/settings_row_subtitle_styles"
+                        android:id="@+id/discountLineSubtitle"
+                        android:text="Add discount field on the form"/>
+                </LinearLayout>
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/discountLineTogglebtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:thumb="@drawable/switch_custom_thumb"
+                    app:thumbTint="#ffffff"
+                    app:track="@drawable/switch_custom_track"
+                    app:trackTint="@color/switch_track_tint"
+                    />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#0F171817"
+                />
+
+            <LinearLayout
+                android:id="@+id/signSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="14dp"
+                >
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    >
+                    <TextView
+                        android:id="@+id/signTitle"
+                        android:text="Signature block"
+                        style="@style/settings_row_title_styles"/>
+                    <TextView
+                        style="@style/settings_row_subtitle_styles"
+                        android:id="@+id/signSubtitle"
+                        android:text="Reserve space for a signature"/>
+                </LinearLayout>
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/signatureTogglebtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:thumb="@drawable/switch_custom_thumb"
+                    app:thumbTint="#ffffff"
+                    app:track="@drawable/switch_custom_track"
+                    app:trackTint="@color/switch_track_tint"
+                    />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#0F171817"
+                />
+            <LinearLayout
+                android:id="@+id/notesSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="14dp"
+                >
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    >
+                    <TextView
+                        android:id="@+id/notesTitle"
+                        android:text="Default notes"
+                        style="@style/settings_row_title_styles"/>
+                    <TextView
+                        android:id="@+id/notesSubtitle"
+                        android:text="Footer text on every invoice"
+                        style="@style/settings_row_subtitle_styles"
+                        />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/defaultNotesValue"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:text="Please reference the invoice number when paying."
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:gravity="end"
+                    style="@style/settings_row_rightSideText_style"/>
+                <ImageView
+                    android:id="@+id/ic_chiv_defaultnotes"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/ic_chivron_right"
+                    android:layout_marginLeft="8dp"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#0F171817"
+                />
+
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:id="@+id/settingsSection5"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:layout_marginBottom="22dp"
+            >
+            <TextView
+                android:id="@+id/remindersSectionHeading"
+                android:text="REMINDERS"
+                style="@style/settings_sections_name_style"
+                />
+
+            <LinearLayout
+                android:id="@+id/autoRemindersSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="14dp"
+                >
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    >
+                    <TextView
+                        android:id="@+id/autoRemindersTitle"
+                        android:text="Auto reminders"
+                        style="@style/settings_row_title_styles"/>
+                    <TextView
+                        style="@style/settings_row_subtitle_styles"
+                        android:id="@+id/autoRemindersSubtitle"
+                        android:text="Email overdue clients automatically"/>
+                </LinearLayout>
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/autoReminderTogglebtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:thumb="@drawable/switch_custom_thumb"
+                    app:thumbTint="#ffffff"
+                    app:track="@drawable/switch_custom_track"
+                    app:trackTint="@color/switch_track_tint"
+                    />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#0F171817"
+                />
+
+            <LinearLayout
+                android:id="@+id/sendAfterSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="14dp"
+                >
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    >
+                    <TextView
+                        android:id="@+id/sendAfterTitle"
+                        android:text="Send After"
+                        style="@style/settings_row_title_styles"/>
+                    <TextView
+                        android:id="@+id/sendAfterSubtitle"
+                        android:text="Once past due date"
+                        style="@style/settings_row_subtitle_styles"
+                        />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/sendAfterdaysNum"
+                    android:text="3 days"
+                    style="@style/settings_row_rightSideText_style"/>
+                <ImageView
+                    android:id="@+id/ic_chiv_sendAfter"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/ic_chivron_right"
+                    android:layout_marginLeft="8dp"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#0F171817"
+                />
+
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:id="@+id/settingsSection6"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:layout_marginBottom="22dp"
+            >
+            <TextView
+                android:id="@+id/appearanceSectionHeading"
+                android:text="Appearance"
+                style="@style/settings_sections_name_style"
+                />
+
+            <LinearLayout
+                android:id="@+id/darkmodeSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="14dp"
+                >
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    >
+                    <TextView
+                        android:id="@+id/darkmodeTitle"
+                        android:text="Dark mode"
+                        style="@style/settings_row_title_styles"/>
+                    <TextView
+                        style="@style/settings_row_subtitle_styles"
+                        android:id="@+id/darkmodeSubtitle"
+                        android:text="Switch between dark and light themes"/>
+                </LinearLayout>
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/darkmodeToggleBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:thumb="@drawable/switch_custom_thumb"
+                    app:thumbTint="#ffffff"
+                    app:track="@drawable/switch_custom_track"
+                    app:trackTint="@color/switch_track_tint"
+                    />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#0F171817"
+                />
+
+            <LinearLayout
+                android:id="@+id/accentColorSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="14dp"
+                >
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    >
+                    <TextView
+                        android:id="@+id/accentColorTitle"
+                        android:text="Accent color"
+                        style="@style/settings_row_title_styles"/>
+
+                    <TextView
+                        android:id="@+id/accentColorSubheading"
+                        style="@style/settings_row_subtitle_styles"
+                        android:text="Brand color across the app"
+                        />
+                </LinearLayout>
+                <ImageView
+                    android:id="@+id/accentcolorCircle"
+                    android:src="@drawable/accent_color_circle"
+                    style="@style/settings_row_rightSideText_style"/>
+                <ImageView
+                    android:id="@+id/ic_chiv_accentColor"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/ic_chivron_right"
+                    android:layout_marginLeft="8dp"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#0F171817"
+                />
+            <LinearLayout
+                android:id="@+id/currencySection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="14dp"
+                >
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    >
+                    <TextView
+                        android:id="@+id/currencyTitle"
+                        android:text="Currency"
+                        style="@style/settings_row_title_styles"/>
+                    <TextView
+                        android:id="@+id/currencySubtitle"
+                        android:text="How money is displayed"
+                        style="@style/settings_row_subtitle_styles"
+                        />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/currentCurrency"
+                    android:text="PKR"
+                    style="@style/settings_row_rightSideText_style"/>
+                <ImageView
+                    android:id="@+id/ic_chiv_currency"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/ic_chivron_right"
+                    android:layout_marginLeft="8dp"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#0F171817"
+                />
+            <LinearLayout
+                android:id="@+id/homeHeaderSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="14dp"
+                >
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    >
+                    <TextView
+                        android:id="@+id/homeHeaderTitle"
+                        android:text="Home header"
+                        style="@style/settings_row_title_styles"/>
+                    <TextView
+                        android:id="@+id/homeHeaderSubtitle"
+                        android:text="Hero card layout"
+                        style="@style/settings_row_subtitle_styles"
+                        />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/currentHomeHeader"
+                    android:text="Compact"
+                    style="@style/settings_row_rightSideText_style"/>
+                <ImageView
+                    android:id="@+id/ic_chiv_homeheader"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/ic_chivron_right"
+                    android:layout_marginLeft="8dp"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#0F171817"
+                />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:id="@+id/settingsSection7"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:layout_marginBottom="22dp"
+            >
+            <TextView
+                android:id="@+id/preferenceSectionHeading"
+                android:text="PREFERENCE"
+                style="@style/settings_sections_name_style"
+                />
+
+            <LinearLayout
+                android:id="@+id/notificationsSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="14dp"
+                >
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    >
+                    <TextView
+                        android:id="@+id/notificationsTitle"
+                        android:text="Notifications"
+                        style="@style/settings_row_title_styles"/>
+                    <TextView
+                        android:id="@+id/notificationsSubtitle"
+                        android:text="Payment reminders"
+                        style="@style/settings_row_subtitle_styles"
+                        />
+                </LinearLayout>
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/notificationsToggleBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:checked="true"
+                    android:thumb="@drawable/switch_custom_thumb"
+                    app:thumbTint="#ffffff"
+                    app:track="@drawable/switch_custom_track"
+                    app:trackTint="@color/switch_track_tint"
+                    />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#0F171817"
+                />
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:id="@+id/settingsSection8"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:layout_marginBottom="22dp"
+            >
+            <TextView
+                android:id="@+id/dataSectionHeading"
+                android:text="DATA"
+                style="@style/settings_sections_name_style"
+                />
+
+            <LinearLayout
+                android:id="@+id/clearCacheSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="14dp"
+                >
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    >
+                    <TextView
+                        android:id="@+id/cacheTitle"
+                        android:text="Clear cache"
+                        style="@style/settings_row_title_styles"/>
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/ic_chiv_clearCache"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/ic_chivron_right"
+                    android:layout_marginLeft="8dp"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#0F171817"
+                />
+
+            <LinearLayout
+                android:id="@+id/ResetAllDataSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="14dp"
+                >
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    >
+                    <TextView
+                        android:id="@+id/resetDataTitle"
+                        android:text="Reset all data"
+                        android:textColor="#D9534F"
+                        style="@style/settings_row_title_styles"/>
+                </LinearLayout>
+                <ImageView
+                    android:id="@+id/ic_chiv_resetAllData"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/ic_chivron_right"
+                    android:layout_marginLeft="8dp"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
+
+
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

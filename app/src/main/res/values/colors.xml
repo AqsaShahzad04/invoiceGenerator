@@ -13,4 +13,7 @@
     <color name="subheading_color_home">#5C625E</color>
     <color name="primary_green">#0C861A</color>
     <color name="tickedColorbg">#22A06B</color>
+    <color name="sectionsHeadingColor">#9CA3A0</color>
+    <color name="toggleBtn_offColor">#E8E5DF</color>
+
 </resources>

@@ -18,8 +18,12 @@ class ItemViewModel(
     private val sessionManager: SessionManager
 ) : ViewModel() {
 
-    private val _itemState = MutableLiveData<ItemState>()
+    private val _itemState = MutableLiveData<ItemState>(ItemState.Idle)
     val itemState: MutableLiveData<ItemState> get() = _itemState
+
+    fun resetState() {
+        _itemState.value = ItemState.Idle
+    }
 
     private val searchQuery = MutableStateFlow("")
     val currentQuery: Flow<String> get() = searchQuery
@@ -41,6 +45,7 @@ class ItemViewModel(
 
     fun addItems(item: Item) {
         viewModelScope.launch {
+            _itemState.value = ItemState.Loading
             try {
                 repository.insertItem(item)
                 _itemState.value = ItemState.Success
@@ -53,6 +58,7 @@ class ItemViewModel(
 
     fun updateItem(item: Item) {
         viewModelScope.launch {
+            _itemState.value = ItemState.Loading
             try {
                 repository.updateItem(item)
                 _itemState.value = ItemState.Success
@@ -67,10 +73,8 @@ class ItemViewModel(
         viewModelScope.launch {
             try {
                 repository.deleteItem(item)
-                _itemState.value = ItemState.Success
             } catch (e: Exception) {
                 e.printStackTrace()
-                _itemState.value = ItemState.Error(e.message ?: "Unknown error")
             }
         }
     }
