@@ -14,6 +14,7 @@ import com.learner.invoicegenerator.data.local.SessionManager
 import com.learner.invoicegenerator.databinding.BottomSheetSwitchWorkspaceBinding
 import com.learner.invoicegenerator.ui.auth.ViewModel.WorkspaceViewModel
 import com.learner.invoicegenerator.ui.items.WorkspaceAdapter
+import com.learner.invoicegenerator.utils.AvatarUtils
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -47,20 +48,12 @@ class BottomSheetSwitchWorkspace : BottomSheetDialogFragment() {
         val activeId = sessionManager.getActiveWorkspaceId()
         val userId = sessionManager.getUserId()
 
-        val adapter = WorkspaceAdapter(activeId) { selectedWorkspace ->
-            sessionManager.setActiveWorkspace(selectedWorkspace.id)
-            dismiss()
-        }
 
-        binding.workspaceList.layoutManager = LinearLayoutManager(requireContext())
-        binding.workspaceList.adapter = adapter
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getWorkspacesByUserId(userId).collectLatest { workspaces ->
-                // Only show 4 workspaces in the quick-switch bottom sheet
-                adapter.submitList(workspaces.take(4))
-            }
-        }
+
+
+
+
 
         binding.closeBtn.setOnClickListener { dismiss() }
         

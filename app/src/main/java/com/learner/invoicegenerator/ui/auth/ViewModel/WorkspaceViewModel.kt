@@ -58,4 +58,16 @@ class WorkspaceViewModel(
     }
 
     fun getWorkspacesByUserId(userId: Int): Flow<List<Workspace>> = repository.getWorkspacesByUserId(userId)
+
+    fun getWorkspaceById(id:Int){
+        viewModelScope.launch {
+            _workspaceState.value = WorkspaceState.Loading
+            try{
+                repository.getWorkspacebyId(id)
+                _workspaceState.value = WorkspaceState.Success
+            }catch (e:Exception){
+                _workspaceState.value = WorkspaceState.Error(e.message ?: "Unknown error")
+            }
+        }
+    }
 }

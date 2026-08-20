@@ -14,4 +14,6 @@ class WorkspaceRepository(private val workspaceDao: WorkspaceDao)  {
         workspaceDao.Delete(workspace)
     }
     fun getWorkspacesByUserId(userId: Int) = workspaceDao.getWorkspaceByUserId(userId)
+
+    suspend fun getWorkspacebyId(id: Int) = workspaceDao.getWorkspaceById(id)
 }

@@ -1,5 +1,6 @@
 package com.learner.invoicegenerator.data.local.Dao
 
+import android.icu.text.MessagePattern
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -16,6 +17,9 @@ interface WorkspaceDao {
 
     @Query("SELECT * FROM Workspaces WHERE ownerUserId = :id")
      fun getWorkspaceByUserId(id: Int): Flow<List<Workspace>>
+
+     @Query("SELECT * FROM Workspaces WHERE id = :id")
+     suspend fun getWorkspaceById(id: Int): Workspace?
 
     @Update
     suspend fun Update(workspace: Workspace)
