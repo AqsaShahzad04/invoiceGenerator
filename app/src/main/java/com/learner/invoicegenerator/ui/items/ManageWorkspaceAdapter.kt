@@ -1,6 +1,7 @@
 package com.learner.invoicegenerator.ui.items
 
 import android.graphics.Color
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,15 +39,25 @@ class ManageWorkspaceAdapter(
                 workspaceName.text = workspace.name
                 workspaceSubtitle.text = workspace.email ?: ""
                 workspaceNTN.text = if (!workspace.taxNumber.isNullOrEmpty()) "NTN ${workspace.taxNumber}" else ""
-                
-                workspaceAvatar.text = AvatarUtils.getLetter(workspace.name)
+
+                if(!workspace.logoUri.isNullOrEmpty()){
+                    binding.workspaceLogo.setImageURI(Uri.parse(workspace.logoUri))
+                    binding.workspaceLogo.visibility=View.VISIBLE
+                    binding.workspaceAvatar.visibility=View.GONE
+                }
+                else{
+                    binding.workspaceLogo.visibility=View.GONE
+                    binding.workspaceAvatar.visibility=View.VISIBLE
+                    workspaceAvatar.text = AvatarUtils.getLetter(workspace.name)
+                }
+
                 
                 if (workspace.id == activeWorkspaceId) {
                     rootLayout.setBackgroundResource(R.drawable.bg_active_workspace)
                     activeLabel.visibility = View.VISIBLE
                     workspaceAvatar.background.setTint(Color.parseColor("#0C861A"))
                 } else {
-                    rootLayout.setBackgroundColor(Color.TRANSPARENT)
+                    rootLayout.setBackgroundResource(R.drawable.bg_workspace)
                     activeLabel.visibility = View.GONE
                     workspaceAvatar.background.setTint(Color.parseColor(AvatarUtils.getColor(workspace.name)))
                 }

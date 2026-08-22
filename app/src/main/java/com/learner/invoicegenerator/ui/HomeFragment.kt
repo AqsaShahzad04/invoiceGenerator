@@ -2,6 +2,7 @@ package com.learner.invoicegenerator.ui
 
 import android.content.Context
 import android.graphics.Paint
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -62,7 +63,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
 
         binding.chooseBtn.setOnClickListener {
-            Toast.makeText(requireContext(), "Currency selection coming soon", Toast.LENGTH_SHORT).show()
+            BottomSheetCurrencyPicker().show(parentFragmentManager,"currencyPickerBottomSheet")
         }
 
         // 1. Reactive Header Update (Dedicated Flow)
@@ -94,11 +95,20 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun updateHeaderUI(activeWorkspace: com.learner.invoicegenerator.data.local.entity.Workspace?) {
         activeWorkspace?.let {
             binding.myBusiness.text = it.name
-            binding.avatar.text = AvatarUtils.getLetter(it.name)
-            binding.avatar.background.setTint(android.graphics.Color.parseColor(AvatarUtils.getColor(it.name)))
+            if(!activeWorkspace.logoUri.isNullOrEmpty()){
+                binding.homeFragmentLogo.visibility=View.VISIBLE
+                binding.avatar.visibility=View.GONE
+                binding.homeFragmentLogo.setImageURI(Uri.parse(activeWorkspace.logoUri))
+            }
+            else{
+                binding.homeFragmentLogo.visibility=View.GONE
+                binding.avatar.visibility=View.VISIBLE
+                binding.avatar.text = AvatarUtils.getLetter(it.name)
+                binding.avatar.background.setTint(android.graphics.Color.parseColor(AvatarUtils.getColor(it.name)))
+            }
         } ?: run {
-            binding.myBusiness.text = "My Business"
-            binding.avatar.text = "MB"
+            binding.myBusiness.text = "set Business name"
+            binding.avatar.text = "?"
         }
     }
 

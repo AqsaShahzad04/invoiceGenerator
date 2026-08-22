@@ -14,6 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingVertical="14dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
@@ -41,6 +43,18 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/backbtn"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/delWorkspaceBtn"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_trash"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"
+            />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -76,6 +90,7 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
+                        android:id="@+id/placeholderIcon"
                         android:layout_width="26dp"
                         android:layout_height="26dp"
                         android:src="@drawable/ic_package"
@@ -84,6 +99,15 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:tint="#9CA3A0" />
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/logoImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
@@ -98,6 +122,19 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/logoContainer" />
+                <TextView
+                    android:id="@+id/removeLogoBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="remove"
+                    android:textSize="12sp"
+                    android:visibility="gone"
+                    android:textColor="@color/subheading_color_home"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintStart_toEndOf="@id/addLogoText"
+                    app:layout_constraintTop_toTopOf="@id/addLogoText"
+                    app:layout_constraintBottom_toBottomOf="@id/addLogoText"
+                    />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

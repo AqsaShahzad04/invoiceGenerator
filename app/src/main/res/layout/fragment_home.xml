@@ -19,19 +19,34 @@
         android:paddingVertical="10dp"
         android:paddingHorizontal="14dp">
 
-        <TextView
-            android:id="@+id/avatar"
+        <FrameLayout
+            android:id="@+id/homelogo"
             android:layout_width="26dp"
             android:layout_height="26dp"
-            android:background="@drawable/avatar_circle"
-            android:text="MB"
-            android:textColor="#FFFFFF"
-            android:textSize="9sp"
-            android:gravity="center"
-            android:fontFamily="@font/inter"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-/>
+            app:layout_constraintStart_toStartOf="parent">
+            <TextView
+                android:id="@+id/avatar"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:background="@drawable/avatar_circle"
+                android:text="MB"
+                android:textColor="#FFFFFF"
+                android:textSize="9sp"
+                android:gravity="center"
+                android:fontFamily="@font/inter"
+                />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:id="@+id/homeFragmentLogo"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
+                android:scaleType="centerCrop"
+                android:visibility="gone"/>
+        </FrameLayout>
+
+
         <TextView
             android:id="@+id/myBusiness"
             android:layout_width="wrap_content"
@@ -39,7 +54,7 @@
             android:text="My Business"
             android:fontFamily="@font/inter_semibold"
             android:textSize="12dp"
-            app:layout_constraintStart_toEndOf="@id/avatar"
+            app:layout_constraintStart_toEndOf="@id/homelogo"
             android:layout_marginLeft="8dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>

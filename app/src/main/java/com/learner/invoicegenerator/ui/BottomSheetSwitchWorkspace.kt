@@ -1,5 +1,7 @@
 package com.learner.invoicegenerator.ui
 
+import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -48,7 +50,33 @@ class BottomSheetSwitchWorkspace : BottomSheetDialogFragment() {
         val activeId = sessionManager.getActiveWorkspaceId()
         val userId = sessionManager.getUserId()
 
+        viewLifecycleOwner.lifecycleScope.launch{
+            val workspace=viewModel.getWorkspaceById(activeId)
 
+            workspace?.let{
+
+                if(!workspace.logoUri.isNullOrEmpty()){
+                    binding.logo.visibility=View.VISIBLE
+                    binding.workspaceAvatar.visibility=View.GONE
+                    binding.logo.setImageURI(Uri.parse(workspace.logoUri))
+                }
+                else{
+                    binding.logo.visibility=View.GONE
+                    binding.workspaceAvatar.visibility=View.VISIBLE
+                    binding.workspaceAvatar.text= AvatarUtils.getLetter(it.name)
+                    binding.workspaceAvatar.background.setTint(Color.parseColor(AvatarUtils.getColor(it.name)))
+                }
+                binding.workspaceName.setText(workspace.name)
+                binding.workspaceSubtitle.setText(workspace.email)
+
+                binding.arrowRight.setOnClickListener {
+                    dismiss()
+                   val bundle=AddEditWorkspaceFragmentArgs(activeId).toBundle()
+                    findNavController().navigate(R.id.addEditWorkspaceFragment,bundle)
+                }
+            }
+
+        }
 
 
 

@@ -1,10 +1,13 @@
 package com.learner.invoicegenerator.ui
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -17,6 +20,10 @@ import com.learner.invoicegenerator.databinding.FragmentAddEditWorkspaceBinding
 import com.learner.invoicegenerator.ui.auth.ViewModel.WorkspaceState
 import com.learner.invoicegenerator.ui.auth.ViewModel.WorkspaceViewModel
 import kotlinx.coroutines.launch
+import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
+import java.util.UUID
 
 class AddEditWorkspaceFragment : Fragment(R.layout.fragment_add_edit_workspace) {
 
@@ -25,6 +32,14 @@ class AddEditWorkspaceFragment : Fragment(R.layout.fragment_add_edit_workspace) 
     
     private val viewModel: WorkspaceViewModel by activityViewModels()
     private val args: AddEditWorkspaceFragmentArgs by navArgs()
+    
+    private var selectedLogoUri: String? = null
+
+    private val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        if (uri != null) {
+            handleSelectedLogo(uri)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,6 +63,7 @@ class AddEditWorkspaceFragment : Fragment(R.layout.fragment_add_edit_workspace) 
         if (workspaceId != -1) {
             binding.title.text = "Edit workspace"
             binding.createBtn.text = "Update workspace"
+            binding.delWorkspaceBtn.visibility=View.VISIBLE
             loadWorkspace(workspaceId)
         }
 
@@ -57,6 +73,56 @@ class AddEditWorkspaceFragment : Fragment(R.layout.fragment_add_edit_workspace) 
 
         binding.createBtn.setOnClickListener {
             saveWorkspace()
+        }
+
+        binding.logoSection.setOnClickListener {
+            pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        }
+        binding.removeLogoBtn.setOnClickListener {
+            selectedLogoUri = null
+            displayLogo(selectedLogoUri)
+        }
+    }
+
+    private fun handleSelectedLogo(uri: Uri) {
+        val internalUri = saveImageToInternalStorage(uri)
+        if (internalUri != null) {
+            selectedLogoUri = internalUri.toString()
+            displayLogo(selectedLogoUri)
+        }
+    }
+
+    private fun saveImageToInternalStorage(uri: Uri): Uri? {
+        return try {
+            val inputStream: InputStream? = requireContext().contentResolver.openInputStream(uri)
+            val fileName = "logo_${UUID.randomUUID()}.jpg"
+            val file = File(requireContext().filesDir, fileName)
+            val outputStream = FileOutputStream(file)
+            inputStream?.use { input ->
+                outputStream.use { output ->
+                    input.copyTo(output)
+                }
+            }
+            Uri.fromFile(file)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+    private fun displayLogo(uriString: String?) {
+        if (!uriString.isNullOrEmpty()) {
+            val uri = Uri.parse(uriString)
+            binding.logoImage.setImageURI(uri)
+            binding.logoImage.visibility = View.VISIBLE
+            binding.placeholderIcon.visibility = View.GONE
+            binding.addLogoText.text = "Change logo"
+            binding.removeLogoBtn.visibility=View.VISIBLE
+        } else {
+            binding.logoImage.visibility = View.GONE
+            binding.placeholderIcon.visibility = View.VISIBLE
+            binding.addLogoText.text = "Add logo · optional"
+            binding.removeLogoBtn.visibility=View.GONE
         }
     }
 
@@ -72,6 +138,11 @@ class AddEditWorkspaceFragment : Fragment(R.layout.fragment_add_edit_workspace) 
                     binding.phoneInput.setText(it.phone)
                     binding.taxInput.setText(it.taxNumber)
                     binding.addressInput.setText(it.address)
+                    selectedLogoUri = it.logoUri
+                    displayLogo(selectedLogoUri)
+                    binding.delWorkspaceBtn.setOnClickListener {
+                        viewModel.deleteWorkspace(workspace)
+                    }
                 }
             }
         }
@@ -100,7 +171,8 @@ class AddEditWorkspaceFragment : Fragment(R.layout.fragment_add_edit_workspace) 
             phone = phone,
             taxNumber = tax,
             address = address,
-            isDefault = args.workspaceId == -1
+            isDefault = args.workspaceId == -1,
+            logoUri = selectedLogoUri
         )
 
         if (args.workspaceId == -1) {
@@ -117,7 +189,7 @@ class AddEditWorkspaceFragment : Fragment(R.layout.fragment_add_edit_workspace) 
                     binding.createBtn.isEnabled = false
                 }
                 is WorkspaceState.Success -> {
-                    Toast.makeText(requireContext(), "Workspace saved", Toast.LENGTH_SHORT).show()
+                    binding.createBtn.isEnabled = true
                     findNavController().popBackStack()
                 }
                 is WorkspaceState.Error -> {

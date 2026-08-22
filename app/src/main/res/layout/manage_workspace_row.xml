@@ -5,23 +5,40 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
+    android:background="@drawable/bg_workspace"
     android:padding="14dp">
 
-    <TextView
-        android:id="@+id/workspaceAvatar"
+
+    <FrameLayout
+        android:id="@+id/iconContainer"
         android:layout_width="44dp"
         android:layout_height="44dp"
-        android:background="@drawable/avatar_circle"
-        android:backgroundTint="#0C861A"
-        android:fontFamily="@font/inter_semibold"
-        android:gravity="center"
-        android:text="MB"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        android:letterSpacing="-0.02"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/workspaceAvatar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/avatar_circle"
+            android:backgroundTint="#0C861A"
+            android:fontFamily="@font/inter_semibold"
+            android:gravity="center"
+            android:letterSpacing="-0.02"
+            android:text="MB"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/workspaceLogo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:visibility="gone"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
+
+    </FrameLayout>
 
     <TextView
         android:id="@+id/workspaceName"
@@ -33,19 +50,20 @@
         android:textColor="#171817"
         android:textSize="13sp"
         app:layout_constraintEnd_toStartOf="@+id/statusContainer"
-        app:layout_constraintStart_toEndOf="@id/workspaceAvatar"
-        app:layout_constraintTop_toTopOf="@id/workspaceAvatar" />
+        app:layout_constraintStart_toEndOf="@id/iconContainer"
+        app:layout_constraintTop_toTopOf="@id/iconContainer" />
 
     <TextView
         android:id="@+id/workspaceSubtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
         android:fontFamily="@font/inter"
         android:text=""
         android:textColor="#5C625E"
         android:textSize="11sp"
-        android:layout_marginTop="2dp"
         app:layout_constraintEnd_toEndOf="@id/workspaceName"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@id/workspaceName"
         app:layout_constraintTop_toBottomOf="@id/workspaceName" />
 
