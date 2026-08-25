@@ -12,8 +12,12 @@
     <color name="avatar_green_bg">#7E8E6B</color>
     <color name="subheading_color_home">#5C625E</color>
     <color name="primary_green">#0C861A</color>
+    <color name="primary_green_alpha">#140C861A</color>
     <color name="tickedColorbg">#22A06B</color>
     <color name="sectionsHeadingColor">#9CA3A0</color>
     <color name="toggleBtn_offColor">#E8E5DF</color>
+    <color name="carrot_red_shade">#D9534F</color>
+    <color name="orange_red_shade">#D9A24F</color>
+    <color name="greyish_white">#F4F2EE</color>
 
 </resources>

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.learner.invoicegenerator.R
 import com.learner.invoicegenerator.ui.model.Currency
 
-class CurrencyAdaptor(var dataset: List<Currency>) : RecyclerView.Adapter<CurrencyAdaptor.currencyViewHolder>() {
+class CurrencyAdaptor(var dataset: List<Currency>,var currentCurrencyCode:String,var onCurrencySelected: (Currency)->Unit) : RecyclerView.Adapter<CurrencyAdaptor.currencyViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -22,10 +22,15 @@ class CurrencyAdaptor(var dataset: List<Currency>) : RecyclerView.Adapter<Curren
         holder: currencyViewHolder,
         position: Int
     ) {
-        var isbtnChecked=dataset[position].isSelected
         holder.currencyCode.setText( dataset[position].code)
         holder.currencyName.setText(dataset[position].name)
-        holder.currencyRadioBtn.isChecked=isbtnChecked
+        holder.currencyRadioBtn.isChecked=dataset[position].code==currentCurrencyCode
+
+        holder.currencyRadioBtn.setOnClickListener {
+            currentCurrencyCode=dataset[position].code
+            notifyDataSetChanged()
+           onCurrencySelected(dataset[position])
+        }
     }
 
     override fun getItemCount(): Int {

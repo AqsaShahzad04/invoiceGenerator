@@ -152,16 +152,27 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/totalBilledValue"
+                android:id="@+id/totalBilledValuecurrency"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_bold"
-                android:text="$0"
+                android:text="$"
                 android:textColor="#171817"
                 android:textSize="17sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/totalBilled" />
-
+            <TextView
+                android:id="@+id/totalbill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_bold"
+                android:layout_marginStart="4dp"
+                android:text="0"
+                android:textColor="#171817"
+                android:textSize="17sp"
+                app:layout_constraintStart_toEndOf="@id/totalBilledValuecurrency"
+                app:layout_constraintTop_toTopOf="@id/totalBilledValuecurrency"
+                app:layout_constraintBottom_toBottomOf="@id/totalBilledValuecurrency"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -190,15 +201,29 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/outstandingValue"
+                android:id="@+id/outstandingValuecurrency"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_bold"
-                android:text="$0"
+                android:text="$"
                 android:textColor="#171817"
                 android:textSize="17sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/outstanding" />
+
+            <TextView
+                android:id="@+id/outstandingValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_bold"
+                android:layout_marginStart="4dp"
+                android:text="0"
+                android:textColor="#171817"
+                android:textSize="17sp"
+                app:layout_constraintStart_toEndOf="@id/outstandingValuecurrency"
+                app:layout_constraintTop_toTopOf="@id/outstandingValuecurrency"
+                app:layout_constraintBottom_toBottomOf="@id/outstandingValuecurrency"
+                />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

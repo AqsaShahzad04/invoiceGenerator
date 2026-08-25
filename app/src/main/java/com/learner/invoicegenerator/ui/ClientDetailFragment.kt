@@ -7,12 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.learner.invoicegenerator.R
+import com.learner.invoicegenerator.data.local.SessionManager
 import com.learner.invoicegenerator.databinding.FragmentClientDetailBinding
 import com.learner.invoicegenerator.ui.clients.viewmodel.ClientViewModel
+import com.learner.invoicegenerator.utils.CurrencyData
 import kotlinx.coroutines.launch
 
 class ClientDetailFragment : Fragment(R.layout.fragment_client_detail) {
@@ -38,7 +42,22 @@ class ClientDetailFragment : Fragment(R.layout.fragment_client_detail) {
         val clientId = args.clientId
         val avatarLetter = args.clientProfileLetter
         val avatarColor = args.profileBackgroundColor
-        
+        val sessionManager= SessionManager.getInstance(requireContext())
+        viewLifecycleOwner.lifecycleScope.launch{
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                sessionManager.currencyCode.collect(){currencyCode->
+                    val currency= CurrencyData.currencies.find {
+                        it.code==currencyCode
+                    }
+                    val currencySymbol=currency?.symbol
+                    binding.totalBilledValuecurrency.setText(currencySymbol)
+                    binding.outstandingValuecurrency.setText(currencySymbol)
+                }
+            }
+        }
+
+
+
         lifecycleScope.launch {
             val client = viewModel.getClientById(clientId)
             if (client != null) {

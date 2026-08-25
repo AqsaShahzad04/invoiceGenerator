@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import android.view.animation.AnimationUtils
 import com.learner.invoicegenerator.R
 import com.learner.invoicegenerator.data.local.SessionManager
 import com.learner.invoicegenerator.databinding.FragmentHomeBinding
@@ -45,7 +46,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
         val sessionManager = SessionManager.getInstance(requireContext())
         val userId = sessionManager.getUserId()
+        binding.rippleDots.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
+        val rippleView=binding.rippleDots
+        val rippleAnimation= AnimationUtils.loadAnimation(requireContext(), R.anim.ripple_anim)
+        rippleView.startAnimation(rippleAnimation)
 
+        binding.catalogueChiv.setOnClickListener {
+            findNavController().navigate(R.id.action_homeScreenFragment_to_clientFragment)
+        }
+        binding.clientChiv.setOnClickListener {
+            findNavController().navigate(R.id.action_homeScreenFragment_to_itemsFragment)
+        }
         binding.AddBtn.setOnClickListener {
             AddClientBottomSheet().show(parentFragmentManager, "Add Client")
         }
@@ -83,11 +94,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             combine(
                 clientViewModel.allClients,
                 itemViewModel.allItems,
-                sessionManager.activeWorkspaceId
-            ) { clients, items, _ ->
-                Pair(clients.size, items.size)
-            }.collect { (clientsCount, itemsCount) ->
-                updateProgressUI(clientsCount, itemsCount)
+                sessionManager.activeWorkspaceId,
+               sessionManager.currencyCode
+            ) { clients, items, _ ,currencyCode->
+                Triple(clients.size, items.size,currencyCode)
+            }.collect { (clientsCount, itemsCount,_) ->
+                updateProgressUI(clientsCount,
+                    itemsCount,
+                    sessionManager.hasCurrencySelectedByUser()
+                )
             }
         }
     }
@@ -112,11 +127,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
-    private fun updateProgressUI(clientsCount: Int, itemsCount: Int) {
+    private fun updateProgressUI(clientsCount: Int, itemsCount: Int,currencyselectedByUser:Boolean) {
         val sessionManager = SessionManager.getInstance(requireContext())
         val step1Done = sessionManager.getActiveWorkspaceId() > 0 // Simplification for now
         val step2Done = clientsCount > 0
-        val step3Done = false 
+        val step3Done = currencyselectedByUser
         val step4Done = itemsCount > 0
 
         var completedCount = 0
@@ -125,15 +140,34 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         if (step3Done) completedCount++
         if (step4Done) completedCount++
 
+        if(completedCount==4){
+            sessionManager.setintialStepsCompleted()
+
+        }
+        binding.homeInitialSetupCards.visibility =
+            if (sessionManager.isintitalSetupCompleted()) {
+                View.GONE
+            } else {
+                View.VISIBLE
+            }
+
+
         updateStepUI(step1Done, binding.homeNumCircle, binding.homeNumCircle1done, binding.nameWorkspace, binding.setupBtn, binding.cardone)
         updateStepUI(step2Done, binding.homeNumCircle2, binding.homeNumCircle2done, binding.addFirstCient, binding.AddBtn, binding.cardtwo)
         updateStepUI(step3Done, binding.homeNumCircle3, binding.homeNumCircle3done, binding.setCurrency, binding.chooseBtn, binding.cardThree)
         updateStepUI(step4Done, binding.homeNumCircle4, binding.homeNumCircle4done, binding.addItems, binding.Add4Btn, binding.cardFour)
 
         binding.progressText.text = "$completedCount/4"
-        val params = binding.progressbarFilled.layoutParams as ConstraintLayout.LayoutParams
-        params.matchConstraintPercentWidth = completedCount / 4f
-        binding.progressbarFilled.layoutParams = params
+        binding.progressbarEmpty.post {
+
+            val progressWidth = binding.progressbarEmpty.width
+            val filledWidth = (progressWidth * (completedCount / 4f)).toInt()
+
+            val params = binding.progressbarFilled.layoutParams
+            params.width = filledWidth
+
+            binding.progressbarFilled.layoutParams = params
+        }
     }
 
     private fun updateStepUI(isDone: Boolean, circle: View, doneCircle: View, text: android.widget.TextView, button: View, card: View) {
