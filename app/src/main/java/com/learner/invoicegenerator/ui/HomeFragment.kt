@@ -51,11 +51,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val rippleAnimation= AnimationUtils.loadAnimation(requireContext(), R.anim.ripple_anim)
         rippleView.startAnimation(rippleAnimation)
 
+
         binding.catalogueChiv.setOnClickListener {
-            findNavController().navigate(R.id.action_homeScreenFragment_to_clientFragment)
+            findNavController().navigate(R.id.action_homeScreenFragment_to_itemsFragment)
         }
         binding.clientChiv.setOnClickListener {
-            findNavController().navigate(R.id.action_homeScreenFragment_to_itemsFragment)
+            findNavController().navigate(R.id.action_homeScreenFragment_to_clientFragment)
         }
         binding.AddBtn.setOnClickListener {
             AddClientBottomSheet().show(parentFragmentManager, "Add Client")

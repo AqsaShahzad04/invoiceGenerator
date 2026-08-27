@@ -9,6 +9,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.navOptions
 import com.learner.invoicegenerator.R
@@ -90,6 +91,9 @@ class MainActivity : AppCompatActivity() {
 
         val bottomNavBar = findViewById<View>(R.id.bottomNavBar)
         val fabbtn = findViewById<View>(R.id.fab)
+        fabbtn.setOnClickListener {
+           navController.navigate(R.id.newInvoiceFragment,null,navOptions)
+        }
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.id == R.id.homeScreenFragment || destination.id == R.id.invoicesFragment || 

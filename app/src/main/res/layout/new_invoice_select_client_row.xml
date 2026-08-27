@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_new_invoice_client_profile"
+    android:paddingVertical="12dp">
+
+    <TextView
+        android:id="@+id/profileCircle"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/avatar_circle"
+        android:backgroundTint="#0C861A"
+        android:fontFamily="@font/inter_bold"
+        android:gravity="center"
+        android:text="AE"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/businessName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:fontFamily="@font/inter_semibold"
+        android:text="Ayesha Enterprises"
+        android:textColor="#171817"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@id/profileCircle"
+        app:layout_constraintTop_toTopOf="@id/profileCircle" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter"
+        android:text="info@ayesha.pk"
+        android:textColor="#9CA3A0"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@id/businessName"
+        app:layout_constraintStart_toStartOf="@id/businessName"
+        app:layout_constraintTop_toBottomOf="@id/businessName" />
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

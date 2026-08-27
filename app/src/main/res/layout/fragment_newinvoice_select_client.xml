@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingVertical="12dp"
+    android:paddingHorizontal="16dp">
+    <TextView
+        android:id="@+id/billingHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Who are you billing?"
+        android:textColor="@color/btn_bg_dark"
+        android:textSize="20sp"
+        android:fontFamily="@font/inter_bold"
+        android:letterSpacing="0.015"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/selectClientSubheading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:textColor="@color/subheading_color_home"
+        android:fontFamily="@font/inter"
+        android:text="Search or pick a client , or add a new one"
+        app:layout_constraintTop_toBottomOf="@id/billingHeading"
+        android:layout_marginTop="6dp"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/searchClientSection"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginTop="14dp"
+        app:layout_constraintTop_toBottomOf="@id/selectClientSubheading"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/search_invoice_bg"
+        >
+        <ImageView
+            android:id="@+id/searchIcon"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:background="@drawable/ic_search"
+            android:layout_marginStart="14dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+        <EditText
+            android:id="@+id/searchField"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:hint="Search clients by name or contact"
+            android:layout_marginStart="14dp"
+            app:layout_constraintStart_toEndOf="@id/searchIcon"
+            android:background="@null"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="32dp"
+            android:textSize="13sp"
+            android:textColor="@color/btn_bg_dark"
+            android:fontFamily="@font/inter_medium"
+            />
+
+        
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+  <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/clientInInvoiceRV"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="12dp"
+      app:layout_constraintTop_toBottomOf="@id/searchClientSection"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_add_client_btn"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/clientInInvoiceRV">
+
+        <ImageView
+            android:id="@+id/clientAddplusIcon"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:background="@drawable/ic_plus"
+            android:backgroundTint="@color/btn_bg_dark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.36"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Add a new client"
+            app:layout_constraintStart_toEndOf="@id/clientAddplusIcon"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
