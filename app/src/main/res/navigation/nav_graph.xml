@@ -224,6 +224,9 @@
         android:id="@+id/newInvoiceFragment"
         android:name="com.learner.invoicegenerator.ui.NewInvoiceFragment"
         android:label="NewInvoiceFragment" >
+        <action
+            android:id="@+id/action_invoice_screen_to_home_fragment"
+            app:destination="@id/homeScreenFragment"/>
     </fragment>
 
 </navigation>

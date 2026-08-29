@@ -9,6 +9,8 @@ import com.learner.invoicegenerator.data.local.entity.Client
 import com.learner.invoicegenerator.data.repository.ClientRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 
@@ -20,6 +22,9 @@ class ClientViewModel(
     private val _addClientState = MutableLiveData<ClientState>(ClientState.Idle)
     val addClientState: LiveData<ClientState> get() = _addClientState
 
+    private var _selectedClient= MutableStateFlow<Client?>(null)
+    val selectedClient: StateFlow<Client?> = _selectedClient
+
     fun resetState() {
         _addClientState.value = ClientState.Idle
     }
@@ -28,12 +33,16 @@ class ClientViewModel(
     val allClients: Flow<List<Client>> = sessionManager.activeWorkspaceId.flatMapLatest { id ->
         repository.getAllClients(id)
     }
-
+    fun selectClient(newClient:Client){
+        _selectedClient.value = newClient
+    }
     fun addClient(client: Client) {
         viewModelScope.launch {
             _addClientState.value = ClientState.Loading
             try {
-                repository.insertClient(client)
+                val generatedId = repository.insertClient(client)
+                val savedClient = client.copy(id = generatedId.toInt())
+                _selectedClient.value = savedClient
                 _addClientState.value = ClientState.Success
             } catch (e: Exception) {
                 _addClientState.value = ClientState.Error(e.message ?: "Unknown error")

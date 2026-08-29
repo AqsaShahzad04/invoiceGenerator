@@ -5,8 +5,8 @@ import com.learner.invoicegenerator.data.local.entity.Client
 import kotlinx.coroutines.flow.Flow
 
 class ClientRepository(private val ClientDao: Clientdao) {
-    suspend fun insertClient(client: Client) {
-        ClientDao.insertClient(client)
+    suspend fun insertClient(client: Client):Long {
+       return ClientDao.insertClient(client)
     }
     fun getAllClients(workspaceId:Int): Flow<List<Client>> {
         return ClientDao.getAllClientsOfWorkspace(workspaceId)

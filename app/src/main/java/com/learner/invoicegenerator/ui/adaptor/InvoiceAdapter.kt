@@ -7,16 +7,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.learner.invoicegenerator.R
 import com.learner.invoicegenerator.data.local.entity.Client
+import com.learner.invoicegenerator.ui.clients.viewmodel.ClientViewModel
 import com.learner.invoicegenerator.utils.AvatarUtils
+import kotlin.getValue
 
 class InvoiceAdapter(
     private var clientsLists:List<Client>,
-    private val selectClient:(Client)->Unit
+    private val selectClient:(Client)->Unit,
+    private var selectedClientId: Int? = null
 
 ): RecyclerView.Adapter<InvoiceAdapter.invoiceViewHolder>(){
+
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -29,19 +35,27 @@ class InvoiceAdapter(
         holder: invoiceViewHolder,
         position: Int
     ) {
-        holder.profileAvatar.setText(AvatarUtils.getLetter(clientsLists[position].businessName))
-        val color = AvatarUtils.getColor(clientsLists[position].businessName)
+        val client = clientsLists[position]
+
+        holder.profileAvatar.setText(AvatarUtils.getLetter(client.businessName))
+        val color = AvatarUtils.getColor(client.businessName)
         holder.profileAvatar.background.setTint(Color.parseColor(color))
-        holder.businessName.setText(clientsLists[position].businessName)
-        holder.clientName.setText(clientsLists[position].contactPerson)
-        holder.clientSelectedIcon.visibility=View.GONE
+        holder.businessName.setText(client.businessName)
+        holder.clientName.setText(client.contactPerson)
+
+        val isSelected = client.id == selectedClientId
+        holder.clientSelectedIcon.visibility = if (isSelected) View.VISIBLE else View.GONE
+        holder.itemView.setBackgroundResource(
+            if (isSelected) R.drawable.bg_new_invoice_selected_client else R.drawable.bg_new_invoice_client_profile
+        )
 
         holder.itemView.setOnClickListener {
-            holder.clientSelectedIcon.visibility=View.VISIBLE
-            holder.itemView.setBackgroundResource(R.drawable.bg_new_invoice_selected_client)
-            selectClient(clientsLists[position])
+            selectClient(client)
         }
-
+    }
+    fun setSelectedClient(clientId: Int?) {
+        selectedClientId = clientId
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int {

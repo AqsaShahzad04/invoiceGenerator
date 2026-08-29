@@ -23,9 +23,9 @@ import kotlinx.coroutines.launch
 class NewInvoiceSelectClientFragment: Fragment(R.layout.fragment_newinvoice_select_client) {
     private var _binding: FragmentNewinvoiceSelectClientBinding?=null
     val binding get()=_binding!!
+    private var adapter: InvoiceAdapter? = null
 
-    private var _selectedClient= MutableStateFlow<Client?>(null)
-    val selectedClient: StateFlow<Client?> = _selectedClient
+
 
     private val viewModel: ClientViewModel by activityViewModels()
     override fun onCreateView(
@@ -41,18 +41,37 @@ class NewInvoiceSelectClientFragment: Fragment(R.layout.fragment_newinvoice_sele
         super.onViewCreated(view, savedInstanceState)
         val sessionManager= SessionManager.getInstance(requireContext())
         val activeWorkspaceId=sessionManager.getActiveWorkspaceId()
-        fun selectClient(newClient:Client){
-            _selectedClient.value = newClient
+
+        binding.clientInInvoiceRV.layoutManager = LinearLayoutManager(context)
+
+        fun selectClient(newClient: Client) {
+            viewModel.selectClient(newClient)
         }
-         viewLifecycleOwner.lifecycleScope.launch{
-            viewModel.allClients.collect { clientsList->
-             var adapter = InvoiceAdapter(clientsList,::selectClient)
-                binding.clientInInvoiceRV.layoutManager= LinearLayoutManager(context)
-                binding.clientInInvoiceRV.adapter=adapter
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.allClients.collect { clientsList ->
+                adapter = InvoiceAdapter(
+                    clientsList,
+                    ::selectClient,
+                    viewModel.selectedClient.value?.id
+                )
+                binding.clientInInvoiceRV.adapter = adapter
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.selectedClient.collect { client ->
+                adapter?.setSelectedClient(client?.id)
+            }
+        }
+
         binding.newInvoiceAddClientBtn.setOnClickListener {
             BottomSheetNewInvoiceAddNewClient().show(parentFragmentManager,"Add client on the go")
         }
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        adapter = null
+        _binding = null
     }
 }

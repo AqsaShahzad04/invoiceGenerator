@@ -5,11 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.learner.invoicegenerator.data.local.SessionManager
 import com.learner.invoicegenerator.data.local.entity.Client
 import com.learner.invoicegenerator.databinding.BottomSheetNewInvoiceAddNewClientBinding
+import com.learner.invoicegenerator.ui.clients.viewmodel.ClientState
 import com.learner.invoicegenerator.ui.clients.viewmodel.ClientViewModel
 
 class BottomSheetNewInvoiceAddNewClient: BottomSheetDialogFragment() {
@@ -51,7 +54,20 @@ class BottomSheetNewInvoiceAddNewClient: BottomSheetDialogFragment() {
                 workspaceId = activeWorkspaceId
             )
             clientViewModel.addClient(client)
+        }
 
+        clientViewModel.addClientState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is ClientState.Success -> {
+                    clientViewModel.resetState()
+                    dismiss()
+                }
+                is ClientState.Error -> {
+                    binding.businessNameInput.error = state.message
+                    clientViewModel.resetState()
+                }
+                else -> Unit
+            }
         }
     }
 }
