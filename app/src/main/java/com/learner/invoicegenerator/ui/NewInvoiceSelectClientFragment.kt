@@ -16,11 +16,16 @@ import com.learner.invoicegenerator.databinding.FragmentNewinvoiceSelectClientBi
 import com.learner.invoicegenerator.ui.adaptor.InvoiceAdapter
 import com.learner.invoicegenerator.ui.clients.viewmodel.ClientViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class NewInvoiceSelectClientFragment: Fragment(R.layout.fragment_newinvoice_select_client) {
     private var _binding: FragmentNewinvoiceSelectClientBinding?=null
     val binding get()=_binding!!
+
+    private var _selectedClient= MutableStateFlow<Client?>(null)
+    val selectedClient: StateFlow<Client?> = _selectedClient
 
     private val viewModel: ClientViewModel by activityViewModels()
     override fun onCreateView(
@@ -36,13 +41,18 @@ class NewInvoiceSelectClientFragment: Fragment(R.layout.fragment_newinvoice_sele
         super.onViewCreated(view, savedInstanceState)
         val sessionManager= SessionManager.getInstance(requireContext())
         val activeWorkspaceId=sessionManager.getActiveWorkspaceId()
+        fun selectClient(newClient:Client){
+            _selectedClient.value = newClient
+        }
          viewLifecycleOwner.lifecycleScope.launch{
             viewModel.allClients.collect { clientsList->
-             var adapter = InvoiceAdapter(clientsList)
+             var adapter = InvoiceAdapter(clientsList,::selectClient)
                 binding.clientInInvoiceRV.layoutManager= LinearLayoutManager(context)
                 binding.clientInInvoiceRV.adapter=adapter
             }
         }
-
+        binding.newInvoiceAddClientBtn.setOnClickListener {
+            BottomSheetNewInvoiceAddNewClient().show(parentFragmentManager,"Add client on the go")
+        }
     }
 }

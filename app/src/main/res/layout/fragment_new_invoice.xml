@@ -80,7 +80,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Client"
+                android:text="CLIENT"
                 android:gravity="center"
                 android:textSize="10sp"
                 android:fontFamily="@font/inter_medium"
@@ -170,12 +170,15 @@
     </LinearLayout>
 
     <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/newInvoiceNavHost"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        app:navGraph="@navigation/new_invoice_nav_graph"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/indicatorsInvoiceSection"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="@id/indicatorsInvoiceSection"
-        app:layout_constraintBottom_toTopOf="@id/invoice_action_button"
+
         />
     <LinearLayout
         android:id="@+id/invoice_action_button"
@@ -193,8 +196,9 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_continue_btn"
             app:backgroundTint="@null"
+            android:enabled="false"
             android:text="Continue"
-            android:textColor="@color/bg_cream"
+            android:textColor="@color/grey"
             android:textSize="14sp"
             android:fontFamily="@font/inter_semibold"
             />

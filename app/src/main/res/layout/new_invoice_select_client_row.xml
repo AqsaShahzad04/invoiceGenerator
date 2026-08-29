@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_new_invoice_client_profile"
-    android:paddingVertical="12dp">
+    android:padding="12dp"
+    android:layout_marginBottom="8dp">
 
     <TextView
         android:id="@+id/profileCircle"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:background="@drawable/avatar_circle"
-        android:backgroundTint="#0C861A"
         android:fontFamily="@font/inter_bold"
         android:gravity="center"
         android:text="AE"
@@ -45,7 +45,17 @@
         app:layout_constraintEnd_toEndOf="@id/businessName"
         app:layout_constraintStart_toStartOf="@id/businessName"
         app:layout_constraintTop_toBottomOf="@id/businessName" />
-
+    
+    <ImageView
+        android:id="@+id/selectedClientIcon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="@drawable/currency_selected_state"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+/>
 
 
 

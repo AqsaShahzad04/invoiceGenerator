@@ -223,28 +223,8 @@
     <fragment
         android:id="@+id/newInvoiceFragment"
         android:name="com.learner.invoicegenerator.ui.NewInvoiceFragment"
-        android:label="NewInvoiceFragment" />
-       <navigation
-           android:id="@+id/newInvoiceNavgraph"
-           app:startDestination="@id/selectClientFragment"
-           >
-           <fragment
-               android:id="@+id/selectClientFragment"
-               android:name="com.learner.invoicegenerator.ui.NewInvoiceSelectClientFragment"
-               />
-           <fragment
-               android:id="@+id/selectItemsFragment"
-               android:name="com.learner.invoicegenerator.ui.NewInvoiceSelectItemsFragment"
-               />
-           <fragment
-               android:id="@+id/addDetailsFragment"
-               android:name="com.learner.invoicegenerator.ui.NewInvoiceAddDetailsFragment"
-               />
-           <fragment
-               android:id="@+id/reviewInvoiceFragment"
-               android:name="com.learner.invoicegenerator.ui.NewInvoicesReviewFragment"
-               />
-       </navigation>
+        android:label="NewInvoiceFragment" >
+    </fragment>
 
 </navigation>
 
