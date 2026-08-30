@@ -150,6 +150,7 @@ class MainActivity : AppCompatActivity() {
 
         val bottomNavBar =
             findViewById<View>(R.id.bottomNavBar)
+        val fabRing = findViewById<View>(R.id.fabRing)
 
         val fabbtn =
             findViewById<View>(R.id.fab)
@@ -184,11 +185,13 @@ class MainActivity : AppCompatActivity() {
 
                 bottomNavBar.visibility = View.VISIBLE
                 fabbtn.visibility = View.VISIBLE
+                fabRing.visibility= View.VISIBLE
 
             } else {
 
                 bottomNavBar.visibility = View.GONE
                 fabbtn.visibility = View.GONE
+                fabRing.visibility=View.GONE
             }
 
             updateSelectedTab(destination.id)

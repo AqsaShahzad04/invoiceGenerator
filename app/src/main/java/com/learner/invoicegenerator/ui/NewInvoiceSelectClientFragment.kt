@@ -5,9 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Adapter
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.learner.invoicegenerator.R
 import com.learner.invoicegenerator.data.local.SessionManager
@@ -64,6 +68,36 @@ class NewInvoiceSelectClientFragment: Fragment(R.layout.fragment_newinvoice_sele
                 adapter?.setSelectedClient(client?.id)
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.selectedClient.collect { client ->
+                    binding.continueBtn.isEnabled = client != null
+                    if(binding.continueBtn.isEnabled){
+                        binding.continueBtn.background.setTint(
+                            ContextCompat.getColor(requireContext(), R.color.btn_bg_dark)
+                        )
+                        binding.continueBtn.setTextColor(
+                            ContextCompat.getColor(requireContext(),R.color.bg_cream)
+                        )
+                    }
+                    else{
+                        binding.continueBtn.background.setTint(
+                            ContextCompat.getColor(requireContext(), R.color.greyish_white)
+                        )
+                        binding.continueBtn.setTextColor(
+                            ContextCompat.getColor(requireContext(),R.color.grey)
+                        )
+                    }
+
+
+                }
+            }
+        }
+        binding.continueBtn.setOnClickListener {
+            findNavController().navigate(R.id.action_select_client_fragment_to_select_items_fragment)
+        }
+
 
         binding.newInvoiceAddClientBtn.setOnClickListener {
             BottomSheetNewInvoiceAddNewClient().show(parentFragmentManager,"Add client on the go")

@@ -41,23 +41,6 @@ class NewInvoiceFragment: Fragment(R.layout.fragment_new_invoice) {
             findNavController().navigate(R.id.action_invoice_screen_to_home_fragment)
 
         }
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                clientViewModel.selectedClient.collect { client ->
-                    binding.continueBtn.isEnabled = client != null
-                    binding.continueBtn.setBackgroundColor(
-                        ContextCompat.getColor(requireContext(), R.color.btn_bg_dark)
-                    )
-                    binding.continueBtn.setTextColor(
-                        ContextCompat.getColor(requireContext(),R.color.bg_cream)
-                    )
-
-                }
-            }
-        }
-        binding.continueBtn.setOnClickListener {
-            findNavController().navigate(R.id.action_invoice_screen_to_home_fragment)
-        }
 
     }
 }
