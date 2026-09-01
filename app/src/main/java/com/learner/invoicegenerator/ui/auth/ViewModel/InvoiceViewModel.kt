@@ -8,6 +8,8 @@ import com.learner.invoicegenerator.data.local.entity.Invoice
 import com.learner.invoicegenerator.data.local.entity.InvoiceItemLine
 import com.learner.invoicegenerator.data.repository.InvoiceRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class InvoiceViewModel(private val repository: InvoiceRepository): ViewModel(){
@@ -15,6 +17,15 @@ class InvoiceViewModel(private val repository: InvoiceRepository): ViewModel(){
     private val _addInvoiceState= MutableLiveData<InvoiceState>(InvoiceState.Idle)
     val addInvoiceState: LiveData<InvoiceState> get()=_addInvoiceState
 
+    private val _selectedItems= MutableStateFlow<List<InvoiceItemLine>>(emptyList())
+    val selectedItems: StateFlow<List<InvoiceItemLine>> =_selectedItems
+
+    fun addToSelectedItems(item:InvoiceItemLine){
+        _selectedItems.value = _selectedItems.value + item
+    }
+    fun removeFromSelectedItems(id:Int){
+        _selectedItems.value=_selectedItems.value.filter{it.itemId!=id}
+    }
     fun insertInvoice(invoice: Invoice) {
         _addInvoiceState.value = InvoiceState.Loading
         viewModelScope.launch {

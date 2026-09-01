@@ -13,9 +13,12 @@ import androidx.navigation.navOptions
 import com.learner.invoicegenerator.data.local.DatabaseProvider
 import com.learner.invoicegenerator.data.local.SessionManager
 import com.learner.invoicegenerator.data.repository.ClientRepository
+import com.learner.invoicegenerator.data.repository.InvoiceRepository
 import com.learner.invoicegenerator.data.repository.ItemRepository
 import com.learner.invoicegenerator.data.repository.WorkspaceRepository
 import com.learner.invoicegenerator.databinding.ActivityMainBinding
+import com.learner.invoicegenerator.ui.auth.ViewModel.InvoiceViewModel
+import com.learner.invoicegenerator.ui.auth.ViewModel.InvoiceViewModelFactory
 import com.learner.invoicegenerator.ui.auth.ViewModel.ItemViewModel
 import com.learner.invoicegenerator.ui.auth.ViewModel.ItemViewModelFactory
 import com.learner.invoicegenerator.ui.auth.ViewModel.WorkspaceViewModel
@@ -37,6 +40,10 @@ class MainActivity : AppCompatActivity() {
         ClientRepository(database.clientDao())
     }
 
+    private val invoiceRepository by lazy{
+        InvoiceRepository(database.invoiceDao(),database.invoiceItemLineDao())
+    }
+
     private val itemRepository by lazy {
         ItemRepository(database.itemDao())
     }
@@ -50,6 +57,9 @@ class MainActivity : AppCompatActivity() {
             clientRepository,
             sessionManager
         )
+    }
+    private val InvoiceViewModel: InvoiceViewModel by viewModels {
+        InvoiceViewModelFactory(invoiceRepository)
     }
 
     private val itemViewModel: ItemViewModel by viewModels {

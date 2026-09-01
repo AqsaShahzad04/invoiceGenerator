@@ -34,6 +34,25 @@ class NewInvoiceFragment: Fragment(R.layout.fragment_new_invoice) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        val stepOrder=listOf(R.id.selectClientFragment,
+            R.id.selectItemsFragment,
+            R.id.addDetailsFragment,
+            R.id.reviewInvoiceFragment)
+
+        val indicatorViews=listOf(binding.clientIdicator,binding.itemsIndicator,binding.detailsIndicator,binding.reviewIdicator)
+        findNavController().addOnDestinationChangedListener { _, destination, _ ->
+            val currentIndex = stepOrder.indexOf(destination.id)
+
+            indicatorViews.forEachIndexed { index, indicatorView ->
+                if (index <= currentIndex) {
+                    indicatorView.setBackgroundResource(R.drawable.bg_invoice_step_indicators_selected)
+                } else {
+                    indicatorView.setBackgroundResource(R.drawable.bg_invoice_step_indicators_unselected)
+                }
+            }
+        }
+
         binding.iconBackInvoice.setOnClickListener {
             findNavController().navigate(R.id.action_invoice_screen_to_home_fragment)
         }
@@ -41,6 +60,8 @@ class NewInvoiceFragment: Fragment(R.layout.fragment_new_invoice) {
             findNavController().navigate(R.id.action_invoice_screen_to_home_fragment)
 
         }
+
+
 
     }
 }
