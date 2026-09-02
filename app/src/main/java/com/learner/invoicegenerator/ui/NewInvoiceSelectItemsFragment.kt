@@ -1,20 +1,28 @@
 package com.learner.invoicegenerator.ui
 
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.ContextThemeWrapper
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.appcompat.view.menu.MenuView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.chip.Chip
 import com.learner.invoicegenerator.R
+import android.graphics.Color
+import androidx.core.content.res.ResourcesCompat
+import com.google.android.material.chip.ChipGroup
 import com.learner.invoicegenerator.data.local.entity.InvoiceItemLine
 import com.learner.invoicegenerator.databinding.FragmentNewinvoiceSelectItemBinding
 import com.learner.invoicegenerator.ui.auth.ViewModel.InvoiceViewModel
 import com.learner.invoicegenerator.ui.auth.ViewModel.ItemViewModel
+import com.learner.invoicegenerator.util.conversions.dpToPx
 import kotlinx.coroutines.launch
 
 class NewInvoiceSelectItemsFragment: Fragment(R.layout.fragment_newinvoice_select_item) {
@@ -37,9 +45,10 @@ class NewInvoiceSelectItemsFragment: Fragment(R.layout.fragment_newinvoice_selec
 
         viewLifecycleOwner.lifecycleScope.launch{
             itemViewModel.allItems.collect {itemsList->
+                binding.catalogueChipGroup.removeAllViews()
+                val styledContext= ContextThemeWrapper(requireContext(),
+                    R.style.ThemeOverlay_Catalogue_Chip)
                 itemsList.forEach { item->
-                    val styledContext= ContextThemeWrapper(requireContext(),
-                        R.style.ThemeOverlay_Catalogue_Chip)
                     val chip= Chip(styledContext)
                     chip.text=item.itemName
                     chip.isCheckable=true
@@ -64,9 +73,40 @@ class NewInvoiceSelectItemsFragment: Fragment(R.layout.fragment_newinvoice_selec
 
                     binding.catalogueChipGroup.addView(chip)
                 }
+                val newItemChip = TextView(styledContext).apply {
+                    text = "New Item"
+                    setTextColor(Color.parseColor("#0C861A"))
+                    textSize = 11f
+                    typeface = ResourcesCompat.getFont(context, R.font.inter_semibold)
+
+                    background = ContextCompat.getDrawable(requireContext(), R.drawable.bg_dashed_chip)
+
+                    val icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_plus)?.mutate()?.apply {
+                        setTint(Color.parseColor("#5C625E"))
+                        setBounds(0, 0, 11.dpToPx(context), 11.dpToPx(context))
+                    }
+                    setCompoundDrawablesRelative(icon, null, null, null)
+                    compoundDrawablePadding = 5.dpToPx(context)
+
+                    setPadding(11.dpToPx(context), 8.dpToPx(context), 7.dpToPx(context), 8.dpToPx(context))
+                    gravity = Gravity.CENTER_VERTICAL
+
+                    isClickable = true
+                    isFocusable = true
+                    setOnClickListener { /* navigate to add-item */ }
+
+                    layoutParams = ChipGroup.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                    )
+                }
+                binding.catalogueChipGroup.addView(newItemChip)
+
+                }
+
+
             }
         }
 
 
     }
-}

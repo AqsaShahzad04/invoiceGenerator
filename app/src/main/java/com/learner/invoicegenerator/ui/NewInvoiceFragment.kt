@@ -11,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.learner.invoicegenerator.R
 import com.learner.invoicegenerator.databinding.FragmentNewInvoiceBinding
@@ -35,13 +36,16 @@ class NewInvoiceFragment: Fragment(R.layout.fragment_new_invoice) {
         super.onViewCreated(view, savedInstanceState)
 
 
+        val navHostFragment=childFragmentManager.findFragmentById(R.id.newInvoiceNavHost) as NavHostFragment
+        val invoiceNavController=navHostFragment.findNavController()
+
         val stepOrder=listOf(R.id.selectClientFragment,
             R.id.selectItemsFragment,
             R.id.addDetailsFragment,
             R.id.reviewInvoiceFragment)
 
         val indicatorViews=listOf(binding.clientIdicator,binding.itemsIndicator,binding.detailsIndicator,binding.reviewIdicator)
-        findNavController().addOnDestinationChangedListener { _, destination, _ ->
+        invoiceNavController.addOnDestinationChangedListener { _, destination, _ ->
             val currentIndex = stepOrder.indexOf(destination.id)
 
             indicatorViews.forEachIndexed { index, indicatorView ->

@@ -4,8 +4,8 @@ import com.learner.invoicegenerator.data.local.Dao.WorkspaceDao
 import com.learner.invoicegenerator.data.local.entity.Workspace
 
 class WorkspaceRepository(private val workspaceDao: WorkspaceDao)  {
-    suspend fun insertWorkspace(workspace: Workspace) {
-        workspaceDao.insert(workspace)
+    suspend fun insertWorkspace(workspace: Workspace):Long {
+        return workspaceDao.insert(workspace)
     }
     suspend fun updateWorkspace(workspace: Workspace) {
         workspaceDao.Update(workspace)

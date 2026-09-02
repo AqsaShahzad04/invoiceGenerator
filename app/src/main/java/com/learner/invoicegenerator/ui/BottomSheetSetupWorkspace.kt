@@ -68,6 +68,7 @@ class BottomSheetSetupWorkspace : BottomSheetDialogFragment() {
                     binding.saveBtn.isEnabled = false
                 }
                 is WorkspaceState.Success -> {
+                    sessionManager.setActiveWorkspace(state.id)
                     Toast.makeText(requireContext(), "Workspace created!", Toast.LENGTH_SHORT).show()
                     dismiss()
                 }

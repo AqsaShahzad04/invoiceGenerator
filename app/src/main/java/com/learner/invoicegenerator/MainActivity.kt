@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
             sessionManager
         )
     }
-    private val InvoiceViewModel: InvoiceViewModel by viewModels {
+    private val invoiceViewModel: InvoiceViewModel by viewModels {
         InvoiceViewModelFactory(invoiceRepository)
     }
 
@@ -89,6 +89,7 @@ class MainActivity : AppCompatActivity() {
         clientViewModel
         itemViewModel
         workspaceViewModel
+        invoiceViewModel
 
         /*
          * Keep the status bar visible, but hide only

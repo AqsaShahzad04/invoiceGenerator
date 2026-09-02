@@ -6,6 +6,6 @@ import com.learner.invoicegenerator.data.repository.InvoiceRepository
 
 class InvoiceViewModelFactory(val repository: InvoiceRepository): ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return InvoiceViewModelFactory(repository) as T
+        return InvoiceViewModel(repository) as T
     }
 }

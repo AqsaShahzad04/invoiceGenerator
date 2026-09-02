@@ -25,8 +25,8 @@ class WorkspaceViewModel(
         viewModelScope.launch {
             _workspaceState.value = WorkspaceState.Loading
             try {
-                repository.insertWorkspace(workspace)
-                _workspaceState.value = WorkspaceState.Success
+                val id=repository.insertWorkspace(workspace)
+                _workspaceState.value = WorkspaceState.Success(id.toInt())
             } catch (e: Exception) {
                 _workspaceState.value = WorkspaceState.Error(e.message ?: "Unknown error")
             }
@@ -38,7 +38,7 @@ class WorkspaceViewModel(
             _workspaceState.value = WorkspaceState.Loading
             try {
                 repository.updateWorkspace(workspace)
-                _workspaceState.value = WorkspaceState.Success
+                _workspaceState.value = WorkspaceState.Success(workspace.id)
             } catch (e: Exception) {
                 _workspaceState.value = WorkspaceState.Error(e.message ?: "Unknown error")
             }
@@ -50,7 +50,7 @@ class WorkspaceViewModel(
             _workspaceState.value = WorkspaceState.Loading
             try {
                 repository.deleteWorkspace(workspace)
-                _workspaceState.value = WorkspaceState.Success
+                _workspaceState.value = WorkspaceState.Success(workspace.id)
             } catch (e: Exception) {
                 _workspaceState.value = WorkspaceState.Error(e.message ?: "Unknown error")
             }

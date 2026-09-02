@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface WorkspaceDao {
     @Insert
-    suspend fun insert(workspace: Workspace)
+    suspend fun insert(workspace: Workspace):Long
 
     @Query("SELECT * FROM Workspaces WHERE ownerUserId = :id")
      fun getWorkspaceByUserId(id: Int): Flow<List<Workspace>>
