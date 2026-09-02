@@ -145,11 +145,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             sessionManager.setintialStepsCompleted()
 
         }
-        binding.homeInitialSetupCards.visibility =
+
             if (sessionManager.isintitalSetupCompleted()) {
-                View.GONE
+                binding.homeInitialSetupCards.visibility =View.GONE
+                binding.homeScreenParentCard.visibility=View.VISIBLE
             } else {
-                View.VISIBLE
+                binding.homeInitialSetupCards.visibility = View.VISIBLE
+                binding.homeScreenParentCard.visibility=View.GONE
             }
 
 

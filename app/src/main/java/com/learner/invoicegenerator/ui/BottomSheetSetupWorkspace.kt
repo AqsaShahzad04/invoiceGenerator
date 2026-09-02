@@ -59,6 +59,7 @@ class BottomSheetSetupWorkspace : BottomSheetDialogFragment() {
                 isDefault = true
             )
             viewModel.addWorkspace(workspace)
+
         }
 
         viewModel.workspaceState.observe(viewLifecycleOwner) { state ->
