@@ -1,26 +1,22 @@
 package com.learner.invoicegenerator.ui.adaptor
 
-import android.content.res.ColorStateList
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.learner.invoicegenerator.R
 import com.learner.invoicegenerator.data.local.entity.Client
-import com.learner.invoicegenerator.ui.clients.viewmodel.ClientViewModel
 import com.learner.invoicegenerator.utils.AvatarUtils
-import kotlin.getValue
 
-class InvoiceAdapter(
+class InvoiceSelectClientAdapter(
     private var clientsLists:List<Client>,
     private val selectClient:(Client)->Unit,
     private var selectedClientId: Int? = null
 
-): RecyclerView.Adapter<InvoiceAdapter.invoiceViewHolder>(){
+): RecyclerView.Adapter<InvoiceSelectClientAdapter.invoiceViewHolder>(){
 
 
     override fun onCreateViewHolder(

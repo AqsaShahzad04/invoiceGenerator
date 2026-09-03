@@ -11,7 +11,7 @@ data class InvoiceItemLine (
     val itemId:Int,
     val itemName:String,
     val unitPrice:Double,
-    val itemQuantity:Double,
+    var itemQuantity:Double,
     val itemUnit:String
     )
 

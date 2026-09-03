@@ -45,7 +45,7 @@ class ClientDetailFragment : Fragment(R.layout.fragment_client_detail) {
         val sessionManager= SessionManager.getInstance(requireContext())
         viewLifecycleOwner.lifecycleScope.launch{
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                sessionManager.currencyCode.collect(){currencyCode->
+                sessionManager.currencyCode.collect{currencyCode->
                     val currency= CurrencyData.currencies.find {
                         it.code==currencyCode
                     }

@@ -45,6 +45,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.runtime)
     implementation(libs.androidx.ui.graphics)
     implementation("com.google.android.material:material:1.12.0")
     testImplementation(libs.junit)

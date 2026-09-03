@@ -26,6 +26,27 @@ class InvoiceViewModel(private val repository: InvoiceRepository): ViewModel(){
     fun removeFromSelectedItems(id:Int){
         _selectedItems.value=_selectedItems.value.filter{it.itemId!=id}
     }
+
+    fun incrementQuantity(id:Int){
+        _selectedItems.value=_selectedItems.value.map{item->
+            if(item.itemId==id){
+                item.copy(itemQuantity = item.itemQuantity+1)
+            }
+            else{
+                item
+            }
+        }
+    }
+    fun decrementQuantity(id:Int){
+        _selectedItems.value=_selectedItems.value.map{item->
+            if(item.itemId==id && item.itemQuantity>1){
+                item.copy(itemQuantity = item.itemQuantity-1)
+            }
+            else{
+                item
+            }
+        }
+    }
     fun insertInvoice(invoice: Invoice) {
         _addInvoiceState.value = InvoiceState.Loading
         viewModelScope.launch {

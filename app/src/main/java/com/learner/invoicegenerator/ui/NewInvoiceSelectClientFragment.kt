@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Adapter
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -17,17 +16,14 @@ import com.learner.invoicegenerator.R
 import com.learner.invoicegenerator.data.local.SessionManager
 import com.learner.invoicegenerator.data.local.entity.Client
 import com.learner.invoicegenerator.databinding.FragmentNewinvoiceSelectClientBinding
-import com.learner.invoicegenerator.ui.adaptor.InvoiceAdapter
+import com.learner.invoicegenerator.ui.adaptor.InvoiceSelectClientAdapter
 import com.learner.invoicegenerator.ui.clients.viewmodel.ClientViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class NewInvoiceSelectClientFragment: Fragment(R.layout.fragment_newinvoice_select_client) {
     private var _binding: FragmentNewinvoiceSelectClientBinding?=null
     val binding get()=_binding!!
-    private var adapter: InvoiceAdapter? = null
+    private var adapter: InvoiceSelectClientAdapter? = null
 
 
 
@@ -54,7 +50,7 @@ class NewInvoiceSelectClientFragment: Fragment(R.layout.fragment_newinvoice_sele
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.allClients.collect { clientsList ->
-                adapter = InvoiceAdapter(
+                adapter = InvoiceSelectClientAdapter(
                     clientsList,
                     ::selectClient,
                     viewModel.selectedClient.value?.id

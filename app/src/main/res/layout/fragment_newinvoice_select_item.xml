@@ -25,7 +25,7 @@
         android:id="@+id/selectItemsSubheading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="13sp"
+        android:textSize="12sp"
         android:textColor="@color/subheading_color_home"
         android:fontFamily="@font/inter"
         android:text="Scan a barcode or tap to add , adjust quantities below"
@@ -64,6 +64,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/catalogueSection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -72,6 +73,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:background="@drawable/bg_select_items_new_invoice"
         android:padding="12dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         >
         <TextView
             android:id="@+id/catalogueHeading"
@@ -128,19 +131,50 @@
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_marginTop="12dp"
+          android:paddingBottom="6dp"
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintTop_toBottomOf="@id/searchCatalogueSection"
+          app:layout_constraintBottom_toBottomOf="parent"
           app:singleSelection="false"
           app:chipSpacingHorizontal="6dp"
-          app:chipSpacingVertical="0dp"
+          app:chipSpacingVertical="-3dp"
+          android:clipChildren="false"
+          android:clipToPadding="false"
           />
-
-
-
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/catalogueSection"
+        >
+        <TextView
+            android:id="@+id/inThisInvoiceHeading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="IN THIS INVOICE"
+            android:textColor="#9CA3A0"
+            android:letterSpacing="0.08"
+            android:textSize="10sp"
+            android:fontFamily="@font/inter_semibold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/itemsInInvoiceRV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/inThisInvoiceHeading"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
 
