@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@drawable/bottom_sheet_bg"
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="28dp">
+
+    <!-- Drag handle -->
+    <View
+        android:layout_width="36dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="14dp"
+        android:background="@drawable/drag_handle_bg" />
+
+    <!-- Title row: text + close button -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="top"
+        android:layout_marginBottom="14dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Quick add item"
+                android:textSize="17sp"
+                android:fontFamily="@font/inter_bold"
+                android:textColor="#171817" />
+
+            <TextView
+                android:layout_width="286dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Save to your catalogue and added to this invoice"
+                android:textSize="12sp"
+                android:textColor="#5C625E" />
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/closeBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/bg_cross_button"
+            android:src="@drawable/ic_close"
+            android:scaleType="center"
+            android:contentDescription="Close" />
+
+    </LinearLayout>
+
+    <!-- Client name label + input -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="item Name"
+        android:fontFamily="@font/inter_medium"
+        android:textSize="11sp"
+        android:textColor="#5C625E"
+        android:layout_marginBottom="6dp" />
+
+    <EditText
+        android:id="@+id/itemNameInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_medium"
+        android:hint="e.g. Basmati Rice"
+        android:background="@drawable/bg_input_field"
+        android:padding="12dp"
+        android:textSize="14sp"
+        android:textColor="#171817"
+        android:layout_marginBottom="12dp" />
+
+    <TextView
+        android:id="@+id/priceHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Price"
+        android:fontFamily="@font/inter_medium"
+        android:textSize="11sp"
+        android:textColor="#5C625E"
+        android:layout_marginBottom="6dp" />
+     
+     <androidx.constraintlayout.widget.ConstraintLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginTop="6dp"
+         >
+         <EditText
+             android:id="@+id/priceInput"
+             android:layout_width="0dp"
+             android:layout_height="wrap_content"
+             android:background="@drawable/bg_input_field"
+             android:text="0"
+             android:inputType="numberDecimal"
+             android:textSize="17sp"
+             android:textColor="#171817"
+             android:fontFamily="@font/inter_semibold"
+             android:paddingStart="36dp"
+             android:paddingEnd="14dp"
+             android:paddingVertical="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+             app:layout_constraintEnd_toEndOf="parent"
+             app:layout_constraintTop_toTopOf="parent"
+              />
+
+         <TextView
+             android:id="@+id/dollarSign"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="$"
+             android:textSize="13sp"
+             android:textColor="#9CA3A0"
+             android:layout_marginStart="14dp"
+             android:fontFamily="@font/inter_medium"
+             app:layout_constraintStart_toStartOf="@id/priceInput"
+             app:layout_constraintTop_toTopOf="@id/priceInput"
+             app:layout_constraintBottom_toBottomOf="@id/priceInput" />
+
+
+         <TextView
+             android:id="@+id/unitHeading"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="14dp"
+             android:text="Unit"
+             android:textSize="11sp"
+             android:textColor="#5C625E"
+             android:letterSpacing="0.02"
+             android:fontFamily="@font/inter_medium"
+             app:layout_constraintTop_toBottomOf="@id/priceInput"
+             app:layout_constraintStart_toStartOf="parent" />
+
+         <com.google.android.material.chip.ChipGroup
+             android:id="@+id/unitChipGroup"
+             android:layout_width="0dp"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="6dp"
+             app:chipSpacingHorizontal="6dp"
+             app:chipSpacingVertical="6dp"
+             app:singleSelection="true"
+             app:selectionRequired="true"
+             app:layout_constraintTop_toBottomOf="@id/unitHeading"
+             app:layout_constraintStart_toStartOf="parent"
+             app:layout_constraintEnd_toEndOf="parent">
+
+             <com.google.android.material.chip.Chip
+                 style="@style/Widget.App.Chip"
+                 android:id="@+id/chipPiece"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="piece"
+                 android:checked="true" />
+
+             <com.google.android.material.chip.Chip
+                 style="@style/Widget.App.Chip"
+                 android:id="@+id/chipKg"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="kg" />
+
+             <com.google.android.material.chip.Chip
+                 style="@style/Widget.App.Chip"
+                 android:id="@+id/chipBag"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="bag" />
+
+             <com.google.android.material.chip.Chip
+                 style="@style/Widget.App.Chip"
+                 android:id="@+id/chipTin"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="tin" />
+
+             <com.google.android.material.chip.Chip
+                 style="@style/Widget.App.Chip"
+                 android:id="@+id/chipPack"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="pack" />
+
+             <com.google.android.material.chip.Chip
+                 style="@style/Widget.App.Chip"
+                 android:id="@+id/chipBox"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="box" />
+
+             <com.google.android.material.chip.Chip
+                 style="@style/Widget.App.Chip"
+                 android:id="@+id/chipFlat"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="flat" />
+
+             <com.google.android.material.chip.Chip
+                 style="@style/Widget.App.Chip"
+                 android:id="@+id/chipHour"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="hour" />
+
+         </com.google.android.material.chip.ChipGroup>
+     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <!-- Add client button -->
+    <Button
+        android:layout_marginTop="16dp"
+        android:id="@+id/additemBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add to invoice"
+        android:paddingHorizontal="14dp"
+        android:textAllCaps="false"
+        android:textSize="14sp"
+        android:fontFamily="@font/inter_semibold"
+        android:textColor="@color/bg_cream"
+        app:backgroundTint="@null"
+        android:background="@drawable/green_btn_bg"
+        android:backgroundTint="@color/btn_bg_dark"
+        />
+    <ProgressBar
+        android:id="@+id/editclientProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</LinearLayout>

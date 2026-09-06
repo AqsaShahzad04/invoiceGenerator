@@ -1,6 +1,5 @@
 package com.learner.invoicegenerator.ui
 
-import android.graphics.Typeface
 import android.os.Bundle
 import android.view.ContextThemeWrapper
 import android.view.Gravity
@@ -9,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.Lifecycle
-import androidx.appcompat.view.menu.MenuView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -17,11 +15,10 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.chip.Chip
 import com.learner.invoicegenerator.R
 import android.graphics.Color
-import androidx.compose.runtime.State
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.chip.ChipGroup
 import com.learner.invoicegenerator.data.local.SessionManager
 import com.learner.invoicegenerator.data.local.entity.InvoiceItemLine
 import com.learner.invoicegenerator.databinding.FragmentNewinvoiceSelectItemBinding
@@ -57,6 +54,9 @@ class NewInvoiceSelectItemsFragment: Fragment(R.layout.fragment_newinvoice_selec
             val currencyobj= CurrencyData.currencies.find{
                 it.code==currencyCode
             }
+        binding.continueBtn.setOnClickListener {
+            findNavController().navigate(R.id.action_select_items_fragment_to_add_details_fragment)
+        }
 
             val currency=currencyobj?.symbol
             viewLifecycleOwner.lifecycleScope.launch{
@@ -67,6 +67,26 @@ class NewInvoiceSelectItemsFragment: Fragment(R.layout.fragment_newinvoice_selec
                             ondecrement={id->invoiceViewModel.decrementQuantity(id)}
                         )
                         binding.itemsInInvoiceRV.adapter=adapter
+                        if(itemsList.isNotEmpty()){
+                            var subtotal=0
+                            itemsList.forEach { item->
+                                subtotal+= (item.unitPrice*item.itemQuantity).toInt()
+                            }
+                            binding.subtotalAmount.text=subtotal.toString()
+                            binding.subtotalSection.visibility=View.VISIBLE
+                            binding.continueBtn.isEnabled=true
+                            binding.continueBtn.backgroundTintList=
+                                context?.let { ContextCompat.getColorStateList(it,R.color.btn_bg_dark) }
+                            binding.continueBtn.setTextColor(Color.parseColor("#FFFFFF"))
+                        }
+                        else{
+                            binding.subtotalSection.visibility=View.GONE
+                            binding.subtotalSection.visibility=View.GONE
+                            binding.continueBtn.isEnabled=false
+                            binding.continueBtn.backgroundTintList=
+                                context?.let { ContextCompat.getColorStateList(it,R.color.greyish_white) }
+                            binding.continueBtn.setTextColor(Color.parseColor("#9CA3A0"))
+                        }
                     }
                 }
             }
@@ -93,6 +113,7 @@ class NewInvoiceSelectItemsFragment: Fragment(R.layout.fragment_newinvoice_selec
                                 itemUnit = item.unit
                             )
                         invoiceViewModel.addToSelectedItems(itemLine)
+
 
                         }
                         else{
@@ -145,7 +166,7 @@ class NewInvoiceSelectItemsFragment: Fragment(R.layout.fragment_newinvoice_selec
                     isFocusable = true
 
                     setOnClickListener {
-
+                        BottomSheetNewInvoiceAddItem().show(parentFragmentManager,"newInvoiceAddItems")
                     }
                 }
                 binding.catalogueChipGroup.addView(newItemChip)

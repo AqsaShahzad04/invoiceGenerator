@@ -20,6 +20,10 @@
         android:name="com.learner.invoicegenerator.ui.NewInvoiceAddDetailsFragment" />
     <fragment
         android:id="@+id/selectItemsFragment"
-        android:name="com.learner.invoicegenerator.ui.NewInvoiceSelectItemsFragment" />
+        android:name="com.learner.invoicegenerator.ui.NewInvoiceSelectItemsFragment" >
+        <action
+            android:id="@+id/action_select_items_fragment_to_add_details_fragment"
+            app:destination="@id/addDetailsFragment"/>
+    </fragment>
 
 </navigation>

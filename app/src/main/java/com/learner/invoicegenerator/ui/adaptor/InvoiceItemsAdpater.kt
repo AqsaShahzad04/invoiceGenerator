@@ -27,11 +27,11 @@ class InvoiceItemsAdpater(var itemsList:List<InvoiceItemLine>,
 
             var itemsData= itemsList[position]
             holder.itemName.setText(itemsData.itemName)
-            holder.itemPrice.text=(itemsData.unitPrice.toInt()*itemsData.itemQuantity).toString()
+            holder.itemPrice.text=(itemsData.unitPrice.toInt()*itemsData.itemQuantity).toInt().toString()
             holder.itemQuantity.text=itemsData.itemQuantity.toInt().toString()
             holder.itemDetail.setText(currencySymbol+itemsData.unitPrice.toInt().toString()+"."+itemsData.itemUnit)
-            holder.incBtn.setOnClickListener { onIncrement(itemsData.id) }
-            holder.decBtn.setOnClickListener { ondecrement(itemsData.id) }
+            holder.incBtn.setOnClickListener { onIncrement(itemsData.itemId) }
+            holder.decBtn.setOnClickListener { ondecrement(itemsData.itemId) }
     }
 
     override fun getItemCount(): Int {
