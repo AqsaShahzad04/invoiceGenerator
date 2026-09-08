@@ -17,7 +17,11 @@
 
     <fragment
         android:id="@+id/addDetailsFragment"
-        android:name="com.learner.invoicegenerator.ui.NewInvoiceAddDetailsFragment" />
+        android:name="com.learner.invoicegenerator.ui.NewInvoiceAddDetailsFragment" >
+        <action
+            android:id="@+id/action_add_details_fragment_to_review_fragment"
+            app:destination="@id/reviewInvoiceFragment"/>
+    </fragment>
     <fragment
         android:id="@+id/selectItemsFragment"
         android:name="com.learner.invoicegenerator.ui.NewInvoiceSelectItemsFragment" >

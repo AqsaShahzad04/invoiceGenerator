@@ -1,6 +1,7 @@
 package com.learner.invoicegenerator.ui
 
 import android.os.Bundle
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,6 +42,19 @@ class AddEditItemsFragment : Fragment(R.layout.fragment_add_edit_items) {
         viewModel.resetState()
         setupUI()
         observeState()
+        observeScannedItem()
+    }
+
+    fun observeScannedItem(){
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.scannedItemsDetail.collect { upcItem->
+                upcItem?.let{
+                    binding.itemNameInput.setText(upcItem.title)
+                    binding.priceInput.text = (upcItem.lowest_recorded_price?:"") as Editable?
+                    binding.barcodeinputField.setText(upcItem.ean)
+                }
+            }
+        }
     }
 
     private fun setupUI() {
@@ -58,6 +72,9 @@ class AddEditItemsFragment : Fragment(R.layout.fragment_add_edit_items) {
 
         binding.createItemBtn.setOnClickListener {
             saveItem()
+        }
+        binding.scanbtn.setOnClickListener {
+            BottomSheetScanBarcode().show(parentFragmentManager,"scanBarcode bottomFragment")
         }
     }
 

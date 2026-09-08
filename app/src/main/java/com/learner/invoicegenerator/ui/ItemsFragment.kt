@@ -73,7 +73,9 @@ class ItemsFragment : Fragment(R.layout.fragment_items) {
         }
         
         binding.scanbtn.setOnClickListener {
-            Toast.makeText(requireContext(), "Scanner coming soon", Toast.LENGTH_SHORT).show()
+            val action = ItemsFragmentDirections.actionItemsFragmentToAddEditItemsFragment(-1)
+            findNavController().navigate(action)
+            BottomSheetScanBarcode().show(parentFragmentManager,"scanBarcode bottomFragment")
         }
 
         binding.etSearch.addTextChangedListener(object : TextWatcher {

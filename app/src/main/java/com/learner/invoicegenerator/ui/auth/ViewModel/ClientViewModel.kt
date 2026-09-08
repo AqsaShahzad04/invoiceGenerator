@@ -1,5 +1,6 @@
 package com.learner.invoicegenerator.ui.clients.viewmodel
 
+import androidx.compose.ui.graphics.Path.Companion.combine
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,6 +12,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 
@@ -19,6 +21,14 @@ class ClientViewModel(
     private val sessionManager: SessionManager
 ) : ViewModel() {
 
+
+
+    private val searchQuery=MutableStateFlow("")
+
+
+    fun setSearchQuery(query:String){
+        searchQuery.value=query
+    }
     private val _addClientState = MutableLiveData<ClientState>(ClientState.Idle)
     val addClientState: LiveData<ClientState> get() = _addClientState
 
@@ -29,9 +39,20 @@ class ClientViewModel(
         _addClientState.value = ClientState.Idle
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val allClients: Flow<List<Client>> = sessionManager.activeWorkspaceId.flatMapLatest { id ->
-        repository.getAllClients(id)
+    fun resetselectedClients(){
+        _selectedClient.value=null
+    }
+
+
+
+    val allClients: Flow<List<Client>> = combine(sessionManager.activeWorkspaceId,searchQuery){id,query->
+        Pair(id,query)
+    }.flatMapLatest {(id,query)->
+        (if(query.isEmpty()){
+            repository.getAllClients(id)
+        } else{
+           repository.searchClients(id,query)
+        }) as Flow<List<Client>>
     }
     fun selectClient(newClient:Client){
         _selectedClient.value = newClient

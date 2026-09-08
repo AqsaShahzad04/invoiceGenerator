@@ -20,11 +20,9 @@ class ClientRepository(private val ClientDao: Clientdao) {
     suspend fun updateClient(client: Client) {
         ClientDao.updateClient(client)
     }
-    fun searchClientsByBusinessName(query: String): Flow<List<Client>> {
-        return ClientDao.searchClientsByBusinessName(query)
+    fun searchClients(workspaceId: Int,query: String): Flow<List<Client>> {
+        return ClientDao.searchClients(workspaceId,query)
     }
-    fun searchClientBYName(query: String): Flow<List<Client>> {
-        return ClientDao.searchClientBYName(query)
-    }
+
 }
 

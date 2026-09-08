@@ -188,9 +188,33 @@
         app:layout_constraintTop_toBottomOf="@id/indicatorsInvoiceSection"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="@id/indicatorsInvoiceSection"
-        app:layout_constraintBottom_toBottomOf="parent"
-
         />
+    <LinearLayout
+        android:id="@+id/invoice_action_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_action_button_invoice"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingTop="12dp"
+        android:paddingHorizontal="16dp"
+        android:paddingBottom="20dp">
+        <Button
+            android:foreground="@null"
+            android:id="@+id/continueBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_continue_btn"
+            app:backgroundTint="@null"
+            android:enabled="false"
+            android:text="Continue"
+            android:textColor="@color/grey"
+            android:textSize="14sp"
+            android:fontFamily="@font/inter_semibold"
+            />
+
+    </LinearLayout>
 
 
 

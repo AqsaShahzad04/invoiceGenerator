@@ -26,6 +26,9 @@ class InvoiceViewModel(private val repository: InvoiceRepository): ViewModel(){
     fun removeFromSelectedItems(id:Int){
         _selectedItems.value=_selectedItems.value.filter{it.itemId!=id}
     }
+    fun resetSelectedItems(){
+        _selectedItems.value=emptyList()
+    }
 
     fun incrementQuantity(id:Int){
         _selectedItems.value=_selectedItems.value.map{item->

@@ -25,12 +25,13 @@ interface Clientdao {
     @Update
     suspend fun updateClient(client: Client)
 
+    @Query("""
+    SELECT * FROM Clients 
+    WHERE workspaceId = :workspaceId 
+    AND (businessName LIKE  :query || '%' OR contactPerson LIKE  :query || '%')
+""") fun searchClients(workspaceId: Int,query: String): Flow<List<Client>>
 
-    @Query("SELECT * FROM Clients WHERE businessName LIKE '%' || :query || '%'")
-     fun searchClientsByBusinessName(query: String): Flow<List<Client>>
 
-    @Query("SELECT * FROM Clients WHERE contactPerson LIKE '%' || :query || '%'" )
-     fun searchClientBYName(query:String):Flow<List<Client>>
 
 }
 

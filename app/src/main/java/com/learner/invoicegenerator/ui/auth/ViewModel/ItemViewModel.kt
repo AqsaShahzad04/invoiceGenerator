@@ -3,12 +3,14 @@ package com.learner.invoicegenerator.ui.auth.ViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.learner.invoicegenerator.ApiCalling.upcItem
 import com.learner.invoicegenerator.data.local.SessionManager
 import com.learner.invoicegenerator.data.local.entity.Item
 import com.learner.invoicegenerator.data.repository.ItemRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
@@ -21,6 +23,16 @@ class ItemViewModel(
     private val _itemState = MutableLiveData<ItemState>(ItemState.Idle)
     val itemState: MutableLiveData<ItemState> get() = _itemState
 
+    private val _lastAddedItemId=MutableStateFlow<Int?>(null)
+    val lastAddedItemId: StateFlow<Int?> =_lastAddedItemId
+
+    private val _scannedItemsDetail=MutableStateFlow<upcItem?>(null)
+     val scannedItemsDetail: StateFlow<upcItem?> = _scannedItemsDetail
+
+
+    fun clearLastAddedItemId(){
+        _lastAddedItemId.value=null
+    }
     fun resetState() {
         _itemState.value = ItemState.Idle
     }
@@ -47,12 +59,20 @@ class ItemViewModel(
         viewModelScope.launch {
             _itemState.value = ItemState.Loading
             try {
-                repository.insertItem(item)
+                val generatedId=repository.insertItem(item)
+                _lastAddedItemId.value=generatedId.toInt()
                 _itemState.value = ItemState.Success
             } catch (e: Exception) {
                 e.printStackTrace()
                 _itemState.value = ItemState.Error(e.message ?: "Unknown error")
             }
+        }
+    }
+
+    fun fetchdetailsFromApi(code:String,workspaceId:Int){
+        viewModelScope.launch {
+            val item=repository.getItemsDetail(code,workspaceId)
+             _scannedItemsDetail.value=item
         }
     }
 

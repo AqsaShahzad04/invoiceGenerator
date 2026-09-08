@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface ItemDao {
     @Insert
-    suspend fun insertItem(item: Item)
+    suspend fun insertItem(item: Item):Long
 
     @Update
     suspend fun updateItem(item: Item)
@@ -26,6 +26,9 @@ interface ItemDao {
     @Query("SELECT * FROM Items WHERE id=:id")
     suspend fun getItemById(id:Int):Item?
 
-    @Query("SELECT * FROM Items WHERE itemName LIKE '%' || :query || '%' AND workspaceId=:workspaceId")
+    @Query("SELECT * FROM Items WHERE itemName LIKE  :query || '%' AND workspaceId=:workspaceId")
     fun searchItemsByName(query: String,workspaceId:Int): Flow<List<Item>>
+
+    @Query("SELECT * FROM Items WHERE barcode=:code AND workspaceId=:workspaceId")
+    suspend fun searchItemByBarcode(code:String,workspaceId: Int):Item?
 }

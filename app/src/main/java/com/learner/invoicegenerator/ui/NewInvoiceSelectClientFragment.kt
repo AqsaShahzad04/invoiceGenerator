@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.runtime.State
 import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -24,9 +26,6 @@ class NewInvoiceSelectClientFragment: Fragment(R.layout.fragment_newinvoice_sele
     private var _binding: FragmentNewinvoiceSelectClientBinding?=null
     val binding get()=_binding!!
     private var adapter: InvoiceSelectClientAdapter? = null
-
-
-
     private val viewModel: ClientViewModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,16 +46,23 @@ class NewInvoiceSelectClientFragment: Fragment(R.layout.fragment_newinvoice_sele
         fun selectClient(newClient: Client) {
             viewModel.selectClient(newClient)
         }
+        binding.searchField.addTextChangedListener{text->
+            viewModel.setSearchQuery(text.toString())
+        }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.allClients.collect { clientsList ->
-                adapter = InvoiceSelectClientAdapter(
-                    clientsList,
-                    ::selectClient,
-                    viewModel.selectedClient.value?.id
-                )
-                binding.clientInInvoiceRV.adapter = adapter
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.allClients.collect { clientsList ->
+                    adapter = InvoiceSelectClientAdapter(
+                        clientsList,
+                        ::selectClient,
+                        viewModel.selectedClient.value?.id
+                    )
+                    binding.clientInInvoiceRV.adapter = adapter
+                    binding.noResultsTextView.visibility= if(clientsList.isEmpty()) View.VISIBLE else View.GONE
+                }
             }
+
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -65,34 +71,8 @@ class NewInvoiceSelectClientFragment: Fragment(R.layout.fragment_newinvoice_sele
             }
         }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.selectedClient.collect { client ->
-                    binding.continueBtn.isEnabled = client != null
-                    if(binding.continueBtn.isEnabled){
-                        binding.continueBtn.background.setTint(
-                            ContextCompat.getColor(requireContext(), R.color.btn_bg_dark)
-                        )
-                        binding.continueBtn.setTextColor(
-                            ContextCompat.getColor(requireContext(),R.color.bg_cream)
-                        )
-                    }
-                    else{
-                        binding.continueBtn.background.setTint(
-                            ContextCompat.getColor(requireContext(), R.color.greyish_white)
-                        )
-                        binding.continueBtn.setTextColor(
-                            ContextCompat.getColor(requireContext(),R.color.grey)
-                        )
-                    }
 
 
-                }
-            }
-        }
-        binding.continueBtn.setOnClickListener {
-            findNavController().navigate(R.id.action_select_client_fragment_to_select_items_fragment)
-        }
 
 
         binding.newInvoiceAddClientBtn.setOnClickListener {

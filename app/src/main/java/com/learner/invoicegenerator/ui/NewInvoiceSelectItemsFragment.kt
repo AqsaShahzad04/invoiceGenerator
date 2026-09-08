@@ -8,11 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.Lifecycle
+import androidx.core.widget.addTextChangedListener
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.chip.Chip
+import androidx.camera.core.CameraX
 import com.learner.invoicegenerator.R
 import android.graphics.Color
 import androidx.core.content.res.ResourcesCompat
@@ -54,10 +56,11 @@ class NewInvoiceSelectItemsFragment: Fragment(R.layout.fragment_newinvoice_selec
             val currencyobj= CurrencyData.currencies.find{
                 it.code==currencyCode
             }
-        binding.continueBtn.setOnClickListener {
-            findNavController().navigate(R.id.action_select_items_fragment_to_add_details_fragment)
-        }
 
+
+        binding.searchField.addTextChangedListener{text->
+            itemViewModel.setSearchQuery(text.toString())
+        }
             val currency=currencyobj?.symbol
             viewLifecycleOwner.lifecycleScope.launch{
                 viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED){
@@ -74,37 +77,34 @@ class NewInvoiceSelectItemsFragment: Fragment(R.layout.fragment_newinvoice_selec
                             }
                             binding.subtotalAmount.text=subtotal.toString()
                             binding.subtotalSection.visibility=View.VISIBLE
-                            binding.continueBtn.isEnabled=true
-                            binding.continueBtn.backgroundTintList=
-                                context?.let { ContextCompat.getColorStateList(it,R.color.btn_bg_dark) }
-                            binding.continueBtn.setTextColor(Color.parseColor("#FFFFFF"))
+
                         }
                         else{
                             binding.subtotalSection.visibility=View.GONE
                             binding.subtotalSection.visibility=View.GONE
-                            binding.continueBtn.isEnabled=false
-                            binding.continueBtn.backgroundTintList=
-                                context?.let { ContextCompat.getColorStateList(it,R.color.greyish_white) }
-                            binding.continueBtn.setTextColor(Color.parseColor("#9CA3A0"))
+
                         }
                     }
                 }
             }
 
         viewLifecycleOwner.lifecycleScope.launch{
-            itemViewModel.allItems.collect {itemsList->
-                binding.catalogueChipGroup.removeAllViews()
-                val styledContext= ContextThemeWrapper(requireContext(),
-                    R.style.ThemeOverlay_Catalogue_Chip)
-                itemsList.forEach { item->
-                    val chip= Chip(styledContext)
-                    chip.text=item.itemName
-                    chip.isCheckable=true
-                    chip.tag=item.id
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED){
+                itemViewModel.allItems.collect {itemsList->
+                    binding.catalogueChipGroup.removeAllViews()
+                    val styledContext= ContextThemeWrapper(requireContext(),
+                        R.style.ThemeOverlay_Catalogue_Chip)
+                    itemsList.forEach { item->
+                        val chip= Chip(styledContext)
+                        chip.text=item.itemName
+                        chip.isCheckable=true
+                        chip.tag=item.id
 
-                    chip.setOnCheckedChangeListener { _, isChecked ->
-                        if(isChecked){
-                            val itemLine= InvoiceItemLine(
+                        val alreadySelected=invoiceViewModel.selectedItems.value.any{it.itemId==item.id}
+                        val isNewlyAdded=item.id==itemViewModel.lastAddedItemId.value
+
+                        if(isNewlyAdded && !alreadySelected){
+                            val itemLine = InvoiceItemLine(
                                 invoiceId = 0,
                                 itemId = item.id,
                                 itemName = item.itemName,
@@ -112,66 +112,84 @@ class NewInvoiceSelectItemsFragment: Fragment(R.layout.fragment_newinvoice_selec
                                 itemQuantity = 1.0,
                                 itemUnit = item.unit
                             )
-                        invoiceViewModel.addToSelectedItems(itemLine)
+                            invoiceViewModel.addToSelectedItems(itemLine)
+                        }
+                        chip.isChecked=alreadySelected||isNewlyAdded
 
 
+                        chip.setOnCheckedChangeListener { _, isChecked ->
+                            if(isChecked){
+                                val itemLine= InvoiceItemLine(
+                                    invoiceId = 0,
+                                    itemId = item.id,
+                                    itemName = item.itemName,
+                                    unitPrice = item.price,
+                                    itemQuantity = 1.0,
+                                    itemUnit = item.unit
+                                )
+                                invoiceViewModel.addToSelectedItems(itemLine)
+
+
+                            }
+                            else{
+                                invoiceViewModel.removeFromSelectedItems(item.id)
+                            }
                         }
-                        else{
-                            invoiceViewModel.removeFromSelectedItems(item.id)
-                        }
+
+                        binding.catalogueChipGroup.addView(chip)
                     }
+                    itemViewModel.clearLastAddedItemId()
+                    val newItemChip = TextView(styledContext).apply {
+                        text = "New Item"
+                        setTextColor(Color.parseColor("#0C861A"))
+                        textSize = 11f
+                        typeface = ResourcesCompat.getFont(context, R.font.inter_semibold)
 
-                    binding.catalogueChipGroup.addView(chip)
-                }
-                val newItemChip = TextView(styledContext).apply {
-                    text = "New Item"
-                    setTextColor(Color.parseColor("#0C861A"))
-                    textSize = 11f
-                    typeface = ResourcesCompat.getFont(context, R.font.inter_semibold)
-
-                    background = ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.bg_dashed_chip
-                    )
-
-                    val icon = ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.ic_plus
-                    )?.mutate()?.apply {
-                        setTint(Color.parseColor("#5C625E"))
-                        setBounds(
-                            0,
-                            0,
-                            11.dpToPx(context),
-                            11.dpToPx(context)
+                        background = ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.bg_dashed_chip
                         )
+
+                        val icon = ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.ic_plus
+                        )?.mutate()?.apply {
+                            setTint(Color.parseColor("#5C625E"))
+                            setBounds(
+                                0,
+                                0,
+                                11.dpToPx(context),
+                                11.dpToPx(context)
+                            )
+                        }
+
+                        setCompoundDrawablesRelative(icon, null, null, null)
+                        compoundDrawablePadding = 5.dpToPx(context)
+
+                        minHeight = 32.dpToPx(context)
+
+                        setPadding(
+                            11.dpToPx(context),
+                            0,
+                            7.dpToPx(context),
+                            0
+                        )
+
+                        gravity = Gravity.CENTER
+                        translationY = 6.dpToPx(context).toFloat()
+
+                        isClickable = true
+                        isFocusable = true
+
+                        setOnClickListener {
+                            BottomSheetNewInvoiceAddItem().show(parentFragmentManager,"newInvoiceAddItems")
+                        }
                     }
-
-                    setCompoundDrawablesRelative(icon, null, null, null)
-                    compoundDrawablePadding = 5.dpToPx(context)
-
-                    minHeight = 32.dpToPx(context)
-
-                    setPadding(
-                        11.dpToPx(context),
-                        0,
-                        7.dpToPx(context),
-                        0
-                    )
-
-                    gravity = Gravity.CENTER
-                    translationY = 6.dpToPx(context).toFloat()
-
-                    isClickable = true
-                    isFocusable = true
-
-                    setOnClickListener {
-                        BottomSheetNewInvoiceAddItem().show(parentFragmentManager,"newInvoiceAddItems")
-                    }
+                    binding.catalogueChipGroup.addView(newItemChip)
+                    binding.noResultsTextView.visibility=if(itemsList.isEmpty()) View.VISIBLE else View.GONE
                 }
-                binding.catalogueChipGroup.addView(newItemChip)
+            }
 
-                }
 
 
             }

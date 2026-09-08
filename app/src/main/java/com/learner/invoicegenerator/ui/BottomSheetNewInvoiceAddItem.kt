@@ -37,14 +37,32 @@ class BottomSheetNewInvoiceAddItem: BottomSheetDialogFragment() {
         }
         val sessionManager = SessionManager.getInstance(requireContext())
         val workspaceId = sessionManager.getActiveWorkspaceId()
+
+        itemViewModel.itemState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is ItemState.Success->{
+                    itemViewModel.resetState()
+                    dismiss()
+                }
+                is ItemState.Error->{
+                    itemViewModel.resetState()
+                    binding.itemNameInput.error = state.message
+                }
+                else->Unit
+            }
+        }
         binding.additemBtn.setOnClickListener {
-            val itemName = binding.itemNameInput.toString().trim()
-            val price = binding.priceInput.toString().toDouble()
+            val itemName = binding.itemNameInput.text.toString().trim()
+            val price = binding.priceInput.text.toString().toDouble()
             val selectedChipId = binding.unitChipGroup.checkedChipId
             val selectedChip = binding.unitChipGroup.findViewById<Chip>(selectedChipId)
             val selectedUnit = selectedChip.text.toString()
             if (itemName.isNullOrEmpty()) {
                 binding.itemNameInput.error = "item name is required"
+                return@setOnClickListener
+            }
+            if (selectedChip == null) {
+                // show a unit-required error here
                 return@setOnClickListener
             }
             val item = Item(
@@ -57,13 +75,7 @@ class BottomSheetNewInvoiceAddItem: BottomSheetDialogFragment() {
             )
             itemViewModel.addItems(item)
 
-            itemViewModel.itemState.observe(viewLifecycleOwner) { state ->
-                when (state) {
-                   is ItemState.Success->{
 
-                   }
-                }
-            }
         }
     }
 }

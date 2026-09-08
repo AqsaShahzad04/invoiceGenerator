@@ -47,8 +47,7 @@
         android:textColor="#171817"
         android:fontFamily="@font/inter_semibold"
         android:letterSpacing="0"
-        android:paddingHorizontal="14dp"
-        android:paddingVertical="9dp"
+        android:paddingHorizontal="24dp"
         android:insetTop="0dp"
         android:insetBottom="0dp"
         app:icon="@drawable/ic_scan"
@@ -70,7 +69,7 @@
         app:layout_constraintTop_toBottomOf="@id/scanBarcodeBtn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/invoice_action_button">
+       >
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -152,6 +151,23 @@
                     android:clipChildren="false"
                     android:clipToPadding="false"
                     />
+                <TextView
+                    android:id="@+id/noResultsTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="16dp"
+                    android:gravity="end"
+                    android:visibility="gone"
+                    android:textSize="12sp"
+                    android:textColor="#5C625E"
+                    android:fontFamily="@font/inter_medium"
+                    android:text="No items match your search"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/searchCatalogueSection"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -229,32 +245,7 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <LinearLayout
-        android:id="@+id/invoice_action_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_action_button_invoice"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:paddingTop="12dp"
-        android:paddingHorizontal="16dp"
-        android:paddingBottom="20dp">
-        <Button
-            android:foreground="@null"
-            android:id="@+id/continueBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_continue_btn"
-            app:backgroundTint="@null"
-            android:enabled="false"
-            android:text="Continue"
-            android:textColor="@color/grey"
-            android:textSize="14sp"
-            android:fontFamily="@font/inter_semibold"
-            />
 
-    </LinearLayout>
 
 
 
