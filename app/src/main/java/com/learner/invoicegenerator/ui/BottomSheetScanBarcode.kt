@@ -4,9 +4,11 @@ import android.animation.ObjectAnimator
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.Manifest
+import com.learner.invoicegenerator.R
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.OptIn
@@ -18,7 +20,6 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.common.InputImage
@@ -157,12 +158,18 @@ class BottomSheetScanBarcode: BottomSheetDialogFragment() {
                         }
                         else{
                             binding.BarcodeErrorText.setText("Not in catalogue. $code")
-                          binding.warningBox.visibility=View.VISIBLE
+                            binding.warningBox.visibility=View.VISIBLE
                             binding.closeWarningBtn.setOnClickListener {
                                 binding.warningBox.visibility=View.GONE
                             }
                             binding.addProductBtn.setOnClickListener {
-                                findNavController().navigate()
+                                val bundle=Bundle().apply{
+                                    putString("code",code)
+                                }
+                                requireActivity().findNavController(R.id.nav_host)
+                                    .navigate(R.id.addEditItemsFragment, bundle)
+                                dismiss()
+
                             }
 
                         }
@@ -172,18 +179,21 @@ class BottomSheetScanBarcode: BottomSheetDialogFragment() {
             }
 
         }
+        else{
+            binding.useCodeBtn.setOnClickListener {
+                val code=binding.barcodeNumInput.text.toString()
+                if(code==null){
+                    binding.barcodeNumInput.error="scan the barcode or enter the code mmanually here"
+                }
+                else{
+                    itemViewModel.fetchdetailsFromApi(code,workspaceId)
+                    dismiss()
+                }
 
-        binding.useCodeBtn.setOnClickListener {
-            val code=binding.barcodeNumInput.text.toString()
-            if(code==null){
-                binding.barcodeNumInput.error="scan the barcode or enter the code mmanually here"
             }
-            else{
-                itemViewModel.fetchdetailsFromApi(code,workspaceId)
-                dismiss()
-            }
-
         }
+
+
 
 
 

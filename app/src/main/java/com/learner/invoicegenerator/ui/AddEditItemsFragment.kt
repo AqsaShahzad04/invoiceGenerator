@@ -43,6 +43,8 @@ class AddEditItemsFragment : Fragment(R.layout.fragment_add_edit_items) {
         setupUI()
         observeState()
         observeScannedItem()
+
+
     }
 
     fun observeScannedItem(){
@@ -67,6 +69,11 @@ class AddEditItemsFragment : Fragment(R.layout.fragment_add_edit_items) {
 
     private fun setupUI() {
         val itemId = args.itemId
+        val code=args.code
+
+        code?.let{
+            binding.barcodeinputField.setText(code)
+        }
 
         if (itemId != -1) {
             binding.ItemsHeading.text = "Edit item"

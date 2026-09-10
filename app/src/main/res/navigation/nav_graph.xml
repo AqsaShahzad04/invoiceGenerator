@@ -196,6 +196,11 @@
             android:name="itemId"
             android:defaultValue="-1"
             app:argType="integer" />
+        <argument
+            android:name="code"
+            android:defaultValue="@null"
+            app:argType="String"
+            app:nullable="true"/>
     </fragment>
 
     <fragment
