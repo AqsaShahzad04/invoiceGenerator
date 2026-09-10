@@ -47,11 +47,19 @@ class AddEditItemsFragment : Fragment(R.layout.fragment_add_edit_items) {
 
     fun observeScannedItem(){
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.scannedItemsDetail.collect { upcItem->
-                upcItem?.let{
-                    binding.itemNameInput.setText(upcItem.title)
-                    binding.priceInput.text = (upcItem.lowest_recorded_price?:"") as Editable?
-                    binding.barcodeinputField.setText(upcItem.ean)
+            viewModel.scannedLookUpState.collect { state->
+                when(state){
+                    is ItemViewModel.ScannedLookUpState.Found -> {
+                        binding.itemNameInput.setText(state.item.title)
+                        binding.priceInput.setText(state.item.lowest_recorded_price?.toString() ?: "")
+                        binding.barcodeinputField.setText(state.item.ean)
+                        viewModel.resetLookUpState()   // consume kar liya, wapas Idle
+                    }
+                    is ItemViewModel.ScannedLookUpState.NotFound -> {
+                        Toast.makeText(requireContext(), "Product not found. Please enter details manually.", Toast.LENGTH_SHORT).show()
+                        viewModel.resetLookUpState()
+                    }
+                    ItemViewModel.ScannedLookUpState.Idle -> {  }
                 }
             }
         }

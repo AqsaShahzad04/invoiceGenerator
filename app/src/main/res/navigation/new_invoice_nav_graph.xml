@@ -29,5 +29,9 @@
             android:id="@+id/action_select_items_fragment_to_add_details_fragment"
             app:destination="@id/addDetailsFragment"/>
     </fragment>
+    <dialog
+        android:id="@+id/bottomSheetScanBarcode"
+        android:name="com.learner.invoicegenerator.ui.BottomSheetScanBarcode"
+        android:label="BottomSheetScanBarcode" />
 
 </navigation>

@@ -17,7 +17,9 @@ import com.google.android.material.chip.Chip
 import androidx.camera.core.CameraX
 import com.learner.invoicegenerator.R
 import android.graphics.Color
+import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.os.bundleOf
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -46,6 +48,23 @@ class NewInvoiceSelectItemsFragment: Fragment(R.layout.fragment_newinvoice_selec
         _binding= FragmentNewinvoiceSelectItemBinding.inflate(inflater,container,false)
         return binding.root
     }
+    fun observeScannedItem(){
+        viewLifecycleOwner.lifecycleScope.launch {
+            itemViewModel.scannedLookUpState.collect { state->
+                when(state){
+                    is ItemViewModel.ScannedLookUpState.Found -> {
+
+                        itemViewModel.resetLookUpState()   // consume kar liya, wapas Idle
+                    }
+                    is ItemViewModel.ScannedLookUpState.NotFound -> {
+                        Toast.makeText(requireContext(), "Product not found. Please enter details manually.", Toast.LENGTH_SHORT).show()
+                        itemViewModel.resetLookUpState()
+                    }
+                    ItemViewModel.ScannedLookUpState.Idle -> {  }
+                }
+            }
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -56,7 +75,13 @@ class NewInvoiceSelectItemsFragment: Fragment(R.layout.fragment_newinvoice_selec
             val currencyobj= CurrencyData.currencies.find{
                 it.code==currencyCode
             }
-
+         binding.scanBarcodeBtn.setOnClickListener {
+             val barcodeSheet= BottomSheetScanBarcode()
+             barcodeSheet.arguments= Bundle().apply{
+                 putString("mode","invoice")
+             }
+             barcodeSheet.show(parentFragmentManager,"barcode sheet")
+         }
 
         binding.searchField.addTextChangedListener{text->
             itemViewModel.setSearchQuery(text.toString())

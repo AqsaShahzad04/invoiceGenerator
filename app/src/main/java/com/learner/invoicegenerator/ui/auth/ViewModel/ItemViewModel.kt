@@ -26,8 +26,15 @@ class ItemViewModel(
     private val _lastAddedItemId=MutableStateFlow<Int?>(null)
     val lastAddedItemId: StateFlow<Int?> =_lastAddedItemId
 
-    private val _scannedItemsDetail=MutableStateFlow<upcItem?>(null)
-     val scannedItemsDetail: StateFlow<upcItem?> = _scannedItemsDetail
+    sealed class ScannedLookUpState{
+        object Idle: ScannedLookUpState()
+        data class Found(var item:upcItem): ScannedLookUpState()
+        object NotFound: ScannedLookUpState()
+    }
+
+    private val _scannedLookUpState=MutableStateFlow<ScannedLookUpState>(ScannedLookUpState.Idle)
+    val scannedLookUpState: StateFlow<ScannedLookUpState> =_scannedLookUpState
+
 
 
     fun clearLastAddedItemId(){
@@ -69,13 +76,25 @@ class ItemViewModel(
         }
     }
 
+    suspend fun searchItemBycode(code:String,workspaceId:Int):Item?{
+        return repository.searchItemlocallyByBarcode(code, workspaceId)
+    }
+
     fun fetchdetailsFromApi(code:String,workspaceId:Int){
         viewModelScope.launch {
             val item=repository.getItemsDetail(code,workspaceId)
-             _scannedItemsDetail.value=item
+            _scannedLookUpState.value=if(item!=null) {
+                ScannedLookUpState.Found(item)
+            }
+            else{
+                ScannedLookUpState.NotFound
+            }
         }
     }
 
+    fun resetLookUpState(){
+        _scannedLookUpState.value= ScannedLookUpState.Idle
+    }
     fun updateItem(item: Item) {
         viewModelScope.launch {
             _itemState.value = ItemState.Loading

@@ -17,7 +17,11 @@ class ItemRepository(private val itemDao: ItemDao) {
     suspend fun getItemById(id: Int): Item? = itemDao.getItemById(id)
     fun searchItems(query: String, workspaceId: Int): Flow<List<Item>> = itemDao.searchItemsByName(query, workspaceId)
 
-    suspend fun getItemsDetail(code:String,workspaceId: Int): upcItem {
+
+    suspend fun searchItemlocallyByBarcode(code:String,workspaceId: Int):Item?{
+        return itemDao.searchItemByBarcode(code,workspaceId)
+    }
+    suspend fun getItemsDetail(code:String,workspaceId: Int): upcItem? {
         val localItem= itemDao.searchItemByBarcode(code,workspaceId)
         if(localItem!=null){
             return upcItem(
@@ -33,7 +37,7 @@ class ItemRepository(private val itemDao: ItemDao) {
                     itemDetails.items.firstOrNull()
                 } catch (e: Exception){
                     null
-                } as upcItem
+                }
                 )
 
     }

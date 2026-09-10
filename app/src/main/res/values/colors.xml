@@ -21,7 +21,7 @@
     <color name="greyish_white">#F4F2EE</color>
     <color name="grey">#9CA3A0</color>
     <color name="green_light_start_color">#800C861A</color>
-
+    <color name="error_red_colour">#66D9534F</color>
 
 
 </resources>

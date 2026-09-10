@@ -23,6 +23,9 @@ class InvoiceViewModel(private val repository: InvoiceRepository): ViewModel(){
     fun addToSelectedItems(item:InvoiceItemLine){
         _selectedItems.value = _selectedItems.value + item
     }
+    fun updateSelectedItems(items: MutableList<InvoiceItemLine>){
+        _selectedItems.value=items
+    }
     fun removeFromSelectedItems(id:Int){
         _selectedItems.value=_selectedItems.value.filter{it.itemId!=id}
     }
