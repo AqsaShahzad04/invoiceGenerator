@@ -151,7 +151,7 @@ android:background="@color/bg_cream">
                 />
 
             <LinearLayout
-                android:id="@+id/invoivingSection"
+                android:id="@+id/invoicePrefixSection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -169,7 +169,7 @@ android:background="@color/bg_cream">
                         style="@style/settings_row_title_styles"/>
                 </LinearLayout>
                 <TextView
-                    android:id="@+id/invoiceDate"
+                    android:id="@+id/selectedInvoicePrefix"
                     android:text="INV-2026-"
                     style="@style/settings_row_rightSideText_style"/>
                 <ImageView

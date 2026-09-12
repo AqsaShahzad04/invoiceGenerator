@@ -36,6 +36,9 @@ class BottomSheetNewInvoiceAddNewClient: BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         val sessionManager= SessionManager.getInstance(requireContext())
         val activeWorkspaceId=sessionManager.getActiveWorkspaceId()
+        binding.closeBtn.setOnClickListener {
+            dismiss()
+        }
         binding.addClientBtn.setOnClickListener {
             val businessName=binding.businessNameInput.text.toString().trim()
             val clientName=binding.clientNameInput.text.toString().trim()

@@ -50,14 +50,17 @@ class AddEditWorkspaceFragment : Fragment(R.layout.fragment_add_edit_workspace) 
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val sessionManager = SessionManager.getInstance(requireContext())
+        val userId = sessionManager.getUserId()
         viewModel.resetState()
-        setupUI()
-        observeState()
+        setupUI(userId)
+        observeState(sessionManager)
     }
 
-    private fun setupUI() {
+    private fun setupUI(userId:Int) {
         val workspaceId = args.workspaceId
 
         if (workspaceId != -1) {
@@ -72,7 +75,7 @@ class AddEditWorkspaceFragment : Fragment(R.layout.fragment_add_edit_workspace) 
         }
 
         binding.createBtn.setOnClickListener {
-            saveWorkspace()
+            saveWorkspace(userId)
         }
 
         binding.logoSection.setOnClickListener {
@@ -148,7 +151,7 @@ class AddEditWorkspaceFragment : Fragment(R.layout.fragment_add_edit_workspace) 
         }
     }
 
-    private fun saveWorkspace() {
+    private fun saveWorkspace(userId:Int) {
         val name = binding.workspaceNameInput.text.toString().trim()
         val email = binding.emailInput.text.toString().trim()
         val phone = binding.phoneInput.text.toString().trim()
@@ -160,8 +163,7 @@ class AddEditWorkspaceFragment : Fragment(R.layout.fragment_add_edit_workspace) 
             return
         }
 
-        val sessionManager = SessionManager.getInstance(requireContext())
-        val userId = sessionManager.getUserId()
+
 
         val workspace = Workspace(
             id = if (args.workspaceId == -1) 0 else args.workspaceId,
@@ -182,7 +184,7 @@ class AddEditWorkspaceFragment : Fragment(R.layout.fragment_add_edit_workspace) 
         }
     }
 
-    private fun observeState() {
+    private fun observeState(sessionManager: SessionManager) {
         viewModel.workspaceState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is WorkspaceState.Loading -> {
@@ -190,6 +192,7 @@ class AddEditWorkspaceFragment : Fragment(R.layout.fragment_add_edit_workspace) 
                 }
                 is WorkspaceState.Success -> {
                     binding.createBtn.isEnabled = true
+                    sessionManager.setActiveWorkspace(state.id)
                     findNavController().popBackStack()
                 }
                 is WorkspaceState.Error -> {

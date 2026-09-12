@@ -199,7 +199,7 @@
         <argument
             android:name="code"
             android:defaultValue="@null"
-            app:argType="String"
+            app:argType="string"
             app:nullable="true"/>
     </fragment>
 

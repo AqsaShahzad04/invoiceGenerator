@@ -16,11 +16,14 @@ import com.learner.invoicegenerator.data.repository.ClientRepository
 import com.learner.invoicegenerator.data.repository.InvoiceRepository
 import com.learner.invoicegenerator.data.repository.ItemRepository
 import com.learner.invoicegenerator.data.repository.WorkspaceRepository
+import com.learner.invoicegenerator.data.repository.WorkspaceSettingsRepository
 import com.learner.invoicegenerator.databinding.ActivityMainBinding
 import com.learner.invoicegenerator.ui.auth.ViewModel.InvoiceViewModel
 import com.learner.invoicegenerator.ui.auth.ViewModel.InvoiceViewModelFactory
 import com.learner.invoicegenerator.ui.auth.ViewModel.ItemViewModel
 import com.learner.invoicegenerator.ui.auth.ViewModel.ItemViewModelFactory
+import com.learner.invoicegenerator.ui.auth.ViewModel.WorkspaceSettingsViewModel
+import com.learner.invoicegenerator.ui.auth.ViewModel.WorkspaceSettingsViewModelFactory
 import com.learner.invoicegenerator.ui.auth.ViewModel.WorkspaceViewModel
 import com.learner.invoicegenerator.ui.auth.ViewModel.WorkspaceViewModelFactory
 import com.learner.invoicegenerator.ui.clients.viewmodel.ClientViewModel
@@ -40,6 +43,10 @@ class MainActivity : AppCompatActivity() {
         ClientRepository(database.clientDao())
     }
 
+    private val workspaceSettingsRepository by lazy{
+        WorkspaceSettingsRepository(database.workspaceSettingsDao())
+    }
+
     private val invoiceRepository by lazy{
         InvoiceRepository(database.invoiceDao(),database.invoiceItemLineDao())
     }
@@ -52,6 +59,9 @@ class MainActivity : AppCompatActivity() {
         WorkspaceRepository(database.workspaceDao())
     }
 
+    private val workspaceSettingsViewModel: WorkspaceSettingsViewModel by viewModels {
+        WorkspaceSettingsViewModelFactory(workspaceSettingsRepository)
+    }
     private val clientViewModel: ClientViewModel by viewModels {
         ClientViewModelFactory(
             clientRepository,

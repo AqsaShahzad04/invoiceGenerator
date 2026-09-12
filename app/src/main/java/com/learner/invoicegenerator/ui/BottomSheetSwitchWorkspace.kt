@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.learner.invoicegenerator.R
 import com.learner.invoicegenerator.data.local.SessionManager
+import com.learner.invoicegenerator.data.local.entity.Workspace
 import com.learner.invoicegenerator.databinding.BottomSheetSwitchWorkspaceBinding
 import com.learner.invoicegenerator.ui.auth.ViewModel.WorkspaceViewModel
 import com.learner.invoicegenerator.ui.items.WorkspaceAdapter
@@ -43,13 +44,13 @@ class BottomSheetSwitchWorkspace : BottomSheetDialogFragment() {
         return binding.root
     }
 
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val sessionManager = SessionManager.getInstance(requireContext())
         val activeId = sessionManager.getActiveWorkspaceId()
-        val userId = sessionManager.getUserId()
-
         viewLifecycleOwner.lifecycleScope.launch{
             val workspace=viewModel.getWorkspaceById(activeId)
 

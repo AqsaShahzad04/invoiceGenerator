@@ -45,23 +45,6 @@ class BottomSheetSetupWorkspace : BottomSheetDialogFragment() {
 
         binding.closeBtn.setOnClickListener { dismiss() }
 
-        binding.saveBtn.setOnClickListener {
-            val name = binding.workspaceNameInput.text.toString().trim()
-            if (name.isEmpty()) {
-                binding.workspaceNameInput.error = "Workspace name is required"
-                return@setOnClickListener
-            }
-
-            val userId = sessionManager.getUserId()
-            val workspace = Workspace(
-                name = name,
-                ownerUserId = userId,
-                isDefault = true
-            )
-            viewModel.addWorkspace(workspace)
-
-        }
-
         viewModel.workspaceState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is WorkspaceState.Loading -> {
@@ -79,6 +62,25 @@ class BottomSheetSetupWorkspace : BottomSheetDialogFragment() {
                 else -> {}
             }
         }
+
+        binding.saveBtn.setOnClickListener {
+            val name = binding.workspaceNameInput.text.toString().trim()
+            if (name.isEmpty()) {
+                binding.workspaceNameInput.error = "Workspace name is required"
+                return@setOnClickListener
+            }
+
+            val userId = sessionManager.getUserId()
+            val workspace = Workspace(
+                name = name,
+                ownerUserId = userId,
+                isDefault = true
+            )
+            viewModel.addWorkspace(workspace)
+
+        }
+
+
     }
 
     override fun onDestroyView() {

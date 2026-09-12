@@ -43,6 +43,7 @@ class NewInvoiceSelectClientFragment: Fragment(R.layout.fragment_newinvoice_sele
 
         binding.clientInInvoiceRV.layoutManager = LinearLayoutManager(context)
 
+
         fun selectClient(newClient: Client) {
             viewModel.selectClient(newClient)
         }

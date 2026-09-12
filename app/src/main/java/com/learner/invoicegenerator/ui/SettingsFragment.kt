@@ -23,6 +23,8 @@ import java.util.zip.Inflater
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.learner.invoicegenerator.data.local.entity.WorkspaceSettings
+import com.learner.invoicegenerator.ui.auth.ViewModel.WorkspaceSettingsViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -31,7 +33,7 @@ class SettingsFragment: Fragment(R.layout.fragment_settings)  {
     val binding get()=_binding!!
 
     val workspaceViewModel: WorkspaceViewModel by activityViewModels()
-
+    val settingsViewModel: WorkspaceSettingsViewModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -46,6 +48,7 @@ class SettingsFragment: Fragment(R.layout.fragment_settings)  {
         val sessionManager= SessionManager.getInstance(requireContext())
         val activeWorkspaceId=sessionManager.getActiveWorkspaceId()
         val userId=sessionManager.getUserId()
+         var currentSettings: WorkspaceSettings?=null
 
         viewLifecycleOwner.lifecycleScope.launch{
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
@@ -59,8 +62,20 @@ class SettingsFragment: Fragment(R.layout.fragment_settings)  {
             }
         }
 
+        viewLifecycleOwner.lifecycleScope.launch{
+            settingsViewModel.getSettingsByWorkspaceId(activeWorkspaceId).collect { settings->
+                currentSettings=settings?:null
+                binding.selectedInvoicePrefix.setText(currentSettings?.invoicePrefix?:"INV-2026-")
+
+
+            }
+        }
+
         binding.currencySection.setOnClickListener {
             BottomSheetCurrencyPicker().show(parentFragmentManager,"currencyPickerBottomSheet")
+        }
+        binding.invoicePrefixSection.setOnClickListener {
+            BottomSheetSelectInvoicePrefix(currentSettings?.invoicePrefix?:"INV-2026-").show(childFragmentManager,"invoicePrefixSElectionBottomSheet")
         }
 
         viewLifecycleOwner.lifecycleScope.launch{
