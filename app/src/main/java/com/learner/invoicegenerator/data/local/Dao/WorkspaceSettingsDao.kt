@@ -1,4 +1,4 @@
-package com.learner.invoicegenerator.data.local.dao
+package com.learner.invoicegenerator.data.local.Dao
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -20,7 +20,7 @@ interface WorkspaceSettingsDao {
     // ---------- Insert ----------
 
     @Insert
-    suspend fun insertDefaultSettings(settings: WorkspaceSettings)
+    suspend fun insertDefaultSettings(settings: WorkspaceSettings):Long
 
     // ---------- Update: Invoicing ----------
 

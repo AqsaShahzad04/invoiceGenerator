@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="514dp"
-    android:maxHeight="514dp"
+    android:layout_height="600dp"
+    android:maxHeight="600dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/bg_currency_picker_sheet"
     android:paddingHorizontal="20dp"

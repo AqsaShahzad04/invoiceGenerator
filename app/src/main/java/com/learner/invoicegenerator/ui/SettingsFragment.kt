@@ -23,6 +23,8 @@ import java.util.zip.Inflater
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.learner.invoicegenerator.data.local.entity.NumberingReset
+import com.learner.invoicegenerator.data.local.entity.PaymentDueDateOffset
 import com.learner.invoicegenerator.data.local.entity.WorkspaceSettings
 import com.learner.invoicegenerator.ui.auth.ViewModel.WorkspaceSettingsViewModel
 import kotlinx.coroutines.flow.collect
@@ -50,6 +52,10 @@ class SettingsFragment: Fragment(R.layout.fragment_settings)  {
         val userId=sessionManager.getUserId()
          var currentSettings: WorkspaceSettings?=null
 
+        binding.defaultTaxToggleBtn.isClickable=false
+        binding.discountLineTogglebtn.isClickable=false
+        binding.signatureTogglebtn.isClickable=false
+
         viewLifecycleOwner.lifecycleScope.launch{
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 sessionManager.currencyCode.collect(){currencyCode->
@@ -64,8 +70,22 @@ class SettingsFragment: Fragment(R.layout.fragment_settings)  {
 
         viewLifecycleOwner.lifecycleScope.launch{
             settingsViewModel.getSettingsByWorkspaceId(activeWorkspaceId).collect { settings->
-                currentSettings=settings?:null
-                binding.selectedInvoicePrefix.setText(currentSettings?.invoicePrefix?:"INV-2026-")
+                binding.selectedInvoicePrefix.text = settings?.invoicePrefix
+                binding.numResettime.text = settings?.numberingReset.toString()
+                binding.paymentNetRate.text=settings?.paymentDueDateOffset.toString()
+                binding.taxPercentage.text=settings?.taxRate.toString()
+                binding.defaultTaxToggleBtn.isChecked=settings?.defaultTax?:false
+                if(settings?.defaultTax==false){
+                    binding.defaultTaxSubtitle.text="No tax on new invoice"
+                }
+                else{
+                    val taxRate=settings?.taxRate.toString()
+                    binding.defaultTaxSubtitle.text="Applied at $taxRate%"
+                }
+                binding.discountLineTogglebtn.isChecked=settings?.discountLine?:false
+                binding.signatureTogglebtn.isChecked=settings?.signatureBlock?:false
+
+                currentSettings=settings
 
 
             }
@@ -77,6 +97,36 @@ class SettingsFragment: Fragment(R.layout.fragment_settings)  {
         binding.invoicePrefixSection.setOnClickListener {
             BottomSheetSelectInvoicePrefix(currentSettings?.invoicePrefix?:"INV-2026-").show(childFragmentManager,"invoicePrefixSElectionBottomSheet")
         }
+        binding.numberingResetSection.setOnClickListener {
+            BottomSheetNumberingReset(currentSettings?.numberingReset?: NumberingReset.YEARLY).show(childFragmentManager,"numberingResetBottomSheet")
+        }
+        binding.paymentTermsSection.setOnClickListener {
+            BottomSheetPaymentTerms(currentSettings?.paymentDueDateOffset?: PaymentDueDateOffset.NET14).show(childFragmentManager,"paymentOffsetDueDateBottomSheet")
+        }
+
+        binding.defaultTaxSection.setOnClickListener {
+            val taxEnabled: Boolean = currentSettings?.defaultTax?.not()?:false
+            viewLifecycleOwner.lifecycleScope.launch{
+                settingsViewModel.updateDefaultTax(activeWorkspaceId,taxEnabled)
+            }
+        }
+        binding.discountLineSection.setOnClickListener {
+            val discountEnabled=currentSettings?.discountLine?.not()?:false
+            viewLifecycleOwner.lifecycleScope.launch{
+                settingsViewModel.updateDiscountLine(activeWorkspaceId,discountEnabled)
+            }
+
+        }
+        binding.signSection.setOnClickListener {
+            val signEnabled=currentSettings?.signatureBlock?.not()?:false
+            viewLifecycleOwner.lifecycleScope.launch{
+                settingsViewModel.updateDiscountLine(activeWorkspaceId,signEnabled)
+            }
+
+        }
+
+
+
 
         viewLifecycleOwner.lifecycleScope.launch{
             val workspace=workspaceViewModel.getWorkspaceById(activeWorkspaceId)

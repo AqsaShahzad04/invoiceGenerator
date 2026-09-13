@@ -1,6 +1,6 @@
 package com.learner.invoicegenerator.data.repository
 
-import com.learner.invoicegenerator.data.local.dao.WorkspaceSettingsDao
+import com.learner.invoicegenerator.data.local.Dao.WorkspaceSettingsDao
 import com.learner.invoicegenerator.data.local.entity.WorkspaceSettings
 import com.learner.invoicegenerator.data.local.entity.NumberingReset
 import com.learner.invoicegenerator.data.local.entity.PaymentDueDateOffset
@@ -18,8 +18,10 @@ class WorkspaceSettingsRepository(
 
     // ---------- Insert ----------
 
-    suspend fun insertDefaultSettings(settings: WorkspaceSettings) =
-        dao.insertDefaultSettings(settings)
+    suspend fun insertDefaultSettings(workspaceId:Int):Long {
+        val settings= WorkspaceSettings(workspaceId = workspaceId)
+        return dao.insertDefaultSettings(settings)
+    }
 
     // ---------- Update: Invoicing ----------
 

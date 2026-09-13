@@ -4,5 +4,5 @@ sealed class WorkspaceSettingsState {
     object Idle: WorkspaceSettingsState()
     object Success: WorkspaceSettingsState()
     object Loading: WorkspaceSettingsState()
-    class Error(message:String): WorkspaceSettingsState()
+    class Error(val message: String): WorkspaceSettingsState()
 }

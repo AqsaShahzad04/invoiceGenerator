@@ -11,7 +11,7 @@ import com.learner.invoicegenerator.data.local.Dao.InvoiceItemLineDao
 import com.learner.invoicegenerator.data.local.Dao.Userdao
 import com.learner.invoicegenerator.data.local.Dao.ItemDao
 import com.learner.invoicegenerator.data.local.Dao.WorkspaceDao
-import com.learner.invoicegenerator.data.local.dao.WorkspaceSettingsDao
+import com.learner.invoicegenerator.data.local.Dao.WorkspaceSettingsDao
 import com.learner.invoicegenerator.data.local.entity.User
 import com.learner.invoicegenerator.data.local.entity.Workspace
 import com.learner.invoicegenerator.data.local.entity.Client

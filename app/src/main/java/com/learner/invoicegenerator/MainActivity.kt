@@ -82,7 +82,8 @@ class MainActivity : AppCompatActivity() {
     private val workspaceViewModel: WorkspaceViewModel by viewModels {
         WorkspaceViewModelFactory(
             workspaceRepository,
-            sessionManager
+            sessionManager,
+            workspaceSettingsRepository
         )
     }
 
@@ -100,6 +101,7 @@ class MainActivity : AppCompatActivity() {
         itemViewModel
         workspaceViewModel
         invoiceViewModel
+        workspaceSettingsViewModel
 
         /*
          * Keep the status bar visible, but hide only

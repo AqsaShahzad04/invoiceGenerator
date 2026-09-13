@@ -1,23 +1,22 @@
 package com.learner.invoicegenerator.ui.auth.ViewModel
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.learner.invoicegenerator.data.local.entity.NumberingReset
 import com.learner.invoicegenerator.data.local.entity.PaymentDueDateOffset
 import com.learner.invoicegenerator.data.local.entity.PaymentMethods
 import com.learner.invoicegenerator.data.local.entity.WorkspaceSettings
 import com.learner.invoicegenerator.data.repository.WorkspaceSettingsRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 
 
 class WorkspaceSettingsViewModel(
     private val repository: WorkspaceSettingsRepository
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow<WorkspaceSettingsState>(WorkspaceSettingsState.Idle)
-    val state: StateFlow<WorkspaceSettingsState> = _state
+    private val _state = MutableLiveData<WorkspaceSettingsState>(WorkspaceSettingsState.Idle)
+    val state: LiveData<WorkspaceSettingsState> = _state
 
     fun resetState() {
         _state.value = WorkspaceSettingsState.Idle
@@ -30,13 +29,13 @@ class WorkspaceSettingsViewModel(
 
     // ---------- Insert ----------
 
-    suspend fun insertDefaultSettings(settings: WorkspaceSettings) {
+    suspend fun insertDefaultSettings(workspaceId:Int) {
         _state.value = WorkspaceSettingsState.Loading
         try {
-            repository.insertDefaultSettings(settings)
+            repository.insertDefaultSettings(workspaceId)
             _state.value = WorkspaceSettingsState.Success
         } catch (e: Exception) {
-            _state.value = WorkspaceSettingsState.Error(e.message ?: "Failed to create settings")
+            _state.value = WorkspaceSettingsState.Error(e.message ?: "Failed to create settings",)
         }
     }
 
@@ -48,7 +47,7 @@ class WorkspaceSettingsViewModel(
             repository.updateInvoicePrefix(workspaceId, value)
             _state.value = WorkspaceSettingsState.Success
         } catch (e: Exception) {
-            _state.value = WorkspaceSettingsState.Error(e.message ?: "Failed to update invoice prefix")
+            _state.value = WorkspaceSettingsState.Error(e.message ?: "Failed to update invoice prefix",)
         }
     }
 
@@ -58,7 +57,7 @@ class WorkspaceSettingsViewModel(
             repository.updateNumberingReset(workspaceId, value)
             _state.value = WorkspaceSettingsState.Success
         } catch (e: Exception) {
-            _state.value = WorkspaceSettingsState.Error(e.message ?: "Failed to update numbering reset")
+            _state.value = WorkspaceSettingsState.Error(e.message ?: "Failed to update numbering reset",)
         }
     }
 
@@ -68,7 +67,7 @@ class WorkspaceSettingsViewModel(
             repository.updatePaymentDueDateOffset(workspaceId, value)
             _state.value = WorkspaceSettingsState.Success
         } catch (e: Exception) {
-            _state.value = WorkspaceSettingsState.Error(e.message ?: "Failed to update payment due date offset")
+            _state.value = WorkspaceSettingsState.Error(e.message ?: "Failed to update payment due date offset",)
         }
     }
 
@@ -80,7 +79,7 @@ class WorkspaceSettingsViewModel(
             repository.updateDefaultTax(workspaceId, value)
             _state.value = WorkspaceSettingsState.Success
         } catch (e: Exception) {
-            _state.value = WorkspaceSettingsState.Error(e.message ?: "Failed to update default tax")
+            _state.value = WorkspaceSettingsState.Error(e.message ?: "Failed to update default tax",)
         }
     }
 
@@ -90,7 +89,7 @@ class WorkspaceSettingsViewModel(
             repository.updateTaxRate(workspaceId, value)
             _state.value = WorkspaceSettingsState.Success
         } catch (e: Exception) {
-            _state.value = WorkspaceSettingsState.Error(e.message ?: "Failed to update tax rate")
+            _state.value = WorkspaceSettingsState.Error(e.message ?: "Failed to update tax rate",)
         }
     }
 
@@ -100,7 +99,7 @@ class WorkspaceSettingsViewModel(
             repository.updateLateFee(workspaceId, value)
             _state.value = WorkspaceSettingsState.Success
         } catch (e: Exception) {
-            _state.value = WorkspaceSettingsState.Error(e.message ?: "Failed to update late fee")
+            _state.value = WorkspaceSettingsState.Error(e.message ?: "Failed to update late fee",)
         }
     }
 
@@ -110,7 +109,7 @@ class WorkspaceSettingsViewModel(
             repository.updatePaymentMethods(workspaceId, value)
             _state.value = WorkspaceSettingsState.Success
         } catch (e: Exception) {
-            _state.value = WorkspaceSettingsState.Error(e.message ?: "Failed to update payment methods")
+            _state.value = WorkspaceSettingsState.Error(e.message ?: "Failed to update payment methods",)
         }
     }
 
@@ -122,7 +121,7 @@ class WorkspaceSettingsViewModel(
             repository.updateDiscountLine(workspaceId, value)
             _state.value = WorkspaceSettingsState.Success
         } catch (e: Exception) {
-            _state.value = WorkspaceSettingsState.Error(e.message ?: "Failed to update discount line")
+            _state.value = WorkspaceSettingsState.Error(e.message ?: "Failed to update discount line",)
         }
     }
 
@@ -132,7 +131,7 @@ class WorkspaceSettingsViewModel(
             repository.updateSignatureBlock(workspaceId, value)
             _state.value = WorkspaceSettingsState.Success
         } catch (e: Exception) {
-            _state.value = WorkspaceSettingsState.Error(e.message ?: "Failed to update signature block")
+            _state.value = WorkspaceSettingsState.Error(e.message ?: "Failed to update signature block",)
         }
     }
 
@@ -142,7 +141,7 @@ class WorkspaceSettingsViewModel(
             repository.updateDefaultNotes(workspaceId, value)
             _state.value = WorkspaceSettingsState.Success
         } catch (e: Exception) {
-            _state.value = WorkspaceSettingsState.Error(e.message ?: "Failed to update default notes")
+            _state.value = WorkspaceSettingsState.Error(e.message ?: "Failed to update default notes",)
         }
     }
 
@@ -154,7 +153,7 @@ class WorkspaceSettingsViewModel(
             repository.updateAutoReminders(workspaceId, value)
             _state.value = WorkspaceSettingsState.Success
         } catch (e: Exception) {
-            _state.value = WorkspaceSettingsState.Error(e.message ?: "Failed to update auto reminders")
+            _state.value = WorkspaceSettingsState.Error(e.message ?: "Failed to update auto reminders",)
         }
     }
 
@@ -164,7 +163,7 @@ class WorkspaceSettingsViewModel(
             repository.updateSendReminderAfterDueDays(workspaceId, value)
             _state.value = WorkspaceSettingsState.Success
         } catch (e: Exception) {
-            _state.value = WorkspaceSettingsState.Error(e.message ?: "Failed to update reminder days")
+            _state.value = WorkspaceSettingsState.Error(e.message ?: "Failed to update reminder days",)
         }
     }
 
@@ -176,7 +175,7 @@ class WorkspaceSettingsViewModel(
             repository.updateNotifications(workspaceId, value)
             _state.value = WorkspaceSettingsState.Success
         } catch (e: Exception) {
-            _state.value = WorkspaceSettingsState.Error(e.message ?: "Failed to update notifications")
+            _state.value = WorkspaceSettingsState.Error(e.message ?: "Failed to update notifications",)
         }
     }
 }

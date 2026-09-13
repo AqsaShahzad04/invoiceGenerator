@@ -6,12 +6,14 @@ import androidx.lifecycle.viewModelScope
 import com.learner.invoicegenerator.data.local.SessionManager
 import com.learner.invoicegenerator.data.local.entity.Workspace
 import com.learner.invoicegenerator.data.repository.WorkspaceRepository
+import com.learner.invoicegenerator.data.repository.WorkspaceSettingsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class WorkspaceViewModel(
     private val repository: WorkspaceRepository,
-    private val sessionManager: SessionManager
+    private val sessionManager: SessionManager,
+    private val workspaceSettingsRepository: WorkspaceSettingsRepository
 ) : ViewModel() {
 
     private val _workspaceState = MutableLiveData<WorkspaceState>(WorkspaceState.Idle)
@@ -26,6 +28,7 @@ class WorkspaceViewModel(
             _workspaceState.value = WorkspaceState.Loading
             try {
                 val id=repository.insertWorkspace(workspace)
+                workspaceSettingsRepository.insertDefaultSettings(id.toInt())
                 _workspaceState.value = WorkspaceState.Success(id.toInt())
             } catch (e: Exception) {
                 _workspaceState.value = WorkspaceState.Error(e.message ?: "Unknown error")

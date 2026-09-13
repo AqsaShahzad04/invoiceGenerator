@@ -22,6 +22,7 @@ enum class PaymentMethods{
 }
 
 enum class PaymentDueDateOffset{
+    NET0,
     NET7,
     NET14,
     NET30,

@@ -1,0 +1,566 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bg_currency_picker_sheet"
+    android:paddingHorizontal="20dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="28dp">
+
+    <view class="android.widget.ImageView"
+        android:id="@+id/dragHandleCurrency"
+        android:layout_width="36dp"
+        android:layout_height="4dp"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/drag_handle_bg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <TextView
+        android:id="@+id/paymentTermsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Payment terms"
+        android:fontFamily="@font/inter_bold"
+        android:textSize="17sp"
+        android:letterSpacing="-0.015"
+        android:layout_marginTop="14dp"
+        android:textColor="@color/btn_text_dark"
+        app:layout_constraintTop_toBottomOf="@id/dragHandleCurrency"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/currencySubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:fontFamily="@font/inter_medium"
+        android:text="How long clients have to pay after the invoice date"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/subheading_color_home"
+        android:lineSpacingMultiplier="1.5"
+        app:layout_constraintTop_toBottomOf="@id/paymentTermsTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+    <ImageButton
+        android:id="@+id/closebtn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/bg_cross_button"
+        android:backgroundTint="#F4F2EE"
+        android:src="@drawable/ic_close"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/paymentTermsTitle"
+        app:layout_constraintBottom_toBottomOf="@id/paymentTermsTitle"/>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/prefixDisplayBox"
+        android:background="@drawable/bg_invoice_prefix_display"
+        android:padding="22dp"
+        app:layout_constraintTop_toBottomOf="@id/currencySubtitle"
+        android:layout_marginTop="14dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
+        <TextView
+            android:id="@+id/dueHeading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Due"
+            android:textColor="#9CA3A0"
+            android:textSize="10sp"
+            android:textAllCaps="true"
+            android:letterSpacing="0.1"
+            android:fontFamily="@font/inter_semibold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/dueDateNumDisplay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:fontFamily="@font/inter_bold"
+            android:letterSpacing="0.02"
+            android:text="0"
+            android:textColor="@color/primary_green"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.46"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dueHeading" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/inter_bold"
+            android:letterSpacing="0.02"
+            android:text="days"
+            android:textColor="@color/btn_bg_dark"
+            android:textSize="14sp"
+            app:layout_constraintHorizontal_bias="0.56"
+            app:layout_constraintStart_toEndOf="@id/dueDateNumDisplay"
+            app:layout_constraintTop_toBottomOf="@id/dueHeading" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="after invoice date"
+            android:textColor="#5C625E"
+            android:textSize="11sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:fontFamily="@font/inter"
+            app:layout_constraintHorizontal_bias="0.55"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dueDateNumDisplay" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/dueSection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/prefixDisplayBox"
+        android:layout_marginTop="18dp">
+
+        <LinearLayout
+            android:id="@+id/due"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="4dp"
+            android:paddingBottom="8dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/yearlyHeading"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Due o receipt"
+                        android:textColor="@color/btn_bg_dark"
+                        android:textSize="13sp"
+                        android:fontFamily="@font/inter_semibold"
+                        />
+                    <TextView
+                        android:id="@+id/yearlysubHeading"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Pay immediately"
+                        android:fontFamily="@font/inter_medium"
+                        android:textSize="11sp"
+                        android:layout_marginTop="2dp"
+                        android:textColor="@color/subheading_color_home"
+                        />
+                </LinearLayout>
+                <RadioButton
+                    android:id="@+id/dueRadioBtn"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:checked="true"
+                    android:button="@null"
+                    android:background="@drawable/selector_currency_state"
+                    />
+
+            </LinearLayout>
+
+            <view class="android.widget.ImageView"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="12dp"
+                android:background="#0F171817"
+                />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/net7Section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dueSection"
+       >
+
+        <LinearLayout
+            android:id="@+id/net7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="4dp"
+            android:paddingVertical="8dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/net7Heading"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Net 7"
+                        android:textColor="@color/btn_bg_dark"
+                        android:textSize="13sp"
+                        android:fontFamily="@font/inter_semibold"
+                        />
+                    <TextView
+                        android:id="@+id/net7subHeading"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="One week"
+                        android:fontFamily="@font/inter_medium"
+                        android:textSize="11sp"
+                        android:layout_marginTop="2dp"
+                        android:textColor="@color/subheading_color_home"
+                        />
+                </LinearLayout>
+                <RadioButton
+                    android:id="@+id/net7RadioBtn"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:checked="false"
+                    android:button="@null"
+                    android:background="@drawable/selector_currency_state"
+                    />
+
+            </LinearLayout>
+
+            <view class="android.widget.ImageView"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="12dp"
+                android:background="#0F171817"
+                />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/net14Section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/net7Section"
+        >
+
+        <LinearLayout
+            android:id="@+id/net14"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="4dp"
+            android:paddingBottom="8dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/net14Heading"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Net 14"
+                        android:textColor="@color/btn_bg_dark"
+                        android:textSize="13sp"
+                        android:fontFamily="@font/inter_semibold"
+                        />
+                    <TextView
+                        android:id="@+id/net14subHeading"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Two week"
+                        android:fontFamily="@font/inter_medium"
+                        android:textSize="11sp"
+                        android:layout_marginTop="2dp"
+                        android:textColor="@color/subheading_color_home"
+                        />
+                </LinearLayout>
+                <RadioButton
+                    android:id="@+id/net14RadioBtn"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:checked="false"
+                    android:button="@null"
+                    android:background="@drawable/selector_currency_state"
+                    />
+
+            </LinearLayout>
+
+            <view class="android.widget.ImageView"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="12dp"
+                android:background="#0F171817"
+                />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/net30Section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/net14Section"
+        >
+
+        <LinearLayout
+            android:id="@+id/net30"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="4dp"
+            android:paddingBottom="8dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/net30Heading"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Net 30"
+                        android:textColor="@color/btn_bg_dark"
+                        android:textSize="13sp"
+                        android:fontFamily="@font/inter_semibold"
+                        />
+                    <TextView
+                        android:id="@+id/net30subHeading"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="One month"
+                        android:fontFamily="@font/inter_medium"
+                        android:textSize="11sp"
+                        android:layout_marginTop="2dp"
+                        android:textColor="@color/subheading_color_home"
+                        />
+                </LinearLayout>
+                <RadioButton
+                    android:id="@+id/net30RadioBtn"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:checked="false"
+                    android:button="@null"
+                    android:background="@drawable/selector_currency_state"
+                    />
+
+            </LinearLayout>
+
+            <view class="android.widget.ImageView"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="12dp"
+                android:background="#0F171817"
+                />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/net45Section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/net30Section"
+        >
+
+        <LinearLayout
+            android:id="@+id/net45"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="4dp"
+            android:paddingBottom="8dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/net45Heading"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Net 45"
+                        android:textColor="@color/btn_bg_dark"
+                        android:textSize="13sp"
+                        android:fontFamily="@font/inter_semibold"
+                        />
+                    <TextView
+                        android:id="@+id/net45subHeading"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Six weeks"
+                        android:fontFamily="@font/inter_medium"
+                        android:textSize="11sp"
+                        android:layout_marginTop="2dp"
+                        android:textColor="@color/subheading_color_home"
+                        />
+                </LinearLayout>
+                <RadioButton
+                    android:id="@+id/net45RadioBtn"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:checked="false"
+                    android:button="@null"
+                    android:background="@drawable/selector_currency_state"
+                    />
+
+            </LinearLayout>
+
+            <view class="android.widget.ImageView"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="12dp"
+                android:background="#0F171817"
+                />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/net60Section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/net45Section"
+        >
+
+        <LinearLayout
+            android:id="@+id/net60"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="4dp"
+            android:paddingBottom="8dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/net60Heading"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Net 60"
+                        android:textColor="@color/btn_bg_dark"
+                        android:textSize="13sp"
+                        android:fontFamily="@font/inter_semibold"
+                        />
+                    <TextView
+                        android:id="@+id/net60subHeading"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Two Months"
+                        android:fontFamily="@font/inter_medium"
+                        android:textSize="11sp"
+                        android:layout_marginTop="2dp"
+                        android:textColor="@color/subheading_color_home"
+                        />
+                </LinearLayout>
+                <RadioButton
+                    android:id="@+id/net60RadioBtn"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:checked="false"
+                    android:button="@null"
+                    android:background="@drawable/selector_currency_state"
+                    />
+
+            </LinearLayout>
+
+            <view class="android.widget.ImageView"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+               android:layout_marginTop="12dp"
+                android:background="#0F171817"
+                />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
+
+<Button
+        android:layout_marginTop="18dp"
+        android:id="@+id/doneBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Done"
+        android:paddingHorizontal="14dp"
+        android:textAllCaps="false"
+        android:textSize="14sp"
+        android:fontFamily="@font/inter_semibold"
+        android:textColor="@color/bg_cream"
+        app:backgroundTint="@null"
+        android:background="@drawable/green_btn_bg"
+        android:backgroundTint="@color/btn_bg_dark"
+        app:layout_constraintTop_toBottomOf="@id/net60Section"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
