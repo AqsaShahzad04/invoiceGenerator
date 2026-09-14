@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bg_currency_picker_sheet"
+    android:paddingHorizontal="20dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="28dp">
+
+    <view class="android.widget.ImageView"
+        android:id="@+id/dragHandleNotes"
+        android:layout_width="36dp"
+        android:layout_height="4dp"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/drag_handle_bg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/notesTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Default notes"
+        android:fontFamily="@font/inter_bold"
+        android:textSize="17sp"
+        android:letterSpacing="-0.015"
+        android:layout_marginTop="14dp"
+        android:textColor="@color/btn_text_dark"
+        app:layout_constraintTop_toBottomOf="@id/dragHandleNotes"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/closebtn"/>
+
+    <TextView
+        android:id="@+id/notesSubtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:text="Appears at the bottom of every new invoice."
+        android:layout_marginTop="4dp"
+        android:textColor="@color/subheading_color_home"
+        android:lineSpacingMultiplier="1.5"
+        app:layout_constraintTop_toBottomOf="@id/notesTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/closebtn"/>
+
+    <ImageButton
+        android:id="@+id/closebtn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/bg_cross_button"
+        android:backgroundTint="#F4F2EE"
+        android:src="@drawable/ic_close"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/notesTitle"
+        app:layout_constraintBottom_toBottomOf="@id/notesTitle"/>
+
+    <EditText
+        android:id="@+id/defaultNotesInput"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:text="Please reference the invoice number when paying."
+        android:hint="Type a message…"
+        android:background="@drawable/bg_input_field"
+        android:padding="12dp"
+        android:textSize="13sp"
+        android:textColor="#171817"
+        android:gravity="top|start"
+        android:inputType="textMultiLine"
+        android:lineSpacingMultiplier="1.5"
+        android:layout_marginTop="14dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/notesSubtitle"/>
+
+    <TextView
+        android:id="@+id/quickFillHeading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Quick fill"
+        android:textAllCaps="true"
+        android:textColor="#9CA3A0"
+        android:letterSpacing="0.1"
+        android:fontFamily="@font/inter_semibold"
+        android:textSize="10sp"
+        android:layout_marginTop="14dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/defaultNotesInput"/>
+
+    <TextView
+        android:id="@+id/quickFill1Btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Thank you for your business."
+        android:textSize="12sp"
+        android:textColor="@color/btn_text_dark"
+        android:fontFamily="@font/inter_medium"
+        android:background="@drawable/bg_input_field"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="10dp"
+        android:lineSpacingMultiplier="1.5"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/quickFillHeading"/>
+
+    <TextView
+        android:id="@+id/quickFill2Btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Payment is due within the agreed terms."
+        android:textSize="12sp"
+        android:textColor="@color/btn_text_dark"
+        android:fontFamily="@font/inter_medium"
+        android:background="@drawable/bg_input_field"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="10dp"
+        android:lineSpacingMultiplier="1.5"
+        android:layout_marginTop="6dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/quickFill1Btn"/>
+
+    <TextView
+        android:id="@+id/quickFill3Btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Please reference the invoice number when paying."
+        android:textSize="12sp"
+        android:textColor="@color/btn_text_dark"
+        android:fontFamily="@font/inter_medium"
+        android:background="@drawable/bg_row_selected"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="10dp"
+        android:lineSpacingMultiplier="1.5"
+        android:layout_marginTop="6dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/quickFill2Btn"/>
+
+    <TextView
+        android:id="@+id/quickFill4Btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No returns accepted after 7 days."
+        android:textSize="12sp"
+        android:textColor="@color/btn_text_dark"
+        android:fontFamily="@font/inter_medium"
+        android:background="@drawable/bg_input_field"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="10dp"
+        android:lineSpacingMultiplier="1.5"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/quickFill3Btn"/>
+
+    <Button
+        android:id="@+id/doneBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Done"
+        android:layout_marginTop="14dp"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="14dp"
+        android:textAllCaps="false"
+        android:textSize="14sp"
+        android:fontFamily="@font/inter_semibold"
+        android:textColor="@color/bg_cream"
+        app:backgroundTint="@null"
+        android:background="@drawable/green_btn_bg"
+        android:backgroundTint="@color/btn_bg_dark"
+        app:layout_constraintTop_toBottomOf="@id/quickFill4Btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

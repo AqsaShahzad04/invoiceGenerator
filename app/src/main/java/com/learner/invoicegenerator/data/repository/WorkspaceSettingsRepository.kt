@@ -45,7 +45,7 @@ class WorkspaceSettingsRepository(
     suspend fun updateLateFee(workspaceId: Int, value: Double) =
         dao.updateLateFee(workspaceId, value)
 
-    suspend fun updatePaymentMethods(workspaceId: Int, value: List<PaymentMethods>) =
+    suspend fun updatePaymentMethods(workspaceId: Int, value: MutableList<PaymentMethods>) =
         dao.updatePaymentMethods(workspaceId, value)
 
     // ---------- Update: Document ----------

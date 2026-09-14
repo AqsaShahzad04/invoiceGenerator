@@ -45,7 +45,7 @@ interface WorkspaceSettingsDao {
     suspend fun updateLateFee(workspaceId: Int, value: Double)
 
     @Query("UPDATE Settings SET paymentMethods = :value WHERE workspaceId = :workspaceId")
-    suspend fun updatePaymentMethods(workspaceId: Int, value: List<PaymentMethods>)
+    suspend fun updatePaymentMethods(workspaceId: Int, value:MutableList<PaymentMethods>)
 
     // ---------- Update: Document ----------
 

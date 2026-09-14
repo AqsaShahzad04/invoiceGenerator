@@ -51,10 +51,10 @@ data class WorkspaceSettings (
     val defaultTax: Boolean=false,
     val taxRate:Double=25.0,
     val lateFee: Double=1.5,
-    val paymentMethods:List<PaymentMethods> = listOf(PaymentMethods.Cash, PaymentMethods.BANKTransfer),
+    val paymentMethods: MutableList<PaymentMethods> = mutableListOf<PaymentMethods>(PaymentMethods.Cash, PaymentMethods.BANKTransfer),
     val discountLine: Boolean=false,
     val signatureBlock: Boolean=false,
-    val defaultNotes:String?=null,
+    val defaultNotes:String="Thank you",
     val autoReminders: Boolean=false,
     val sendReminderAfterDueDays:Int=5,
     val notifications:Boolean=true

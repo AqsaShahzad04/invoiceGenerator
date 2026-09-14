@@ -103,7 +103,7 @@ class WorkspaceSettingsViewModel(
         }
     }
 
-    suspend fun updatePaymentMethods(workspaceId: Int, value: List<PaymentMethods>) {
+    suspend fun updatePaymentMethods(workspaceId: Int, value: MutableList<PaymentMethods>) {
         _state.value = WorkspaceSettingsState.Loading
         try {
             repository.updatePaymentMethods(workspaceId, value)

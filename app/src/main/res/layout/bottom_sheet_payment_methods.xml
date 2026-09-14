@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bg_currency_picker_sheet"
+    android:paddingHorizontal="20dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="28dp">
+
+    <view class="android.widget.ImageView"
+        android:id="@+id/dragHandleCurrency"
+        android:layout_width="36dp"
+        android:layout_height="4dp"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/drag_handle_bg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <TextView
+        android:id="@+id/paymentMethodsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Payment methods"
+        android:fontFamily="@font/inter_bold"
+        android:textSize="17sp"
+        android:letterSpacing="-0.015"
+        android:layout_marginTop="14dp"
+        android:textColor="@color/btn_text_dark"
+        app:layout_constraintTop_toBottomOf="@id/dragHandleCurrency"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/payMethodsSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:text="shown to client on every invoice"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/inter_medium"
+        android:textColor="@color/subheading_color_home"
+        android:lineSpacingMultiplier="1.5"
+        app:layout_constraintTop_toBottomOf="@id/paymentMethodsTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+    <ImageButton
+        android:id="@+id/closebtn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/bg_cross_button"
+        android:backgroundTint="#F4F2EE"
+        android:src="@drawable/ic_close"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/paymentMethodsTitle"
+        app:layout_constraintBottom_toBottomOf="@id/paymentMethodsTitle"/>
+
+
+
+    <LinearLayout
+        android:id="@+id/bankTransferSection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/payMethodsSubtitle"
+        android:layout_marginTop="14dp">
+
+        <LinearLayout
+            android:id="@+id/bank"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="12dp"
+            android:paddingHorizontal="4dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/payment_methods_avatar_bg"
+                    android:text="B"
+                    android:fontFamily="@font/inter_bold"
+                    android:gravity="center"
+                    android:layout_marginRight="10dp"
+                    />
+
+                    <TextView
+                        android:id="@+id/bankTransferHeading"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="Bank Transfer"
+                        android:textColor="@color/btn_bg_dark"
+                        android:textSize="13sp"
+                        android:fontFamily="@font/inter_semibold"
+                        />
+
+
+                <RadioButton
+                    android:id="@+id/bankRadioBtn"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:checked="true"
+                    android:button="@null"
+                    android:background="@drawable/selector_currency_state"
+                    />
+
+            </LinearLayout>
+
+            <view class="android.widget.ImageView"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="12dp"
+                android:background="#0F171817"
+                />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/cashTransferSection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bankTransferSection"
+        >
+
+        <LinearLayout
+            android:id="@+id/cash"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="12dp"
+            android:paddingHorizontal="4dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/payment_methods_avatar_bg"
+                    android:text="C"
+                    android:fontFamily="@font/inter_bold"
+                    android:gravity="center"
+                    android:layout_marginRight="10dp"
+                    />
+
+                <TextView
+                    android:id="@+id/cashHeading"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Cash"
+                    android:textColor="@color/btn_bg_dark"
+                    android:textSize="13sp"
+                    android:fontFamily="@font/inter_semibold"
+
+                    />
+
+
+                <RadioButton
+                    android:id="@+id/cashRadioBtn"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:checked="true"
+                    android:button="@null"
+                    android:background="@drawable/selector_currency_state"
+                    />
+
+            </LinearLayout>
+
+            <view class="android.widget.ImageView"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="12dp"
+                android:background="#0F171817"
+                />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/easyPaisaTransferSection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cashTransferSection"
+       >
+
+        <LinearLayout
+            android:id="@+id/easyPaisa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="12dp"
+            android:paddingHorizontal="4dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/payment_methods_avatar_bg"
+                    android:text="E"
+                    android:fontFamily="@font/inter_bold"
+                    android:gravity="center"
+                    android:layout_marginRight="10dp"
+                    />
+
+                <TextView
+                    android:id="@+id/easypaisaHeading"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="EasyPaisa"
+                    android:textColor="@color/btn_bg_dark"
+                    android:textSize="13sp"
+                    android:fontFamily="@font/inter_semibold"
+
+                    />
+
+
+                <RadioButton
+                    android:id="@+id/easyPaisaRadioBtn"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:checked="false"
+                    android:button="@null"
+                    android:background="@drawable/selector_currency_state"
+                    />
+
+            </LinearLayout>
+
+            <view class="android.widget.ImageView"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="12dp"
+                android:background="#0F171817"
+                />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/jazzcashSection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/easyPaisaTransferSection"
+       >
+
+        <LinearLayout
+            android:id="@+id/jazzcash"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="12dp"
+            android:paddingHorizontal="4dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/payment_methods_avatar_bg"
+                    android:text="J"
+                    android:fontFamily="@font/inter_bold"
+                    android:gravity="center"
+                    android:layout_marginRight="10dp"
+                    />
+
+                <TextView
+                    android:id="@+id/jazzcashHeading"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Jazz cash"
+                    android:textColor="@color/btn_bg_dark"
+                    android:textSize="13sp"
+                    android:fontFamily="@font/inter_semibold"
+
+                    />
+
+
+                <RadioButton
+                    android:id="@+id/jazzcashRadioBtn"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:checked="false"
+                    android:button="@null"
+                    android:background="@drawable/selector_currency_state"
+                    />
+
+            </LinearLayout>
+
+            <view class="android.widget.ImageView"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="12dp"
+                android:background="#0F171817"
+                />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/cardSection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/jazzcashSection"
+        >
+
+        <LinearLayout
+            android:id="@+id/card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="12dp"
+            android:paddingHorizontal="4dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/payment_methods_avatar_bg"
+                    android:text="C"
+                    android:fontFamily="@font/inter_bold"
+                    android:gravity="center"
+                    android:layout_marginRight="10dp"
+                    />
+
+                <TextView
+                    android:id="@+id/cardHeading"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Card"
+                    android:textColor="@color/btn_bg_dark"
+                    android:textSize="13sp"
+                    android:fontFamily="@font/inter_semibold"
+
+                    />
+
+
+                <RadioButton
+                    android:id="@+id/cardRadioBtn"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:checked="false"
+                    android:button="@null"
+                    android:background="@drawable/selector_currency_state"
+                    />
+
+            </LinearLayout>
+
+            <view class="android.widget.ImageView"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="12dp"
+                android:background="#0F171817"
+                />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/chequeSection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardSection"
+        >
+
+        <LinearLayout
+            android:id="@+id/cheque"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="12dp"
+            android:paddingHorizontal="4dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/payment_methods_avatar_bg"
+                    android:text="C"
+                    android:fontFamily="@font/inter_bold"
+                    android:gravity="center"
+                    android:layout_marginRight="10dp"
+                    />
+
+                <TextView
+                    android:id="@+id/chequeHeading"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Cheque"
+                    android:textColor="@color/btn_bg_dark"
+                    android:textSize="13sp"
+                    android:fontFamily="@font/inter_semibold"
+
+                    />
+
+
+                <RadioButton
+                    android:id="@+id/chequeRadioBtn"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:checked="false"
+                    android:button="@null"
+                    android:background="@drawable/selector_currency_state"
+                    />
+
+            </LinearLayout>
+
+            <view class="android.widget.ImageView"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="12dp"
+                android:background="#0F171817"
+                />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ustdSection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/chequeSection"
+        >
+
+        <LinearLayout
+            android:id="@+id/ustd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="12dp"
+            android:paddingHorizontal="4dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/payment_methods_avatar_bg"
+                    android:text="U"
+                    android:fontFamily="@font/inter_bold"
+                    android:gravity="center"
+                    android:layout_marginRight="10dp"
+                    />
+
+                <TextView
+                    android:id="@+id/ustdHeading"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="USTD"
+                    android:textColor="@color/btn_bg_dark"
+                    android:textSize="13sp"
+                    android:fontFamily="@font/inter_semibold"
+
+                    />
+
+
+                <RadioButton
+                    android:id="@+id/ustdRadioBtn"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:checked="false"
+                    android:button="@null"
+                    android:background="@drawable/selector_currency_state"
+                    />
+
+            </LinearLayout>
+
+            <view class="android.widget.ImageView"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="12dp"
+                android:background="#0F171817"
+                />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <Button
+        android:layout_marginTop="14dp"
+        android:id="@+id/doneBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Done"
+        android:paddingHorizontal="14dp"
+        android:textAllCaps="false"
+        android:textSize="14sp"
+        android:fontFamily="@font/inter_semibold"
+        android:textColor="@color/bg_cream"
+        app:backgroundTint="@null"
+        android:background="@drawable/green_btn_bg"
+        android:backgroundTint="@color/btn_bg_dark"
+        app:layout_constraintTop_toBottomOf="@id/ustdSection"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

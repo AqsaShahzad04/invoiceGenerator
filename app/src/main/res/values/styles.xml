@@ -59,5 +59,22 @@
         <item name="chipStyle">@style/select_items_catalogue_chips_style</item>
     </style>
 
+    <style name="select_tax_rate_chips_style" parent="Widget.MaterialComponents.Chip.Action">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="chipBackgroundColor">@color/catalogue_chip_bg_selector</item>
+        <item name="android:textColor">@color/catalogue_chip_text_selector</item>
+        <item name="chipCornerRadius">20dp</item>
+        <item name="chipStartPadding">11dp</item>
+        <item name="chipEndPadding">7dp</item>
+        <item name="android:checkable">true</item>
+        <item name="android:textSize">11sp</item>
+        <item name="fontFamily">@font/inter_semibold</item>
+    </style>
+
+    <style name="ThemeOverlay.TaxRate.chip" parent="">
+        <item name="chipStyle">@style/select_tax_rate_chips_style</item>
+    </style>
+
 </resources>
 

@@ -25,7 +25,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.learner.invoicegenerator.data.local.entity.NumberingReset
 import com.learner.invoicegenerator.data.local.entity.PaymentDueDateOffset
+import com.learner.invoicegenerator.data.local.entity.PaymentMethods
 import com.learner.invoicegenerator.data.local.entity.WorkspaceSettings
+import com.learner.invoicegenerator.databinding.BottomSheetPaymentMethodsBinding
 import com.learner.invoicegenerator.ui.auth.ViewModel.WorkspaceSettingsViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -70,11 +72,9 @@ class SettingsFragment: Fragment(R.layout.fragment_settings)  {
 
         viewLifecycleOwner.lifecycleScope.launch{
             settingsViewModel.getSettingsByWorkspaceId(activeWorkspaceId).collect { settings->
-                binding.selectedInvoicePrefix.text = settings?.invoicePrefix
-                binding.numResettime.text = settings?.numberingReset.toString()
-                binding.paymentNetRate.text=settings?.paymentDueDateOffset.toString()
-                binding.taxPercentage.text=settings?.taxRate.toString()
-                binding.defaultTaxToggleBtn.isChecked=settings?.defaultTax?:false
+                val paymentMethods: List<PaymentMethods> = settings?.paymentMethods?:listOf(
+                    PaymentMethods.BANKTransfer,
+                    PaymentMethods.Cash)
                 if(settings?.defaultTax==false){
                     binding.defaultTaxSubtitle.text="No tax on new invoice"
                 }
@@ -82,9 +82,18 @@ class SettingsFragment: Fragment(R.layout.fragment_settings)  {
                     val taxRate=settings?.taxRate.toString()
                     binding.defaultTaxSubtitle.text="Applied at $taxRate%"
                 }
+                binding.selectedInvoicePrefix.text = settings?.invoicePrefix
+                binding.numResettime.text = settings?.numberingReset.toString()
+                binding.paymentNetRate.text=settings?.paymentDueDateOffset.toString()
+                binding.taxPercentage.text=settings?.taxRate.toString()
+                binding.defaultTaxToggleBtn.isChecked=settings?.defaultTax?:false
                 binding.discountLineTogglebtn.isChecked=settings?.discountLine?:false
                 binding.signatureTogglebtn.isChecked=settings?.signatureBlock?:false
-
+                binding.taxPercentage.text = "${settings?.taxRate?.toInt()?:25}%"
+                binding.LateFeeValue.text=settings?.lateFee?.toString()?:"off"
+                binding.paymentMethodsSubtitle.text=paymentMethods.joinToString(".")
+                binding.NumOfPaymentMethods.text=paymentMethods.size.toString()+"active"
+                binding.defaultNotesValue.text=settings?.defaultNotes?:"Thank you"
                 currentSettings=settings
 
 
@@ -104,6 +113,9 @@ class SettingsFragment: Fragment(R.layout.fragment_settings)  {
             BottomSheetPaymentTerms(currentSettings?.paymentDueDateOffset?: PaymentDueDateOffset.NET14).show(childFragmentManager,"paymentOffsetDueDateBottomSheet")
         }
 
+        binding.taxRateSection.setOnClickListener {
+            BottomSheetTaxRate(currentSettings?.taxRate?:25.0).show(childFragmentManager,"taxRateBottomSheet")
+        }
         binding.defaultTaxSection.setOnClickListener {
             val taxEnabled: Boolean = currentSettings?.defaultTax?.not()?:false
             viewLifecycleOwner.lifecycleScope.launch{
@@ -120,9 +132,21 @@ class SettingsFragment: Fragment(R.layout.fragment_settings)  {
         binding.signSection.setOnClickListener {
             val signEnabled=currentSettings?.signatureBlock?.not()?:false
             viewLifecycleOwner.lifecycleScope.launch{
-                settingsViewModel.updateDiscountLine(activeWorkspaceId,signEnabled)
+                settingsViewModel.updateSignatureBlock(activeWorkspaceId,signEnabled)
             }
 
+        }
+        binding.notesSection.setOnClickListener {
+            BottomSheetDefaultNotes(currentSettings?.defaultNotes?:"Thank you").show(childFragmentManager,"defaultNotesBottomSheet")
+        }
+
+        binding.PaymentMethodsSection.setOnClickListener {
+            val methods:MutableList<PaymentMethods> = currentSettings?.paymentMethods?:mutableListOf(
+                PaymentMethods.BANKTransfer, PaymentMethods.Cash)
+            BottomSheetPaymentMethods(methods).show(childFragmentManager,"paymentMethodsBottomSheet")
+        }
+        binding.lateFeeSection.setOnClickListener {
+            BottomSheetLateFee(currentSettings?.lateFee?:0.0).show(childFragmentManager,"lateFeeRateBottomSheet")
         }
 
 

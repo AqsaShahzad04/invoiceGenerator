@@ -17,11 +17,11 @@ class SettingsConverter {
     fun toPaymentDueDateOffset(value: String): PaymentDueDateOffset = PaymentDueDateOffset.valueOf(value)
 
     @TypeConverter
-    fun fromPaymentMethodsList(value: List<PaymentMethods>): String =
+    fun fromPaymentMethodsList(value: MutableList<PaymentMethods>): String =
         value.joinToString(",") { it.name }
 
     @TypeConverter
-    fun toPaymentMethodsList(value: String): List<PaymentMethods> =
-        if (value.isBlank()) emptyList()
-        else value.split(",").map { PaymentMethods.valueOf(it) }
+    fun toPaymentMethodsList(value: String): MutableList<PaymentMethods> =
+        (if (value.isBlank()) emptyList()
+        else value.split(",").map { PaymentMethods.valueOf(it) }) as MutableList<PaymentMethods>
 }

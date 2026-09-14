@@ -385,7 +385,7 @@ android:background="@color/bg_cream">
                         />
                 </LinearLayout>
                 <TextView
-                    android:id="@+id/toggleLateFee"
+                    android:id="@+id/LateFeeValue"
                     android:text="off"
                     style="@style/settings_row_rightSideText_style"/>
                 <ImageView

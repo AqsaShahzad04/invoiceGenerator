@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bg_currency_picker_sheet"
+    android:paddingHorizontal="20dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="28dp">
+
+    <view class="android.widget.ImageView"
+        android:id="@+id/dragHandleTaxRate"
+        android:layout_width="36dp"
+        android:layout_height="4dp"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/drag_handle_bg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/taxRateTitleGroup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/dragHandleTaxRate"
+        android:layout_marginTop="14dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/closebtn"
+        android:layout_marginEnd="12dp">
+
+        <TextView
+            android:id="@+id/taxRateTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Default tax rate"
+            android:fontFamily="@font/inter_bold"
+            android:textSize="17sp"
+            android:letterSpacing="-0.015"
+            android:textColor="@color/btn_text_dark"/>
+
+        <TextView
+            android:id="@+id/taxRateSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:text="Applied when a new invoice has tax turned on."
+            android:layout_marginTop="4dp"
+            android:textColor="@color/subheading_color_home"
+            android:lineSpacingMultiplier="1.5"/>
+
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/closebtn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/bg_cross_button"
+        android:backgroundTint="#F4F2EE"
+        android:src="@drawable/ic_close"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/taxRateTitle"
+        app:layout_constraintBottom_toBottomOf="@id/taxRateTitle"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/taxRateDisplayBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_invoice_prefix_display"
+        android:padding="22dp"
+        app:layout_constraintTop_toBottomOf="@id/taxRateTitleGroup"
+        android:layout_marginTop="14dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:id="@+id/taxRateNumberRow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="bottom"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:id="@+id/taxRateValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="18"
+                android:fontFamily="@font/inter_bold"
+                android:textSize="48sp"
+                android:letterSpacing="-0.03"
+                android:textColor="@color/primary_green"/>
+
+            <TextView
+                android:id="@+id/taxRatePercentSign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="%"
+                android:fontFamily="@font/inter_semibold"
+                android:textSize="24sp"
+                android:layout_marginBottom="4dp"
+                android:textColor="@color/subheading_color_home"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/taxRateStepperRow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            app:layout_constraintTop_toBottomOf="@id/taxRateNumberRow"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:id="@+id/decreaseTaxRateBtn"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/bg_stepper_circle_btn"
+                android:text="−"
+                android:clickable="true"
+                android:gravity="center"
+                android:fontFamily="@font/inter_semibold"
+                android:textSize="18sp"
+                android:textColor="@color/btn_text_dark"
+                android:layout_marginEnd="10dp"/>
+
+            <EditText
+                android:id="@+id/taxRateInput"
+                android:layout_width="72dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_stepper_input"
+                android:paddingVertical="8dp"
+                android:paddingHorizontal="10dp"
+                android:text="18"
+                android:gravity="center"
+                android:fontFamily="@font/inter_semibold"
+                android:textSize="14sp"
+                android:textColor="@color/btn_text_dark"
+                android:inputType="number"
+                android:maxLength="3"
+                android:singleLine="true"/>
+
+            <TextView
+                android:id="@+id/increaseTaxRateBtn"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/bg_stepper_circle_btn"
+                android:text="+"
+                android:clickable="true"
+                android:gravity="center"
+                android:fontFamily="@font/inter_semibold"
+                android:textSize="18sp"
+                android:textColor="@color/btn_text_dark"
+                android:layout_marginStart="10dp"/>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/commonRatesHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="COMMON RATES"
+        android:textColor="@color/sectionsHeadingColor"
+        android:letterSpacing="0.1"
+        android:fontFamily="@font/inter_semibold"
+        android:textSize="10sp"
+        app:layout_constraintTop_toBottomOf="@id/taxRateDisplayBox"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"/>
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/commonRatesChipGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/commonRatesHeading"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:singleSelection="true"
+        app:selectionRequired="false"
+        app:chipSpacingHorizontal="6dp"
+        app:chipSpacingVertical="6dp"/>
+
+    <Button
+        android:id="@+id/doneBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="Done"
+        android:textAllCaps="false"
+        android:textSize="14sp"
+        android:fontFamily="@font/inter_semibold"
+        android:textColor="@color/bg_cream"
+        app:backgroundTint="@null"
+        android:background="@drawable/green_btn_bg"
+        android:backgroundTint="@color/btn_bg_dark"
+        app:layout_constraintTop_toBottomOf="@id/commonRatesChipGroup"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
