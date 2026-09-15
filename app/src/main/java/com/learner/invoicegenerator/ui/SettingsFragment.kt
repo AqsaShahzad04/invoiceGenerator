@@ -140,6 +140,10 @@ class SettingsFragment: Fragment(R.layout.fragment_settings)  {
             BottomSheetDefaultNotes(currentSettings?.defaultNotes?:"Thank you").show(childFragmentManager,"defaultNotesBottomSheet")
         }
 
+        binding.sendAfterSection.setOnClickListener {
+            BottomSheetSendRemindersAfterDays(currentSettings?.sendReminderAfterDueDays?:3).show(childFragmentManager,"sendReminderAfterDaysBottomSheet")
+        }
+
         binding.PaymentMethodsSection.setOnClickListener {
             val methods:MutableList<PaymentMethods> = currentSettings?.paymentMethods?:mutableListOf(
                 PaymentMethods.BANKTransfer, PaymentMethods.Cash)
