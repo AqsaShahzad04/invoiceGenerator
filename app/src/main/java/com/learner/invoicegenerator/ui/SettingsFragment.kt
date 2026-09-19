@@ -56,7 +56,6 @@ class SettingsFragment: Fragment(R.layout.fragment_settings)  {
 
         binding.defaultTaxToggleBtn.isClickable=false
         binding.discountLineTogglebtn.isClickable=false
-        binding.signatureTogglebtn.isClickable=false
 
         viewLifecycleOwner.lifecycleScope.launch{
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
@@ -88,12 +87,12 @@ class SettingsFragment: Fragment(R.layout.fragment_settings)  {
                 binding.taxPercentage.text=settings?.taxRate.toString()
                 binding.defaultTaxToggleBtn.isChecked=settings?.defaultTax?:false
                 binding.discountLineTogglebtn.isChecked=settings?.discountLine?:false
-                binding.signatureTogglebtn.isChecked=settings?.signatureBlock?:false
                 binding.taxPercentage.text = "${settings?.taxRate?.toInt()?:25}%"
                 binding.LateFeeValue.text=settings?.lateFee?.toString()?:"off"
                 binding.paymentMethodsSubtitle.text=paymentMethods.joinToString(".")
                 binding.NumOfPaymentMethods.text=paymentMethods.size.toString()+"active"
                 binding.defaultNotesValue.text=settings?.defaultNotes?:"Thank you"
+                binding.sendAfterdaysNum.text = settings?.sendReminderAfterDueDays?.let { "$it days" } ?: "3 days"
                 currentSettings=settings
 
 
@@ -113,6 +112,7 @@ class SettingsFragment: Fragment(R.layout.fragment_settings)  {
             BottomSheetPaymentTerms(currentSettings?.paymentDueDateOffset?: PaymentDueDateOffset.NET14).show(childFragmentManager,"paymentOffsetDueDateBottomSheet")
         }
 
+
         binding.taxRateSection.setOnClickListener {
             BottomSheetTaxRate(currentSettings?.taxRate?:25.0).show(childFragmentManager,"taxRateBottomSheet")
         }
@@ -130,10 +130,7 @@ class SettingsFragment: Fragment(R.layout.fragment_settings)  {
 
         }
         binding.signSection.setOnClickListener {
-            val signEnabled=currentSettings?.signatureBlock?.not()?:false
-            viewLifecycleOwner.lifecycleScope.launch{
-                settingsViewModel.updateSignatureBlock(activeWorkspaceId,signEnabled)
-            }
+            BottomSheetAddSignature().show(parentFragmentManager,"AddSignatureBottomSheet")
 
         }
         binding.notesSection.setOnClickListener {

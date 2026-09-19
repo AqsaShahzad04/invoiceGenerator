@@ -53,7 +53,7 @@ interface WorkspaceSettingsDao {
     suspend fun updateDiscountLine(workspaceId: Int, value: Boolean)
 
     @Query("UPDATE Settings SET signatureBlock = :value WHERE workspaceId = :workspaceId")
-    suspend fun updateSignatureBlock(workspaceId: Int, value: Boolean)
+    suspend fun updateSignatureBlock(workspaceId: Int, value: String)
 
     @Query("UPDATE Settings SET defaultNotes = :value WHERE workspaceId = :workspaceId")
     suspend fun updateDefaultNotes(workspaceId: Int, value: String?)

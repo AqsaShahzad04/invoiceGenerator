@@ -20,14 +20,7 @@ class BottomSheetDefaultNotes(currentNote: String) : BottomSheetDialogFragment()
     val binding get() = _binding!!
     val settingsViewModel: WorkspaceSettingsViewModel by activityViewModels()
     val currentNote=currentNote
-    private val quickFillOptions by lazy {
-        listOf(
-            binding.quickFill1Btn,
-            binding.quickFill2Btn,
-            binding.quickFill3Btn,
-            binding.quickFill4Btn
-        )
-    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,19 +31,41 @@ class BottomSheetDefaultNotes(currentNote: String) : BottomSheetDialogFragment()
         return binding.root
     }
 
+    fun UpdateselectedNote(view:View?,prefix:String){
+        listOf(
+            binding.quickFill1Btn,
+            binding.quickFill2Btn,
+            binding.quickFill3Btn,
+            binding.quickFill4Btn
+        ).forEach { it.setBackgroundResource(R.drawable.bg_input_field) }
+        if(view!=null){
+            view.setBackgroundResource(R.drawable.bg_row_selected)
+            binding.defaultNotesInput.setText(prefix)
+        }
+        else{
+            binding.defaultNotesInput.setText(prefix)
+        }
+
+
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val sessionManager= SessionManager.getInstance(requireContext())
         val activeWorkspaceId=sessionManager.getActiveWorkspaceId()
 
-        binding.defaultNotesInput.setText(currentNote ?: "")
-        highlightMatchingQuickFill(currentNote)
+        initNote()
 
-        quickFillOptions.forEach { option ->
-            option.setOnClickListener {
-                binding.defaultNotesInput.setText(option.text)
-                highlightSelected(option)
-            }
+       binding.quickFill4Btn.setOnClickListener {
+           UpdateselectedNote(binding.quickFill4Btn,binding.quickFill4Btn.text.toString())
+       }
+        binding.quickFill3Btn.setOnClickListener {
+            UpdateselectedNote(binding.quickFill3Btn,binding.quickFill3Btn.text.toString())
+        }
+        binding.quickFill2Btn.setOnClickListener {
+            UpdateselectedNote(binding.quickFill2Btn,binding.quickFill2Btn.text.toString())
+        }
+        binding.quickFill1Btn.setOnClickListener {
+            UpdateselectedNote(binding.quickFill1Btn,binding.quickFill1Btn.text.toString())
         }
 
         binding.doneBtn.setOnClickListener {
@@ -67,17 +82,14 @@ class BottomSheetDefaultNotes(currentNote: String) : BottomSheetDialogFragment()
         }
     }
 
-    private fun highlightMatchingQuickFill(note: String?) {
-        val match = quickFillOptions.firstOrNull { it.text.toString() == note }
-        match?.let { highlightSelected(it) }
-    }
 
-    private fun highlightSelected(selected: TextView) {
-        quickFillOptions.forEach { option ->
-            option.setBackgroundResource(
-                if (option == selected) R.drawable.bg_row_selected
-                else R.drawable.bg_input_field
-            )
+    private fun initNote(){
+        when(currentNote){
+            binding.quickFill1Btn.text.toString()->UpdateselectedNote(binding.quickFill1Btn,binding.quickFill1Btn.text.toString())
+            binding.quickFill2Btn.text.toString()->UpdateselectedNote(binding.quickFill2Btn,binding.quickFill2Btn.text.toString())
+            binding.quickFill3Btn.text.toString()->UpdateselectedNote(binding.quickFill3Btn,binding.quickFill3Btn.text.toString())
+            binding.quickFill4Btn.text.toString()->UpdateselectedNote(binding.quickFill4Btn,binding.quickFill4Btn.text.toString())
+            else->UpdateselectedNote(null,currentNote)
         }
     }
 

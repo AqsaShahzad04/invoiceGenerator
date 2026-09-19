@@ -1,6 +1,707 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/bg_cream"
+    android:paddingVertical="12dp"
+    android:paddingHorizontal="16dp">
+
+
+
+    <TextView
+        android:id="@+id/fewDetailsHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="A few details"
+        android:textSize="20sp"
+        android:fontFamily="@font/inter_bold"
+        android:letterSpacing="-0.015"
+        android:textColor="@color/btn_bg_dark"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+    <TextView
+        android:id="@+id/detailsSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tax,dates and a Thank you note"
+        android:textSize="13sp"
+        android:textColor="#5C625E"
+        android:fontFamily="@font/inter_medium"
+        app:layout_constraintTop_toBottomOf="@id/fewDetailsHeading"
+        android:layout_marginTop="6dp"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/detailsSubtitle"
+
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="120dp">
+            <LinearLayout
+                android:id="@+id/datesSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:orientation="horizontal"
+                >
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/issueDateSection"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginEnd="8dp"
+                    android:orientation="vertical"
+
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Issued"
+                        android:textSize="11sp"
+                        android:textColor="#5C625E"
+                        android:fontFamily="@font/inter_medium"
+                        />
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
+                        <TextView
+                            android:id="@+id/issueDateInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_input_field"
+                            android:paddingVertical="11dp"
+                            android:paddingHorizontal="12dp"
+                            android:text="09/15/2026"
+                            android:textSize="12sp"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            />
+                        <ImageView
+                            android:id="@+id/issueDateCalenderIcon"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:background="@drawable/ic_calender"
+                            android:layout_marginEnd="15dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/dueDateSection"
+                    android:layout_marginTop="18dp"
+                    android:orientation="vertical"
+                    app:layout_constraintStart_toEndOf="@id/issueDateSection"
+                    app:layout_constraintTop_toTopOf="parent"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Due"
+                        android:textSize="11sp"
+                        android:textColor="#5C625E"
+                        android:fontFamily="@font/inter_medium"
+                        />
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
+                        <TextView
+                            android:id="@+id/dueDateInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_input_field"
+                            android:paddingVertical="11dp"
+                            android:paddingHorizontal="12dp"
+                            android:text="09/30/2026"
+                            android:textSize="12sp"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            />
+                        <ImageView
+                            android:id="@+id/dueDateCalenderIcon"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:background="@drawable/ic_calender"
+                            android:layout_marginEnd="15dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/taxRateHeading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tax rate"
+                android:textColor="#5C625E"
+                android:fontFamily="@font/inter_medium"
+                android:textSize="11sp"
+                android:layout_marginTop="14dp"
+                app:layout_constraintTop_toBottomOf="@id/datesSection"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+            <com.google.android.material.chip.ChipGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/taxSelectionChipsGroup"
+                app:singleSelection="true"
+                app:selectionRequired="false"
+                app:chipSpacingVertical="6dp"
+                app:chipSpacingHorizontal="6dp"
+                app:layout_constraintTop_toBottomOf="@id/taxRateHeading"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                >
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/noTaxChip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/select_tax_rate_chips_style"
+                    android:text="None"
+                    android:checkable="true"
+                    />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/selectedTaxChip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/select_tax_rate_chips_style"
+                    android:text="17%"
+                    android:checkable="true"
+                    />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/changeTaxChip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/select_tax_rate_chips_style"
+                    android:text="Change Tax"
+                    android:clickable="true"
+                    android:checkable="false"
+                    />
+
+
+            </com.google.android.material.chip.ChipGroup>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/discountSection"
+                android:background="@drawable/bg_discount_section_new_invoice"
+                android:padding="12dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/taxSelectionChipsGroup"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                >
+
+                <ImageView
+                    android:id="@+id/disountLogo"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/ic_discount"
+                    app:layout_constraintStart_toStartOf="parent"
+
+                    app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Discount"
+                    android:textColor="@color/btn_bg_dark"
+                    android:textSize="13sp"
+                    android:fontFamily="@font/inter_semibold"
+                    app:layout_constraintStart_toEndOf="@id/disountLogo"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+                <TextView
+                    android:id="@+id/discountNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-AED 200"
+                    android:visibility="gone"
+                    android:textSize="12sp"
+                    android:textColor="@color/primary_green"
+                    android:fontFamily="@font/inter_semibold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/discountTypesSection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintTop_toBottomOf="@id/disountLogo"
+                    android:padding="3dp"
+                    android:background="@drawable/bg_discount_types"
+                    >
+                    <TextView
+                        android:id="@+id/noneDiscount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_discount_types"
+                        android:backgroundTint="@color/btn_bg_dark"
+                        android:paddingVertical="8dp"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/inter_semibold"
+                        android:state_selected="true"
+                        android:gravity="center"
+                        android:text="None"
+                        android:textColor="@color/bg_cream"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/discountInPercentage"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        />
+                    <TextView
+                        android:id="@+id/discountInPercentage"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_discount_types"
+                        android:paddingVertical="8dp"
+                        android:gravity="center"
+                        android:state_selected="true"
+                        android:layout_marginStart="4dp"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/inter_semibold"
+                        android:text="Percent"
+                        android:textColor="@color/subheading_color_home"
+                        app:layout_constraintStart_toEndOf="@id/noneDiscount"
+                        app:layout_constraintEnd_toStartOf="@id/discountInFlat"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        />
+                    <TextView
+                        android:id="@+id/discountInFlat"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_discount_types"
+                        android:paddingVertical="8dp"
+                        android:layout_marginStart="4dp"
+                        android:state_selected="true"
+                        android:text="Flat"
+                        android:gravity="center"
+                        android:textColor="@color/subheading_color_home"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/inter_semibold"
+                        app:layout_constraintStart_toEndOf="@id/discountInPercentage"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/customTaxInPercent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@id/discountTypesSection"
+                    >
+                    <EditText
+                        android:id="@+id/discountAmountInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_input_field"
+                        android:paddingTop="11dp"
+                        android:paddingRight="34dp"
+                        android:paddingBottom="11dp"
+                        android:paddingLeft="12dp"
+                        android:hint="e.g 10"
+                        android:textSize="14dp"
+                        android:fontFamily="@font/inter_semibold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        />
+                    <TextView
+                        android:id="@+id/percentIc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="%"
+                        android:fontFamily="@font/inter_semibold"
+                        android:textSize="13sp"
+                        android:layout_marginHorizontal="17dp"
+                        app:layout_constraintEnd_toEndOf="@id/discountAmountInput"
+                        app:layout_constraintTop_toTopOf="@id/discountAmountInput"
+                        app:layout_constraintBottom_toBottomOf="@id/discountAmountInput"/>
+
+                    <LinearLayout
+                        android:id="@+id/taxRatesGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintTop_toBottomOf="@id/discountAmountInput"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent">
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/Chip1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="6dp"
+
+                            android:textSize="11dp"
+                            android:fontFamily="@font/inter_semibold"
+                            android:gravity="center"
+                            app:chipCornerRadius="10dp"
+                            style="@style/select_tax_rate_chips_style"
+                            android:text="5%"
+                            android:checkable="true" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip2"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="6dp"
+                            android:textSize="11dp"
+                            android:fontFamily="@font/inter_semibold"
+                            android:gravity="center"
+                            app:chipCornerRadius="10dp"
+                            style="@style/select_tax_rate_chips_style"
+                            android:text="10%"
+                            android:checkable="true" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip3"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="6dp"
+                            android:textSize="11dp"
+                            android:fontFamily="@font/inter_semibold"
+                            android:gravity="center"
+                            app:chipCornerRadius="10dp"
+                            style="@style/select_tax_rate_chips_style"
+                            android:text="15%"
+                            android:checkable="true" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip4"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="11dp"
+                            android:fontFamily="@font/inter_semibold"
+                            android:gravity="center"
+                            app:chipCornerRadius="10dp"
+                            style="@style/select_tax_rate_chips_style"
+                            android:text="20%"
+                            android:checkable="true" />
+
+                    </LinearLayout>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/customTaxInFlat"
+                    android:layout_width="match_parent"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@id/discountTypesSection"
+                    >
+                    <EditText
+                        android:id="@+id/discountAmountFlat"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_input_field"
+                        android:paddingTop="11dp"
+                        android:paddingRight="34dp"
+                        android:inputType="number"
+                        android:paddingBottom="11dp"
+                        android:paddingLeft="12dp"
+                        android:hint="e.g 500"
+                        android:textSize="14dp"
+                        android:fontFamily="@font/inter_semibold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        />
+                    <TextView
+                        android:id="@+id/RSIC"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="RS"
+                        android:fontFamily="@font/inter_semibold"
+                        android:textSize="13sp"
+                        android:layout_marginHorizontal="17dp"
+                        app:layout_constraintEnd_toEndOf="@id/discountAmountFlat"
+                        app:layout_constraintTop_toTopOf="@id/discountAmountFlat"
+                        app:layout_constraintBottom_toBottomOf="@id/discountAmountFlat"/>
+
+
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <!-- Subtotal / Tax / Total summary -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/invoiceSummarySection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_summary_box"
+                android:padding="12dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/discountSection"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <TextView
+                    android:id="@+id/subtotalLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Subtotal"
+                    android:textColor="#5C625E"
+                    android:fontFamily="@font/inter_medium"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/subtotalValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rs 800"
+                    android:textColor="#5C625E"
+                    android:fontFamily="@font/inter_medium"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/subtotalLabel"
+                    app:layout_constraintBottom_toBottomOf="@id/subtotalLabel" />
+
+                <TextView
+                    android:id="@+id/discountLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Discount (20%)"
+                    android:textColor="#5C625E"
+                    android:visibility="gone"
+                    android:fontFamily="@font/inter_medium"
+                    android:textSize="12sp"
+                    android:layout_marginTop="6dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/subtotalLabel" />
+                <TextView
+                    android:id="@+id/discountValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="_AED 200"
+                    android:textColor="@color/primary_green"
+                    android:visibility="gone"
+                    android:fontFamily="@font/inter_medium"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/discountLabel"
+                    app:layout_constraintBottom_toBottomOf="@id/discountLabel" />
+                <TextView
+                    android:id="@+id/taxLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tax (10%)"
+                    android:textColor="#5C625E"
+                    android:fontFamily="@font/inter_medium"
+                    android:textSize="12sp"
+                    android:layout_marginTop="6dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/discountLabel" />
+
+                <TextView
+                    android:id="@+id/taxValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rs 80"
+                    android:textColor="#5C625E"
+                    android:fontFamily="@font/inter_medium"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/taxLabel"
+                    app:layout_constraintBottom_toBottomOf="@id/taxLabel" />
+
+                <View
+                    android:id="@+id/summaryDivider"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="#E8E5DF"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/taxLabel" />
+
+                <TextView
+                    android:id="@+id/totalLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total"
+                    android:textColor="@color/btn_bg_dark"
+                    android:fontFamily="@font/inter_bold"
+                    android:textSize="15sp"
+                    android:layout_marginTop="6dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/summaryDivider" />
+
+                <TextView
+                    android:id="@+id/totalValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rs 880"
+                    android:textColor="@color/btn_bg_dark"
+                    android:fontFamily="@font/inter_bold"
+                    android:textSize="15sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/totalLabel"
+                    app:layout_constraintBottom_toBottomOf="@id/totalLabel" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Delivery order toggle -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/deliveryOrderSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_discount_section_new_invoice"
+                android:padding="12dp"
+                android:layout_marginTop="14dp"
+                app:layout_constraintTop_toBottomOf="@id/invoiceSummarySection"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <FrameLayout
+                    android:id="@+id/signIconBox"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:background="@drawable/bg_icon_box"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="17dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/ic_sign" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/addSignTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Include your signature"
+                    android:textColor="@color/btn_bg_dark"
+                    android:fontFamily="@font/inter_semibold"
+                    android:textSize="13sp"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintStart_toEndOf="@id/signIconBox"
+                    app:layout_constraintTop_toTopOf="@id/signIconBox" />
+
+                <TextView
+                    android:id="@+id/deliveryOrderSubtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Leave your mark at the end of invoice"
+                    android:textColor="#5C625E"
+                    android:fontFamily="@font/inter_medium"
+                    android:textSize="11sp"
+                    android:layout_marginTop="1dp"
+                    app:layout_constraintStart_toStartOf="@id/addSignTitle"
+                    app:layout_constraintTop_toBottomOf="@id/addSignTitle" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/addSignToggleBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:thumb="@drawable/switch_custom_thumb"
+                    app:thumbTint="#ffffff"
+                    app:track="@drawable/switch_custom_track"
+                    app:trackTint="@color/switch_track_tint"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Notes -->
+            <TextView
+                android:id="@+id/notesHeading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Notes (optional)"
+                android:textColor="#5C625E"
+                android:fontFamily="@font/inter_medium"
+                android:textSize="11sp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/deliveryOrderSection"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <EditText
+                android:id="@+id/notesInput"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:background="@drawable/bg_input_field"
+                android:padding="12dp"
+                android:gravity="top|start"
+                android:inputType="textMultiLine"
+                android:hint="e.g Thank you for your business."
+                android:textSize="13sp"
+                android:fontFamily="@font/inter_medium"
+                android:layout_marginTop="6dp"
+
+                app:layout_constraintTop_toBottomOf="@id/notesHeading"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

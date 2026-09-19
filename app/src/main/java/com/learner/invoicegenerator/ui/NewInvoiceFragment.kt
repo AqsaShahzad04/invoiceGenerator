@@ -128,10 +128,13 @@ class NewInvoiceFragment: Fragment(R.layout.fragment_new_invoice) {
                 }
             }
             else{
-                binding.continueBtn.isEnabled=false
-                binding.continueBtn.backgroundTintList=
-                    context?.let { ContextCompat.getColorStateList(it,R.color.greyish_white) }
-                binding.continueBtn.setTextColor(android.graphics.Color.parseColor("#9CA3A0"))
+                binding.continueBtn.isEnabled=true
+                binding.continueBtn.background.setTint(
+                    ContextCompat.getColor(requireContext(), R.color.btn_bg_dark)
+                )
+                binding.continueBtn.setTextColor(
+                    ContextCompat.getColor(requireContext(),R.color.bg_cream)
+                )
             }
 
 

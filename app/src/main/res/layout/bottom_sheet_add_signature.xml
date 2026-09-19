@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bottom_sheet_bg"
+    android:paddingTop="8dp"
+    android:paddingBottom="28dp"
+    android:paddingHorizontal="20dp">
+
+    <View
+        android:id="@+id/drag_handle"
+        android:layout_width="36dp"
+        android:layout_height="4dp"
+        android:background="@drawable/drag_handle_bg"
+        android:layout_marginTop="6dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/signature_heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add signature"
+        android:textSize="17sp"
+        android:fontFamily="@font/inter_bold"
+        android:layout_marginTop="14dp"
+        app:layout_constraintTop_toBottomOf="@id/drag_handle"
+        app:layout_constraintStart_toStartOf="parent"
+        android:letterSpacing="-0.015" />
+
+    <TextView
+        android:id="@+id/subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Draw your signature below with your finger.\nIt will be added to this invoice."
+        android:textColor="#5C625E"
+        android:textSize="12sp"
+        android:fontFamily="@font/inter"
+        android:lineSpacingMultiplier="1.2"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="40dp"
+        app:layout_constraintTop_toBottomOf="@id/signature_heading"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/closebtn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/avatar_crossed_state_bg"
+        android:backgroundTint="#F4F2EE"
+        app:layout_constraintTop_toTopOf="@id/signature_heading"
+        android:layout_marginLeft="12dp"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:background="@drawable/ic_close"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Signature drawing box -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/signatureBox"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/scan_barcode_box_bg"
+        android:backgroundTint="#FFFFFF"
+        android:layout_marginTop="14dp"
+        android:clipToOutline="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/subtitle">
+
+        <com.github.gcacace.signaturepad.views.SignaturePad
+            android:id="@+id/signaturePad"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:penColor="@color/primary_green"
+            app:penMinWidth="5dp"
+            />
+
+        <!-- placeholder line + text, shown only when pad is empty -->
+        <View
+            android:id="@+id/signatureLine"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#D9D9D9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="36dp" />
+
+        <TextView
+            android:id="@+id/signaturePlaceholder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sign here"
+            android:textColor="#9CA3A0"
+            android:textSize="12sp"
+            android:fontFamily="@font/inter_medium"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/signatureLine"
+            android:layout_marginBottom="6dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Clear button -->
+    <TextView
+        android:id="@+id/clearSignatureBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Clear"
+        android:textColor="#C9433E"
+        android:textSize="12sp"
+        android:fontFamily="@font/inter_semibold"
+        android:padding="6dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/signatureBox"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Save button -->
+    <Button
+        android:id="@+id/saveSignatureBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Save signature"
+        android:paddingHorizontal="14dp"
+        android:textAllCaps="false"
+        android:textSize="14sp"
+        android:fontFamily="@font/inter_semibold"
+        android:textColor="@color/bg_cream"
+        app:backgroundTint="@null"
+        android:background="@drawable/green_btn_bg"
+        android:backgroundTint="@color/btn_bg_dark"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/clearSignatureBtn" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

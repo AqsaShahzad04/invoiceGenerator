@@ -125,7 +125,7 @@ class WorkspaceSettingsViewModel(
         }
     }
 
-    suspend fun updateSignatureBlock(workspaceId: Int, value: Boolean) {
+    suspend fun updateSignatureBlock(workspaceId: Int, value: String) {
         _state.value = WorkspaceSettingsState.Loading
         try {
             repository.updateSignatureBlock(workspaceId, value)

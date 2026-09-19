@@ -1,6 +1,7 @@
 package com.learner.invoicegenerator.ui
 
 import android.os.Bundle
+import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,18 +9,21 @@ import com.google.android.material.chip.Chip
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.learner.invoicegenerator.R
 import com.learner.invoicegenerator.data.local.SessionManager
 import com.learner.invoicegenerator.databinding.BottomSheetSendReminderAfterDaysBinding
 
 import com.learner.invoicegenerator.ui.auth.ViewModel.WorkspaceSettingsViewModel
 import kotlinx.coroutines.launch
 
-class BottomSheetSendRemindersAfterDays(private val currentDays: Int) : BottomSheetDialogFragment() {
+class BottomSheetSendRemindersAfterDays(currentDays: Int) : BottomSheetDialogFragment() {
 
     private var _binding: BottomSheetSendReminderAfterDaysBinding? = null
     val binding get() = _binding!!
     val settingsViewModel: WorkspaceSettingsViewModel by activityViewModels()
 
+
+    val currentDays=currentDays
     private var selectedDays = currentDays
 
     private val presetDays = listOf(1, 3, 5, 7, 14)
@@ -73,8 +77,9 @@ class BottomSheetSendRemindersAfterDays(private val currentDays: Int) : BottomSh
     private fun setupChips() {
         binding.reminderPresetsChipGroup.removeAllViews()
 
+        val styledContext = ContextThemeWrapper(requireContext(), R.style.ThemeOverlay_TaxRate_chip)
         presetDays.forEach { days ->
-            val chip = Chip(requireContext()).apply {
+            val chip = Chip(styledContext).apply {
                 text = if (days == 1) "1 day" else "$days days"
                 isCheckable = true
                 tag = days

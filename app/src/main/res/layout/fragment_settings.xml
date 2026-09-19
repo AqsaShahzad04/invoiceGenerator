@@ -525,16 +525,17 @@ android:background="@color/bg_cream">
                         android:id="@+id/signSubtitle"
                         android:text="Reserve space for a signature"/>
                 </LinearLayout>
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/signatureTogglebtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:thumb="@drawable/switch_custom_thumb"
-                    app:thumbTint="#ffffff"
-                    app:track="@drawable/switch_custom_track"
-                    app:trackTint="@color/switch_track_tint"
-                    />
+                <TextView
+                    android:id="@+id/Addsign"
+                    android:text="Add sign here"
+                    style="@style/settings_row_rightSideText_style"/>
+                <ImageView
+                    android:id="@+id/ic_chiv_sign"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/ic_chivron_right"
+                    android:layout_marginLeft="8dp"
+                    android:layout_gravity="center_vertical"/>
             </LinearLayout>
 
             <View

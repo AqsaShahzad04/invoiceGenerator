@@ -17,7 +17,7 @@ android {
 
     defaultConfig {
         applicationId = "com.learner.invoicegenerator"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -55,7 +55,7 @@ dependencies {
     implementation(libs.navigation.fragment)
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")
-
+    implementation("com.github.gcacace:signature-pad:1.4.0")
     implementation(libs.navigation.ui)
     implementation("androidx.room:room-runtime:2.7.1")
     implementation("androidx.room:room-ktx:2.7.1")

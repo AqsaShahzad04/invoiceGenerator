@@ -53,7 +53,7 @@ class WorkspaceSettingsRepository(
     suspend fun updateDiscountLine(workspaceId: Int, value: Boolean) =
         dao.updateDiscountLine(workspaceId, value)
 
-    suspend fun updateSignatureBlock(workspaceId: Int, value: Boolean) =
+    suspend fun updateSignatureBlock(workspaceId: Int, value: String) =
         dao.updateSignatureBlock(workspaceId, value)
 
     suspend fun updateDefaultNotes(workspaceId: Int, value: String?) =

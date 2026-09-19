@@ -3,6 +3,7 @@ package com.learner.invoicegenerator.data.local.entity
 import android.R
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.time.LocalDate
 import java.util.Date
 
 @Entity(tableName="Invoices")
@@ -13,14 +14,15 @@ data class Invoice (
     val workspaceId:Int,
     val clientId:Int,
     val status:String,
-    val issueDate:Date,
-    val dueDate:Date,
+    val issueDate: LocalDate,
+    val dueDate: LocalDate,
     val currencyCode:String,
     val taxPercentage:Double,
     val discountType:String,
     val discountValue:Double,
+    val signaturePath:String?=null,
     val endNote:String,
-    val createdAt:Date,
-    val updatedAt:Date
+    val createdAt: LocalDate,
+    val updatedAt: LocalDate
 )
 
