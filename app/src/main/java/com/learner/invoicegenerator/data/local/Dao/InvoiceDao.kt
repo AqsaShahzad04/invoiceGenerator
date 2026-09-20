@@ -28,5 +28,8 @@ interface InvoiceDao {
     suspend fun getInvoiceByInvoiceNum(invoiceNum:String):Invoice?
 
 
+    @Query("SELECT * From Invoices WHERE workspaceId=:workspaceId ORDER BY id DESC LIMIT 1 ")
+    suspend fun getLatestInvoice(workspaceId: Int):Invoice?
+
 
 }

@@ -4,7 +4,9 @@ import com.learner.invoicegenerator.data.local.Dao.InvoiceDao
 import com.learner.invoicegenerator.data.local.Dao.InvoiceItemLineDao
 import com.learner.invoicegenerator.data.local.entity.Invoice
 import com.learner.invoicegenerator.data.local.entity.InvoiceItemLine
+import com.learner.invoicegenerator.data.local.entity.NumberingReset
 import kotlinx.coroutines.flow.Flow
+import java.time.LocalDate
 
 class InvoiceRepository(private val invoiceDao: InvoiceDao,private val invoiceItemLineDao: InvoiceItemLineDao){
 
@@ -31,5 +33,23 @@ class InvoiceRepository(private val invoiceDao: InvoiceDao,private val invoiceIt
     fun getItemsfrominvoiceId(invoiceId:Int): Flow<List<InvoiceItemLine>> = invoiceItemLineDao.getItemsByInvoiceId(invoiceId)
 
 
+    suspend fun getInvoiceNum(workspaceId: Int, resetPeriod: NumberingReset):Int {
+        val currentDate= LocalDate.now()
+        val latestInvoice = invoiceDao.getLatestInvoice(workspaceId)
+        val invoiceNum = latestInvoice?.invoiceNum?.takeLast(4)?.toIntOrNull()
+        val lastDate = latestInvoice?.issueDate
+        val sameYear = lastDate?.year == currentDate.year
+        val sameMonth = sameYear && (lastDate?.monthValue == currentDate.monthValue)
+        var nextNum = invoiceNum ?: 0
+        if (resetPeriod == NumberingReset.MONTHLY && sameMonth || resetPeriod == NumberingReset.YEARLY && sameYear || resetPeriod== NumberingReset.NEVER) {
+            nextNum +=1
+        }
+        else {
+            nextNum = 1
+        }
 
+        return nextNum
+
+
+    }
 }

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.learner.invoicegenerator.data.local.entity.Invoice
 import com.learner.invoicegenerator.data.local.entity.InvoiceItemLine
+import com.learner.invoicegenerator.data.local.entity.NumberingReset
 import com.learner.invoicegenerator.data.repository.InvoiceRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,6 +20,14 @@ class InvoiceViewModel(private val repository: InvoiceRepository): ViewModel(){
 
     private val _selectedItems= MutableStateFlow<List<InvoiceItemLine>>(emptyList())
     val selectedItems: StateFlow<List<InvoiceItemLine>> =_selectedItems
+
+    private val _invoiceDraft=MutableStateFlow<Invoice?>(null)
+    val invoiceDraft: StateFlow<Invoice?> = _invoiceDraft
+
+    fun updateInvoiceDraft(draft:Invoice){
+        _invoiceDraft.value=draft
+
+    }
 
     fun addToSelectedItems(item:InvoiceItemLine){
         _selectedItems.value = _selectedItems.value + item
@@ -52,6 +61,10 @@ class InvoiceViewModel(private val repository: InvoiceRepository): ViewModel(){
                 item
             }
         }
+    }
+
+      suspend fun getInvoiceNum(workspaceId: Int,resetPeriod: NumberingReset):Int{
+        return repository.getInvoiceNum(workspaceId,resetPeriod)
     }
     fun insertInvoice(invoice: Invoice) {
         _addInvoiceState.value = InvoiceState.Loading

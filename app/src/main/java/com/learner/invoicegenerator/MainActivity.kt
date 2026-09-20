@@ -114,19 +114,16 @@ class MainActivity : AppCompatActivity() {
          * Bottom padding remains 0 because the navigation
          * bar is intentionally hidden.
          */
-        ViewCompat.setOnApplyWindowInsetsListener(
-            findViewById(R.id.main)
-        ) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
 
-            val systemBars = insets.getInsets(
-                WindowInsetsCompat.Type.systemBars()
-            )
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
 
             v.setPadding(
                 systemBars.left,
                 systemBars.top,
                 systemBars.right,
-                0
+                ime.bottom   // keyboard khule to iski height, band ho to 0
             )
 
             insets

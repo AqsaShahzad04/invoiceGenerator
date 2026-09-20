@@ -188,6 +188,7 @@
         app:layout_constraintTop_toBottomOf="@id/indicatorsInvoiceSection"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="@id/indicatorsInvoiceSection"
+        app:layout_constraintBottom_toTopOf="@id/invoice_action_button"
         />
     <LinearLayout
         android:id="@+id/invoice_action_button"

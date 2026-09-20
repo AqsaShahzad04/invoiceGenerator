@@ -33,18 +33,21 @@
         android:layout_marginTop="6dp"
         app:layout_constraintStart_toStartOf="parent"
         />
+
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/detailsSubtitle"
+        app:layout_constraintBottom_toBottomOf="parent"
 
         >
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="120dp">
+            >
             <LinearLayout
                 android:id="@+id/datesSection"
                 android:layout_width="match_parent"
@@ -640,10 +643,10 @@
                     android:id="@+id/deliveryOrderSubtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Leave your mark at the end of invoice"
+                    android:text="Your default sign from settings will\n be added to the invoice"
                     android:textColor="#5C625E"
                     android:fontFamily="@font/inter_medium"
-                    android:textSize="11sp"
+                    android:textSize="10sp"
                     android:layout_marginTop="1dp"
                     app:layout_constraintStart_toStartOf="@id/addSignTitle"
                     app:layout_constraintTop_toBottomOf="@id/addSignTitle" />

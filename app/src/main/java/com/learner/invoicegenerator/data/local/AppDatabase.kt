@@ -22,7 +22,7 @@ import com.learner.invoicegenerator.data.local.entity.SettingsConverter
 import com.learner.invoicegenerator.data.local.entity.WorkspaceSettings
 
 
-@Database(entities = [User::class,Client::class,Item::class,Workspace::class, Invoice::class, InvoiceItemLine::class, WorkspaceSettings::class], version = 11)
+@Database(entities = [User::class,Client::class,Item::class,Workspace::class, Invoice::class, InvoiceItemLine::class, WorkspaceSettings::class], version = 12)
 @TypeConverters(convertor::class,SettingsConverter::class)
 abstract class InvoiceDatabase: RoomDatabase() {
     abstract fun userDao(): Userdao
