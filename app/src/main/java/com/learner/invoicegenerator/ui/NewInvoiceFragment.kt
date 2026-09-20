@@ -127,7 +127,7 @@ class NewInvoiceFragment: Fragment(R.layout.fragment_new_invoice) {
                     }
                 }
             }
-            else{
+            else if(currentIndex==2){
                 binding.continueBtn.isEnabled=true
                 binding.continueBtn.background.setTint(
                     ContextCompat.getColor(requireContext(), R.color.btn_bg_dark)
@@ -135,6 +135,16 @@ class NewInvoiceFragment: Fragment(R.layout.fragment_new_invoice) {
                 binding.continueBtn.setTextColor(
                     ContextCompat.getColor(requireContext(),R.color.bg_cream)
                 )
+            }
+            else if(currentIndex==3){
+                binding.continueBtn.isEnabled=true
+                binding.continueBtn.background.setTint(
+                    ContextCompat.getColor(requireContext(), R.color.btn_bg_dark)
+                )
+                binding.continueBtn.setTextColor(
+                    ContextCompat.getColor(requireContext(),R.color.bg_cream)
+                )
+                binding.continueBtn.text="Create invoice"
             }
 
 

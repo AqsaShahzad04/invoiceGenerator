@@ -233,6 +233,10 @@
             android:id="@+id/action_invoice_screen_to_home_fragment"
             app:destination="@id/homeScreenFragment"/>
     </fragment>
+    <fragment
+        android:id="@+id/fragmentFinalInvoice"
+        android:name="com.learner.invoicegenerator.ui.FragmentFinalInvoice"
+        android:label="FragmentFinalInvoice" />
 
 </navigation>
 

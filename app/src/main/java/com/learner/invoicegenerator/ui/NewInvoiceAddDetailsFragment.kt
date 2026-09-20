@@ -126,7 +126,7 @@ class NewInvoiceAddDetailsFragment : Fragment(R.layout.fragment_newinvoice_add_d
                     val draft = invoiceViewModel.invoiceDraft.value
                     // sirf tab update karo jab "% tax" already selected ho (No Tax nahi), warna
                     // "No Tax" wala intentional choice overwrite ho jayega
-                    if (draft != null && draft.taxPercentage != 0.0 && draft.taxPercentage != newTaxRate) {
+                    if (draft != null  && draft.taxPercentage != newTaxRate) {
                         updateDraft { it.copy(taxPercentage = newTaxRate) }
                     }
                 }

@@ -1,0 +1,22 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- outer circle outline, no fill -->
+    <path
+        android:pathData="M12,12m-10,0a10,10 0 1,0 20,0a10,10 0 1,0 -20,0"
+        android:strokeColor="#9CA3A0"
+        android:strokeWidth="1.6"
+        android:fillColor="#00000000" />
+
+    <!-- diagonal line through it -->
+    <path
+        android:pathData="M5,5 L19,19"
+        android:strokeColor="#9CA3A0"
+        android:strokeWidth="1.6"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000" />
+
+</vector>
