@@ -10,8 +10,8 @@ import java.time.LocalDate
 
 class InvoiceRepository(private val invoiceDao: InvoiceDao,private val invoiceItemLineDao: InvoiceItemLineDao){
 
-    suspend fun insertInvoice(invoice: Invoice){
-        invoiceDao.insertInvoice(invoice)
+    suspend fun insertInvoice(invoice: Invoice):Long{
+        return invoiceDao.insertInvoice(invoice)
     }
     suspend fun updateInvoice(invoice: Invoice){
         invoiceDao.updateInvoice(invoice)
@@ -27,7 +27,9 @@ class InvoiceRepository(private val invoiceDao: InvoiceDao,private val invoiceIt
         return invoiceDao.getInvoicesByWorkspaceId(workspaceId)
     }
 
-    suspend fun insertInvoiceItemLine(item: InvoiceItemLine)=invoiceItemLineDao.addItemInInvoice(item)
+    suspend fun insertInvoiceItemLine(item: InvoiceItemLine):Long{
+        return invoiceItemLineDao.addItemInInvoice(item)
+    }
     suspend fun updateInvoiceItemLine(item: InvoiceItemLine)=invoiceItemLineDao.updateItemInInvoice(item)
     suspend fun deleteInvoiceItemLine(item: InvoiceItemLine)=invoiceItemLineDao.deleteItemFromInvoice(item)
     fun getItemsfrominvoiceId(invoiceId:Int): Flow<List<InvoiceItemLine>> = invoiceItemLineDao.getItemsByInvoiceId(invoiceId)

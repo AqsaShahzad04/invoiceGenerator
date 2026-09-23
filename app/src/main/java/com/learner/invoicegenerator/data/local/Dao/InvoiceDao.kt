@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 interface InvoiceDao {
 
     @Insert
-    suspend fun insertInvoice(invoice: Invoice)
+    suspend fun insertInvoice(invoice: Invoice):Long
 
     @Update
     suspend fun updateInvoice(invoice:Invoice)

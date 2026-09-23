@@ -22,6 +22,6 @@ data class Invoice (
     val discountValue:Double,
     val signaturePath:String?=null,
     val endNote:String,
-
+    val pdfPath:String?=null
 )
 

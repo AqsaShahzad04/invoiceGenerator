@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import com.learner.invoicegenerator.data.local.entity.Client
 import com.learner.invoicegenerator.data.local.entity.Item
 import kotlinx.coroutines.flow.Flow
 
@@ -22,6 +23,9 @@ interface ItemDao {
 
     @Query("SELECT * FROM Items WHERE WorkspaceId=:workspaceId")
       fun getAllItemsOfWorkspace(workspaceId:Int): Flow<List<Item>>
+
+    @Query("SELECT * FROM Items WHERE workspaceId= :workspaceId")
+    suspend fun getItemsByWorkspaceId(workspaceId: Int): List<Item>
 
     @Query("SELECT * FROM Items WHERE id=:id")
     suspend fun getItemById(id:Int):Item?

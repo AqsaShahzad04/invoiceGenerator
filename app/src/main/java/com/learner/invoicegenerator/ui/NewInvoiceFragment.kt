@@ -11,8 +11,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 import com.learner.invoicegenerator.R
 import com.learner.invoicegenerator.databinding.FragmentNewInvoiceBinding
 import com.learner.invoicegenerator.ui.auth.ViewModel.InvoiceViewModel
@@ -42,6 +44,7 @@ class NewInvoiceFragment: Fragment(R.layout.fragment_new_invoice) {
         super.onViewCreated(view, savedInstanceState)
         clientViewModel.resetselectedClients()
         invoiceViewModel.resetSelectedItems()
+        invoiceViewModel.resetInvoiceDraft()
 
         val navHostFragment=childFragmentManager.findFragmentById(R.id.newInvoiceNavHost) as NavHostFragment
         val invoiceNavController=navHostFragment.findNavController()
@@ -72,7 +75,15 @@ class NewInvoiceFragment: Fragment(R.layout.fragment_new_invoice) {
             )
             binding.continueBtn.setOnClickListener {
                 if(currentIndex==stepOrder.lastIndex){
-                    findNavController().navigate(R.id.action_invoice_screen_to_home_fragment)
+                    val outerNavController = requireActivity().findNavController(R.id.nav_host)
+
+                    outerNavController.navigate(
+                        R.id.fragmentFinalInvoice,
+                        null,
+                        navOptions {
+                            popUpTo(R.id.newInvoiceFragment) { inclusive = true }
+                        }
+                    )
                 }
                 else{
                     invoiceNavController.navigate(nextStepActions[currentIndex])
@@ -145,6 +156,7 @@ class NewInvoiceFragment: Fragment(R.layout.fragment_new_invoice) {
                     ContextCompat.getColor(requireContext(),R.color.bg_cream)
                 )
                 binding.continueBtn.text="Create invoice"
+
             }
 
 

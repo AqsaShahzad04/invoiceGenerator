@@ -28,6 +28,13 @@ class InvoiceViewModel(private val repository: InvoiceRepository): ViewModel(){
         _invoiceDraft.value=draft
 
     }
+    fun resetInvoiceDraft(){
+        _invoiceDraft.value=null
+    }
+    fun resetState(){
+        _addInvoiceState.value= InvoiceState.Idle
+    }
+
 
     fun addToSelectedItems(item:InvoiceItemLine){
         _selectedItems.value = _selectedItems.value + item
@@ -70,8 +77,8 @@ class InvoiceViewModel(private val repository: InvoiceRepository): ViewModel(){
         _addInvoiceState.value = InvoiceState.Loading
         viewModelScope.launch {
             try {
-                repository.insertInvoice(invoice)
-                _addInvoiceState.value = InvoiceState.Success
+               val invoiceId= repository.insertInvoice(invoice)
+                _addInvoiceState.value = InvoiceState.Success(invoiceId.toInt())
             } catch (error: Exception) {
                 _addInvoiceState.value = InvoiceState.Error(error.message ?: "invalid error")
             }
@@ -84,7 +91,7 @@ class InvoiceViewModel(private val repository: InvoiceRepository): ViewModel(){
             viewModelScope.launch {
                 try {
                     repository.updateInvoice(invoice)
-                    _addInvoiceState.value = InvoiceState.Success
+                    _addInvoiceState.value = InvoiceState.Success(invoice.id)
                 } catch (error: Exception) {
                     _addInvoiceState.value = InvoiceState.Error(error.message ?: "invalid error")
                 }
@@ -96,7 +103,7 @@ class InvoiceViewModel(private val repository: InvoiceRepository): ViewModel(){
                 viewModelScope.launch {
                     try {
                         repository.deleteInvoice(invoice)
-                        _addInvoiceState.value = InvoiceState.Success
+                        _addInvoiceState.value = InvoiceState.Success(invoice.id)
                     } catch (error: Exception) {
                         _addInvoiceState.value =
                             InvoiceState.Error(error.message ?: "invalid error")
@@ -117,8 +124,8 @@ class InvoiceViewModel(private val repository: InvoiceRepository): ViewModel(){
         _addInvoiceState.value = InvoiceState.Loading
         viewModelScope.launch {
             try {
-                repository.insertInvoiceItemLine(item)
-                _addInvoiceState.value = InvoiceState.Success
+                val id=repository.insertInvoiceItemLine(item)
+                _addInvoiceState.value = InvoiceState.Success(id.toInt())
             } catch (e: Exception) {
                 _addInvoiceState.value = InvoiceState.Error(e.message ?: "Error occured")
             }
@@ -129,7 +136,7 @@ class InvoiceViewModel(private val repository: InvoiceRepository): ViewModel(){
             viewModelScope.launch {
                 try {
                     repository.updateInvoiceItemLine(item)
-                    _addInvoiceState.value = InvoiceState.Success
+                    _addInvoiceState.value = InvoiceState.Success(item.id)
                 } catch (e: Exception) {
                     _addInvoiceState.value = InvoiceState.Error(e.message ?: "Error occured")
                 }
@@ -141,7 +148,7 @@ class InvoiceViewModel(private val repository: InvoiceRepository): ViewModel(){
                 viewModelScope.launch {
                     try {
                         repository.deleteInvoiceItemLine(item)
-                        _addInvoiceState.value = InvoiceState.Success
+                        _addInvoiceState.value = InvoiceState.Success(item.id)
                     } catch (e: Exception) {
                         _addInvoiceState.value = InvoiceState.Error(e.message ?: "Error occured")
                     }

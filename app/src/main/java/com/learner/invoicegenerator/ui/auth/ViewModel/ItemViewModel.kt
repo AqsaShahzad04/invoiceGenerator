@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.learner.invoicegenerator.ApiCalling.upcItem
 import com.learner.invoicegenerator.data.local.SessionManager
+import com.learner.invoicegenerator.data.local.entity.Client
 import com.learner.invoicegenerator.data.local.entity.Item
 import com.learner.invoicegenerator.data.repository.ItemRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -56,6 +57,15 @@ class ItemViewModel(
         } else {
             repository.searchItems(query, id)
         }
+    }
+
+    fun getItemsByWorkspaceId(workspaceId:Int):List<Item>{
+        lateinit  var itemList:List<Item>
+        viewModelScope.launch{
+            itemList= repository.getItemsByWorkspaceId(workspaceId)
+        }
+        return itemList
+
     }
 
     fun setSearchQuery(query: String) {

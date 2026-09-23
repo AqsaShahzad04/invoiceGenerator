@@ -54,6 +54,15 @@ class ClientViewModel(
            repository.searchClients(id,query)
         }) as Flow<List<Client>>
     }
+
+     fun getClientsByWorkspaceId(workspaceId:Int):List<Client>{
+         lateinit  var clientList:List<Client>
+         viewModelScope.launch{
+           clientList= repository.getClientsByWorkspaceId(workspaceId)
+         }
+         return clientList
+
+    }
     fun selectClient(newClient:Client){
         _selectedClient.value = newClient
     }

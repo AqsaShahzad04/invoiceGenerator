@@ -48,6 +48,8 @@ dependencies {
     implementation(libs.androidx.runtime)
     implementation(libs.androidx.ui.graphics)
     implementation("com.google.android.material:material:1.12.0")
+    implementation(libs.navigation.fragment.ktx)
+    implementation(libs.navigation.ui.ktx)
     implementation(libs.play.services.mlkit.barcode.scanning)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)

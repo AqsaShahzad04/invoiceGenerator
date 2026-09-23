@@ -61,8 +61,8 @@ class NewInvoicesReviewFragment: Fragment(R.layout.fragment_newinvoice_review) {
                     val adapter= InvoiceItemsReviewAdapter(itemsList)
                      binding.itemDetailsRow.adapter=adapter
                     itemsList.forEach { item->
-                        subTotal+=item.unitPrice
-                        itemsCounter+=(1*item.itemQuantity.toInt())
+                        subTotal+=item.unitPrice*item.itemQuantity
+                        itemsCounter+=1
 
                     }
                     binding.subtotalValue.text= String.format("%.2f", subTotal)

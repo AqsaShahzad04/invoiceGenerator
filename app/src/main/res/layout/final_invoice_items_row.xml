@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvItemName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="daal"
+                android:fontFamily="@font/inter_medium"
+                android:textColor="#171817"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvItemRate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:text="Rs 300 / piece"
+                android:fontFamily="@font/inter"
+                android:textColor="#9CA3A0"
+                android:textSize="11sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvItemQty"
+            android:layout_width="32dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="1"
+            android:fontFamily="@font/inter"
+            android:textColor="#171817"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tvItemAmount"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="300"
+            android:fontFamily="@font/inter_semibold"
+            android:textColor="#171817"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+

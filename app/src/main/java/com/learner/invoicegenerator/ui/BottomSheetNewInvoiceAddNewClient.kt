@@ -2,6 +2,7 @@ package com.learner.invoicegenerator.ui
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,6 +37,7 @@ class BottomSheetNewInvoiceAddNewClient: BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         val sessionManager= SessionManager.getInstance(requireContext())
         val activeWorkspaceId=sessionManager.getActiveWorkspaceId()
+        Log.d("WorkspaceId","workspaceId:${activeWorkspaceId}")
         binding.closeBtn.setOnClickListener {
             dismiss()
         }
@@ -47,6 +49,10 @@ class BottomSheetNewInvoiceAddNewClient: BottomSheetDialogFragment() {
             if (businessName.isNullOrEmpty()){
                 binding.businessNameInput.error="Business name is required!!"
                 return@setOnClickListener
+            }
+            if(activeWorkspaceId==-1){
+                Toast.makeText(context,"You have not created any workspace yet,create it!",Toast.LENGTH_SHORT).show()
+                findNavController().navigateUp()
             }
             val client= Client(
                 businessName = businessName,

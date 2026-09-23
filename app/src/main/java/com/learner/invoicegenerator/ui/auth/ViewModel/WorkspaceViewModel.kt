@@ -65,4 +65,12 @@ class WorkspaceViewModel(
     suspend fun getWorkspaceById(id:Int):Workspace?{
         return repository.getWorkspacebyId(id)
     }
+
+    fun getLatestWorkspace(userId: Int):Workspace?{
+         var workspace: Workspace?=null
+        viewModelScope.launch {
+           workspace = repository.getLatestWorkspace(userId)
+        }
+        return workspace
+    }
 }

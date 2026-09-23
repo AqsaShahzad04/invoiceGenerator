@@ -16,6 +16,8 @@ interface Clientdao {
     @Query("SELECT * FROM Clients WHERE workspaceId = :workspaceId")
      fun getAllClientsOfWorkspace(workspaceId:Int): Flow<List<Client>>
 
+     @Query("SELECT * FROM Clients WHERE workspaceId= :workspaceId")
+    suspend fun getClientsByworkspaceId(workspaceId: Int): List<Client>
     @Query("SELECT * FROM Clients WHERE id = :id")
     suspend fun getClientById(id: Int): Client?
 

@@ -3,6 +3,7 @@ package com.learner.invoicegenerator.data.repository
 import com.learner.invoicegenerator.ApiCalling.RetrofitInstance
 import com.learner.invoicegenerator.ApiCalling.upcItem
 import com.learner.invoicegenerator.data.local.Dao.ItemDao
+import com.learner.invoicegenerator.data.local.entity.Client
 import com.learner.invoicegenerator.data.local.entity.Item
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Retrofit
@@ -17,7 +18,9 @@ class ItemRepository(private val itemDao: ItemDao) {
     suspend fun getItemById(id: Int): Item? = itemDao.getItemById(id)
     fun searchItems(query: String, workspaceId: Int): Flow<List<Item>> = itemDao.searchItemsByName(query, workspaceId)
 
-
+    suspend fun getItemsByWorkspaceId(workspaceId:Int): List<Item> {
+        return itemDao.getItemsByWorkspaceId(workspaceId)
+    }
     suspend fun searchItemlocallyByBarcode(code:String,workspaceId: Int):Item?{
         return itemDao.searchItemByBarcode(code,workspaceId)
     }

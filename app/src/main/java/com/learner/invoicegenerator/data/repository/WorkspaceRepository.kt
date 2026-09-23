@@ -15,5 +15,9 @@ class WorkspaceRepository(private val workspaceDao: WorkspaceDao)  {
     }
     fun getWorkspacesByUserId(userId: Int) = workspaceDao.getWorkspaceByUserId(userId)
 
+    suspend fun getLatestWorkspace(userId:Int): Workspace?{
+       return  workspaceDao.getLatestWorkspace(userId)
+    }
+
     suspend fun getWorkspacebyId(id: Int) = workspaceDao.getWorkspaceById(id)
 }

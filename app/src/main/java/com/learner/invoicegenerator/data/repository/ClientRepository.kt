@@ -11,6 +11,10 @@ class ClientRepository(private val ClientDao: Clientdao) {
     fun getAllClients(workspaceId:Int): Flow<List<Client>> {
         return ClientDao.getAllClientsOfWorkspace(workspaceId)
     }
+
+    suspend fun getClientsByWorkspaceId(workspaceId:Int): List<Client> {
+        return ClientDao.getClientsByworkspaceId(workspaceId)
+    }
     suspend fun getClientById(id: Int): Client? {
         return ClientDao.getClientById(id)
     }

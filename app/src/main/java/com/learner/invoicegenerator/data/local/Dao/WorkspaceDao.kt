@@ -6,6 +6,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import com.learner.invoicegenerator.data.local.entity.Invoice
 import com.learner.invoicegenerator.data.local.entity.Workspace
 import kotlinx.coroutines.flow.Flow
 
@@ -26,4 +27,7 @@ interface WorkspaceDao {
 
     @Delete
     suspend fun Delete(workspace: Workspace)
+
+    @Query("SELECT * From Workspaces WHERE ownerUserId=:userId ORDER BY id DESC LIMIT 1 ")
+    suspend fun getLatestWorkspace(userId: Int):Workspace?
 }

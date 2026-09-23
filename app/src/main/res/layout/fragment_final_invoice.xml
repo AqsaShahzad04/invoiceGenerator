@@ -36,9 +36,11 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="Invoice"
+                android:textAllCaps="true"
+                android:letterSpacing="0.07"
+                android:fontFamily="@font/inter_semibold"
                 android:textColor="#171817"
-                android:textSize="13sp"
-                android:textStyle="bold" />
+                android:textSize="13sp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -73,9 +75,9 @@
                         android:layout_height="wrap_content"
                         android:includeFontPadding="false"
                         android:text="Mark paid"
+                        android:fontFamily="@font/inter_semibold"
                         android:textColor="#FFFFFF"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -93,6 +95,7 @@
 
         <!-- White invoice card -->
         <LinearLayout
+            android:id="@+id/invoiceParentCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -107,15 +110,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:background="#32520e"
                 android:orientation="vertical"
                 android:paddingBottom="14dp">
 
                 <TextView
+                    android:id="@+id/myWorkspaceName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/playfair_display_bold"
                     android:text="ayesha space"
-                    android:textColor="@color/bg_cream"
+                    android:textAllCaps="true"
+                    android:paddingVertical="6dp"
+                    android:textColor="@color/btn_bg_dark"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -125,7 +131,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:text="NTN"
-                    android:textColor="@color/bg_cream"
+                    android:fontFamily="@font/inter"
+                    android:textColor="@color/btn_bg_dark"
                     android:textSize="10sp" />
 
             </LinearLayout>
@@ -154,9 +161,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="INVOICE"
+                        android:fontFamily="@font/inter_medium"
                         android:textColor="#9CA3A0"
-                        android:textSize="10sp"
-                        android:textStyle="bold" />
+                        android:textSize="10sp" />
 
                     <TextView
                         android:id="@+id/tvInvoiceNumber"
@@ -164,9 +171,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="##00002"
+                        android:fontFamily="@font/inter_bold"
                         android:textColor="#171817"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
+                        android:textSize="13sp" />
 
                 </LinearLayout>
 
@@ -188,6 +195,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Unpaid"
+                        android:fontFamily="@font/inter_medium"
                         android:textColor="#D9534F"
                         android:textSize="11sp" />
 
@@ -212,19 +220,19 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="BILL TO"
+                        android:fontFamily="@font/inter_medium"
                         android:textColor="#9CA3A0"
-                        android:textSize="10sp"
-                        android:textStyle="bold" />
+                        android:textSize="10sp" />
 
                     <TextView
-                        android:id="@+id/tvClientName"
+                        android:id="@+id/tvClientBusinessName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="cllient-2"
+                        android:fontFamily="@font/inter_semibold"
                         android:textColor="#171817"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -239,19 +247,19 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="DATE"
+                        android:fontFamily="@font/inter_medium"
                         android:textColor="#9CA3A0"
-                        android:textSize="10sp"
-                        android:textStyle="bold" />
+                        android:textSize="10sp" />
 
                     <TextView
-                        android:id="@+id/tvDate"
+                        android:id="@+id/tvCurrentDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="20 Sept 2026"
+                        android:fontFamily="@font/inter_semibold"
                         android:textColor="#171817"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/tvDueDate"
@@ -259,6 +267,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:text="Due 04 Nov 2026"
+                        android:fontFamily="@font/inter"
                         android:textColor="#5C625E"
                         android:textSize="11sp" />
 
@@ -284,86 +293,39 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="ITEM"
+                    android:fontFamily="@font/inter_medium"
                     android:textColor="#9CA3A0"
-                    android:textSize="9sp"
-                    android:textStyle="bold" />
+                    android:textSize="9sp" />
 
                 <TextView
                     android:layout_width="32dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="QTY"
+                    android:fontFamily="@font/inter_medium"
                     android:textColor="#9CA3A0"
-                    android:textSize="9sp"
-                    android:textStyle="bold" />
+                    android:textSize="9sp" />
 
                 <TextView
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:gravity="end"
                     android:text="AMOUNT"
+                    android:fontFamily="@font/inter_medium"
                     android:textColor="#9CA3A0"
-                    android:textSize="9sp"
-                    android:textStyle="bold" />
+                    android:textSize="9sp" />
 
             </LinearLayout>
 
             <!-- Item row(s): this one goes in a RecyclerView if there are
                  multiple items; shown here as the single "daal" row from
                  the screenshot -->
-            <LinearLayout
+            <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp">
+                android:id="@+id/finalInvoiceItemsRV"
+                />
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tvItemName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="daal"
-                        android:textColor="#171817"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/tvItemRate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="1dp"
-                        android:text="Rs 300 / piece"
-                        android:textColor="#9CA3A0"
-                        android:textSize="11sp" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/tvItemQty"
-                    android:layout_width="32dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="1"
-                    android:textColor="#171817"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/tvItemAmount"
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:text="300"
-                    android:textColor="#171817"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -387,18 +349,21 @@
                     android:paddingBottom="4dp">
 
                     <TextView
+                        android:id="@+id/subtotalLabel"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Subtotal"
+                        android:fontFamily="@font/inter"
                         android:textColor="#5C625E"
                         android:textSize="12sp" />
 
                     <TextView
-                        android:id="@+id/tvSubtotal"
+                        android:id="@+id/subtotalValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Rs 300"
+                        android:fontFamily="@font/inter_medium"
                         android:textColor="#5C625E"
                         android:textSize="12sp" />
 
@@ -412,18 +377,21 @@
                     android:paddingBottom="4dp">
 
                     <TextView
+                        android:id="@+id/discountLabel"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Discount (15%)"
+                        android:fontFamily="@font/inter"
                         android:textColor="#0C861A"
                         android:textSize="12sp" />
 
                     <TextView
-                        android:id="@+id/tvDiscount"
+                        android:id="@+id/discountValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="− Rs 45"
+                        android:fontFamily="@font/inter_medium"
                         android:textColor="#0C861A"
                         android:textSize="12sp" />
 
@@ -437,18 +405,21 @@
                     android:paddingBottom="4dp">
 
                     <TextView
+                        android:id="@+id/taxLabel"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Tax (10%)"
+                        android:fontFamily="@font/inter"
                         android:textColor="#5C625E"
                         android:textSize="12sp" />
 
                     <TextView
-                        android:id="@+id/tvTax"
+                        android:id="@+id/taxValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Rs 26"
+                        android:fontFamily="@font/inter_medium"
                         android:textColor="#5C625E"
                         android:textSize="12sp" />
 
@@ -472,24 +443,25 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Total"
+                        android:fontFamily="@font/inter_bold"
                         android:textColor="#171817"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/tvTotal"
+                        android:id="@+id/totalValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Rs 281"
+                        android:fontFamily="@font/inter_bold"
                         android:textColor="#171817"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textSize="16sp" />
 
                 </LinearLayout>
             </LinearLayout>
 
             <!-- Payment note -->
             <TextView
+                android:id="@+id/endNote"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
@@ -497,6 +469,7 @@
                 android:lineSpacingMultiplier="1.5"
                 android:paddingTop="12dp"
                 android:text="Please reference the invoice number when paying."
+                android:fontFamily="@font/inter"
                 android:textColor="#5C625E"
                 android:textSize="11sp" />
 
@@ -514,9 +487,9 @@
                 android:gravity="center"
                 android:letterSpacing="0.18"
                 android:text="— THANK YOU —"
+                android:fontFamily="@font/inter_semibold"
                 android:textColor="#9CA3A0"
-                android:textSize="9sp"
-                android:textStyle="bold" />
+                android:textSize="9sp" />
 
         </LinearLayout>
 
@@ -531,7 +504,7 @@
 
             <!-- Send: icon + text as ImageView+TextView instead of drawableStart -->
             <LinearLayout
-                android:id="@+id/btnSend"
+                android:id="@+id/btnShare"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -554,17 +527,17 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Send"
+                    android:text="Share"
                     android:textAllCaps="false"
+                    android:fontFamily="@font/inter_semibold"
                     android:textColor="#FBFAF7"
-                    android:textSize="13sp"
-                    android:textStyle="bold" />
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
             <!-- Share: icon + text as ImageView+TextView instead of drawableStart -->
             <LinearLayout
-                android:id="@+id/btnShare"
+                android:id="@+id/btnDownload"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -580,230 +553,28 @@
                     android:layout_width="14dp"
                     android:layout_height="14dp"
                     android:layout_marginEnd="6dp"
-                    android:src="@drawable/ic_share"
+                    android:src="@drawable/ic_download"
                     android:contentDescription="@null"
                     app:tint="#171817" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Share"
+                    android:text="Download"
                     android:textAllCaps="false"
+                    android:fontFamily="@font/inter_semibold"
                     android:textColor="#171817"
-                    android:textSize="13sp"
-                    android:textStyle="bold" />
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
-            <ImageButton
-                android:id="@+id/btnDownload"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
-                android:background="@drawable/bg_btn_outline"
-                android:padding="12dp"
-                android:src="@drawable/ic_download"
-                android:contentDescription="Download"
-                app:tint="#171817" />
 
         </LinearLayout>
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Change header colors:"
-            android:fontFamily="@font/inter_medium"
-            android:textSize="16sp"
-            android:paddingStart="16dp"
-            android:textColor="@color/subheading_color_home"
-            android:layout_marginTop="46dp"
-            />
 
 
 
-        <!-- Header color options: user taps a dot to change the header background -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="4dp"
-            android:gravity="center"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:orientation="horizontal">
-
-            <FrameLayout
-                android:id="@+id/dotGreenWrap"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginEnd="10dp">
-
-                <View
-                    android:id="@+id/dotGreenRing"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:background="@drawable/color_dot_ring"
-                    android:visibility="visible" />
-
-                <View
-                    android:id="@+id/dotGreen"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/color_dot"
-                    android:backgroundTint="#32520e"
-                    android:clickable="true"
-                    android:focusable="true" />
-
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/dotBlueWrap"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginEnd="10dp">
-
-                <View
-                    android:id="@+id/dotBlueRing"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:background="@drawable/color_dot_ring"
-                    android:visibility="invisible" />
-
-                <View
-                    android:id="@+id/dotBlue"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/color_dot"
-                    android:backgroundTint="#6797b8"
-                    android:clickable="true"
-                    android:focusable="true" />
-
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/dotPurpleWrap"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginEnd="10dp">
-
-                <View
-                    android:id="@+id/dotPurpleRing"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:background="@drawable/color_dot_ring"
-                    android:visibility="invisible" />
-
-                <View
-                    android:id="@+id/dotPurple"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/color_dot"
-                    android:backgroundTint="#591D1C"
-                    android:clickable="true"
-                    android:focusable="true" />
-
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/dotOrangeWrap"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginEnd="10dp">
-
-                <View
-                    android:id="@+id/dotOrangeRing"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:background="@drawable/color_dot_ring"
-                    android:visibility="invisible" />
-
-                <View
-                    android:id="@+id/dotOrange"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/color_dot"
-                    android:backgroundTint="#154360"
-                    android:clickable="true"
-                    android:focusable="true" />
-
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/dotPinkWrap"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginEnd="10dp">
-
-                <View
-                    android:id="@+id/dotPinkRing"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:background="@drawable/color_dot_ring"
-                    android:visibility="invisible" />
-
-                <View
-                    android:id="@+id/dotPink"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/color_dot"
-                    android:backgroundTint="#a84b83"
-                    android:clickable="true"
-                    android:focusable="true" />
-
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/dotDarkWrap"
-                android:layout_width="32dp"
-                android:layout_height="32dp">
-
-                <View
-                    android:id="@+id/dotDarkRing"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:background="@drawable/color_dot_ring"
-                    android:visibility="invisible" />
-
-                <View
-                    android:id="@+id/dotDark"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/color_dot"
-                    android:backgroundTint="#171817"
-                    android:clickable="true"
-                    android:focusable="true" />
-
-            </FrameLayout>
-            <FrameLayout
-                android:id="@+id/noColorWrap"
-                android:layout_width="32dp"
-                android:layout_height="32dp">
-
-                <View
-                    android:id="@+id/noColorRing"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:background="@drawable/color_dot_ring"
-                    android:visibility="invisible" />
-
-                <View
-                    android:id="@+id/dotDark"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/ic_color_none"
-                    android:clickable="true"
-                    android:focusable="true" />
-
-            </FrameLayout>
-
-        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>

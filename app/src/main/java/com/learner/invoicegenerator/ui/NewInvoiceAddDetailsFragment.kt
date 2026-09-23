@@ -101,7 +101,8 @@ class NewInvoiceAddDetailsFragment : Fragment(R.layout.fragment_newinvoice_add_d
                     discountType = "None",
                     discountValue = 0.0,
                     signaturePath = settings?.signatureBlock,
-                    endNote = settings?.defaultNotes ?: "Thank you"
+                    endNote = settings?.defaultNotes ?: "Thank you",
+                    pdfPath = null
                 )
                 invoiceViewModel.updateInvoiceDraft(draft)
             }
