@@ -62,6 +62,7 @@ class FragmentFinalInvoice: Fragment(R.layout.fragment_final_invoice) {
         val sessionManager = SessionManager.getInstance(requireContext())
         val activeWorkspaceId = sessionManager.getActiveWorkspaceId()
         val currencyCode = sessionManager.getCurrencyCode()
+        binding.btnShare.isEnabled=false
         val currencySymbol = CurrencyData.currencies.find { it.code == currencyCode }?.symbol ?: "$"
         binding.finalInvoiceItemsRV.layoutManager = LinearLayoutManager(context)
 
@@ -107,7 +108,7 @@ class FragmentFinalInvoice: Fragment(R.layout.fragment_final_invoice) {
                         lateinit var file:File
                         viewLifecycleOwner.lifecycleScope.launch {
                             binding.tvClientBusinessName.text =
-                                clientViewModel.getClientById(draft.clientId)?.businessName
+                                clientViewModel.getClientById(draft.clientId,activeWorkspaceId)?.businessName
 
                             binding.invoiceParentCard.post {
                                 file = createPdf(binding.invoiceParentCard, requireContext())
@@ -121,12 +122,14 @@ class FragmentFinalInvoice: Fragment(R.layout.fragment_final_invoice) {
                                     }
                                     Toast.makeText(context,"invoice and items are added  successfully", Toast.LENGTH_SHORT).show()
                                 }
+                                binding.btnShare.isEnabled=true
+                                binding.btnShare.setOnClickListener {
+                                    sharePdf(requireContext(),file)
+                                }
                             }
 
                         }
-                        binding.btnShare.setOnClickListener {
-                            sharePdf(requireContext(),file)
-                        }
+
 
         }
 

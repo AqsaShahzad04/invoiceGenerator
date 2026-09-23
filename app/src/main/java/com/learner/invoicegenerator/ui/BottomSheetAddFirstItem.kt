@@ -71,9 +71,13 @@ class BottomSheetAddFirstItem: BottomSheetDialogFragment() {
                 category = "Grocery",
                 workspaceId = workspaceId
             )
-
-            viewModel.addItems(item)
-
+            if(workspaceId==-1){
+                Toast.makeText(context,"Create a workspace First",Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            else {
+                viewModel.addItems(item,workspaceId)
+            }
         }
         binding.closebtn.setOnClickListener {
             dismiss()

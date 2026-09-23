@@ -45,6 +45,7 @@ class AddEditClientFragment : Fragment(R.layout.fragment_add_edit_client) {
 
         val clientId = args.clientId ?: -1
         val sessionManager = SessionManager.getInstance(requireContext())
+        val workspaceId=sessionManager.getActiveWorkspaceId()
 
         if (clientId == -1) {
             binding.addClientbtn.text = "Add Client"
@@ -68,14 +69,21 @@ class AddEditClientFragment : Fragment(R.layout.fragment_add_edit_client) {
                     address = address,
                     workspaceId = sessionManager.getActiveWorkspaceId()
                 )
-                viewModel.addClient(client)
+                if(workspaceId==-1){
+                    Toast.makeText(context,"Create a workspace First",Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+                else{
+                    viewModel.addClient(client,workspaceId)
+                }
+
             }
         } else {
             binding.addClientbtn.text = "Edit Client"
             binding.newClient.text = "Edit Client"
             
             lifecycleScope.launch {
-                val client = viewModel.getClientById(clientId)
+                val client = viewModel.getClientById(clientId,workspaceId)
                 client?.let {
                     binding.BusinessName.setText(it.businessName)
                     binding.name.setText(it.contactPerson)
@@ -106,7 +114,13 @@ class AddEditClientFragment : Fragment(R.layout.fragment_add_edit_client) {
                     address = address,
                     workspaceId = sessionManager.getActiveWorkspaceId()
                 )
-                viewModel.updateClient(client)
+                if(workspaceId==-1){
+                    Toast.makeText(context,"Create a workspace First",Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+                else {
+                    viewModel.updateClient(client, workspaceId)
+                }
             }
         }
 

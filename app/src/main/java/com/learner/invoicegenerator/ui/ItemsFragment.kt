@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.learner.invoicegenerator.R
+import com.learner.invoicegenerator.data.local.SessionManager
 import com.learner.invoicegenerator.databinding.FragmentItemsBinding
 import com.learner.invoicegenerator.ui.auth.ViewModel.ItemViewModel
 import com.learner.invoicegenerator.ui.items.ItemAdapter
@@ -38,19 +39,21 @@ class ItemsFragment : Fragment(R.layout.fragment_items) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupRecyclerView()
+        val sessionManager= SessionManager.getInstance(requireContext())
+        val activeWorkspaceId=sessionManager.getActiveWorkspaceId()
+        setupRecyclerView(activeWorkspaceId)
         setupListeners()
         observeItems()
     }
 
-    private fun setupRecyclerView() {
+    private fun setupRecyclerView(activeWorkspaceId:Int) {
         adapter = ItemAdapter(
             onEditClick = { item ->
                 val action = ItemsFragmentDirections.actionItemsFragmentToAddEditItemsFragment(item.id)
                 findNavController().navigate(action)
             },
             onDeleteClick = { item ->
-                viewModel.deleteItem(item)
+                viewModel.deleteItem(item,activeWorkspaceId)
             }
         )
         binding.clientsList.layoutManager = LinearLayoutManager(requireContext())

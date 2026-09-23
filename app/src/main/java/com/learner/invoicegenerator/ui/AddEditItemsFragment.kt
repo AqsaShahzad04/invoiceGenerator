@@ -39,8 +39,10 @@ class AddEditItemsFragment : Fragment(R.layout.fragment_add_edit_items) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val sessionManager= SessionManager.getInstance(requireContext())
+        val activeWorkspaceId=sessionManager.getActiveWorkspaceId()
         viewModel.resetState()
-        setupUI()
+        setupUI(activeWorkspaceId)
         observeState()
         observeScannedItem()
 
@@ -67,7 +69,7 @@ class AddEditItemsFragment : Fragment(R.layout.fragment_add_edit_items) {
         }
     }
 
-    private fun setupUI() {
+    private fun setupUI(workspaceId:Int) {
         val itemId = args.itemId
         val code=args.code
 
@@ -78,7 +80,7 @@ class AddEditItemsFragment : Fragment(R.layout.fragment_add_edit_items) {
         if (itemId != -1) {
             binding.ItemsHeading.text = "Edit item"
             binding.createItemBtn.text = "Update item"
-            loadItem(itemId)
+            loadItem(itemId,workspaceId)
         }
 
         binding.backbtn.setOnClickListener {
@@ -86,16 +88,16 @@ class AddEditItemsFragment : Fragment(R.layout.fragment_add_edit_items) {
         }
 
         binding.createItemBtn.setOnClickListener {
-            saveItem()
+            saveItem(workspaceId)
         }
         binding.scanbtn.setOnClickListener {
             BottomSheetScanBarcode().show(parentFragmentManager,"scanBarcode bottomFragment")
         }
     }
 
-    private fun loadItem(itemId: Int) {
+    private fun loadItem(itemId: Int,workspaceId: Int) {
         lifecycleScope.launch {
-            val item = viewModel.getItemById(itemId)
+            val item = viewModel.getItemById(itemId,workspaceId)
             item?.let {
                 binding.itemNameInput.setText(it.itemName)
                 binding.barcodeinputField.setText(it.barcode)
@@ -120,7 +122,7 @@ class AddEditItemsFragment : Fragment(R.layout.fragment_add_edit_items) {
         }
     }
 
-    private fun saveItem() {
+    private fun saveItem(workspaceId: Int) {
         val name = binding.itemNameInput.text.toString().trim()
         val barcode = binding.barcodeinputField.text.toString().trim()
         val priceStr = binding.priceInput.text.toString().trim()
@@ -155,11 +157,16 @@ class AddEditItemsFragment : Fragment(R.layout.fragment_add_edit_items) {
             category = category,
             workspaceId = sessionManager.getActiveWorkspaceId()
         )
-
-        if (args.itemId == -1) {
-            viewModel.addItems(item)
-        } else {
-            viewModel.updateItem(item)
+        if(workspaceId==-1){
+            Toast.makeText(context,"Create a workspace First",Toast.LENGTH_SHORT).show()
+            return
+        }
+        else {
+            if (args.itemId == -1) {
+                viewModel.addItems(item, workspaceId)
+            } else {
+                viewModel.updateItem(item, workspaceId)
+            }
         }
     }
 

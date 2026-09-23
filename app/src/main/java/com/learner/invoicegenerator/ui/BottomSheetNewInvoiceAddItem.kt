@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import com.learner.invoicegenerator.databinding.BottomSheetNewInvoiceAddItemBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -73,8 +74,13 @@ class BottomSheetNewInvoiceAddItem: BottomSheetDialogFragment() {
                 category = "Grocery",
                 workspaceId = workspaceId
             )
-            itemViewModel.addItems(item)
-
+            if(workspaceId==-1){
+                Toast.makeText(context,"Create a workspace First",Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            else {
+                itemViewModel.addItems(item,workspaceId)
+            }
 
         }
     }

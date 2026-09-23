@@ -48,17 +48,6 @@ class WorkspaceViewModel(
         }
     }
 
-    fun deleteWorkspace(workspace: Workspace) {
-        viewModelScope.launch {
-            _workspaceState.value = WorkspaceState.Loading
-            try {
-                repository.deleteWorkspace(workspace)
-                _workspaceState.value = WorkspaceState.Success(workspace.id)
-            } catch (e: Exception) {
-                _workspaceState.value = WorkspaceState.Error(e.message ?: "Unknown error")
-            }
-        }
-    }
 
     fun getWorkspacesByUserId(userId: Int): Flow<List<Workspace>> = repository.getWorkspacesByUserId(userId)
 
@@ -66,11 +55,11 @@ class WorkspaceViewModel(
         return repository.getWorkspacebyId(id)
     }
 
-    fun getLatestWorkspace(userId: Int):Workspace?{
-         var workspace: Workspace?=null
-        viewModelScope.launch {
-           workspace = repository.getLatestWorkspace(userId)
-        }
-        return workspace
+    suspend fun getLatestWorkspace(userId: Int): Workspace? {
+        return repository.getLatestWorkspace(userId)
+    }
+
+    suspend fun deleteWorkspace(workspace: Workspace) {
+        repository.deleteWorkspace(workspace)
     }
 }

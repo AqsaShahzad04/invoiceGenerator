@@ -13,13 +13,13 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface ItemDao {
     @Insert
-    suspend fun insertItem(item: Item):Long
+    suspend fun insertItem(item: Item,workspaceId: Int):Long
 
     @Update
-    suspend fun updateItem(item: Item)
+    suspend fun updateItem(item: Item,workspaceId: Int)
 
     @Delete
-    suspend fun deleteItem(item: Item)
+    suspend fun deleteItem(item: Item,workspaceId: Int)
 
     @Query("SELECT * FROM Items WHERE WorkspaceId=:workspaceId")
       fun getAllItemsOfWorkspace(workspaceId:Int): Flow<List<Item>>
@@ -27,8 +27,8 @@ interface ItemDao {
     @Query("SELECT * FROM Items WHERE workspaceId= :workspaceId")
     suspend fun getItemsByWorkspaceId(workspaceId: Int): List<Item>
 
-    @Query("SELECT * FROM Items WHERE id=:id")
-    suspend fun getItemById(id:Int):Item?
+    @Query("SELECT * FROM Items WHERE id=:id AND workspaceId=:workspaceId")
+    suspend fun getItemById(id:Int,workspaceId: Int):Item?
 
     @Query("SELECT * FROM Items WHERE itemName LIKE  :query || '%' AND workspaceId=:workspaceId")
     fun searchItemsByName(query: String,workspaceId:Int): Flow<List<Item>>

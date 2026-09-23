@@ -31,13 +31,16 @@ class AddEditWorkspaceFragment : Fragment(R.layout.fragment_add_edit_workspace) 
 
     private var _binding: FragmentAddEditWorkspaceBinding? = null
     private val binding get() = _binding!!
-    
+
     private val viewModel: WorkspaceViewModel by activityViewModels()
     val clientViewModel: ClientViewModel by activityViewModels()
     val itemsViewModel: ItemViewModel by activityViewModels()
     private val args: AddEditWorkspaceFragmentArgs by navArgs()
-    
+
     private var selectedLogoUri: String? = null
+
+
+    private var isNewWorkspace = false
 
     private val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
         if (uri != null) {
@@ -54,23 +57,24 @@ class AddEditWorkspaceFragment : Fragment(R.layout.fragment_add_edit_workspace) 
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val sessionManager = SessionManager.getInstance(requireContext())
         val userId = sessionManager.getUserId()
         viewModel.resetState()
-        setupUI(userId,sessionManager)
-
+        setupUI(userId, sessionManager)
     }
 
-    private fun setupUI(userId:Int,sessionManager: SessionManager) {
+    private fun setupUI(userId: Int, sessionManager: SessionManager) {
         val workspaceId = args.workspaceId
+
+        // observer sirf ek hi baar register hota hai — screen ki poori life mein
+        observeWorkspaceState(sessionManager)
 
         if (workspaceId != -1) {
             binding.title.text = "Edit workspace"
             binding.createBtn.text = "Update workspace"
-            binding.delWorkspaceBtn.visibility=View.VISIBLE
+            binding.delWorkspaceBtn.visibility = View.VISIBLE
             loadWorkspace(workspaceId)
         }
 
@@ -79,7 +83,7 @@ class AddEditWorkspaceFragment : Fragment(R.layout.fragment_add_edit_workspace) 
         }
 
         binding.createBtn.setOnClickListener {
-            saveWorkspace(userId,sessionManager)
+            saveWorkspace(userId, sessionManager)
         }
 
         binding.logoSection.setOnClickListener {
@@ -124,12 +128,12 @@ class AddEditWorkspaceFragment : Fragment(R.layout.fragment_add_edit_workspace) 
             binding.logoImage.visibility = View.VISIBLE
             binding.placeholderIcon.visibility = View.GONE
             binding.addLogoText.text = "Change logo"
-            binding.removeLogoBtn.visibility=View.VISIBLE
+            binding.removeLogoBtn.visibility = View.VISIBLE
         } else {
             binding.logoImage.visibility = View.GONE
             binding.placeholderIcon.visibility = View.VISIBLE
             binding.addLogoText.text = "Add logo · optional"
-            binding.removeLogoBtn.visibility=View.GONE
+            binding.removeLogoBtn.visibility = View.GONE
         }
     }
 
@@ -147,31 +151,30 @@ class AddEditWorkspaceFragment : Fragment(R.layout.fragment_add_edit_workspace) 
                     binding.addressInput.setText(it.address)
                     selectedLogoUri = it.logoUri
                     displayLogo(selectedLogoUri)
+
                     binding.delWorkspaceBtn.setOnClickListener {
-                        viewModel.deleteWorkspace(workspace)
-                        val deletedId=observeState(sessionManager)
-                        clientViewModel.getClientsByWorkspaceId(deletedId).forEach {client->
-                            clientViewModel.deleteClient(client)
-                        }
-                        itemsViewModel.getItemsByWorkspaceId(deletedId).forEach {item->
-                            itemsViewModel.deleteItem(item)
-                        }
-                        val latestWorkspace=viewModel.getLatestWorkspace(userId)
-                        if(latestWorkspace!=null){
-                            sessionManager.setActiveWorkspace(latestWorkspace.id)
-                        }
-                        else{
-                            sessionManager.setActiveWorkspace(-1)
-                        }
+                        lifecycleScope.launch {
+                            viewModel.deleteWorkspace(workspace)
 
+                            clientViewModel.getClientsByWorkspaceId(workspace.id).forEach { client ->
+                                clientViewModel.deleteClient(client,workspace.id)
+                            }
+                            itemsViewModel.getItemsByWorkspaceId(workspace.id).forEach { item ->
+                                itemsViewModel.deleteItem(item,workspace.id)
+                            }
 
+                            val latestWorkspace = viewModel.getLatestWorkspace(userId)
+                            sessionManager.setActiveWorkspace(latestWorkspace?.id ?: -1)
+
+                            findNavController().popBackStack()
+                        }
                     }
                 }
             }
         }
     }
 
-    private fun saveWorkspace(userId:Int,sessionManager: SessionManager) {
+    private fun saveWorkspace(userId: Int, sessionManager: SessionManager) {
         val name = binding.workspaceNameInput.text.toString().trim()
         val email = binding.emailInput.text.toString().trim()
         val phone = binding.phoneInput.text.toString().trim()
@@ -182,8 +185,6 @@ class AddEditWorkspaceFragment : Fragment(R.layout.fragment_add_edit_workspace) 
             binding.workspaceNameInput.error = "Workspace name is required"
             return
         }
-
-
 
         val workspace = Workspace(
             id = if (args.workspaceId == -1) 0 else args.workspaceId,
@@ -197,16 +198,17 @@ class AddEditWorkspaceFragment : Fragment(R.layout.fragment_add_edit_workspace) 
             logoUri = selectedLogoUri
         )
 
-        if (args.workspaceId == -1) {
+        isNewWorkspace = args.workspaceId == -1
+
+        if (isNewWorkspace) {
             viewModel.addWorkspace(workspace)
         } else {
             viewModel.updateWorkspace(workspace)
         }
-        val id=observeState(sessionManager)
-        sessionManager.setActiveWorkspace(id)
+
     }
 
-    private fun observeState(sessionManager: SessionManager):Int {
+    private fun observeWorkspaceState(sessionManager: SessionManager) {
         viewModel.workspaceState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is WorkspaceState.Loading -> {
@@ -214,7 +216,10 @@ class AddEditWorkspaceFragment : Fragment(R.layout.fragment_add_edit_workspace) 
                 }
                 is WorkspaceState.Success -> {
                     binding.createBtn.isEnabled = true
-                    val id=state.id
+                    if (isNewWorkspace) {
+                        sessionManager.setActiveWorkspace(state.id)
+                    }
+                    viewModel.resetState() // sticky LiveData ko dobara fire hone se rokta hai
                     findNavController().popBackStack()
                 }
                 is WorkspaceState.Error -> {
@@ -224,7 +229,6 @@ class AddEditWorkspaceFragment : Fragment(R.layout.fragment_add_edit_workspace) 
                 else -> {}
             }
         }
-        return id
     }
 
     override fun onDestroyView() {

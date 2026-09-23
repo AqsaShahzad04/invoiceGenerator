@@ -59,24 +59,19 @@ class ItemViewModel(
         }
     }
 
-    fun getItemsByWorkspaceId(workspaceId:Int):List<Item>{
-        lateinit  var itemList:List<Item>
-        viewModelScope.launch{
-            itemList= repository.getItemsByWorkspaceId(workspaceId)
-        }
-        return itemList
-
+    suspend fun getItemsByWorkspaceId(workspaceId: Int): List<Item> {
+        return repository.getItemsByWorkspaceId(workspaceId)
     }
 
     fun setSearchQuery(query: String) {
         searchQuery.value = query
     }
 
-    fun addItems(item: Item) {
+    fun addItems(item: Item,workspaceId: Int) {
         viewModelScope.launch {
             _itemState.value = ItemState.Loading
             try {
-                val generatedId=repository.insertItem(item)
+                val generatedId=repository.insertItem(item,workspaceId)
                 _lastAddedItemId.value=generatedId.toInt()
                 _itemState.value = ItemState.Success
             } catch (e: Exception) {
@@ -105,11 +100,11 @@ class ItemViewModel(
     fun resetLookUpState(){
         _scannedLookUpState.value= ScannedLookUpState.Idle
     }
-    fun updateItem(item: Item) {
+    fun updateItem(item: Item,workspaceId: Int) {
         viewModelScope.launch {
             _itemState.value = ItemState.Loading
             try {
-                repository.updateItem(item)
+                repository.updateItem(item,workspaceId)
                 _itemState.value = ItemState.Success
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -118,17 +113,17 @@ class ItemViewModel(
         }
     }
 
-    fun deleteItem(item: Item) {
+    fun deleteItem(item: Item,workspaceId: Int) {
         viewModelScope.launch {
             try {
-                repository.deleteItem(item)
+                repository.deleteItem(item,workspaceId)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
     }
 
-    suspend fun getItemById(id: Int): Item? {
-        return repository.getItemById(id)
+    suspend fun getItemById(id: Int,workspaceId: Int): Item? {
+        return repository.getItemById(id,workspaceId)
     }
 }

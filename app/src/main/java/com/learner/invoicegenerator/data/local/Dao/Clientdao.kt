@@ -11,21 +11,21 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface Clientdao {
     @Insert
-    suspend fun insertClient(client: Client):Long
+    suspend fun insertClient(client: Client,workspaceId: Int):Long
 
     @Query("SELECT * FROM Clients WHERE workspaceId = :workspaceId")
      fun getAllClientsOfWorkspace(workspaceId:Int): Flow<List<Client>>
 
      @Query("SELECT * FROM Clients WHERE workspaceId= :workspaceId")
     suspend fun getClientsByworkspaceId(workspaceId: Int): List<Client>
-    @Query("SELECT * FROM Clients WHERE id = :id")
-    suspend fun getClientById(id: Int): Client?
+    @Query("SELECT * FROM Clients WHERE id = :id AND workspaceId =:workspaceId")
+    suspend fun getClientById(id: Int,workspaceId: Int): Client?
 
     @Delete
-    suspend fun deleteClient(client: Client)
+    suspend fun deleteClient(client: Client,workspaceId: Int)
 
     @Update
-    suspend fun updateClient(client: Client)
+    suspend fun updateClient(client: Client,workspaceId: Int)
 
     @Query("""
     SELECT * FROM Clients 

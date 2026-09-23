@@ -43,6 +43,7 @@ class ClientDetailFragment : Fragment(R.layout.fragment_client_detail) {
         val avatarLetter = args.clientProfileLetter
         val avatarColor = args.profileBackgroundColor
         val sessionManager= SessionManager.getInstance(requireContext())
+        val activeWorkspaceId=sessionManager.getActiveWorkspaceId()
         viewLifecycleOwner.lifecycleScope.launch{
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 sessionManager.currencyCode.collect{currencyCode->
@@ -59,7 +60,7 @@ class ClientDetailFragment : Fragment(R.layout.fragment_client_detail) {
 
 
         lifecycleScope.launch {
-            val client = viewModel.getClientById(clientId)
+            val client = viewModel.getClientById(clientId,activeWorkspaceId)
             if (client != null) {
                 binding.businessName.text = client.businessName
                 binding.profileCircle.text = avatarLetter
@@ -105,9 +106,9 @@ class ClientDetailFragment : Fragment(R.layout.fragment_client_detail) {
 
         binding.trashbutton.setOnClickListener {
             lifecycleScope.launch {
-                val client = viewModel.getClientById(clientId)
+                val client = viewModel.getClientById(clientId,activeWorkspaceId)
                 if (client != null) {
-                    viewModel.deleteClient(client)
+                    viewModel.deleteClient(client,activeWorkspaceId)
                     findNavController().popBackStack()
                 }
             }

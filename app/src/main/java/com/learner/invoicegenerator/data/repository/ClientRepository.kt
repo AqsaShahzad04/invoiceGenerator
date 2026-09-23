@@ -5,8 +5,8 @@ import com.learner.invoicegenerator.data.local.entity.Client
 import kotlinx.coroutines.flow.Flow
 
 class ClientRepository(private val ClientDao: Clientdao) {
-    suspend fun insertClient(client: Client):Long {
-       return ClientDao.insertClient(client)
+    suspend fun insertClient(client: Client,workspaceId: Int):Long {
+       return ClientDao.insertClient(client,workspaceId)
     }
     fun getAllClients(workspaceId:Int): Flow<List<Client>> {
         return ClientDao.getAllClientsOfWorkspace(workspaceId)
@@ -15,14 +15,14 @@ class ClientRepository(private val ClientDao: Clientdao) {
     suspend fun getClientsByWorkspaceId(workspaceId:Int): List<Client> {
         return ClientDao.getClientsByworkspaceId(workspaceId)
     }
-    suspend fun getClientById(id: Int): Client? {
-        return ClientDao.getClientById(id)
+    suspend fun getClientById(id: Int,workspaceId: Int): Client? {
+        return ClientDao.getClientById(id,workspaceId)
     }
-    suspend fun deleteClient(client: Client) {
-        ClientDao.deleteClient(client)
+    suspend fun deleteClient(client: Client,workspaceId: Int) {
+        ClientDao.deleteClient(client,workspaceId)
     }
-    suspend fun updateClient(client: Client) {
-        ClientDao.updateClient(client)
+    suspend fun updateClient(client: Client,workspaceId: Int) {
+        ClientDao.updateClient(client,workspaceId)
     }
     fun searchClients(workspaceId: Int,query: String): Flow<List<Client>> {
         return ClientDao.searchClients(workspaceId,query)

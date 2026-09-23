@@ -37,7 +37,6 @@ class BottomSheetNewInvoiceAddNewClient: BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         val sessionManager= SessionManager.getInstance(requireContext())
         val activeWorkspaceId=sessionManager.getActiveWorkspaceId()
-        Log.d("WorkspaceId","workspaceId:${activeWorkspaceId}")
         binding.closeBtn.setOnClickListener {
             dismiss()
         }
@@ -50,10 +49,7 @@ class BottomSheetNewInvoiceAddNewClient: BottomSheetDialogFragment() {
                 binding.businessNameInput.error="Business name is required!!"
                 return@setOnClickListener
             }
-            if(activeWorkspaceId==-1){
-                Toast.makeText(context,"You have not created any workspace yet,create it!",Toast.LENGTH_SHORT).show()
-                findNavController().navigateUp()
-            }
+
             val client= Client(
                 businessName = businessName,
                 contactPerson = clientName,
@@ -62,7 +58,13 @@ class BottomSheetNewInvoiceAddNewClient: BottomSheetDialogFragment() {
                 address = address,
                 workspaceId = activeWorkspaceId
             )
-            clientViewModel.addClient(client)
+            if(activeWorkspaceId==-1){
+                Toast.makeText(context,"You have not created any workspace yet,create it!",Toast.LENGTH_SHORT).show()
+                findNavController().navigateUp()
+            }
+            else {
+                clientViewModel.addClient(client, activeWorkspaceId )
+            }
         }
 
         clientViewModel.addClientState.observe(viewLifecycleOwner) { state ->

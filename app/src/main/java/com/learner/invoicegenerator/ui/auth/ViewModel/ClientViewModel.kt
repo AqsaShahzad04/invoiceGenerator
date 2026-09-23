@@ -55,22 +55,17 @@ class ClientViewModel(
         }) as Flow<List<Client>>
     }
 
-     fun getClientsByWorkspaceId(workspaceId:Int):List<Client>{
-         lateinit  var clientList:List<Client>
-         viewModelScope.launch{
-           clientList= repository.getClientsByWorkspaceId(workspaceId)
-         }
-         return clientList
-
+    suspend fun getClientsByWorkspaceId(workspaceId: Int): List<Client> {
+        return repository.getClientsByWorkspaceId(workspaceId)
     }
     fun selectClient(newClient:Client){
         _selectedClient.value = newClient
     }
-    fun addClient(client: Client) {
+    fun addClient(client: Client,workspaceId: Int) {
         viewModelScope.launch {
             _addClientState.value = ClientState.Loading
             try {
-                val generatedId = repository.insertClient(client)
+                val generatedId = repository.insertClient(client,workspaceId)
                 val savedClient = client.copy(id = generatedId.toInt())
                 _selectedClient.value = savedClient
                 _addClientState.value = ClientState.Success
@@ -83,10 +78,10 @@ class ClientViewModel(
     private val _updateState = MutableLiveData<ClientState>(ClientState.Idle)
     val updateState: LiveData<ClientState> = _updateState
 
-    fun updateClient(client: Client) {
+    fun updateClient(client: Client,workspaceId: Int) {
         viewModelScope.launch {
             try {
-                repository.updateClient(client)
+                repository.updateClient(client,workspaceId)
                 _updateState.value = ClientState.Success
             } catch (e: Exception) {
                 _updateState.value = ClientState.Error(e.message ?: "Update failed")
@@ -94,11 +89,11 @@ class ClientViewModel(
         }
     }
 
-    fun deleteClient(client: Client) {
+    fun deleteClient(client: Client,workspaceId: Int) {
         viewModelScope.launch {
             _addClientState.value = ClientState.Loading
             try {
-                repository.deleteClient(client)
+                repository.deleteClient(client,workspaceId)
                 _addClientState.value = ClientState.Success
             } catch (e: Exception) {
                 _addClientState.value = ClientState.Error(e.message ?: "Unknown error")
@@ -106,7 +101,7 @@ class ClientViewModel(
         }
     }
 
-    suspend fun getClientById(id: Int): Client? {
-        return repository.getClientById(id)
+    suspend fun getClientById(id: Int,workspaceId: Int): Client? {
+        return repository.getClientById(id,workspaceId)
     }
 }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.learner.invoicegenerator.data.local.SessionManager
@@ -27,7 +28,7 @@ class AddClientBottomSheet : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.resetState()
         val sessionManager = SessionManager.getInstance(requireContext())
-
+        val workspaceId=sessionManager.getActiveWorkspaceId()
         binding.closeBtn.setOnClickListener { dismiss() }
 
         viewModel.addClientState.observe(viewLifecycleOwner) { state ->
@@ -42,6 +43,7 @@ class AddClientBottomSheet : BottomSheetDialogFragment() {
         binding.addClientBtn.setOnClickListener {
             val businessName = binding.clientNameInput.text.toString().trim()
             val phone = binding.clientPhoneInput.text.toString().trim()
+
             if (businessName.isNotEmpty()) {
                 val client = Client(
                     businessName = businessName,
@@ -51,7 +53,11 @@ class AddClientBottomSheet : BottomSheetDialogFragment() {
                     phone = phone,
                     workspaceId = sessionManager.getActiveWorkspaceId()
                 )
-                viewModel.addClient(client)
+                if(workspaceId==-1){
+                    Toast.makeText(context,"Create a workspace First",Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+                viewModel.addClient(client,workspaceId)
             }
         }
     }
