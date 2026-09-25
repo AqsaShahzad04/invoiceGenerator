@@ -10,10 +10,17 @@ import retrofit2.Retrofit
 
 class ItemRepository(private val itemDao: ItemDao) {
     suspend fun insertItem(item: Item,workspaceId: Int):Long  {
-        return itemDao.insertItem(item,workspaceId)
+        val finalItem=item.copy(workspaceId=workspaceId)
+        return itemDao.insertItem(finalItem)
     }
-    suspend fun updateItem(item: Item,workspaceId: Int) = itemDao.updateItem(item, workspaceId)
-    suspend fun deleteItem(item: Item,workspaceId: Int) = itemDao.deleteItem(item,workspaceId)
+    suspend fun updateItem(item: Item,workspaceId: Int) {
+        val finalItem=item.copy(workspaceId=workspaceId)
+        itemDao.updateItem(finalItem)
+    }
+    suspend fun deleteItem(item: Item,workspaceId: Int) {
+        val finalItem=item.copy(workspaceId=workspaceId)
+        itemDao.deleteItem(finalItem)
+    }
     fun getAllItems(workspaceId: Int): Flow<List<Item>> = itemDao.getAllItemsOfWorkspace(workspaceId)
     suspend fun getItemById(id: Int,workspaceId: Int): Item? = itemDao.getItemById(id,workspaceId)
     fun searchItems(query: String, workspaceId: Int): Flow<List<Item>> = itemDao.searchItemsByName(query, workspaceId)

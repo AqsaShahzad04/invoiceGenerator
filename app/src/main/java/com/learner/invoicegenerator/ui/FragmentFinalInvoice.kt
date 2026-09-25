@@ -209,7 +209,7 @@ class FragmentFinalInvoice: Fragment(R.layout.fragment_final_invoice) {
     private fun sharePdf(context: Context, file: File) {
         val uri: Uri = FileProvider.getUriForFile(
             context,
-            "com.learner.invoicegenerator.fileprovider",
+            "com.learner.invoicegenerator.file provider",
             file
         )
 

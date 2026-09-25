@@ -13,13 +13,13 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface ItemDao {
     @Insert
-    suspend fun insertItem(item: Item,workspaceId: Int):Long
+    suspend fun insertItem(item: Item):Long
 
     @Update
-    suspend fun updateItem(item: Item,workspaceId: Int)
+    suspend fun updateItem(item: Item)
 
     @Delete
-    suspend fun deleteItem(item: Item,workspaceId: Int)
+    suspend fun deleteItem(item: Item)
 
     @Query("SELECT * FROM Items WHERE WorkspaceId=:workspaceId")
       fun getAllItemsOfWorkspace(workspaceId:Int): Flow<List<Item>>

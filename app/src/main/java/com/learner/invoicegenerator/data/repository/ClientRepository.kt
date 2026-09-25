@@ -6,7 +6,8 @@ import kotlinx.coroutines.flow.Flow
 
 class ClientRepository(private val ClientDao: Clientdao) {
     suspend fun insertClient(client: Client,workspaceId: Int):Long {
-       return ClientDao.insertClient(client,workspaceId)
+        val finalClient=client.copy(workspaceId=workspaceId)
+       return ClientDao.insertClient(finalClient)
     }
     fun getAllClients(workspaceId:Int): Flow<List<Client>> {
         return ClientDao.getAllClientsOfWorkspace(workspaceId)
@@ -19,10 +20,12 @@ class ClientRepository(private val ClientDao: Clientdao) {
         return ClientDao.getClientById(id,workspaceId)
     }
     suspend fun deleteClient(client: Client,workspaceId: Int) {
-        ClientDao.deleteClient(client,workspaceId)
+        val finalClient=client.copy(workspaceId=workspaceId)
+        ClientDao.deleteClient(finalClient)
     }
     suspend fun updateClient(client: Client,workspaceId: Int) {
-        ClientDao.updateClient(client,workspaceId)
+        val finalClient=client.copy(workspaceId=workspaceId)
+        ClientDao.updateClient(finalClient)
     }
     fun searchClients(workspaceId: Int,query: String): Flow<List<Client>> {
         return ClientDao.searchClients(workspaceId,query)
