@@ -93,11 +93,11 @@ class NewInvoiceAddDetailsFragment : Fragment(R.layout.fragment_newinvoice_add_d
                     invoiceNum = fullInvoiceNum,
                     workspaceId = activeWorkspaceId,
                     clientId = clientId,
-                    status = "Pending",
+                    status = "Unpaid",
                     issueDate = LocalDate.now(),
                     dueDate = LocalDate.now().plusDays(daysOffset),
                     currencyCode = sessionManager.getCurrencyCode() ?: "$",
-                    taxPercentage = settings?.taxRate ?: 17.0,
+                    taxPercentage = if(settings?.defaultTax==true) settings?.taxRate?:10.0 else 0.0,
                     discountType = "None",
                     discountValue = 0.0,
                     signaturePath = settings?.signatureBlock,
@@ -261,7 +261,14 @@ class NewInvoiceAddDetailsFragment : Fragment(R.layout.fragment_newinvoice_add_d
             binding.notesInput.setText(draft.endNote)
         }
         if (binding.addSignToggleBtn.isChecked != (draft.signaturePath != null)) {
-            binding.addSignToggleBtn.isChecked = draft.signaturePath != null
+            if(draft.signaturePath==null){
+                Toast.makeText(context,"Add your sign from settings first",Toast.LENGTH_SHORT).show()
+                binding.addSignToggleBtn.isChecked=false
+            }
+            else{
+                binding.addSignToggleBtn.isChecked = draft.signaturePath != null
+            }
+
         }
 
         val taxRateViews = listOf(binding.noTaxChip, binding.selectedTaxChip)
@@ -271,6 +278,7 @@ class NewInvoiceAddDetailsFragment : Fragment(R.layout.fragment_newinvoice_add_d
         } else {
             calculateTaxAndDisplay(0.0)
             updateTaxChipsUI(binding.noTaxChip, taxRateViews)
+            binding.selectedTaxChip.text=(currentSettings?.taxRate?:10.0).toString()
         }
 
         // Bug 2 fix: fully restore discount UI state from draft, not just the numbers

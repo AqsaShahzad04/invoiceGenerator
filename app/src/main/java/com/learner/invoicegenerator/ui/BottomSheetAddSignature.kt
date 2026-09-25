@@ -38,6 +38,9 @@ class BottomSheetAddSignature: BottomSheetDialogFragment() {
         val sessionManager= SessionManager.getInstance(requireContext())
         val workspaceId=sessionManager.getActiveWorkspaceId()
 
+        binding.closebtn.setOnClickListener {
+            dismiss()
+        }
         val signPad=binding.signaturePad
         signPad.setOnSignedListener(object : SignaturePad.OnSignedListener {
             override fun onStartSigning() {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Paths xmlns:android="http://schemas.android.com/apk/res/android">
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
    <files-path
-       android:name="invoices"
-       android:path="invoices/" />
-</Paths>
+       name="invoices"
+       path="invoices/" />
+</paths>

@@ -75,6 +75,10 @@
     <style name="ThemeOverlay.TaxRate.chip" parent="">
         <item name="chipStyle">@style/select_tax_rate_chips_style</item>
     </style>
+    <style name="CircleImageStyle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
 
 </resources>
 
