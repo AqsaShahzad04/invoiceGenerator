@@ -53,6 +53,7 @@ class NewInvoiceAddDetailsFragment : Fragment(R.layout.fragment_newinvoice_add_d
 
     private var currentSettings: WorkspaceSettings? = null
     private var updatingEditTextManually = false
+    private var currentPaymentStatus: String = "Pending"
 
     private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
 
@@ -93,7 +94,7 @@ class NewInvoiceAddDetailsFragment : Fragment(R.layout.fragment_newinvoice_add_d
                     invoiceNum = fullInvoiceNum,
                     workspaceId = activeWorkspaceId,
                     clientId = clientId,
-                    status = "Unpaid",
+                    status = currentPaymentStatus,
                     issueDate = LocalDate.now(),
                     dueDate = LocalDate.now().plusDays(daysOffset),
                     currencyCode = sessionManager.getCurrencyCode() ?: "$",
@@ -153,6 +154,12 @@ class NewInvoiceAddDetailsFragment : Fragment(R.layout.fragment_newinvoice_add_d
             showCalenderDialog { selectedDate ->
                 updateDraft { it.copy(issueDate = selectedDate) }
             }
+        }
+        binding.btnMarkPaid.setOnClickListener {
+
+            currentPaymentStatus = if (currentPaymentStatus == "Paid") "Pending" else "Paid"
+            updatePaymentStatusUI(currentPaymentStatus)
+            updateDraft { it.copy(status = currentPaymentStatus) }
         }
         binding.dueDateSection.setOnClickListener {
             showCalenderDialog { selectedDate ->
@@ -323,6 +330,23 @@ class NewInvoiceAddDetailsFragment : Fragment(R.layout.fragment_newinvoice_add_d
 
     private fun formatDiscountValue(value: Double): String {
         return if (value == value.toInt().toDouble()) value.toInt().toString() else value.toString()
+    }
+    private fun updatePaymentStatusUI(paymentStatus:String){
+        if(paymentStatus=="Paid"){
+            binding.paymentStatus.text="Unmark"
+            binding.icPaymentStatus.setBackgroundResource(R.drawable.ic_unpaid)
+            binding.btnMarkPaid.backgroundTintList=
+                ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.bg_cream))
+            binding.paymentStatus.setTextColor(ContextCompat.getColor(requireContext(),R.color.btn_bg_dark))
+        }
+        else{
+
+            binding.paymentStatus.text="Mark paid"
+            binding.icPaymentStatus.setBackgroundResource(R.drawable.ic_check)
+            binding.btnMarkPaid.backgroundTintList=
+                ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.signal_green))
+            binding.paymentStatus.setTextColor(ContextCompat.getColor(requireContext(),R.color.bg_cream))
+        }
     }
 
     private fun setDiscountInputText(value: String) {

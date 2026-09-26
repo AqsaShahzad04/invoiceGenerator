@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="10dp">
+
+    <!-- Avatar circle -->
+    <TextView
+        android:id="@+id/client_avatar"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:background="@drawable/client_profile_circle_bg"
+        android:text="NL"
+        android:textColor="#FFFFFF"
+        android:gravity="center"
+        android:textSize="13sp"
+        android:fontFamily="@font/inter_semibold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <!-- Client / business name -->
+    <TextView
+        android:id="@+id/client_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Northern Logistics"
+        android:textSize="13sp"
+        android:textColor="#171817"
+        android:fontFamily="@font/inter_semibold"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintStart_toEndOf="@id/client_avatar"
+        app:layout_constraintTop_toTopOf="@id/client_avatar"
+        app:layout_constraintEnd_toStartOf="@id/amount" />
+
+    <!-- Invoice number -->
+    <TextView
+        android:id="@+id/invoice_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00010"
+        android:textColor="#9CA3A0"
+        android:textSize="11sp"
+        android:fontFamily="@font/inter"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="2dp"
+        app:layout_constraintStart_toEndOf="@id/client_avatar"
+        app:layout_constraintTop_toBottomOf="@id/client_name" />
+
+    <!-- Dot separator (plain text, no extra drawable) -->
+    <TextView
+        android:id="@+id/dot_separator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="•"
+        android:textColor="#9CA3A0"
+        android:textSize="11sp"
+        android:layout_marginStart="6dp"
+        app:layout_constraintStart_toEndOf="@id/invoice_number"
+        app:layout_constraintTop_toTopOf="@id/invoice_number"
+        app:layout_constraintBottom_toBottomOf="@id/invoice_number" />
+
+    <!-- Date -->
+    <TextView
+        android:id="@+id/invoice_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="26 Sept 2026"
+        android:textColor="#5C625E"
+        android:textSize="11sp"
+        android:fontFamily="@font/inter"
+        android:layout_marginStart="6dp"
+        app:layout_constraintStart_toEndOf="@id/dot_separator"
+        app:layout_constraintTop_toTopOf="@id/invoice_number"
+        app:layout_constraintBottom_toBottomOf="@id/client_avatar" />
+
+    <!-- Amount -->
+    <TextView
+        android:id="@+id/amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rs 5,170"
+        android:textColor="#171817"
+        android:textSize="13sp"
+        android:fontFamily="@font/inter_bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/client_avatar" />
+
+    <!-- Status dot -->
+    <View
+        android:id="@+id/status_dot"
+        android:layout_width="6dp"
+        android:layout_height="6dp"
+        android:background="@drawable/red_dot_notification"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="6dp"
+        app:layout_constraintTop_toBottomOf="@id/amount"
+        app:layout_constraintEnd_toStartOf="@id/status_text"
+        app:layout_constraintBottom_toBottomOf="@id/client_avatar" />
+
+    <!-- Status text -->
+    <TextView
+        android:id="@+id/status_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Unpaid"
+        android:textColor="#D9534F"
+        android:textSize="11sp"
+        android:fontFamily="@font/inter_medium"
+        android:layout_marginStart="6dp"
+        app:layout_constraintTop_toTopOf="@id/status_dot"
+        app:layout_constraintBottom_toBottomOf="@id/status_dot"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

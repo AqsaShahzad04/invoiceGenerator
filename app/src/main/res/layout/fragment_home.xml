@@ -1124,7 +1124,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/invoice_rv"
             android:layout_marginTop="12dp"
-            android:visibility="gone"
+
             />
         <TextView
             android:layout_width="match_parent"
@@ -1132,6 +1132,7 @@
             android:layout_marginTop="12dp"
             android:padding="32dp"
             android:text="No invoices yet"
+            android:visibility="gone"
             android:gravity="center"
             android:textColor="@color/sectionsHeadingColor"
             android:textSize="13sp"

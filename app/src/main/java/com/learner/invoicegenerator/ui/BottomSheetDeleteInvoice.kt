@@ -53,28 +53,32 @@ class BottomSheetDeleteInvoice: BottomSheetDialogFragment() {
                 val invoice=invoiceViewModel.getInvoiceByInvoiceNum(invNum)
                 if(invoice!=null){
                     invoiceViewModel.deleteInvoice(invoice)
+                    observeState()
                 }
 
             }
 
 
         }
-        invoiceViewModel.addInvoiceState.observe(viewLifecycleOwner){state->
-            when(state){
-                is InvoiceState.Success->{
-                    dismiss()
-                    requireParentFragment().findNavController().navigate(R.id.action_final_invoice_To_Home_fragment)
-                    invoiceViewModel.resetState()
-                    Toast.makeText(context,"Invoice deleted successfully", Toast.LENGTH_SHORT).show()
-                }
-                is InvoiceState.Error->{
-                    Toast.makeText(context,state.msg,Toast.LENGTH_SHORT).show()
-                    invoiceViewModel.resetState()
-                }
-                else->{}
-            }
 
-        }
 
     }
+    private fun observeState(){
+        invoiceViewModel.deleteInvoiceState.observe(viewLifecycleOwner) { state ->
+            when(state){
+                is InvoiceState.Success -> {
+                    dismiss()
+                    requireParentFragment().findNavController().navigate(R.id.action_final_invoice_To_Home_fragment)
+                    invoiceViewModel.resetDeleteState()
+                    Toast.makeText(context,"Invoice deleted successfully", Toast.LENGTH_SHORT).show()
+                }
+                is InvoiceState.Error -> {
+                    Toast.makeText(context,state.msg,Toast.LENGTH_SHORT).show()
+                    invoiceViewModel.resetDeleteState()
+                }
+                else -> {}
+            }
+        }
+    }
+
 }

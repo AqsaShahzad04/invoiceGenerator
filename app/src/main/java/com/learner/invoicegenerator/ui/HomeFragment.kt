@@ -17,6 +17,7 @@ import android.view.animation.AnimationUtils
 import com.learner.invoicegenerator.R
 import com.learner.invoicegenerator.data.local.SessionManager
 import com.learner.invoicegenerator.databinding.FragmentHomeBinding
+import com.learner.invoicegenerator.ui.auth.ViewModel.InvoiceViewModel
 import com.learner.invoicegenerator.ui.auth.ViewModel.ItemViewModel
 import com.learner.invoicegenerator.ui.auth.ViewModel.WorkspaceViewModel
 import com.learner.invoicegenerator.ui.clients.viewmodel.ClientViewModel
@@ -32,6 +33,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private val clientViewModel: ClientViewModel by activityViewModels()
     private val itemViewModel: ItemViewModel by activityViewModels()
     private val workspaceViewModel: WorkspaceViewModel by activityViewModels()
+
+    private val invoiceViewModel: InvoiceViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

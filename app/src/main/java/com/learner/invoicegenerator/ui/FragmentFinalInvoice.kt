@@ -63,9 +63,9 @@ class FragmentFinalInvoice: Fragment(R.layout.fragment_final_invoice) {
     private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy")
     var adapter: ItemsFinalInvoiceAdapter?=null
 
-    private var originalPaymentStatus: String = ""
-    private var currentPaymentStatus: String = ""
-    private var currentInvoiceId: String? = null
+
+
+
 
 
     override fun onCreateView(
@@ -88,7 +88,6 @@ class FragmentFinalInvoice: Fragment(R.layout.fragment_final_invoice) {
         binding.finalInvoiceItemsRV.layoutManager = LinearLayoutManager(context)
 
         binding.btnBack.setOnClickListener {
-            commitPaymentStatusIfChanged()
             findNavController().navigateUp()
         }
 
@@ -120,6 +119,8 @@ class FragmentFinalInvoice: Fragment(R.layout.fragment_final_invoice) {
             binding.tvCurrentDate.text = draft.issueDate.format(formatter)
             binding.tvDueDate.text = draft.dueDate.format(formatter)
             binding.endNote.text = draft.endNote
+            val paymentStatus=draft.status
+            updateStatusUI(paymentStatus)
             if (draft.taxPercentage != 0.0) {
                 calculateTaxAndDisplay(draft.taxPercentage)
             } else {
@@ -147,14 +148,8 @@ class FragmentFinalInvoice: Fragment(R.layout.fragment_final_invoice) {
                 binding.signatureBox.visibility=View.GONE
             }
 
-            originalPaymentStatus = draft.status
-            currentPaymentStatus = draft.status
-            updatePaymentStatusUI(currentPaymentStatus)
 
-            binding.btnMarkPaid.setOnClickListener {
-                currentPaymentStatus = if (currentPaymentStatus == "Paid") "Unpaid" else "Paid"
-                updatePaymentStatusUI(currentPaymentStatus)
-            }
+
             binding.btnDelete.setOnClickListener {
                 val bottomSheet= BottomSheetDeleteInvoice.newInstance(draft.invoiceNum)
                 bottomSheet.show(parentFragmentManager,"deleteInvoiceBottomSheet")
@@ -171,8 +166,7 @@ class FragmentFinalInvoice: Fragment(R.layout.fragment_final_invoice) {
                     file = createPdf(binding.invoiceParentCard, requireContext())
                     val finalInvoice = draft.copy(pdfPath = file.absolutePath)
                     invoiceViewModel.insertInvoice(finalInvoice)
-                    val invoiceId=observeState()
-                    currentInvoiceId=finalInvoice.invoiceNum
+                    val invoiceId=finalInvoice.id
                     invoiceViewModel.selectedItems.value.let{itemsList->
                         itemsList.forEach { item->
                             item.invoiceId=invoiceId
@@ -214,45 +208,26 @@ class FragmentFinalInvoice: Fragment(R.layout.fragment_final_invoice) {
     }
 
     override fun onDestroyView() {
-        commitPaymentStatusIfChanged()
         super.onDestroyView()
         _binding = null
     }
 
-    private fun commitPaymentStatusIfChanged() {
-        if (currentPaymentStatus != originalPaymentStatus && currentInvoiceId != null) {
-            viewLifecycleOwner.lifecycleScope.launch {
-                val invoice = invoiceViewModel.getInvoiceByInvoiceNum(currentInvoiceId ?: "")
-                invoice?.let {
-                    invoiceViewModel.updateInvoice(it.copy(status = currentPaymentStatus))
-                }
-            }
-            originalPaymentStatus = currentPaymentStatus
-        }
-    }
 
-    private fun updatePaymentStatusUI(paymentStatus:String){
-        if(paymentStatus=="Paid"){
-            binding.paymentCircle.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.primary_green))
-            binding.tvStatus.text="Paid"
-            binding.paymentStatus.text="Unmark"
-            binding.icPaymentStatus.setBackgroundResource(R.drawable.ic_unpaid)
-            binding.btnMarkPaid.backgroundTintList=
-                ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.bg_cream))
-            binding.tvStatus.setTextColor(ContextCompat.getColor(requireContext(),R.color.primary_green))
-            binding.paymentStatus.setTextColor(ContextCompat.getColor(requireContext(),R.color.btn_bg_dark))
-        }
-        else{
-            binding.paymentCircle.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.carrot_red_shade))
-            binding.tvStatus.text="Unpaid"
-            binding.paymentStatus.text="Mark paid"
-            binding.icPaymentStatus.setBackgroundResource(R.drawable.ic_check)
-            binding.btnMarkPaid.backgroundTintList=
-                ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.signal_green))
-            binding.tvStatus.setTextColor(ContextCompat.getColor(requireContext(),R.color.carrot_red_shade))
-            binding.paymentStatus.setTextColor(ContextCompat.getColor(requireContext(),R.color.bg_cream))
-        }
+
+private fun updateStatusUI(paymentStatus:String){
+    if(paymentStatus=="Paid") {
+        binding.paymentCircle.backgroundTintList =
+            ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.primary_green))
+        binding.tvStatus.text = "Paid"
+        binding.tvStatus.setTextColor(ContextCompat.getColor(requireContext(),R.color.primary_green))
     }
+    else{
+        binding.paymentCircle.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.carrot_red_shade))
+        binding.tvStatus.text="Pending"
+        binding.tvStatus.setTextColor(ContextCompat.getColor(requireContext(),R.color.carrot_red_shade))
+    }
+}
+
 
     private fun observeState():Int{
         var invoiceId=0

@@ -48,40 +48,7 @@
                 android:orientation="horizontal">
 
                 <!-- Mark paid: icon + text as ImageView+TextView instead of drawableStart -->
-                <LinearLayout
-                    android:id="@+id/btnMarkPaid"
-                    android:layout_width="wrap_content"
-                    android:layout_height="36dp"
-                    android:layout_marginEnd="4dp"
-                    android:background="@drawable/bg_back_btn_items"
-                    android:backgroundTint="#22A06B"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp">
 
-                    <ImageView
-                        android:id="@+id/ic_payment_status"
-                        android:layout_width="14dp"
-                        android:layout_height="14dp"
-                        android:layout_marginEnd="6dp"
-                        android:background="@drawable/ic_check"
-                        android:contentDescription="@null"
-                        app:tint="#FFFFFF" />
-
-                    <TextView
-                        android:id="@+id/paymentStatus"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:includeFontPadding="false"
-                        android:text="Mark paid"
-                        android:fontFamily="@font/inter_semibold"
-                        android:textColor="#FFFFFF"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
 
                 <ImageButton
                     android:id="@+id/btnDelete"

@@ -98,19 +98,24 @@ class InvoiceViewModel(private val repository: InvoiceRepository): ViewModel(){
 
             }
         }
-            fun deleteInvoice(invoice: Invoice) {
-                _addInvoiceState.value = InvoiceState.Loading
-                viewModelScope.launch {
-                    try {
-                        repository.deleteInvoice(invoice)
-                        _addInvoiceState.value = InvoiceState.Success(invoice.id)
-                    } catch (error: Exception) {
-                        _addInvoiceState.value =
-                            InvoiceState.Error(error.message ?: "invalid error")
-                    }
+    private val _deleteInvoiceState = MutableLiveData<InvoiceState>(InvoiceState.Idle)
+    val deleteInvoiceState: LiveData<InvoiceState> get() = _deleteInvoiceState
 
-                }
+    fun deleteInvoice(invoice: Invoice) {
+        _deleteInvoiceState.value = InvoiceState.Loading
+        viewModelScope.launch {
+            try {
+                repository.deleteInvoice(invoice)
+                _deleteInvoiceState.value = InvoiceState.Success(invoice.id)
+            } catch (error: Exception) {
+                _deleteInvoiceState.value = InvoiceState.Error(error.message ?: "invalid error")
             }
+        }
+    }
+
+    fun resetDeleteState(){
+        _deleteInvoiceState.value = InvoiceState.Idle
+    }
 
                 suspend fun getInvoicesBYWorkspaceId(workspaceId:Int): Flow<List<Invoice>>{
                     return repository.getInvoicesBYWorkspaceId(workspaceId)
