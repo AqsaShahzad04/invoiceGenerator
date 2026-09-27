@@ -17,6 +17,7 @@ import com.learner.invoicegenerator.R
 import com.learner.invoicegenerator.data.local.SessionManager
 import com.learner.invoicegenerator.data.local.entity.Workspace
 import com.learner.invoicegenerator.databinding.FragmentAddEditWorkspaceBinding
+import com.learner.invoicegenerator.ui.auth.ViewModel.InvoiceViewModel
 import com.learner.invoicegenerator.ui.auth.ViewModel.ItemViewModel
 import com.learner.invoicegenerator.ui.auth.ViewModel.WorkspaceState
 import com.learner.invoicegenerator.ui.auth.ViewModel.WorkspaceViewModel
@@ -35,6 +36,7 @@ class AddEditWorkspaceFragment : Fragment(R.layout.fragment_add_edit_workspace) 
     private val viewModel: WorkspaceViewModel by activityViewModels()
     val clientViewModel: ClientViewModel by activityViewModels()
     val itemsViewModel: ItemViewModel by activityViewModels()
+    val invoiceViewModel: InvoiceViewModel by activityViewModels()
     private val args: AddEditWorkspaceFragmentArgs by navArgs()
 
     private var selectedLogoUri: String? = null
@@ -162,6 +164,7 @@ class AddEditWorkspaceFragment : Fragment(R.layout.fragment_add_edit_workspace) 
                             itemsViewModel.getItemsByWorkspaceId(workspace.id).forEach { item ->
                                 itemsViewModel.deleteItem(item,workspace.id)
                             }
+
 
                             val latestWorkspace = viewModel.getLatestWorkspace(userId)
                             sessionManager.setActiveWorkspace(latestWorkspace?.id ?: -1)

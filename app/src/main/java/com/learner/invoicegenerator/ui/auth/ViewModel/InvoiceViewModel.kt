@@ -35,32 +35,41 @@ class InvoiceViewModel(private val repository: InvoiceRepository): ViewModel(){
     private val _pendingInvoices = MutableStateFlow<List<Invoice>>(emptyList())
     val pendingInvoices: StateFlow<List<Invoice>> = _pendingInvoices
 
-    fun fetchPaidInvoices(startDate: LocalDate, endDate: LocalDate) {
+    private val _allInvoicesOfCurrentWorkspace= MutableStateFlow<List<Invoice>>(emptyList())
+     val allInvoicesOfCurrentWorkspace: StateFlow<List<Invoice>> =_allInvoicesOfCurrentWorkspace
+    fun fetchPaidInvoices(startDate: LocalDate, endDate: LocalDate,workspaceId: Int) {
         viewModelScope.launch {
-            _paidInvoices.value = repository.getPaidInvoices(startDate, endDate)
+            _paidInvoices.value = repository.getPaidInvoices(startDate, endDate,workspaceId)
         }
     }
 
-    fun fetchPrevMonthPaidNum(prevMonth: LocalDate,currentMonth: LocalDate):Double{
+    fun fetchPrevMonthPaidNum(prevMonth: LocalDate,currentMonth: LocalDate,workspaceId: Int):Double{
         var totalSalePrevMonth=0.0
         viewModelScope.launch{
-          val list=repository.getPaidInvoices(prevMonth,currentMonth)
+          val list=repository.getPaidInvoices(prevMonth,currentMonth,workspaceId)
             list.forEach { record->
                 totalSalePrevMonth+=record.totalAmount
             }
         }
         return totalSalePrevMonth
     }
-    fun fetchUnpaidInvoices(todaysDate: LocalDate) {
+    fun fetchUnpaidInvoices(todaysDate: LocalDate,workspaceId: Int) {
         viewModelScope.launch {
-            _unpaidInvoices.value = repository.getUnpaidInvoices(todaysDate)
+            _unpaidInvoices.value = repository.getUnpaidInvoices(todaysDate,workspaceId)
         }
     }
 
-    fun fetchPendingInvoices(startDate: LocalDate, endDate: LocalDate) {
+    fun fetchPendingInvoices(startDate: LocalDate, endDate: LocalDate,workspaceId: Int) {
         viewModelScope.launch {
-            _pendingInvoices.value = repository.getPendingInvoices(startDate, endDate)
+            _pendingInvoices.value = repository.getPendingInvoices(startDate, endDate,workspaceId)
         }
+    }
+
+    fun getInvoicesByWorkspaceId(workspaceId:Int){
+        viewModelScope.launch {
+            _allInvoicesOfCurrentWorkspace.value=repository.getInvoicesBYWorkspaceId(workspaceId)
+        }
+
     }
 
 
@@ -157,12 +166,9 @@ class InvoiceViewModel(private val repository: InvoiceRepository): ViewModel(){
         _deleteInvoiceState.value = InvoiceState.Idle
     }
 
-                suspend fun getInvoicesBYWorkspaceId(workspaceId:Int): Flow<List<Invoice>>{
-                    return repository.getInvoicesBYWorkspaceId(workspaceId)
-                }
 
-                suspend fun getInvoiceByInvoiceNum(invoiceNum:String): Invoice?{
-                     return repository.getInvoiceByInvoiceNum(invoiceNum)
+    suspend fun getInvoiceByInvoiceNum(invoiceNum:String): Invoice?{
+        return repository.getInvoiceByInvoiceNum(invoiceNum)
     }
 
     fun insertInvoiceItemLine(item: InvoiceItemLine) {

@@ -75,10 +75,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val rippleView=binding.rippleDots
         val rippleAnimation= AnimationUtils.loadAnimation(requireContext(), R.anim.ripple_anim)
         rippleView.startAnimation(rippleAnimation)
-        loadStats()
+        loadStats(activeWorkspaceId)
+        invoiceViewModel.getInvoicesByWorkspaceId(activeWorkspaceId)
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                invoiceViewModel.getInvoicesBYWorkspaceId(activeWorkspaceId).collect { invoices->
+                invoiceViewModel.allInvoicesOfCurrentWorkspace.collect { invoices->
                     if(!invoices.isEmpty()){
                         val adapter= InvoiceAdapter(invoices)
                         binding.invoiceRv.adapter=adapter
@@ -102,7 +103,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                             totalEarningThisMonth+=invoice.totalAmount
                         }
                         binding.earnedThisMonthValue.text= conversions.formatAmount(totalEarningThisMonth)
-                        val earningPrevMonth=invoiceViewModel.fetchPrevMonthPaidNum(startOfPreviousMonth,startOfMonth)
+                        val earningPrevMonth=invoiceViewModel.fetchPrevMonthPaidNum(startOfPreviousMonth,startOfMonth,activeWorkspaceId)
                         val MonthOverMonthpercent= conversions.calculatePercentageChange(totalEarningThisMonth,earningPrevMonth)
                         if(MonthOverMonthpercent>=0.0){
                             binding.MOMValue.text=conversions.formatAmount(MonthOverMonthpercent)
@@ -119,13 +120,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     }
                 }
                 launch {
-                    invoiceViewModel.paidInvoices.collect{invoices->
+                    invoiceViewModel.pendingInvoices.collect{invoices->
                         pendingTotalAmount=0.0
                         invoices.forEach { invoice->
                             pendingTotalAmount+=invoice.totalAmount
                         }
                         binding.pendingCountValue.text=invoices.size.toString()
-                        updateOutstandingValue()
+                        totalOutstandingAmount=pendingTotalAmount+unpaidTotalAmount
+                        binding.outstandingValue.text= conversions.formatAmount(totalOutstandingAmount)
                     }
                 }
                 launch{
@@ -135,7 +137,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                             unpaidTotalAmount+=invoice.totalAmount
                         }
                         binding.unpaidCountValue.text=invoices.size.toString()
-                        updateOutstandingValue()
+                        totalOutstandingAmount=pendingTotalAmount+unpaidTotalAmount
+                        binding.outstandingValue.text= conversions.formatAmount(totalOutstandingAmount)
                     }
                 }
 
@@ -216,16 +219,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
 
-    private fun updateOutstandingValue(){
-        totalOutstandingAmount=pendingTotalAmount+unpaidTotalAmount
-        binding.outstandingValue.text= conversions.formatAmount(totalOutstandingAmount)
-    }
 
-    private fun loadStats(){
 
-        invoiceViewModel.fetchPaidInvoices(startOfNextMonth,startOfNextMonth)
-        invoiceViewModel.fetchUnpaidInvoices(today)
-        invoiceViewModel.fetchPendingInvoices(startOfNextMonth,startOfNextMonth)
+    private fun loadStats(activeWorkspaceId:Int){
+
+        invoiceViewModel.fetchPaidInvoices(startOfMonth,startOfNextMonth,activeWorkspaceId)
+        invoiceViewModel.fetchUnpaidInvoices(today,activeWorkspaceId)
+        invoiceViewModel.fetchPendingInvoices(startOfMonth,startOfNextMonth,activeWorkspaceId)
         binding.currentMonth.text="EARNED"
         binding.previousMonth.text="vs $previousMonth"
 
