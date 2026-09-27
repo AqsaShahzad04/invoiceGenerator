@@ -6,8 +6,10 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import com.google.android.gms.common.api.Status
 import com.learner.invoicegenerator.data.local.entity.Invoice
 import kotlinx.coroutines.flow.Flow
+import java.time.LocalDate
 
 @Dao
 interface InvoiceDao {
@@ -30,6 +32,20 @@ interface InvoiceDao {
 
     @Query("SELECT * From Invoices WHERE workspaceId=:workspaceId ORDER BY id DESC LIMIT 1 ")
     suspend fun getLatestInvoice(workspaceId: Int):Invoice?
+
+    @Query("SELECT * FROM Invoices WHERE status='Paid' AND (paidDate>=:startOfMonth AND paidDate<:startOfNextMonth) ")
+    suspend fun getPaidInvoicesThisMonth(startOfMonth: LocalDate,startOfNextMonth: LocalDate): List<Invoice>
+
+
+    @Query("SELECT * FROM Invoices WHERE status='Pending' AND dueDate<:today")
+    suspend fun getUnpaidInvoices(today: LocalDate):List<Invoice>
+
+
+    @Query("SELECT * FROM Invoices WHERE status='Pending' AND(dueDate>=:startOfMonth AND dueDate<:startOFNextMonth)")
+    suspend fun getPendingInvoicesThisMonth(startOfMonth: LocalDate,startOFNextMonth: LocalDate):List<Invoice>
+
+
+
 
 
 }

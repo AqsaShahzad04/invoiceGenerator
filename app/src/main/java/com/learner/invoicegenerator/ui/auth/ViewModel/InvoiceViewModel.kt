@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 class InvoiceViewModel(private val repository: InvoiceRepository): ViewModel(){
 
@@ -23,6 +24,45 @@ class InvoiceViewModel(private val repository: InvoiceRepository): ViewModel(){
 
     private val _invoiceDraft=MutableStateFlow<Invoice?>(null)
     val invoiceDraft: StateFlow<Invoice?> = _invoiceDraft
+
+
+    private val _paidInvoices = MutableStateFlow<List<Invoice>>(emptyList())
+    val paidInvoices: StateFlow<List<Invoice>> = _paidInvoices
+
+    private val _unpaidInvoices = MutableStateFlow<List<Invoice>>(emptyList())
+    val unpaidInvoices: StateFlow<List<Invoice>> = _unpaidInvoices
+
+    private val _pendingInvoices = MutableStateFlow<List<Invoice>>(emptyList())
+    val pendingInvoices: StateFlow<List<Invoice>> = _pendingInvoices
+
+    fun fetchPaidInvoices(startDate: LocalDate, endDate: LocalDate) {
+        viewModelScope.launch {
+            _paidInvoices.value = repository.getPaidInvoices(startDate, endDate)
+        }
+    }
+
+    fun fetchPrevMonthPaidNum(prevMonth: LocalDate,currentMonth: LocalDate):Double{
+        var totalSalePrevMonth=0.0
+        viewModelScope.launch{
+          val list=repository.getPaidInvoices(prevMonth,currentMonth)
+            list.forEach { record->
+                totalSalePrevMonth+=record.totalAmount
+            }
+        }
+        return totalSalePrevMonth
+    }
+    fun fetchUnpaidInvoices(todaysDate: LocalDate) {
+        viewModelScope.launch {
+            _unpaidInvoices.value = repository.getUnpaidInvoices(todaysDate)
+        }
+    }
+
+    fun fetchPendingInvoices(startDate: LocalDate, endDate: LocalDate) {
+        viewModelScope.launch {
+            _pendingInvoices.value = repository.getPendingInvoices(startDate, endDate)
+        }
+    }
+
 
     fun updateInvoiceDraft(draft:Invoice){
         _invoiceDraft.value=draft

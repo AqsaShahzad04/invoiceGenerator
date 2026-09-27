@@ -1,6 +1,7 @@
 package com.learner.invoicegenerator.ui
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
@@ -14,17 +15,26 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import android.view.animation.AnimationUtils
+import androidx.compose.ui.graphics.Path.Companion.combine
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.learner.invoicegenerator.R
 import com.learner.invoicegenerator.data.local.SessionManager
 import com.learner.invoicegenerator.databinding.FragmentHomeBinding
+import com.learner.invoicegenerator.ui.adaptor.InvoiceAdapter
 import com.learner.invoicegenerator.ui.auth.ViewModel.InvoiceViewModel
 import com.learner.invoicegenerator.ui.auth.ViewModel.ItemViewModel
 import com.learner.invoicegenerator.ui.auth.ViewModel.WorkspaceViewModel
 import com.learner.invoicegenerator.ui.clients.viewmodel.ClientViewModel
+import com.learner.invoicegenerator.util.conversions
 import com.learner.invoicegenerator.utils.AvatarUtils
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
     private var _binding: FragmentHomeBinding? = null
@@ -33,8 +43,18 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private val clientViewModel: ClientViewModel by activityViewModels()
     private val itemViewModel: ItemViewModel by activityViewModels()
     private val workspaceViewModel: WorkspaceViewModel by activityViewModels()
-
     private val invoiceViewModel: InvoiceViewModel by activityViewModels()
+    var totalEarningThisMonth=0.0
+    var totalOutstandingAmount=0.0
+    var pendingTotalAmount=0.0
+    var unpaidTotalAmount=0.0
+
+    val today= LocalDate.now()
+    val currentMonth=today.month
+    val previousMonth=currentMonth.minus(1)
+    val startOfMonth = LocalDate.now().withDayOfMonth(1)
+    val startOfPreviousMonth=startOfMonth.minusMonths(1)
+    val startOfNextMonth = startOfMonth.plusMonths(1)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,11 +68,95 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val sessionManager = SessionManager.getInstance(requireContext())
+        val activeWorkspaceId=sessionManager.getActiveWorkspaceId()
         val userId = sessionManager.getUserId()
+        binding.invoiceRv.layoutManager= LinearLayoutManager(requireContext())
         binding.rippleDots.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
         val rippleView=binding.rippleDots
         val rippleAnimation= AnimationUtils.loadAnimation(requireContext(), R.anim.ripple_anim)
         rippleView.startAnimation(rippleAnimation)
+        loadStats()
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                invoiceViewModel.getInvoicesBYWorkspaceId(activeWorkspaceId).collect { invoices->
+                    if(!invoices.isEmpty()){
+                        val adapter= InvoiceAdapter(invoices)
+                        binding.invoiceRv.adapter=adapter
+                        binding.noInvoicesPlaceholder.visibility= View.GONE
+                    }
+                    else{
+                        binding.noInvoicesPlaceholder.visibility=View.VISIBLE
+                        binding.invoiceRv.visibility=View.GONE
+                    }
+
+                }
+            }
+
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                launch{
+                    invoiceViewModel.paidInvoices.collect { invoices->
+                        totalEarningThisMonth=0.0
+                        invoices.forEach { invoice->
+                            totalEarningThisMonth+=invoice.totalAmount
+                        }
+                        binding.earnedThisMonthValue.text= conversions.formatAmount(totalEarningThisMonth)
+                        val earningPrevMonth=invoiceViewModel.fetchPrevMonthPaidNum(startOfPreviousMonth,startOfMonth)
+                        val MonthOverMonthpercent= conversions.calculatePercentageChange(totalEarningThisMonth,earningPrevMonth)
+                        if(MonthOverMonthpercent>=0.0){
+                            binding.MOMValue.text=conversions.formatAmount(MonthOverMonthpercent)
+                            binding.insightArrow.setImageResource(R.drawable.insights_upper_arrow)
+                            binding.MOMSection.backgroundTintList= ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.primary_green_alpha))
+                            binding.MOMValue.setTextColor(ContextCompat.getColor(requireContext(),R.color.primary_green))
+                        }
+                        else{
+                            binding.MOMValue.text= conversions.formatAmount(MonthOverMonthpercent)
+                            binding.insightArrow.setImageResource(R.drawable.insights_down_arrrow)
+                            binding.MOMSection.backgroundTintList= ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.error_red_colour))
+                            binding.MOMValue.setTextColor(ContextCompat.getColor(requireContext(),R.color.carrot_red_shade))
+                        }
+                    }
+                }
+                launch {
+                    invoiceViewModel.paidInvoices.collect{invoices->
+                        pendingTotalAmount=0.0
+                        invoices.forEach { invoice->
+                            pendingTotalAmount+=invoice.totalAmount
+                        }
+                        binding.pendingCountValue.text=invoices.size.toString()
+                        updateOutstandingValue()
+                    }
+                }
+                launch{
+                    invoiceViewModel.unpaidInvoices.collect { invoices->
+                        unpaidTotalAmount=0.0
+                        invoices.forEach { invoice->
+                            unpaidTotalAmount+=invoice.totalAmount
+                        }
+                        binding.unpaidCountValue.text=invoices.size.toString()
+                        updateOutstandingValue()
+                    }
+                }
+
+
+            }
+        }
+
+      viewLifecycleOwner.lifecycleScope.launch{
+          viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+              itemViewModel.allItems.collect { items->
+                  binding.noOfItems.text=items.size.toString()+(if(items.size<=1) " item" else " items")
+              }
+          }
+      }
+        viewLifecycleOwner.lifecycleScope.launch{
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                clientViewModel.allClients.collect { clients->
+                    binding.noOfClients.text=clients.size.toString()+(if(clients.size<=1) " client" else " clients")
+                }
+            }
+        }
 
 
         binding.catalogueChiv.setOnClickListener {
@@ -110,6 +214,24 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
         }
     }
+
+
+    private fun updateOutstandingValue(){
+        totalOutstandingAmount=pendingTotalAmount+unpaidTotalAmount
+        binding.outstandingValue.text= conversions.formatAmount(totalOutstandingAmount)
+    }
+
+    private fun loadStats(){
+
+        invoiceViewModel.fetchPaidInvoices(startOfNextMonth,startOfNextMonth)
+        invoiceViewModel.fetchUnpaidInvoices(today)
+        invoiceViewModel.fetchPendingInvoices(startOfNextMonth,startOfNextMonth)
+        binding.currentMonth.text="EARNED"
+        binding.previousMonth.text="vs $previousMonth"
+
+    }
+
+
 
     private fun updateHeaderUI(activeWorkspace: com.learner.invoicegenerator.data.local.entity.Workspace?) {
         activeWorkspace?.let {

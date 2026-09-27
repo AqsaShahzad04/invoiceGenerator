@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.learner.invoicegenerator.data.local.SessionManager
 import com.learner.invoicegenerator.data.local.entity.Client
+import com.learner.invoicegenerator.data.local.entity.Invoice
 import com.learner.invoicegenerator.data.repository.ClientRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -15,6 +16,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 class ClientViewModel(
     private val repository: ClientRepository,
@@ -42,8 +44,6 @@ class ClientViewModel(
     fun resetselectedClients(){
         _selectedClient.value=null
     }
-
-
 
     val allClients: Flow<List<Client>> = combine(sessionManager.activeWorkspaceId,searchQuery){id,query->
         Pair(id,query)

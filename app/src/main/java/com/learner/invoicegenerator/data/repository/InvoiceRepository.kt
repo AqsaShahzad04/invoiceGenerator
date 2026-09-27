@@ -27,6 +27,16 @@ class InvoiceRepository(private val invoiceDao: InvoiceDao,private val invoiceIt
         return invoiceDao.getInvoicesByWorkspaceId(workspaceId)
     }
 
+    suspend fun getPaidInvoices(startDate: LocalDate,endDate: LocalDate):List<Invoice>{
+        return invoiceDao.getPaidInvoicesThisMonth(startDate,endDate)
+    }
+    suspend fun getUnpaidInvoices(todaysDate: LocalDate):List<Invoice>{
+        return invoiceDao.getUnpaidInvoices(todaysDate)
+    }
+    suspend fun getPendingInvoices(startDate: LocalDate,endDate: LocalDate):List<Invoice>{
+        return invoiceDao.getPendingInvoicesThisMonth(startDate,endDate)
+    }
+
     suspend fun insertInvoiceItemLine(item: InvoiceItemLine):Long{
         return invoiceItemLineDao.addItemInInvoice(item)
     }

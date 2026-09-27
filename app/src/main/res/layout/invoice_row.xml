@@ -3,7 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingVertical="10dp">
+    >
+
+    <View
+        android:id="@+id/bottomDivider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#EFEDE7"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <!-- Avatar circle -->
     <TextView
@@ -13,6 +20,8 @@
         android:background="@drawable/client_profile_circle_bg"
         android:text="NL"
         android:textColor="#FFFFFF"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:gravity="center"
         android:textSize="13sp"
         android:fontFamily="@font/inter_semibold"

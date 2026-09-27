@@ -94,16 +94,19 @@ class NewInvoiceAddDetailsFragment : Fragment(R.layout.fragment_newinvoice_add_d
                     invoiceNum = fullInvoiceNum,
                     workspaceId = activeWorkspaceId,
                     clientId = clientId,
+                    clientBusinessName = clientViewModel.selectedClient.value?.businessName ?: "Unknown",
                     status = currentPaymentStatus,
                     issueDate = LocalDate.now(),
                     dueDate = LocalDate.now().plusDays(daysOffset),
+                    paidDate = null,
                     currencyCode = sessionManager.getCurrencyCode() ?: "$",
                     taxPercentage = if(settings?.defaultTax==true) settings?.taxRate?:10.0 else 0.0,
                     discountType = "None",
                     discountValue = 0.0,
                     signaturePath = settings?.signatureBlock,
                     endNote = settings?.defaultNotes ?: "Thank you",
-                    pdfPath = null
+                    pdfPath = null,
+                    totalAmount = total
                 )
                 invoiceViewModel.updateInvoiceDraft(draft)
             }
@@ -156,10 +159,15 @@ class NewInvoiceAddDetailsFragment : Fragment(R.layout.fragment_newinvoice_add_d
             }
         }
         binding.btnMarkPaid.setOnClickListener {
-
             currentPaymentStatus = if (currentPaymentStatus == "Paid") "Pending" else "Paid"
             updatePaymentStatusUI(currentPaymentStatus)
-            updateDraft { it.copy(status = currentPaymentStatus) }
+            if(currentPaymentStatus=="Paid"){
+                updateDraft { it.copy(status = currentPaymentStatus, paidDate = LocalDate.now()) }
+            }
+            else{
+                updateDraft { it.copy(status = currentPaymentStatus, paidDate = null) }
+            }
+
         }
         binding.dueDateSection.setOnClickListener {
             showCalenderDialog { selectedDate ->

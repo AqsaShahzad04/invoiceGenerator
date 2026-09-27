@@ -13,15 +13,18 @@ data class Invoice (
     val invoiceNum:String,
     val workspaceId:Int,
     val clientId:Int,
+    val clientBusinessName: String,
     val status:String,
     val issueDate: LocalDate,
     val dueDate: LocalDate,
+    val paidDate:LocalDate?=null,
     val currencyCode:String,
     val taxPercentage:Double,
     val discountType:String,
     val discountValue:Double,
     val signaturePath:String?=null,
     val endNote:String,
-    val pdfPath:String?=null
+    val pdfPath:String?=null,
+    val totalAmount: Double=0.0
 )
 

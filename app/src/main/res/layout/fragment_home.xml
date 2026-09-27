@@ -693,15 +693,18 @@
                  android:id="@+id/currentMonth"
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
-                 android:textSize="10sp"
+                 android:textSize="12sp"
                  android:text="Earned . May"
                  android:textAllCaps="true"
                  android:fontFamily="@font/inter_semibold"
                  android:textColor="@color/sectionsHeadingColor"
                  app:layout_constraintStart_toStartOf="parent"
+
                  app:layout_constraintTop_toTopOf="parent"
+                 android:layout_marginEnd="6dp"
                  />
              <LinearLayout
+                 android:id="@+id/liveAnim"
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
                  app:layout_constraintEnd_toEndOf="parent"
@@ -764,6 +767,7 @@
                  android:layout_marginTop="18dp">
 
                  <androidx.constraintlayout.widget.ConstraintLayout
+                     android:id="@+id/MOMSection"
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
                      android:background="@drawable/live_bg"
@@ -780,6 +784,7 @@
                          app:layout_constraintBottom_toBottomOf="parent"
                          />
                      <TextView
+                         android:id="@+id/MOMValue"
                          android:layout_width="wrap_content"
                          android:layout_height="wrap_content"
                          android:text="+18.2%"
@@ -794,10 +799,11 @@
                  </androidx.constraintlayout.widget.ConstraintLayout>
 
                <TextView
+                   android:id="@+id/previousMonth"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:text="vs April"
-                   android:textSize="10sp"
+                   android:textSize="8sp"
                    android:textColor="@color/subheading_color_home"
                    android:layout_marginStart="6dp"
                    android:fontFamily="@font/inter_medium"
@@ -883,6 +889,7 @@
                            android:layout_height="0dp"
                            android:layout_weight="1" />
                        <TextView
+                           android:id="@+id/unpaidCountValue"
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
                            android:text="0"
@@ -924,6 +931,7 @@
                             android:layout_height="0dp"
                             android:layout_weight="1" />
                         <TextView
+                            android:id="@+id/pendingCountValue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
@@ -1127,6 +1135,7 @@
 
             />
         <TextView
+            android:id="@+id/noInvoicesPlaceholder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
