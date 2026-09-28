@@ -1,16 +1,307 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@color/bg_cream"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingBottom="16dp">
+
+    <!-- Header row: title + New button -->
     <TextView
+        android:id="@+id/invoices_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="invoices screen fragment"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="12dp"
+        android:text="Invoices"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/inter_bold"
+        android:textColor="@color/btn_text_dark"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/newInvoiceBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_btn_black"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:text="  New"
+        android:textColor="@color/btn_text_light"
+        android:textSize="12sp"
+        android:fontFamily="@font/inter_semibold"
+        android:drawableStart="@drawable/ic_plus"
+        android:drawableTint="@color/white"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/invoices_title"
+        app:layout_constraintBottom_toBottomOf="@id/invoices_title" />
+
+    <!-- Search + This month chip -->
+    <LinearLayout
+        android:id="@+id/searchRow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toBottomOf="@id/invoices_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <EditText
+            android:id="@+id/searchInvoices"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/search_invoice_bg"
+            android:hint="Search invoices or clients"
+            android:drawableStart="@drawable/ic_search"
+            android:drawablePadding="8dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textSize="13sp"
+            android:fontFamily="@font/inter"
+            android:singleLine="true"
+            android:textColorHint="@color/grey" />
+
+        <TextView
+            android:id="@+id/thisMonthChip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:background="@drawable/bg_month_filter_chip"
+            android:drawableStart="@drawable/ic_calender_2"
+            android:drawablePadding="6dp"
+            android:gravity="center"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingTop="9dp"
+            android:paddingBottom="9dp"
+            android:text="This month"
+            android:textColor="@color/primary_green"
+            android:textSize="12sp"
+            android:fontFamily="@font/inter_semibold" />
+    </LinearLayout>
+
+    <!-- Summary row: count/date range + total -->
+    <TextView
+        android:id="@+id/invoiceSummaryText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="14dp"
+        android:paddingHorizontal="2dp"
+        android:text="3 invoices · 01 Sept 2026 → 28 Sept 2026"
+        android:textColor="@color/text_grey"
+        android:textSize="11sp"
+        android:fontFamily="@font/inter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/searchRow"
+        app:layout_constraintEnd_toStartOf="@id/invoiceSummaryTotal" />
+
+    <TextView
+        android:id="@+id/invoiceSummaryTotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rs 27,544"
+        android:textColor="@color/btn_text_dark"
+        android:textStyle="bold"
+        android:fontFamily="@font/inter_bold"
+        android:textSize="11sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/invoiceSummaryText"
+        app:layout_constraintBottom_toBottomOf="@id/invoiceSummaryText" />
+
+    <!-- Segmented filter control -->
+    <LinearLayout
+        android:id="@+id/statusFilterGroup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="12dp"
+        android:padding="3dp"
+        android:background="@drawable/bg_segment_container"
+        app:layout_constraintTop_toBottomOf="@id/invoiceSummaryText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/filterAll"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_segment_active"
+            android:gravity="center"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp"
+            android:text="All  3"
+            android:textSize="11sp"
+            android:fontFamily="@font/inter_semibold"
+            android:textColor="@color/btn_text_dark" />
+
+        <TextView
+            android:id="@+id/filterPaid"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp"
+            android:text="Paid  1"
+            android:textSize="11sp"
+            android:fontFamily="@font/inter_semibold"
+            android:textColor="@color/text_grey" />
+
+        <TextView
+            android:id="@+id/filterUnpaid"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp"
+            android:text="Unpaid  2"
+            android:textSize="11sp"
+            android:fontFamily="@font/inter_semibold"
+            android:textColor="@color/text_grey" />
+
+        <TextView
+            android:id="@+id/filterPending"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp"
+            android:text="Pending  0"
+            android:textSize="11sp"
+            android:fontFamily="@font/inter_semibold"
+            android:textColor="@color/text_grey" />
+    </LinearLayout>
+
+    <!-- Invoice list -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/invoicesRv"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:clipToPadding="false"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/statusFilterGroup"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/emptyStateLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingVertical="48dp"
+        android:paddingHorizontal="24dp"
+        app:layout_constraintTop_toBottomOf="@id/statusFilterGroup"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        />
+        android:layout_marginTop="18dp"
+
+        >
+        <view class="android.widget.ImageView"
+            android:id="@+id/client_icon_bg"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:background="@drawable/bg_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+        <ImageView
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:background="@drawable/ic_invoices"
+            android:backgroundTint="@color/primary_green"
+            app:layout_constraintStart_toStartOf="@id/client_icon_bg"
+            app:layout_constraintTop_toTopOf="@id/client_icon_bg"
+            app:layout_constraintBottom_toBottomOf="@id/client_icon_bg"
+            app:layout_constraintEnd_toEndOf="@id/client_icon_bg"/>
+
+        <TextView
+            android:id="@+id/noClientsYet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="No Invoices yet"
+            android:textSize="16sp"
+            android:fontFamily="@font/inter_bold"
+            android:textColor="#171817"
+            app:layout_constraintTop_toBottomOf="@id/client_icon_bg"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+        <TextView
+            android:id="@+id/noClientsDesc"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="Nothing here right now , switch tabs or create a new invoice"
+            android:textSize="13sp"
+            android:fontFamily="@font/inter"
+            android:textColor="#5C625E"
+            android:gravity="center"
+            android:layout_marginTop="6dp"
+            android:lineSpacingMultiplier="1.2"
+            app:layout_constraintTop_toBottomOf="@id/noClientsYet"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/newInvoiceBtn2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/client_add_btn_bg"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/noClientsDesc"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="20dp"
+            >
+            <ImageView
+                android:id="@+id/addClientIcon"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:background="@drawable/ic_add_btn"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Invoice"
+                android:textSize="14sp"
+                android:fontFamily="@font/inter_semibold"
+                android:textColor="#FBFAF7"
+                android:layout_marginStart="6dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/addClientIcon"
+                />
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

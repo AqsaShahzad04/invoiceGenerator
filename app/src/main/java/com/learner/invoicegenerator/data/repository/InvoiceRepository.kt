@@ -23,8 +23,18 @@ class InvoiceRepository(private val invoiceDao: InvoiceDao,private val invoiceIt
        return invoiceDao.getInvoiceByInvoiceNum(invoiceNum)
 
     }
-    fun getInvoicesBYWorkspaceId(workspaceId:Int): List<Invoice>{
+    fun getInvoicesBYWorkspaceId(workspaceId:Int): Flow<List<Invoice>>{
         return invoiceDao.getInvoicesByWorkspaceId(workspaceId)
+    }
+
+     fun searchInvoices(workspaceId: Int,query:String):Flow<List<Invoice>>{
+        return invoiceDao.searchInvoices(workspaceId,query)
+    }
+    fun getInvoicesByDateRange(workspaceId: Int, fromDate: LocalDate, toDate: LocalDate): Flow<List<Invoice>> {
+        return invoiceDao.getInvoicesByDateRange(workspaceId, fromDate, toDate)
+    }
+    fun searchInvoicesInRange(workspaceId: Int, query: String, fromDate: LocalDate, toDate: LocalDate): Flow<List<Invoice>> {
+        return invoiceDao.searchInvoicesInRange(workspaceId, query, fromDate, toDate)
     }
 
     suspend fun getPaidInvoices(startDate: LocalDate,endDate: LocalDate,workspaceId: Int):List<Invoice>{
@@ -33,8 +43,8 @@ class InvoiceRepository(private val invoiceDao: InvoiceDao,private val invoiceIt
     suspend fun getUnpaidInvoices(todaysDate: LocalDate,workspaceId: Int):List<Invoice>{
         return invoiceDao.getUnpaidInvoices(todaysDate,workspaceId)
     }
-    suspend fun getPendingInvoices(startDate: LocalDate,endDate: LocalDate,workspaceId: Int):List<Invoice>{
-        return invoiceDao.getPendingInvoicesThisMonth(startDate,endDate,workspaceId)
+    suspend fun getPendingInvoices(todaysDate: LocalDate,workspaceId: Int):List<Invoice>{
+        return invoiceDao.getPendingInvoicesThisMonth(todaysDate,workspaceId)
     }
 
     suspend fun insertInvoiceItemLine(item: InvoiceItemLine):Long{

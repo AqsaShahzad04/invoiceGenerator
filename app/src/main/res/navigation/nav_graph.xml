@@ -128,6 +128,8 @@
         android:name="com.learner.invoicegenerator.ui.InvoicesFragment"
         tools:layout="@layout/fragment_invoices"
         >
+        <action android:id="@+id/action_invoices_fragment_to_create_invoice_fragment"
+            app:destination="@id/newInvoiceFragment"/>
 
     </fragment>
 

@@ -22,6 +22,7 @@ import com.learner.invoicegenerator.ui.auth.ViewModel.ItemViewModel
 import com.learner.invoicegenerator.ui.auth.ViewModel.WorkspaceState
 import com.learner.invoicegenerator.ui.auth.ViewModel.WorkspaceViewModel
 import com.learner.invoicegenerator.ui.clients.viewmodel.ClientViewModel
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
@@ -164,7 +165,9 @@ class AddEditWorkspaceFragment : Fragment(R.layout.fragment_add_edit_workspace) 
                             itemsViewModel.getItemsByWorkspaceId(workspace.id).forEach { item ->
                                 itemsViewModel.deleteItem(item,workspace.id)
                             }
-
+                            invoiceViewModel.getInvoicesByWorkspaceId(workspace.id).first().forEach { invoice->
+                                invoiceViewModel.deleteInvoice(invoice)
+                            }
 
                             val latestWorkspace = viewModel.getLatestWorkspace(userId)
                             sessionManager.setActiveWorkspace(latestWorkspace?.id ?: -1)

@@ -30,13 +30,9 @@ class InvoiceAdapter(var invoicesList:List<Invoice>): RecyclerView.Adapter<Invoi
         position: Int
     ) {
        val data=invoicesList[position]
-        holder.clientAvatar.text= AvatarUtils.getLetter(data.clientBusinessName)
         val context = holder.itemView.context
-        holder.clientAvatar.setTextColor(ColorStateList.valueOf(ContextCompat.getColor(context,R.color.btn_bg_dark)))
-        val color = ContextCompat.getColor(context, R.color.primary_green_alpha)
-        holder.clientAvatar.backgroundTintList = ColorStateList.valueOf(color)
         holder.clientName.text=data.clientBusinessName
-        holder.invoiceNumber.text=data.invoiceNum
+        holder.invoiceNumber.text=data.invoiceNum.takeLast(4)
         holder.invoiceDate.text=data.issueDate.format(formatter)
         holder.amount.text=data.totalAmount.toString()
         val paymentStatus=data.status
@@ -69,7 +65,7 @@ class InvoiceAdapter(var invoicesList:List<Invoice>): RecyclerView.Adapter<Invoi
     class InvoiceViewHolder(invoiceView: View): RecyclerView.ViewHolder(invoiceView){
 
 
-             val clientAvatar: TextView = invoiceView.findViewById(R.id.client_avatar)
+
              val clientName: TextView = invoiceView.findViewById(R.id.client_name)
              val invoiceNumber: TextView = invoiceView.findViewById(R.id.invoice_number)
              val invoiceDate: TextView = invoiceView.findViewById(R.id.invoice_date)

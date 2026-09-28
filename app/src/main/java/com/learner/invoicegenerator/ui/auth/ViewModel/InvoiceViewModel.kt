@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.learner.invoicegenerator.data.local.SessionManager
+import com.learner.invoicegenerator.data.local.entity.Client
 import com.learner.invoicegenerator.data.local.entity.Invoice
 import com.learner.invoicegenerator.data.local.entity.InvoiceItemLine
 import com.learner.invoicegenerator.data.local.entity.NumberingReset
@@ -11,10 +13,15 @@ import com.learner.invoicegenerator.data.repository.InvoiceRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
-class InvoiceViewModel(private val repository: InvoiceRepository): ViewModel(){
+class InvoiceViewModel(
+    private val repository: InvoiceRepository,
+    private val sessionManager: SessionManager
+): ViewModel(){
 
     private val _addInvoiceState= MutableLiveData<InvoiceState>(InvoiceState.Idle)
     val addInvoiceState: LiveData<InvoiceState> get()=_addInvoiceState
@@ -35,23 +42,45 @@ class InvoiceViewModel(private val repository: InvoiceRepository): ViewModel(){
     private val _pendingInvoices = MutableStateFlow<List<Invoice>>(emptyList())
     val pendingInvoices: StateFlow<List<Invoice>> = _pendingInvoices
 
-    private val _allInvoicesOfCurrentWorkspace= MutableStateFlow<List<Invoice>>(emptyList())
-     val allInvoicesOfCurrentWorkspace: StateFlow<List<Invoice>> =_allInvoicesOfCurrentWorkspace
+
+    val searchQuery = MutableStateFlow("")
+
+    private val defaultRange = LocalDate.now().withDayOfMonth(1) to LocalDate.now()
+    val dateRange = MutableStateFlow(defaultRange)
+
+    fun setSearchQuery(query: String) {
+        searchQuery.value = query
+    }
+
+    fun setDateRange(fromDate: LocalDate, toDate: LocalDate) {
+        dateRange.value = fromDate to toDate
+    }
+
+    fun resetDateRangeToDefault() {
+        dateRange.value = defaultRange
+    }
+
+    val allInvoices: Flow<List<Invoice>> = combine(
+        sessionManager.activeWorkspaceId,
+        searchQuery,
+        dateRange
+    ) { id, query, range -> Triple(id, query, range) }
+        .flatMapLatest { (id, query, range) ->
+            if (query.isEmpty()) {
+                repository.getInvoicesByDateRange(id, range.first, range.second)
+            } else {
+                repository.searchInvoicesInRange(id, query, range.first, range.second)
+            }
+        }
+
     fun fetchPaidInvoices(startDate: LocalDate, endDate: LocalDate,workspaceId: Int) {
         viewModelScope.launch {
             _paidInvoices.value = repository.getPaidInvoices(startDate, endDate,workspaceId)
         }
     }
 
-    fun fetchPrevMonthPaidNum(prevMonth: LocalDate,currentMonth: LocalDate,workspaceId: Int):Double{
-        var totalSalePrevMonth=0.0
-        viewModelScope.launch{
-          val list=repository.getPaidInvoices(prevMonth,currentMonth,workspaceId)
-            list.forEach { record->
-                totalSalePrevMonth+=record.totalAmount
-            }
-        }
-        return totalSalePrevMonth
+    suspend fun fetchPrevMonthPaidNum(prevMonth: LocalDate,currentMonth: LocalDate,workspaceId: Int):List<Invoice>{
+          return repository.getPaidInvoices(prevMonth,currentMonth,workspaceId)
     }
     fun fetchUnpaidInvoices(todaysDate: LocalDate,workspaceId: Int) {
         viewModelScope.launch {
@@ -59,16 +88,14 @@ class InvoiceViewModel(private val repository: InvoiceRepository): ViewModel(){
         }
     }
 
-    fun fetchPendingInvoices(startDate: LocalDate, endDate: LocalDate,workspaceId: Int) {
+    fun fetchPendingInvoices(todaysDate: LocalDate,workspaceId: Int) {
         viewModelScope.launch {
-            _pendingInvoices.value = repository.getPendingInvoices(startDate, endDate,workspaceId)
+            _pendingInvoices.value = repository.getPendingInvoices(todaysDate,workspaceId)
         }
     }
 
-    fun getInvoicesByWorkspaceId(workspaceId:Int){
-        viewModelScope.launch {
-            _allInvoicesOfCurrentWorkspace.value=repository.getInvoicesBYWorkspaceId(workspaceId)
-        }
+    fun getInvoicesByWorkspaceId(workspaceId:Int): Flow<List<Invoice>>{
+        return repository.getInvoicesBYWorkspaceId(workspaceId)
 
     }
 

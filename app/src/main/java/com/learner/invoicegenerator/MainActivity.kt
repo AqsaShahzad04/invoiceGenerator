@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
         )
     }
     private val invoiceViewModel: InvoiceViewModel by viewModels {
-        InvoiceViewModelFactory(invoiceRepository)
+        InvoiceViewModelFactory(invoiceRepository,sessionManager)
     }
 
     private val itemViewModel: ItemViewModel by viewModels {

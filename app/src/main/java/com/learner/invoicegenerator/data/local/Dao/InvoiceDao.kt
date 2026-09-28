@@ -24,7 +24,7 @@ interface InvoiceDao {
     suspend fun deleteInvoice(invoice:Invoice)
 
     @Query("SELECT * FROM Invoices WHERE workspaceId=:workspaceId")
-    fun getInvoicesByWorkspaceId(workspaceId:Int): List<Invoice>
+    fun getInvoicesByWorkspaceId(workspaceId:Int): Flow<List<Invoice>>
 
     @Query("SELECT * FROM Invoices WHERE invoiceNum=:invoiceNum")
     suspend fun getInvoiceByInvoiceNum(invoiceNum:String):Invoice?
@@ -41,10 +41,37 @@ interface InvoiceDao {
     suspend fun getUnpaidInvoices(today: LocalDate,workspaceId: Int):List<Invoice>
 
 
-    @Query("SELECT * FROM Invoices WHERE status='Pending' AND(dueDate>=:startOfMonth AND dueDate<:startOFNextMonth) AND workspaceId=:workspaceId")
-    suspend fun getPendingInvoicesThisMonth(startOfMonth: LocalDate,startOFNextMonth: LocalDate,workspaceId: Int):List<Invoice>
+    @Query("SELECT * FROM Invoices WHERE status='Pending' AND dueDate>=:today AND workspaceId=:workspaceId")
+    suspend fun getPendingInvoicesThisMonth(today: LocalDate,workspaceId: Int):List<Invoice>
 
 
+    @Query("SELECT * FROM Invoices WHERE workspaceId=:workspaceId AND (clientBusinessName LIKE '%' || :query || '%' OR SUBSTR(invoiceNum,-4) LIKE '%' || :query) ORDER BY issueDate DESC")
+    fun searchInvoices(workspaceId:Int,query:String): Flow<List<Invoice>>
+
+    @Query("""
+    SELECT * FROM Invoices 
+    WHERE workspaceId = :workspaceId 
+      AND issueDate BETWEEN :fromDate AND :toDate
+      AND (
+          clientBusinessName LIKE '%' || :query || '%' 
+          OR SUBSTR(invoiceNum, -4) LIKE '%' || :query
+      )
+    ORDER BY issueDate DESC
+""")
+    fun searchInvoicesInRange(
+        workspaceId: Int,
+        query: String,
+        fromDate: LocalDate,
+        toDate: LocalDate
+    ): Flow<List<Invoice>>
+
+    @Query("""
+    SELECT * FROM Invoices 
+    WHERE workspaceId = :workspaceId 
+      AND issueDate BETWEEN :fromDate AND :toDate
+    ORDER BY issueDate DESC
+""")
+    fun getInvoicesByDateRange(workspaceId: Int, fromDate: LocalDate, toDate: LocalDate): Flow<List<Invoice>>
 
 
 

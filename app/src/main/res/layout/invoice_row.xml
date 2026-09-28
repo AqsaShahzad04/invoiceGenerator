@@ -13,12 +13,12 @@
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <!-- Avatar circle -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/client_avatar"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:background="@drawable/client_profile_circle_bg"
-        android:text="NL"
+        android:backgroundTint="@color/primary_green_alpha"
         android:textColor="#FFFFFF"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
@@ -27,7 +27,19 @@
         android:fontFamily="@font/inter_semibold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent" >
+        
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:background="@drawable/ic_inv"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+        
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Client / business name -->
     <TextView
