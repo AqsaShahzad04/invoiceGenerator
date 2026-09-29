@@ -129,4 +129,9 @@ class NewInvoicesReviewFragment: Fragment(R.layout.fragment_newinvoice_review) {
         total = (subTotal - discount) + tax
         binding.totalValue.text = String.format("%.2f", total)
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

@@ -248,6 +248,7 @@ class NewInvoiceAddDetailsFragment : Fragment(R.layout.fragment_newinvoice_add_d
             }
         }
         binding.notesInput.addTextChangedListener {
+            if (updatingEditTextManually) return@addTextChangedListener
             updateDraft { d -> d.copy(endNote = it.toString()) }
         }
 
@@ -273,7 +274,9 @@ class NewInvoiceAddDetailsFragment : Fragment(R.layout.fragment_newinvoice_add_d
         binding.selectedTaxChip.text = "${draft.taxPercentage}%"
 
         if (binding.notesInput.text.toString() != draft.endNote) {
+            updatingEditTextManually = true
             binding.notesInput.setText(draft.endNote)
+            updatingEditTextManually = false
         }
         if (binding.addSignToggleBtn.isChecked != (draft.signaturePath != null)) {
             if(draft.signaturePath==null){
@@ -358,10 +361,12 @@ class NewInvoiceAddDetailsFragment : Fragment(R.layout.fragment_newinvoice_add_d
     }
 
     private fun setDiscountInputText(value: String) {
-        updatingEditTextManually = true
-        binding.discountAmountInput.setText(value)
-        binding.discountAmountInput.setSelection(value.length)
-        updatingEditTextManually = false
+        if (binding.discountAmountInput.text.toString() != value) {
+            updatingEditTextManually = true
+            binding.discountAmountInput.setText(value)
+            binding.discountAmountInput.setSelection(value.length)
+            updatingEditTextManually = false
+        }
     }
 
     private fun highlightSelectedChip(selectedChip: Chip?) {

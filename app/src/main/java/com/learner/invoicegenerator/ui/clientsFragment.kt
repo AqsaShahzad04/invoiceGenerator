@@ -8,7 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.learner.invoicegenerator.R
@@ -72,16 +74,18 @@ class clientsFragment : Fragment(R.layout.fragment_clients) {
         binding.clientsList.adapter = clientAdapter
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.allClients.collect { clientsList ->
-                fullClientList = clientsList
-                clientAdapter.updateList(clientsList)
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.allClients.collect { clientsList ->
+                    fullClientList = clientsList
+                    clientAdapter.updateList(clientsList)
 
-                if (clientsList.isEmpty()) {
-                    binding.emptyStateLayout.visibility = View.VISIBLE
-                    binding.clientsList.visibility = View.GONE
-                } else {
-                    binding.emptyStateLayout.visibility = View.GONE
-                    binding.clientsList.visibility = View.VISIBLE
+                    if (clientsList.isEmpty()) {
+                        binding.emptyStateLayout.visibility = View.VISIBLE
+                        binding.clientsList.visibility = View.GONE
+                    } else {
+                        binding.emptyStateLayout.visibility = View.GONE
+                        binding.clientsList.visibility = View.VISIBLE
+                    }
                 }
             }
         }

@@ -48,7 +48,7 @@ object DatabaseProvider{
                 InvoiceDatabase::class.java,
                 "app_database"
             )
-                .fallbackToDestructiveMigration(false)
+                .fallbackToDestructiveMigration(true)
                 .build()
             INSTANCE = instance
             instance

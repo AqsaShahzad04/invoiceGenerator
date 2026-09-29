@@ -82,7 +82,7 @@ class AddEditClientFragment : Fragment(R.layout.fragment_add_edit_client) {
             binding.addClientbtn.text = "Edit Client"
             binding.newClient.text = "Edit Client"
             
-            lifecycleScope.launch {
+            viewLifecycleOwner.lifecycleScope.launch {
                 val client = viewModel.getClientById(clientId,workspaceId)
                 client?.let {
                     binding.BusinessName.setText(it.businessName)

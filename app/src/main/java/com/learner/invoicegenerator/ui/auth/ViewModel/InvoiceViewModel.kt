@@ -162,6 +162,21 @@ class InvoiceViewModel(
         }
     }
 
+    suspend fun insertInvoiceWithItems(invoice: Invoice, items: List<InvoiceItemLine>): Long {
+        _addInvoiceState.value = InvoiceState.Loading
+        return try {
+            val invoiceId = repository.insertInvoice(invoice)
+            items.forEach { item ->
+                repository.insertInvoiceItemLine(item.copy(id = 0, invoiceId = invoiceId.toInt()))
+            }
+            _addInvoiceState.value = InvoiceState.Success(invoiceId.toInt())
+            invoiceId
+        } catch (error: Exception) {
+            _addInvoiceState.value = InvoiceState.Error(error.message ?: "invalid error")
+            0L
+        }
+    }
+
         fun updateInvoice(invoice: Invoice) {
             _addInvoiceState.value = InvoiceState.Loading
             viewModelScope.launch {

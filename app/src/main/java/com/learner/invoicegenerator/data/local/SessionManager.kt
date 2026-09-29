@@ -74,11 +74,11 @@ class SessionManager private constructor(context: Context) {
 
     fun getActiveWorkspaceId(): Int = prefs.getInt(KEY_ACTIVE_WORKSPACE_ID, -1)
 
-    fun isintitalSetupCompleted(): Boolean{
-        return prefs.getBoolean(KEY_INITIAL_STEPS_COMPLETED,false)
+    fun isInitialSetupCompleted(): Boolean {
+        return prefs.getBoolean(KEY_INITIAL_STEPS_COMPLETED, false)
     }
 
-    fun setintialStepsCompleted() {
+    fun setInitialStepsCompleted() {
         prefs.edit().putBoolean(KEY_INITIAL_STEPS_COMPLETED, true).apply()
     }
 

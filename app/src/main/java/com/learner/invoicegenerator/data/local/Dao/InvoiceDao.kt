@@ -23,7 +23,7 @@ interface InvoiceDao {
     @Delete
     suspend fun deleteInvoice(invoice:Invoice)
 
-    @Query("SELECT * FROM Invoices WHERE workspaceId=:workspaceId")
+    @Query("SELECT * FROM Invoices WHERE workspaceId=:workspaceId ORDER BY issueDate DESC")
     fun getInvoicesByWorkspaceId(workspaceId:Int): Flow<List<Invoice>>
 
     @Query("SELECT * FROM Invoices WHERE invoiceNum=:invoiceNum")
@@ -33,15 +33,15 @@ interface InvoiceDao {
     @Query("SELECT * From Invoices WHERE workspaceId=:workspaceId ORDER BY id DESC LIMIT 1 ")
     suspend fun getLatestInvoice(workspaceId: Int):Invoice?
 
-    @Query("SELECT * FROM Invoices WHERE status='Paid' AND (paidDate>=:startOfMonth AND paidDate<:startOfNextMonth) AND workspaceId=:workspaceId")
+    @Query("SELECT * FROM Invoices WHERE status='Paid' AND (paidDate>=:startOfMonth AND paidDate<:startOfNextMonth) AND workspaceId=:workspaceId ORDER BY issueDate DESC")
     suspend fun getPaidInvoicesThisMonth(startOfMonth: LocalDate,startOfNextMonth: LocalDate,workspaceId: Int): List<Invoice>
 
 
-    @Query("SELECT * FROM Invoices WHERE status='Pending' AND dueDate<:today AND workspaceId=:workspaceId")
+    @Query("SELECT * FROM Invoices WHERE status='Pending' AND dueDate<:today AND workspaceId=:workspaceId ORDER BY issueDate DESC")
     suspend fun getUnpaidInvoices(today: LocalDate,workspaceId: Int):List<Invoice>
 
 
-    @Query("SELECT * FROM Invoices WHERE status='Pending' AND dueDate>=:today AND workspaceId=:workspaceId")
+    @Query("SELECT * FROM Invoices WHERE status='Pending' AND dueDate>=:today AND workspaceId=:workspaceId ORDER BY issueDate DESC")
     suspend fun getPendingInvoicesThisMonth(today: LocalDate,workspaceId: Int):List<Invoice>
 
 

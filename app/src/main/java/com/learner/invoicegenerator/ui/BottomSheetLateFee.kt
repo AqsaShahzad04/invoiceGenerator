@@ -21,6 +21,7 @@ class BottomSheetLateFee(rate: Double) : BottomSheetDialogFragment() {
     val binding get() = _binding!!
 
     var selectedRate = rate
+    private var isUpdatingUI = false
 
     private val commonRates = listOf(0.0, 1.0, 1.5,2.0, 3.0, 5.0)
 
@@ -37,16 +38,27 @@ class BottomSheetLateFee(rate: Double) : BottomSheetDialogFragment() {
 
     fun updateRate(newRate: Double) {
         selectedRate = newRate.coerceIn(0.0, 100.0)
-        binding.lateFeeDisplayValue.text = selectedRate.toString()
-        binding.customRateInput.setText(selectedRate.toString())
+        val textToSet = if (selectedRate == selectedRate.toInt().toDouble()) selectedRate.toInt().toString() else selectedRate.toString()
+        binding.lateFeeDisplayValue.text = textToSet
+        if (binding.customRateInput.text.toString() != textToSet) {
+            isUpdatingUI = true
+            binding.customRateInput.setText(textToSet)
+            isUpdatingUI = false
+        }
         updateCheckedChip()
     }
 
     fun updateCheckedChip() {
+        val wasUpdating = isUpdatingUI
+        isUpdatingUI = true
         for (i in 0 until binding.latefeeRatesChipGroup.childCount) {
             val chip = binding.latefeeRatesChipGroup.getChildAt(i) as Chip
-            chip.isChecked = (chip.tag as Double) == selectedRate
+            val shouldCheck = (chip.tag as Double) == selectedRate
+            if (chip.isChecked != shouldCheck) {
+                chip.isChecked = shouldCheck
+            }
         }
+        isUpdatingUI = wasUpdating
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,8 +66,13 @@ class BottomSheetLateFee(rate: Double) : BottomSheetDialogFragment() {
         val sessionManager = SessionManager.getInstance(requireContext())
         val activeWorkspaceId = sessionManager.getActiveWorkspaceId()
 
-        binding.lateFeeDisplayValue.text = selectedRate.toString()
-        binding.customRateInput.setText(selectedRate.toString())
+        val initialText = if (selectedRate == selectedRate.toInt().toDouble()) selectedRate.toInt().toString() else selectedRate.toString()
+        binding.lateFeeDisplayValue.text = initialText
+        if (binding.customRateInput.text.toString() != initialText) {
+            isUpdatingUI = true
+            binding.customRateInput.setText(initialText)
+            isUpdatingUI = false
+        }
 
         val styledContext = ContextThemeWrapper(requireContext(), R.style.ThemeOverlay_TaxRate_chip)
         commonRates.forEach { rate ->
@@ -66,10 +83,15 @@ class BottomSheetLateFee(rate: Double) : BottomSheetDialogFragment() {
             chip.isChecked = rate == selectedRate
 
             chip.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
+                if (isChecked && !isUpdatingUI) {
                     selectedRate = rate
-                    binding.lateFeeDisplayValue.text = rate.toString()
-                    binding.customRateInput.setText(rate.toString())
+                    val textToSet = if (rate == rate.toInt().toDouble()) rate.toInt().toString() else rate.toString()
+                    binding.lateFeeDisplayValue.text = textToSet
+                    if (binding.customRateInput.text.toString() != textToSet) {
+                        isUpdatingUI = true
+                        binding.customRateInput.setText(textToSet)
+                        isUpdatingUI = false
+                    }
                 }
             }
             binding.latefeeRatesChipGroup.addView(chip)
@@ -77,10 +99,11 @@ class BottomSheetLateFee(rate: Double) : BottomSheetDialogFragment() {
 
 
         binding.customRateInput.addTextChangedListener {
+            if (isUpdatingUI) return@addTextChangedListener
             val value = it.toString().toDoubleOrNull()
             if (value != null) {
                 selectedRate = value.coerceIn(0.0, 100.0)
-                binding.lateFeeDisplayValue.text = selectedRate.toString()
+                binding.lateFeeDisplayValue.text = if (selectedRate == selectedRate.toInt().toDouble()) selectedRate.toInt().toString() else selectedRate.toString()
                 updateCheckedChip()
             }
         }

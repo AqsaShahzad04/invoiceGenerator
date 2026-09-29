@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.chip.Chip
@@ -51,19 +53,21 @@ class AddEditItemsFragment : Fragment(R.layout.fragment_add_edit_items) {
 
     fun observeScannedItem(){
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.scannedLookUpState.collect { state->
-                when(state){
-                    is ItemViewModel.ScannedLookUpState.Found -> {
-                        binding.itemNameInput.setText(state.item.title)
-                        binding.priceInput.setText(state.item.lowest_recorded_price?.toString() ?: "")
-                        binding.barcodeinputField.setText(state.item.ean)
-                        viewModel.resetLookUpState()   // consume kar liya, wapas Idle
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.scannedLookUpState.collect { state->
+                    when(state){
+                        is ItemViewModel.ScannedLookUpState.Found -> {
+                            binding.itemNameInput.setText(state.item.title)
+                            binding.priceInput.setText(state.item.lowest_recorded_price?.toString() ?: "")
+                            binding.barcodeinputField.setText(state.item.ean)
+                            viewModel.resetLookUpState()   // consume kar liya, wapas Idle
+                        }
+                        is ItemViewModel.ScannedLookUpState.NotFound -> {
+                            Toast.makeText(requireContext(), "Product not found. Please enter details manually.", Toast.LENGTH_SHORT).show()
+                            viewModel.resetLookUpState()
+                        }
+                        ItemViewModel.ScannedLookUpState.Idle -> {  }
                     }
-                    is ItemViewModel.ScannedLookUpState.NotFound -> {
-                        Toast.makeText(requireContext(), "Product not found. Please enter details manually.", Toast.LENGTH_SHORT).show()
-                        viewModel.resetLookUpState()
-                    }
-                    ItemViewModel.ScannedLookUpState.Idle -> {  }
                 }
             }
         }
@@ -96,7 +100,7 @@ class AddEditItemsFragment : Fragment(R.layout.fragment_add_edit_items) {
     }
 
     private fun loadItem(itemId: Int,workspaceId: Int) {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             val item = viewModel.getItemById(itemId,workspaceId)
             item?.let {
                 binding.itemNameInput.setText(it.itemName)

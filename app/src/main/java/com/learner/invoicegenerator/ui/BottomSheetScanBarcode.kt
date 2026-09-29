@@ -48,7 +48,7 @@ class BottomSheetScanBarcode: BottomSheetDialogFragment() {
         _binding= BottomSheetScanBarcodeBinding.inflate(inflater,container,false)
         return binding.root
     }
-    private lateinit var scanAnimator: ObjectAnimator
+    private var scanAnimator: ObjectAnimator? = null
     var barcodeAlreadyFound=false
 
     @OptIn(ExperimentalGetImage::class)
@@ -77,7 +77,7 @@ class BottomSheetScanBarcode: BottomSheetDialogFragment() {
                                barcodeAlreadyFound=true
                                 requireActivity().runOnUiThread {
                                     binding.barcodeNumInput.setText(rawValue)
-                                    scanAnimator.cancel()
+                                    scanAnimator?.cancel()
                                 }
                             }
                         }
@@ -205,16 +205,19 @@ class BottomSheetScanBarcode: BottomSheetDialogFragment() {
         }
 
         val distanceInPx = 176 * resources.displayMetrics.density
-         scanAnimator= ObjectAnimator.ofFloat(binding.scanLine,"translationY",0f,distanceInPx)
-        scanAnimator.duration=1500
-        scanAnimator.repeatMode= ObjectAnimator.REVERSE
-        scanAnimator.repeatCount= ObjectAnimator.INFINITE
-        scanAnimator.start()
+        scanAnimator = ObjectAnimator.ofFloat(binding.scanLine, "translationY", 0f, distanceInPx).apply {
+            duration = 1500
+            repeatMode = ObjectAnimator.REVERSE
+            repeatCount = ObjectAnimator.INFINITE
+            start()
+        }
 
     }
     override fun onDestroyView(){
         super.onDestroyView()
-        scanAnimator.cancel()
+        scanAnimator?.cancel()
+        scanAnimator = null
+        _binding = null
     }
 }
 

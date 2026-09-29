@@ -156,35 +156,29 @@ class FragmentFinalInvoice: Fragment(R.layout.fragment_final_invoice) {
             }
 
 
-            lateinit var file:File
+            var file: File? = null
             viewLifecycleOwner.lifecycleScope.launch {
                 binding.tvClientBusinessName.text =
-                    clientViewModel.getClientById(draft.clientId,activeWorkspaceId)?.businessName
-                val workspaceUri=workspaceViewModel.getWorkspaceById(activeWorkspaceId)?.logoUri
+                    clientViewModel.getClientById(draft.clientId, activeWorkspaceId)?.businessName
+                val workspaceUri = workspaceViewModel.getWorkspaceById(activeWorkspaceId)?.logoUri
                 displayLogo(workspaceUri)
-                binding.invoiceParentCard.post {
-                    file = createPdf(binding.invoiceParentCard, requireContext())
-                    val finalInvoice = draft.copy(pdfPath = file.absolutePath)
-                    invoiceViewModel.insertInvoice(finalInvoice)
-                    val invoiceId=finalInvoice.id
-                    invoiceViewModel.selectedItems.value.let{itemsList->
-                        itemsList.forEach { item->
-                            item.invoiceId=invoiceId
-                            invoiceViewModel.insertInvoiceItemLine(item)
-                        }
-                    }
 
+                if (draft.id > 0 && !draft.pdfPath.isNullOrEmpty() && File(draft.pdfPath).exists()) {
+                    // Invoice was already saved in DB and PDF generated (e.g. screen rotation or re-render)
+                    val pdfFile = File(draft.pdfPath)
+                    file = pdfFile
                     setButtonState(binding.btnShare, true)
                     binding.btnShare.setOnClickListener {
-                        sharePdf(requireContext(),file)
+                        file?.let { sharePdf(requireContext(), it) }
                     }
 
                     setButtonState(binding.btnDownloadPdf, true)
                     binding.btnDownloadPdf.setOnClickListener {
+                        val currentFile = file ?: return@setOnClickListener
                         setButtonState(binding.btnDownloadPdf, false)
                         viewLifecycleOwner.lifecycleScope.launch {
                             val uri = withContext(Dispatchers.IO) {
-                                saveInvoicePdfToDownloads(requireContext(), file, file.name)
+                                saveInvoicePdfToDownloads(requireContext(), currentFile, currentFile.name)
                             }
                             setButtonState(binding.btnDownloadPdf, true)
 
@@ -196,15 +190,48 @@ class FragmentFinalInvoice: Fragment(R.layout.fragment_final_invoice) {
                             }
                         }
                     }
+                } else {
+                    // First time creating & saving this invoice
+                    binding.invoiceParentCard.post {
+                        viewLifecycleOwner.lifecycleScope.launch {
+                            val pdfFile = createPdf(binding.invoiceParentCard, requireContext())
+                            file = pdfFile
+                            val finalInvoice = draft.copy(pdfPath = pdfFile.absolutePath)
+                            val itemsList = invoiceViewModel.selectedItems.value
+                            val invoiceId = invoiceViewModel.insertInvoiceWithItems(finalInvoice, itemsList)
+
+                            // Update draft in ViewModel so subsequent renders know it is already saved
+                            val savedInvoice = finalInvoice.copy(id = invoiceId.toInt())
+                            invoiceViewModel.updateInvoiceDraft(savedInvoice)
+
+                            setButtonState(binding.btnShare, true)
+                            binding.btnShare.setOnClickListener {
+                                file?.let { sharePdf(requireContext(), it) }
+                            }
+
+                            setButtonState(binding.btnDownloadPdf, true)
+                            binding.btnDownloadPdf.setOnClickListener {
+                                val currentFile = file ?: return@setOnClickListener
+                                setButtonState(binding.btnDownloadPdf, false)
+                                viewLifecycleOwner.lifecycleScope.launch {
+                                    val uri = withContext(Dispatchers.IO) {
+                                        saveInvoicePdfToDownloads(requireContext(), currentFile, currentFile.name)
+                                    }
+                                    setButtonState(binding.btnDownloadPdf, true)
+
+                                    if (uri != null) {
+                                        Toast.makeText(context, "Invoice downloaded to Downloads folder", Toast.LENGTH_SHORT).show()
+                                        openPdf(requireContext(), uri)
+                                    } else {
+                                        Toast.makeText(context, "Download failed", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
-
             }
-
-
         }
-
-
-
     }
 
     override fun onDestroyView() {

@@ -54,7 +54,8 @@ class BottomSheetNewInvoiceAddItem: BottomSheetDialogFragment() {
         }
         binding.additemBtn.setOnClickListener {
             val itemName = binding.itemNameInput.text.toString().trim()
-            val price = binding.priceInput.text.toString().toDouble()
+            val priceStr = binding.priceInput.text.toString().trim()
+            val price = priceStr.toDoubleOrNull() ?: 0.0
             val selectedChipId = binding.unitChipGroup.checkedChipId
             val selectedChip = binding.unitChipGroup.findViewById<Chip>(selectedChipId)
             val selectedUnit = selectedChip.text.toString()

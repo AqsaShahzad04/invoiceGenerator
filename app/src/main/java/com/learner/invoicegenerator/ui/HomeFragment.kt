@@ -80,7 +80,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 invoiceViewModel.getInvoicesByWorkspaceId(activeWorkspaceId).collect { invoices->
                     if(!invoices.isEmpty()){
-                        val adapter= InvoiceAdapter(invoices)
+                        val latest5Invoices=invoices.takeLast(5)
+                        val adapter= InvoiceAdapter(latest5Invoices)
                         binding.invoiceRv.adapter=adapter
                         binding.noInvoicesPlaceholder.visibility= View.GONE
                     }
@@ -192,30 +193,35 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         // 1. Reactive Header Update (Dedicated Flow)
         viewLifecycleOwner.lifecycleScope.launch {
-            combine(
-                sessionManager.activeWorkspaceId,
-                workspaceViewModel.getWorkspacesByUserId(userId)
-            ) { activeId, workspaces ->
-                workspaces.find { it.id == activeId }
-            }.collect { activeWorkspace ->
-                updateHeaderUI(activeWorkspace)
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                combine(
+                    sessionManager.activeWorkspaceId,
+                    workspaceViewModel.getWorkspacesByUserId(userId)
+                ) { activeId, workspaces ->
+                    workspaces.find { it.id == activeId }
+                }.collect { activeWorkspace ->
+                    updateHeaderUI(activeWorkspace)
+                }
             }
         }
 
         // 2. Reactive Data Counts Update
         viewLifecycleOwner.lifecycleScope.launch {
-            combine(
-                clientViewModel.allClients,
-                itemViewModel.allItems,
-                sessionManager.activeWorkspaceId,
-               sessionManager.currencyCode
-            ) { clients, items, _ ,currencyCode->
-                Triple(clients.size, items.size,currencyCode)
-            }.collect { (clientsCount, itemsCount,_) ->
-                updateProgressUI(clientsCount,
-                    itemsCount,
-                    sessionManager.hasCurrencySelectedByUser()
-                )
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                combine(
+                    clientViewModel.allClients,
+                    itemViewModel.allItems,
+                    sessionManager.activeWorkspaceId,
+                    sessionManager.currencyCode
+                ) { clients, items, _, currencyCode ->
+                    Triple(clients.size, items.size, currencyCode)
+                }.collect { (clientsCount, itemsCount, _) ->
+                    updateProgressUI(
+                        clientsCount,
+                        itemsCount,
+                        sessionManager.hasCurrencySelectedByUser()
+                    )
+                }
             }
         }
     }
@@ -268,18 +274,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         if (step3Done) completedCount++
         if (step4Done) completedCount++
 
-        if(completedCount==4){
-            sessionManager.setintialStepsCompleted()
-
+        if (completedCount == 4) {
+            sessionManager.setInitialStepsCompleted()
         }
 
-            if (sessionManager.isintitalSetupCompleted()) {
-                binding.homeInitialSetupCards.visibility =View.GONE
-                binding.homeScreenParentCard.visibility=View.VISIBLE
-            } else {
-                binding.homeInitialSetupCards.visibility = View.VISIBLE
-                binding.homeScreenParentCard.visibility=View.GONE
-            }
+        if (sessionManager.isInitialSetupCompleted()) {
+            binding.homeInitialSetupCards.visibility = View.GONE
+            binding.homeScreenParentCard.visibility = View.VISIBLE
+        } else {
+            binding.homeInitialSetupCards.visibility = View.VISIBLE
+            binding.homeScreenParentCard.visibility = View.GONE
+        }
 
 
         updateStepUI(step1Done, binding.homeNumCircle, binding.homeNumCircle1done, binding.nameWorkspace, binding.setupBtn, binding.cardone)

@@ -10,7 +10,9 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.learner.invoicegenerator.R
@@ -141,38 +143,40 @@ class AddEditWorkspaceFragment : Fragment(R.layout.fragment_add_edit_workspace) 
     }
 
     private fun loadWorkspace(workspaceId: Int) {
-        lifecycleScope.launch {
-            val sessionManager = SessionManager.getInstance(requireContext())
-            val userId = sessionManager.getUserId()
-            viewModel.getWorkspacesByUserId(userId).collect { list ->
-                val workspace = list.find { it.id == workspaceId }
-                workspace?.let {
-                    binding.workspaceNameInput.setText(it.name)
-                    binding.emailInput.setText(it.email)
-                    binding.phoneInput.setText(it.phone)
-                    binding.taxInput.setText(it.taxNumber)
-                    binding.addressInput.setText(it.address)
-                    selectedLogoUri = it.logoUri
-                    displayLogo(selectedLogoUri)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                val sessionManager = SessionManager.getInstance(requireContext())
+                val userId = sessionManager.getUserId()
+                viewModel.getWorkspacesByUserId(userId).collect { list ->
+                    val workspace = list.find { it.id == workspaceId }
+                    workspace?.let {
+                        binding.workspaceNameInput.setText(it.name)
+                        binding.emailInput.setText(it.email)
+                        binding.phoneInput.setText(it.phone)
+                        binding.taxInput.setText(it.taxNumber)
+                        binding.addressInput.setText(it.address)
+                        selectedLogoUri = it.logoUri
+                        displayLogo(selectedLogoUri)
 
-                    binding.delWorkspaceBtn.setOnClickListener {
-                        lifecycleScope.launch {
-                            viewModel.deleteWorkspace(workspace)
+                        binding.delWorkspaceBtn.setOnClickListener {
+                            viewLifecycleOwner.lifecycleScope.launch {
+                                viewModel.deleteWorkspace(workspace)
 
-                            clientViewModel.getClientsByWorkspaceId(workspace.id).forEach { client ->
-                                clientViewModel.deleteClient(client,workspace.id)
+                                clientViewModel.getClientsByWorkspaceId(workspace.id).forEach { client ->
+                                    clientViewModel.deleteClient(client,workspace.id)
+                                }
+                                itemsViewModel.getItemsByWorkspaceId(workspace.id).forEach { item ->
+                                    itemsViewModel.deleteItem(item,workspace.id)
+                                }
+                                invoiceViewModel.getInvoicesByWorkspaceId(workspace.id).first().forEach { invoice->
+                                    invoiceViewModel.deleteInvoice(invoice)
+                                }
+
+                                val latestWorkspace = viewModel.getLatestWorkspace(userId)
+                                sessionManager.setActiveWorkspace(latestWorkspace?.id ?: -1)
+
+                                findNavController().popBackStack()
                             }
-                            itemsViewModel.getItemsByWorkspaceId(workspace.id).forEach { item ->
-                                itemsViewModel.deleteItem(item,workspace.id)
-                            }
-                            invoiceViewModel.getInvoicesByWorkspaceId(workspace.id).first().forEach { invoice->
-                                invoiceViewModel.deleteInvoice(invoice)
-                            }
-
-                            val latestWorkspace = viewModel.getLatestWorkspace(userId)
-                            sessionManager.setActiveWorkspace(latestWorkspace?.id ?: -1)
-
-                            findNavController().popBackStack()
                         }
                     }
                 }

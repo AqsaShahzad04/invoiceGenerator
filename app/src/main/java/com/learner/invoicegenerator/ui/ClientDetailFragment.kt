@@ -59,7 +59,7 @@ class ClientDetailFragment : Fragment(R.layout.fragment_client_detail) {
 
 
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             val client = viewModel.getClientById(clientId,activeWorkspaceId)
             if (client != null) {
                 binding.businessName.text = client.businessName
@@ -105,7 +105,7 @@ class ClientDetailFragment : Fragment(R.layout.fragment_client_detail) {
         }
 
         binding.trashbutton.setOnClickListener {
-            lifecycleScope.launch {
+            viewLifecycleOwner.lifecycleScope.launch {
                 val client = viewModel.getClientById(clientId,activeWorkspaceId)
                 if (client != null) {
                     viewModel.deleteClient(client,activeWorkspaceId)

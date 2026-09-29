@@ -39,7 +39,7 @@ class NewInvoiceSelectItemsFragment: Fragment(R.layout.fragment_newinvoice_selec
     val itemViewModel: ItemViewModel by activityViewModels()
     val invoiceViewModel: InvoiceViewModel by activityViewModels()
 
-    lateinit var adapter: InvoiceItemsAdpater
+    private var adapter: InvoiceItemsAdpater? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -214,14 +214,12 @@ class NewInvoiceSelectItemsFragment: Fragment(R.layout.fragment_newinvoice_selec
                     binding.noResultsTextView.visibility=if(itemsList.isEmpty()) View.VISIBLE else View.GONE
                 }
             }
-
-
-
-            }
-
-
-
         }
-
-
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        adapter = null
+        _binding = null
+    }
+}
