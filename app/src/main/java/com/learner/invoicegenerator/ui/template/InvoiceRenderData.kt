@@ -13,5 +13,7 @@ data class InvoiceRenderData(
     val client: Client?,
     val logoBitmap: Bitmap? = null,
     val signatureBitmap: Bitmap? = null,
-    val currencySymbol: String = "$"
+    val currencySymbol: String = "$",
+    val paymentInfo: String? = null,
+    val isSample: Boolean = false
 )

@@ -20,4 +20,8 @@ class WorkspaceRepository(private val workspaceDao: WorkspaceDao)  {
     }
 
     suspend fun getWorkspacebyId(id: Int) = workspaceDao.getWorkspaceById(id)
+
+    suspend fun deleteAllData() {
+        workspaceDao.deleteAll()
+    }
 }

@@ -29,12 +29,22 @@ import com.learner.invoicegenerator.ui.auth.ViewModel.ItemViewModel
 import com.learner.invoicegenerator.ui.auth.ViewModel.WorkspaceViewModel
 import com.learner.invoicegenerator.ui.clients.viewmodel.ClientViewModel
 import com.learner.invoicegenerator.util.conversions
+import com.learner.invoicegenerator.data.local.DatabaseProvider
+import com.learner.invoicegenerator.data.repository.NotificationRepository
+import com.learner.invoicegenerator.ui.auth.ViewModel.NotificationViewModel
+import com.learner.invoicegenerator.ui.auth.ViewModel.NotificationViewModelFactory
 import com.learner.invoicegenerator.utils.AvatarUtils
+import com.learner.invoicegenerator.utils.CurrencyData
+import android.widget.LinearLayout
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
     private var _binding: FragmentHomeBinding? = null
@@ -44,6 +54,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private val itemViewModel: ItemViewModel by activityViewModels()
     private val workspaceViewModel: WorkspaceViewModel by activityViewModels()
     private val invoiceViewModel: InvoiceViewModel by activityViewModels()
+    private val notificationViewModel: NotificationViewModel by activityViewModels {
+        NotificationViewModelFactory(
+            NotificationRepository(DatabaseProvider.getDatabase(requireContext()).notificationDao())
+        )
+    }
     var totalEarningThisMonth=0.0
     var totalOutstandingAmount=0.0
     var pendingTotalAmount=0.0
@@ -75,13 +90,23 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val rippleView=binding.rippleDots
         val rippleAnimation= AnimationUtils.loadAnimation(requireContext(), R.anim.ripple_anim)
         rippleView.startAnimation(rippleAnimation)
+
+        binding.liveDot.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
+        val headerRippleAnimation = AnimationUtils.loadAnimation(requireContext(), R.anim.ripple_anim)
+        binding.liveDot.startAnimation(headerRippleAnimation)
+
         loadStats(activeWorkspaceId)
+        updateGreetingAndTime()
+        updateHomeHeaderStyleUI()
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 invoiceViewModel.getInvoicesByWorkspaceId(activeWorkspaceId).collect { invoices->
                     if(!invoices.isEmpty()){
-                        val latest5Invoices=invoices.takeLast(5)
-                        val adapter= InvoiceAdapter(latest5Invoices)
+                        val latest5Invoices=invoices.take(5)
+                        val adapter= InvoiceAdapter(latest5Invoices) { selectedInvoice ->
+                            openInvoiceDetails(selectedInvoice)
+                        }
                         binding.invoiceRv.adapter=adapter
                         binding.noInvoicesPlaceholder.visibility= View.GONE
                     }
@@ -98,28 +123,45 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 launch{
                     invoiceViewModel.paidInvoices.collect { invoices->
-                        totalEarningThisMonth=0.0
+                        totalEarningThisMonth = 0.0
                         invoices.forEach { invoice->
-                            totalEarningThisMonth+=invoice.totalAmount
+                            totalEarningThisMonth += invoice.totalAmount
                         }
-                        binding.earnedThisMonthValue.text= conversions.formatAmount(totalEarningThisMonth)
-                        val prevMonthPaidInvoices=invoiceViewModel.fetchPrevMonthPaidNum(startOfPreviousMonth,startOfMonth,activeWorkspaceId)
+                        binding.earnedThisMonthValue.text = conversions.formatAmount(totalEarningThisMonth)
+
+                        val currencySymbol = CurrencyData.currencies.find { it.code == sessionManager.getCurrencyCode() }?.symbol ?: "$"
+                        binding.tvEditorialEarnedValue.text = "$currencySymbol ${conversions.formatAmount(totalEarningThisMonth)}"
+
+                        earningPrevMonth = 0.0
+                        val prevMonthPaidInvoices = invoiceViewModel.fetchPrevMonthPaidNum(startOfPreviousMonth, startOfMonth, activeWorkspaceId)
                         prevMonthPaidInvoices.forEach { invoice->
-                            earningPrevMonth+=invoice.totalAmount
+                            earningPrevMonth += invoice.totalAmount
                         }
-                        val MonthOverMonthpercent= conversions.calculatePercentageChange(totalEarningThisMonth,earningPrevMonth)
-                        if(MonthOverMonthpercent>=0.0){
-                            binding.MOMValue.text=conversions.formatAmount(MonthOverMonthpercent)
+                        val monthOverMonthPercent = conversions.calculatePercentageChange(totalEarningThisMonth, earningPrevMonth)
+                        if (monthOverMonthPercent >= 0.0) {
+                            val sign = if (monthOverMonthPercent > 0.0) "+" else ""
+                            binding.MOMValue.text = "$sign${String.format(java.util.Locale.US, "%.1f", monthOverMonthPercent)}%"
                             binding.insightArrow.setImageResource(R.drawable.insights_upper_arrow)
-                            binding.MOMSection.backgroundTintList= ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.primary_green_alpha))
-                            binding.MOMValue.setTextColor(ContextCompat.getColor(requireContext(),R.color.primary_green))
-                        }
-                        else{
-                            binding.MOMValue.text= conversions.formatAmount(MonthOverMonthpercent)
+                            binding.MOMSection.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.primary_green_alpha))
+                            binding.MOMValue.setTextColor(ContextCompat.getColor(requireContext(), R.color.primary_green))
+
+                            binding.tvEditorialMOMPercent.text = "$sign${String.format(java.util.Locale.US, "%.1f", monthOverMonthPercent)}%"
+                            binding.editorialMOMArrow.setImageResource(R.drawable.insights_upper_arrow)
+                            binding.editorialMOMArrow.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.primary_green))
+                            binding.tvEditorialMOMPercent.setTextColor(ContextCompat.getColor(requireContext(), R.color.primary_green))
+                        } else {
+                            binding.MOMValue.text = "${String.format(java.util.Locale.US, "%.1f", monthOverMonthPercent)}%"
                             binding.insightArrow.setImageResource(R.drawable.insights_down_arrrow)
-                            binding.MOMSection.backgroundTintList= ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.error_red_colour))
-                            binding.MOMValue.setTextColor(ContextCompat.getColor(requireContext(),R.color.carrot_red_shade))
+                            binding.MOMSection.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.error_red_colour))
+                            binding.MOMValue.setTextColor(ContextCompat.getColor(requireContext(), R.color.carrot_red_shade))
+
+                            binding.tvEditorialMOMPercent.text = "${String.format(java.util.Locale.US, "%.1f", monthOverMonthPercent)}%"
+                            binding.editorialMOMArrow.setImageResource(R.drawable.insights_down_arrrow)
+                            binding.editorialMOMArrow.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.carrot_red_shade))
+                            binding.tvEditorialMOMPercent.setTextColor(ContextCompat.getColor(requireContext(), R.color.carrot_red_shade))
                         }
+                        binding.tvEditorialMOMVsMonth.text = "vs $previousMonth"
+                        updateEditorialCardStats(currencySymbol)
                     }
                 }
                 launch {
@@ -131,6 +173,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                         binding.pendingCountValue.text=invoices.size.toString()
                         totalOutstandingAmount=pendingTotalAmount+unpaidTotalAmount
                         binding.outstandingValue.text= conversions.formatAmount(totalOutstandingAmount)
+
+                        val currencySymbol = CurrencyData.currencies.find { it.code == sessionManager.getCurrencyCode() }?.symbol ?: "$"
+                        updateEditorialCardStats(currencySymbol)
                     }
                 }
                 launch{
@@ -142,6 +187,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                         binding.unpaidCountValue.text=invoices.size.toString()
                         totalOutstandingAmount=pendingTotalAmount+unpaidTotalAmount
                         binding.outstandingValue.text= conversions.formatAmount(totalOutstandingAmount)
+
+                        val currencySymbol = CurrencyData.currencies.find { it.code == sessionManager.getCurrencyCode() }?.symbol ?: "$"
+                        updateEditorialCardStats(currencySymbol)
                     }
                 }
 
@@ -165,11 +213,24 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
 
 
+        binding.btnSearchHome.setOnClickListener {
+            findNavController().navigate(R.id.action_homeScreenFragment_to_quickSearchFragment)
+        }
+
+        binding.cardCatalogue.setOnClickListener {
+            findNavController().navigate(R.id.action_homeScreenFragment_to_itemsFragment)
+        }
         binding.catalogueChiv.setOnClickListener {
             findNavController().navigate(R.id.action_homeScreenFragment_to_itemsFragment)
         }
+        binding.cardClients.setOnClickListener {
+            findNavController().navigate(R.id.action_homeScreenFragment_to_clientFragment)
+        }
         binding.clientChiv.setOnClickListener {
             findNavController().navigate(R.id.action_homeScreenFragment_to_clientFragment)
+        }
+        binding.viewAllBtn.setOnClickListener {
+            findNavController().navigate(R.id.action_homeScreenFragment_to_invoicesFragment)
         }
         binding.AddBtn.setOnClickListener {
             AddClientBottomSheet().show(parentFragmentManager, "Add Client")
@@ -189,6 +250,18 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         binding.chooseBtn.setOnClickListener {
             BottomSheetCurrencyPicker().show(parentFragmentManager,"currencyPickerBottomSheet")
+        }
+
+        binding.bellIcon.setOnClickListener {
+            findNavController().navigate(R.id.action_homeScreenFragment_to_notificationsFragment)
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                notificationViewModel.unreadCount.collect { count ->
+                    binding.bellNotificationDot.visibility = if (count > 0) View.VISIBLE else View.GONE
+                }
+            }
         }
 
         // 1. Reactive Header Update (Dedicated Flow)
@@ -229,14 +302,57 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
 
 
-    private fun loadStats(activeWorkspaceId:Int){
+    private fun updateHomeHeaderStyleUI() {
+        val sessionManager = SessionManager.getInstance(requireContext())
+        val style = sessionManager.getHomeHeaderStyle()
+        if (style == "Editorial") {
+            binding.editorialHeaderCard.visibility = View.VISIBLE
+            binding.homeStatsCardsParent.visibility = View.GONE
+        } else {
+            binding.editorialHeaderCard.visibility = View.GONE
+            binding.homeStatsCardsParent.visibility = View.VISIBLE
+        }
+    }
 
+    private fun updateEditorialCardStats(currencySymbol: String) {
+        val total = totalEarningThisMonth + totalOutstandingAmount
+        val paidRatio = if (total > 0) (totalEarningThisMonth / total * 100).toInt() else 0
+
+        binding.tvEditorialEarnedValue.text = "$currencySymbol ${conversions.formatAmount(totalEarningThisMonth)}"
+        binding.tvEditorialOutstandingValue.text = "$currencySymbol ${conversions.formatAmount(totalOutstandingAmount)}"
+        binding.tvLegendPaid.text = "Paid $paidRatio%"
+
+        val paidW = if (total > 0) (totalEarningThisMonth / total * 100).coerceAtLeast(1.0).toFloat() else 1f
+        val unpaidW = if (total > 0) (unpaidTotalAmount / total * 100).coerceAtLeast(1.0).toFloat() else 1f
+        val pendingW = if (total > 0) (pendingTotalAmount / total * 100).coerceAtLeast(1.0).toFloat() else 1f
+
+        (binding.barPaid.layoutParams as LinearLayout.LayoutParams).weight = paidW
+        (binding.barUnpaid.layoutParams as LinearLayout.LayoutParams).weight = unpaidW
+        (binding.barPending.layoutParams as LinearLayout.LayoutParams).weight = pendingW
+
+        binding.barPaid.requestLayout()
+        binding.barUnpaid.requestLayout()
+        binding.barPending.requestLayout()
+    }
+
+    private fun loadStats(activeWorkspaceId:Int){
         invoiceViewModel.fetchPaidInvoices(startOfMonth,startOfNextMonth,activeWorkspaceId)
         invoiceViewModel.fetchUnpaidInvoices(today,activeWorkspaceId)
         invoiceViewModel.fetchPendingInvoices(today,activeWorkspaceId)
-        binding.currentMonth.text="EARNED"
-        binding.previousMonth.text="vs $previousMonth"
+        val currentMonthName = currentMonth.getDisplayName(java.time.format.TextStyle.SHORT, java.util.Locale.getDefault()).uppercase()
+        val prevMonthName = previousMonth.getDisplayName(java.time.format.TextStyle.SHORT, java.util.Locale.getDefault()).lowercase().replaceFirstChar { it.uppercase() }
+        binding.currentMonth.text = "EARNED · $currentMonthName"
+        binding.previousMonth.text = "vs $prevMonthName"
+    }
 
+    private fun openInvoiceDetails(invoice: com.learner.invoicegenerator.data.local.entity.Invoice) {
+        invoiceViewModel.updateInvoiceDraft(invoice)
+        invoiceViewModel.setSelectedTemplate(invoice.templateId)
+        viewLifecycleOwner.lifecycleScope.launch {
+            val items = invoiceViewModel.getItemsbyInvoiceId(invoice.id).first()
+            invoiceViewModel.updateSelectedItems(items.toMutableList())
+            findNavController().navigate(R.id.action_homeScreenFragment_to_fragmentFinalInvoice)
+        }
     }
 
 
@@ -321,6 +437,25 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             button.visibility = View.VISIBLE
             card.setBackgroundResource(R.drawable.bg_onboarding_steps_cards_selected)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateGreetingAndTime()
+    }
+
+    private fun updateGreetingAndTime() {
+        val now = LocalTime.now()
+        val hour = now.hour
+        val greeting = when (hour) {
+            in 5..11 -> "Good morning"
+            in 12..16 -> "Good afternoon"
+            in 17..20 -> "Good evening"
+            else -> "Good night"
+        }
+        val timeFormatter = DateTimeFormatter.ofPattern("h:mm a", Locale.US)
+        val formattedTime = now.format(timeFormatter)
+        binding.headerGreetingText.text = "$greeting · $formattedTime"
     }
 
     override fun onDestroyView() {

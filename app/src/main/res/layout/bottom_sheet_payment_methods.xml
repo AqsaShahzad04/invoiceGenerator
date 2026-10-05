@@ -48,7 +48,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:background="@drawable/bg_cross_button"
-        android:backgroundTint="#F4F2EE"
+        android:backgroundTint="@color/greyish_white"
         android:src="@drawable/ic_close"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/paymentMethodsTitle"
@@ -115,7 +115,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="12dp"
-                android:background="#0F171817"
+                android:background="@color/divider_color"
                 />
 
 
@@ -182,7 +182,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="12dp"
-                android:background="#0F171817"
+                android:background="@color/divider_color"
                 />
 
 
@@ -249,7 +249,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="12dp"
-                android:background="#0F171817"
+                android:background="@color/divider_color"
                 />
 
 
@@ -316,7 +316,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="12dp"
-                android:background="#0F171817"
+                android:background="@color/divider_color"
                 />
 
 
@@ -383,7 +383,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="12dp"
-                android:background="#0F171817"
+                android:background="@color/divider_color"
                 />
 
 
@@ -450,7 +450,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="12dp"
-                android:background="#0F171817"
+                android:background="@color/divider_color"
                 />
 
 
@@ -517,7 +517,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="12dp"
-                android:background="#0F171817"
+                android:background="@color/divider_color"
                 />
 
 

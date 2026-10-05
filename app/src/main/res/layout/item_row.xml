@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#FBFAF7">
+    android:background="@color/bg_cream">
 
     <View
         android:id="@+id/bottomDivider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#EFEDE7"
+        android:background="@color/btn_border_light"
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,7 +19,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/bg_icon"
-        android:backgroundTint="#F4F2EE"
+        android:backgroundTint="@color/greyish_white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/bottomDivider">
@@ -32,7 +32,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="#5C625E" />
+            app:tint="@color/subheading_color_home" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
@@ -42,7 +42,7 @@
         android:layout_marginStart="12dp"
         android:fontFamily="@font/inter_semibold"
         android:text="rice"
-        android:textColor="#171817"
+        android:textColor="@color/btn_text_dark"
         android:textSize="13sp"
         app:layout_constraintEnd_toStartOf="@id/tvPrice"
         app:layout_constraintStart_toEndOf="@id/iconContainer"
@@ -54,7 +54,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/inter"
         android:text="Grocery · per kg"
-        android:textColor="#5C625E"
+        android:textColor="@color/subheading_color_home"
         android:textSize="11sp"
         android:layout_marginTop="2dp"
         app:layout_constraintEnd_toStartOf="@id/actionButtons"
@@ -69,7 +69,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/inter_semibold"
         android:text="$ 502"
-        android:textColor="#171817"
+        android:textColor="@color/btn_text_dark"
         android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/tvItemName" />
@@ -92,7 +92,7 @@
             android:background="@drawable/bg_back_btn_items"
             android:padding="7dp"
             android:src="@drawable/ic_pensil"
-            app:tint="#5C625E"
+            app:tint="@color/subheading_color_home"
             android:layout_marginEnd="4dp" />
 
         <ImageView
@@ -102,7 +102,7 @@
             android:background="@drawable/bg_back_btn_items"
             android:padding="7dp"
             android:src="@drawable/ic_trash"
-            app:tint="#D9534F" />
+            app:tint="@color/carrot_red_shade" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

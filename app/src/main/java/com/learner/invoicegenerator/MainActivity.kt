@@ -28,6 +28,10 @@ import com.learner.invoicegenerator.ui.auth.ViewModel.WorkspaceViewModel
 import com.learner.invoicegenerator.ui.auth.ViewModel.WorkspaceViewModelFactory
 import com.learner.invoicegenerator.ui.clients.viewmodel.ClientViewModel
 import com.learner.invoicegenerator.ui.clients.viewmodel.ClientViewModelFactory
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -103,6 +107,8 @@ class MainActivity : AppCompatActivity() {
         invoiceViewModel
         workspaceSettingsViewModel
 
+        requestNotificationPermission()
+
         /*
          * Keep the status bar visible, but hide only
          * the Android navigation bar at the bottom.
@@ -137,9 +143,9 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
 
         /*
-         * If the user is already logged in, start at Home.
+         * If the user is already logged in, start at Home (only on fresh launch, not activity recreation).
          */
-        if (sessionManager.isLoggedIn()) {
+        if (savedInstanceState == null && sessionManager.isLoggedIn()) {
 
             val navGraph =
                 navController.navInflater.inflate(
@@ -151,6 +157,10 @@ class MainActivity : AppCompatActivity() {
             )
 
             navController.graph = navGraph
+
+            if (intent?.getStringExtra("OPEN_DESTINATION") == "NOTIFICATIONS") {
+                navController.navigate(R.id.notificationsFragment)
+            }
         }
 
         /*
@@ -261,6 +271,22 @@ class MainActivity : AppCompatActivity() {
                 navOptions
             )
         }
+
+        // Observe dark mode changes from SessionManager for immediate theme updates
+        lifecycleScope.launch {
+            sessionManager.darkModeEnabledFlow.collect { isDarkMode ->
+                applyThemeChange(isDarkMode)
+            }
+        }
+    }
+
+    private fun applyThemeChange(isDarkMode: Boolean) {
+        val mode = if (isDarkMode) {
+            AppCompatDelegate.MODE_NIGHT_YES
+        } else {
+            AppCompatDelegate.MODE_NIGHT_NO
+        }
+        AppCompatDelegate.setDefaultNightMode(mode)
     }
 
     /**
@@ -302,6 +328,23 @@ class MainActivity : AppCompatActivity() {
 
         if (hasFocus) {
             hideNavigationBar()
+        }
+    }
+
+    override fun onNewIntent(intent: android.content.Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        if (intent.getStringExtra("OPEN_DESTINATION") == "NOTIFICATIONS") {
+            val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host) as? NavHostFragment
+            navHostFragment?.navController?.navigate(R.id.notificationsFragment)
+        }
+    }
+
+    private fun requestNotificationPermission() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            if (checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS) != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 1001)
+            }
         }
     }
 

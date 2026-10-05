@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#FBFAF7">
+    android:background="@color/bg_cream">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingBottom="20dp">
+        android:paddingBottom="24dp">
 
         <!-- Top bar: back arrow, "Invoice" title, Mark paid + delete -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp"
             android:paddingTop="8dp"
             android:paddingBottom="16dp">
 
@@ -27,534 +26,97 @@
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_back"
-                android:contentDescription="Back" />
+                android:contentDescription="Back"
+                android:src="@drawable/ic_back" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="Invoice"
-                android:textAllCaps="true"
-                android:letterSpacing="0.07"
                 android:fontFamily="@font/inter_semibold"
-                android:textColor="#171817"
+                android:gravity="center"
+                android:letterSpacing="0.07"
+                android:text="Invoice Preview"
+                android:textAllCaps="true"
+                android:textColor="@color/btn_text_dark"
                 android:textSize="13sp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <!-- Mark paid: icon + text as ImageView+TextView instead of drawableStart -->
+                <LinearLayout
+                    android:id="@+id/btnMarkPaid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/green_btn_bg"
+                    android:backgroundTint="@color/signal_green"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:paddingHorizontal="12dp">
 
+                    <ImageView
+                        android:id="@+id/icPaymentStatus"
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:layout_marginEnd="6dp"
+                        android:src="@drawable/ic_check"
+                        app:tint="@color/bg_cream" />
+
+                    <TextView
+                        android:id="@+id/paymentStatusText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/inter_semibold"
+                        android:text="Mark paid"
+                        android:textColor="@color/bg_cream"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
 
                 <ImageButton
                     android:id="@+id/btnDelete"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:background="@drawable/bg_back_btn_items"
-                    android:src="@drawable/ic_trash"
                     android:contentDescription="Delete"
-                    app:tint="#D9534F" />
+                    android:src="@drawable/ic_trash"
+                    app:tint="@color/carrot_red_shade" />
 
             </LinearLayout>
+
         </LinearLayout>
 
-        <!-- White invoice card -->
-        <LinearLayout
-            android:id="@+id/invoiceParentCard"
+        <!-- Template Canvas Card -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/invoiceCardContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/bg_invoice_sheet"
-            android:elevation="6dp"
-            android:orientation="vertical"
-            android:padding="22dp">
+            app:cardCornerRadius="8dp"
+            app:cardElevation="6dp">
 
-            <!-- Business name + NTN, dashed line below -->
-            <LinearLayout
+            <com.learner.invoicegenerator.ui.template.InvoiceCanvasView
+                android:id="@+id/invoiceCanvasView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:background="@drawable/bg_input_field"
-                android:backgroundTint="@color/greyish_white"
-                android:orientation="horizontal"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="10dp">
+                android:layout_height="wrap_content" />
 
-                <!-- Circular workspace logo placeholder -->
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/logoContainer"
-                    android:layout_width="44dp"
-                    android:layout_height="44dp"
-                    android:background="@drawable/avatar_circle"
-                    android:backgroundTint="#F4F2EE"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+        </androidx.cardview.widget.CardView>
 
-                    <ImageView
-                        android:id="@+id/placeholderIconLogo"
-                        android:layout_width="26dp"
-                        android:layout_height="26dp"
-                        android:src="@drawable/ic_package"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:tint="#9CA3A0" />
-
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/ivWorkspaceLogo"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        android:visibility="gone"
-                        app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <!-- Spacer between logo and text -->
-
-
-                <!-- Text block, aligned to end -->
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center">
-
-                    <TextView
-                        android:id="@+id/myWorkspaceName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/playfair_display_bold"
-                        android:text="ayesha space"
-                        android:textAllCaps="true"
-                        android:paddingVertical="6dp"
-                        android:textColor="@color/btn_bg_dark"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tvNtn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:text="NTN"
-                        android:fontFamily="@font/inter"
-                        android:textColor="@color/btn_bg_dark"
-                        android:textSize="9sp" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-
-
-            <!-- Invoice number (left) + Unpaid status (right) -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="top"
-                android:layout_marginTop="14dp"
-                android:orientation="horizontal"
-                android:paddingBottom="14dp">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="INVOICE"
-                        android:fontFamily="@font/inter_medium"
-                        android:textColor="#9CA3A0"
-                        android:textSize="10sp" />
-
-                    <TextView
-                        android:id="@+id/tvInvoiceNumber"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="##00002"
-                        android:fontFamily="@font/inter_bold"
-                        android:textColor="#171817"
-                        android:textSize="13sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <View
-                        android:id="@+id/paymentCircle"
-                        android:layout_width="6dp"
-                        android:layout_height="6dp"
-                        android:layout_marginEnd="6dp"
-                        android:background="@drawable/pending_circle"
-                        android:backgroundTint="@color/carrot_red_shade" />
-
-                    <TextView
-                        android:id="@+id/tvStatus"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Unpaid"
-                        android:fontFamily="@font/inter_medium"
-                        android:textColor="#D9534F"
-                        android:textSize="11sp" />
-
-                </LinearLayout>
-            </LinearLayout>
-
-            <!-- Bill to (left) + Date (right) -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="14dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="BILL TO"
-                        android:fontFamily="@font/inter_medium"
-                        android:textColor="#9CA3A0"
-                        android:textSize="10sp" />
-
-                    <TextView
-                        android:id="@+id/tvClientBusinessName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="cllient-2"
-                        android:fontFamily="@font/inter_semibold"
-                        android:textColor="#171817"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="ISSUE DATE"
-                        android:fontFamily="@font/inter_medium"
-                        android:textColor="#9CA3A0"
-                        android:textSize="10sp" />
-
-                    <TextView
-                        android:id="@+id/tvCurrentDate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:layout_gravity="end"
-                        android:text="20 Sept 2026"
-                        android:fontFamily="@font/inter_medium"
-                        android:textColor="#171817"
-                        android:textSize="10sp" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="DUE DATE"
-                        android:fontFamily="@font/inter_medium"
-                        android:textColor="#9CA3A0"
-                        android:textSize="10sp" />
-
-                    <TextView
-                        android:id="@+id/tvDueDate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:layout_gravity="end"
-                        android:text="20 OCT 2026"
-                        android:fontFamily="@font/inter_medium"
-                        android:textColor="#171817"
-                        android:textSize="10sp" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/dashed_divider" />
-
-            <!-- Item table header -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="8dp"
-                android:paddingBottom="10dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="ITEM"
-                    android:fontFamily="@font/inter_medium"
-                    android:textColor="#9CA3A0"
-                    android:textSize="9sp" />
-
-                <TextView
-                    android:layout_width="32dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="QTY"
-                    android:fontFamily="@font/inter_medium"
-                    android:textColor="#9CA3A0"
-                    android:textSize="9sp" />
-
-                <TextView
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:text="AMOUNT"
-                    android:fontFamily="@font/inter_medium"
-                    android:textColor="#9CA3A0"
-                    android:textSize="9sp" />
-
-            </LinearLayout>
-
-            <!-- Item row(s): this one goes in a RecyclerView if there are
-                 multiple items; shown here as the single "daal" row from
-                 the screenshot -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/finalInvoiceItemsRV"
-                />
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="6dp"
-                android:background="@drawable/dashed_divider" />
-
-            <!-- Totals block -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingTop="4dp"
-                    android:paddingBottom="4dp">
-
-                    <TextView
-                        android:id="@+id/subtotalLabel"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Subtotal"
-                        android:fontFamily="@font/inter"
-                        android:textColor="#5C625E"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/subtotalValue"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Rs 300"
-                        android:fontFamily="@font/inter_medium"
-                        android:textColor="#5C625E"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingTop="4dp"
-                    android:paddingBottom="4dp">
-
-                    <TextView
-                        android:id="@+id/discountLabel"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Discount (15%)"
-                        android:fontFamily="@font/inter"
-                        android:textColor="#0C861A"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/discountValue"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="− Rs 45"
-                        android:fontFamily="@font/inter_medium"
-                        android:textColor="#0C861A"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingTop="4dp"
-                    android:paddingBottom="4dp">
-
-                    <TextView
-                        android:id="@+id/taxLabel"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Tax (10%)"
-                        android:fontFamily="@font/inter"
-                        android:textColor="#5C625E"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/taxValue"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Rs 26"
-                        android:fontFamily="@font/inter_medium"
-                        android:textColor="#5C625E"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1.5dp"
-                    android:layout_marginTop="6dp"
-                    android:background="@drawable/dashed_divider" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingTop="12dp"
-                    android:paddingBottom="6dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Total"
-                        android:fontFamily="@font/inter_bold"
-                        android:textColor="#171817"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/totalValue"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Rs 281"
-                        android:fontFamily="@font/inter_bold"
-                        android:textColor="#171817"
-                        android:textSize="16sp" />
-
-                </LinearLayout>
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/dashed_divider" />
-            <!-- Payment note -->
-            <TextView
-                android:id="@+id/endNote"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:gravity="center"
-                android:lineSpacingMultiplier="1.5"
-                android:paddingTop="12dp"
-                android:text="Please reference the invoice number when paying."
-                android:fontFamily="@font/inter"
-                android:textColor="#5C625E"
-                android:textSize="11sp" />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/dashed_divider" />
-
-            <ImageView
-                android:id="@+id/signatureBox"
-                android:layout_width="100dp"
-                android:layout_height="50dp"
-                android:layout_gravity="end"
-                android:layout_marginTop="12dp"
-                android:visibility="gone"
-                />
-
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/dashed_divider" />
-
-            <!-- Thank you footer -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:gravity="center"
-                android:letterSpacing="0.18"
-                android:textAllCaps="true"
-                android:lineSpacingMultiplier="1.2"
-                android:text="—  We appreciate your trust on\n our services — "
-                android:fontFamily="@font/inter_semibold"
-                android:textColor="#9CA3A0"
-                android:textSize="9sp" />
-
-        </LinearLayout>
-
-        <!-- Bottom action buttons: Send, Share, Download -->
+        <!-- Bottom action buttons: Share & Download -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal"
             android:paddingStart="16dp"
             android:paddingEnd="16dp">
 
-            <!-- Send: icon + text as ImageView+TextView instead of drawableStart -->
             <LinearLayout
                 android:id="@+id/btnShare"
                 android:layout_width="0dp"
@@ -572,22 +134,21 @@
                     android:layout_width="14dp"
                     android:layout_height="14dp"
                     android:layout_marginEnd="6dp"
-                    android:src="@drawable/ic_send"
                     android:contentDescription="@null"
-                    app:tint="#FBFAF7" />
+                    android:src="@drawable/ic_send"
+                    app:tint="@color/btn_text_light" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter_semibold"
                     android:text="Share"
                     android:textAllCaps="false"
-                    android:fontFamily="@font/inter_semibold"
-                    android:textColor="#FBFAF7"
+                    android:textColor="@color/btn_text_light"
                     android:textSize="13sp" />
 
             </LinearLayout>
 
-            <!-- Share: icon + text as ImageView+TextView instead of drawableStart -->
             <LinearLayout
                 android:id="@+id/btnDownloadPdf"
                 android:layout_width="0dp"
@@ -605,28 +166,22 @@
                     android:layout_width="14dp"
                     android:layout_height="14dp"
                     android:layout_marginEnd="6dp"
-                    android:src="@drawable/ic_download"
                     android:contentDescription="@null"
-                    app:tint="#171817" />
+                    android:src="@drawable/ic_download"
+                    app:tint="@color/btn_text_dark" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter_semibold"
                     android:text="Download"
                     android:textAllCaps="false"
-                    android:fontFamily="@font/inter_semibold"
-                    android:textColor="#171817"
+                    android:textColor="@color/btn_text_dark"
                     android:textSize="13sp" />
 
             </LinearLayout>
 
-
         </LinearLayout>
-
-
-
-
-
 
     </LinearLayout>
 </ScrollView>

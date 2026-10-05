@@ -2,14 +2,15 @@
 <resources>
     <color name="text_primary">#FBFAF7</color>
     <color name="text_secondary">#8696A0</color>
+    <color name="text_grey">#9CA3A0</color>
     <color name="background_app">#12181F</color>
     <color name="surface_card">#1E262C</color>
     <color name="button_accent">#10B981</color>
 
     <color name="black">#FBFAF7</color>
     <color name="white">#1E262C</color>
+    <color name="on_primary_text">#12181F</color>
     <color name="bg_cream">#12181F</color>
-    <color name="text_grey">#9CA3A0</color>
     <color name="onboarding_line">#00A884</color>
     <color name="btn_text_dark">#FBFAF7</color>
     <color name="btn_border_light">#2A343C</color>

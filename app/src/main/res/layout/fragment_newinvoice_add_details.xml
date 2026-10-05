@@ -27,50 +27,14 @@
         android:layout_height="wrap_content"
         android:text="Tax,dates and a Thank you note"
         android:textSize="13sp"
-        android:textColor="#5C625E"
+        android:textColor="@color/text_grey"
         android:fontFamily="@font/inter_medium"
         app:layout_constraintTop_toBottomOf="@id/fewDetailsHeading"
         android:layout_marginTop="6dp"
         app:layout_constraintStart_toStartOf="parent"
         />
 
-    <LinearLayout
-        android:id="@+id/btnMarkPaid"
-        android:layout_width="wrap_content"
-        android:layout_height="36dp"
-        android:layout_marginEnd="4dp"
-        android:background="@drawable/bg_back_btn_items"
-        android:backgroundTint="#22A06B"
-        android:clickable="true"
-        android:focusable="true"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
 
-        <ImageView
-            android:id="@+id/ic_payment_status"
-            android:layout_width="14dp"
-            android:layout_height="14dp"
-            android:layout_marginEnd="6dp"
-            android:background="@drawable/ic_check"
-            android:contentDescription="@null"
-            app:tint="#FFFFFF" />
-
-        <TextView
-            android:id="@+id/paymentStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:includeFontPadding="false"
-            android:text="Mark paid"
-            android:fontFamily="@font/inter_semibold"
-            android:textColor="#FFFFFF"
-            android:textSize="12sp" />
-
-    </LinearLayout>
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedView"
@@ -110,7 +74,7 @@
                         android:layout_height="wrap_content"
                         android:text="Issued"
                         android:textSize="11sp"
-                        android:textColor="#5C625E"
+                        android:textColor="@color/text_grey"
                         android:fontFamily="@font/inter_medium"
                         />
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -161,7 +125,7 @@
                         android:layout_height="wrap_content"
                         android:text="Due"
                         android:textSize="11sp"
-                        android:textColor="#5C625E"
+                        android:textColor="@color/text_grey"
                         android:fontFamily="@font/inter_medium"
                         />
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -200,7 +164,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tax rate"
-                android:textColor="#5C625E"
+                android:textColor="@color/text_grey"
                 android:fontFamily="@font/inter_medium"
                 android:textSize="11sp"
                 android:layout_marginTop="14dp"
@@ -537,7 +501,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Subtotal"
-                    android:textColor="#5C625E"
+                    android:textColor="@color/text_grey"
                     android:fontFamily="@font/inter_medium"
                     android:textSize="12sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -548,7 +512,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Rs 800"
-                    android:textColor="#5C625E"
+                    android:textColor="@color/text_grey"
                     android:fontFamily="@font/inter_medium"
                     android:textSize="12sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -560,7 +524,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Discount (20%)"
-                    android:textColor="#5C625E"
+                    android:textColor="@color/text_grey"
                     android:visibility="gone"
                     android:fontFamily="@font/inter_medium"
                     android:textSize="12sp"
@@ -584,7 +548,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Tax (10%)"
-                    android:textColor="#5C625E"
+                    android:textColor="@color/text_grey"
                     android:fontFamily="@font/inter_medium"
                     android:textSize="12sp"
                     android:layout_marginTop="6dp"
@@ -596,7 +560,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Rs 80"
-                    android:textColor="#5C625E"
+                    android:textColor="@color/text_grey"
                     android:fontFamily="@font/inter_medium"
                     android:textSize="12sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -684,7 +648,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Your default sign from settings will\n be added to the invoice"
-                    android:textColor="#5C625E"
+                    android:textColor="@color/text_grey"
                     android:fontFamily="@font/inter_medium"
                     android:textSize="10sp"
                     android:layout_marginTop="1dp"
@@ -713,7 +677,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Notes (optional)"
-                android:textColor="#5C625E"
+                android:textColor="@color/text_grey"
                 android:fontFamily="@font/inter_medium"
                 android:textSize="11sp"
                 android:layout_marginTop="16dp"

@@ -25,6 +25,9 @@ interface NotificationDao {
     @Query("UPDATE notifications SET isRead = 1")
     suspend fun markAllAsRead()
 
+    @Query("DELETE FROM notifications")
+    suspend fun clearAllNotifications()
+
     @Query("SELECT COUNT(*) FROM notifications WHERE type = :type")
     suspend fun getCountByType(type: String): Int
 

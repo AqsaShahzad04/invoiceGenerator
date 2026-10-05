@@ -62,6 +62,7 @@ class BottomSheetSendRemindersAfterDays(currentDays: Int) : BottomSheetDialogFra
         }
 
         binding.doneBtn.setOnClickListener {
+            sessionManager.setReminderDays(selectedDays)
             viewLifecycleOwner.lifecycleScope.launch{
                 settingsViewModel.updateSendReminderAfterDueDays(activeWorkspaceId,selectedDays)
             }

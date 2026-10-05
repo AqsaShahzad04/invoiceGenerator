@@ -57,7 +57,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:background="@drawable/bg_cross_button"
-        android:backgroundTint="#F4F2EE"
+        android:backgroundTint="@color/greyish_white"
         android:contentDescription="@null"
         android:src="@drawable/ic_close"
         app:layout_constraintBottom_toBottomOf="@id/homeHeaderTitleGroup"
@@ -125,7 +125,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#0F171817" />
+            android:background="@color/divider_color" />
 
         <!-- Option 2: Editorial -->
         <LinearLayout

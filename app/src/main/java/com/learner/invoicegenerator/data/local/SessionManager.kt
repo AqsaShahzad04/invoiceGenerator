@@ -10,8 +10,10 @@ class SessionManager private constructor(context: Context) {
     private val prefs: SharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
 
     private val _activeWorkspaceId = MutableStateFlow(prefs.getInt(KEY_ACTIVE_WORKSPACE_ID, -1))
+    private val _darkModeEnabled = MutableStateFlow(prefs.getBoolean(KEY_DARK_MODE_ENABLED, false))
 
     val activeWorkspaceId: StateFlow<Int> = _activeWorkspaceId
+    val darkModeEnabledFlow: StateFlow<Boolean> = _darkModeEnabled.asStateFlow()
 
 
     companion object {
@@ -24,6 +26,13 @@ class SessionManager private constructor(context: Context) {
         private const val KEY_CURRENCY_SELECTED_BY_USER="Currency_selected_by_user"
 
         private const val KEY_INITIAL_STEPS_COMPLETED="initial_steps_completed"
+        private const val KEY_DARK_MODE_ENABLED="dark_mode_enabled"
+        private const val KEY_HOME_HEADER_STYLE="home_header_style"
+
+        private const val KEY_WELCOME_NOTIFICATION_SENT = "welcome_notification_sent"
+        private const val KEY_AUTO_REMINDERS_ENABLED = "auto_reminders_enabled"
+        private const val KEY_REMINDER_DAYS = "reminder_days"
+        private const val KEY_LAST_NEW_MONTH_NOTIFICATION = "last_new_month_notification"
         @Volatile
         private var INSTANCE: SessionManager? = null
 
@@ -82,11 +91,54 @@ class SessionManager private constructor(context: Context) {
         prefs.edit().putBoolean(KEY_INITIAL_STEPS_COMPLETED, true).apply()
     }
 
+    fun isDarkModeEnabled(): Boolean = prefs.getBoolean(KEY_DARK_MODE_ENABLED, false)
+
+    fun setDarkModeEnabled(enabled: Boolean) {
+        prefs.edit().putBoolean(KEY_DARK_MODE_ENABLED, enabled).apply()
+        _darkModeEnabled.value = enabled
+    }
+
+    fun getHomeHeaderStyle(): String = prefs.getString(KEY_HOME_HEADER_STYLE, "Compact") ?: "Compact"
+
+    fun setHomeHeaderStyle(style: String) {
+        prefs.edit().putString(KEY_HOME_HEADER_STYLE, style).apply()
+    }
+
+    fun isWelcomeNotificationSent(): Boolean = prefs.getBoolean(KEY_WELCOME_NOTIFICATION_SENT, false)
+
+    fun setWelcomeNotificationSent() {
+        prefs.edit().putBoolean(KEY_WELCOME_NOTIFICATION_SENT, true).apply()
+    }
+
+    fun isAutoRemindersEnabled(): Boolean = prefs.getBoolean(KEY_AUTO_REMINDERS_ENABLED, true)
+
+    fun setAutoRemindersEnabled(enabled: Boolean) {
+        prefs.edit().putBoolean(KEY_AUTO_REMINDERS_ENABLED, enabled).apply()
+    }
+
+    fun getReminderDays(): Int = prefs.getInt(KEY_REMINDER_DAYS, 3)
+
+    fun setReminderDays(days: Int) {
+        prefs.edit().putInt(KEY_REMINDER_DAYS, days).apply()
+    }
+
+    fun getLastNewMonthNotification(): String = prefs.getString(KEY_LAST_NEW_MONTH_NOTIFICATION, "") ?: ""
+
+    fun setLastNewMonthNotification(yearMonth: String) {
+        prefs.edit().putString(KEY_LAST_NEW_MONTH_NOTIFICATION, yearMonth).apply()
+    }
+
     fun logout() {
        prefs.edit()
            .remove(KEY_USER_ID)
            .remove(KEY_IS_LOGGED_IN)
            .remove(KEY_ACTIVE_WORKSPACE_ID)
         _activeWorkspaceId.value = -1
+    }
+
+    fun clearSessionData() {
+        prefs.edit().clear().apply()
+        _activeWorkspaceId.value = -1
+        _darkModeEnabled.value = false
     }
 }

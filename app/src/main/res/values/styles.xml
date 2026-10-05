@@ -46,7 +46,7 @@
         <item name="chipCornerRadius">20dp</item>
         <item name="chipIcon">@drawable/ic_plus</item>
         <item name="chipIconSize">11dp</item>
-        <item name="chipIconTint">#5C625E</item>
+        <item name="chipIconTint">@color/subheading_color_home</item>
         <item name="chipStartPadding">11dp</item>
         <item name="chipEndPadding">7dp</item>
         <item name="iconStartPadding">5dp</item>

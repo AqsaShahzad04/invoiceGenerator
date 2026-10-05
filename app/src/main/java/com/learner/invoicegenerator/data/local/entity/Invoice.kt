@@ -25,6 +25,7 @@ data class Invoice (
     val signaturePath:String?=null,
     val endNote:String,
     val pdfPath:String?=null,
-    val totalAmount: Double=0.0
+    val totalAmount: Double=0.0,
+    val templateId: Int = 1
 )
 

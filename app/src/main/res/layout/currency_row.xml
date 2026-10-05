@@ -54,7 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="12dp"
-            android:background="#0F171817"
+            android:background="@color/divider_color"
             />
 
 

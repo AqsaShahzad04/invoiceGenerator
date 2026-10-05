@@ -22,12 +22,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/avatar_circle"
-            android:backgroundTint="#0C861A"
+            android:backgroundTint="@color/primary_green"
             android:fontFamily="@font/inter_semibold"
             android:gravity="center"
             android:letterSpacing="-0.02"
             android:text="MB"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/on_primary_text"
             android:textSize="16sp" />
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -47,7 +47,7 @@
         android:layout_marginStart="12dp"
         android:fontFamily="@font/inter_semibold"
         android:text="My Business"
-        android:textColor="#171817"
+        android:textColor="@color/text_primary"
         android:textSize="13sp"
         app:layout_constraintEnd_toStartOf="@+id/statusContainer"
         app:layout_constraintStart_toEndOf="@id/iconContainer"
@@ -60,7 +60,7 @@
         android:layout_marginTop="2dp"
         android:fontFamily="@font/inter"
         android:text=""
-        android:textColor="#5C625E"
+        android:textColor="@color/text_grey"
         android:textSize="11sp"
         app:layout_constraintEnd_toEndOf="@id/workspaceName"
         app:layout_constraintHorizontal_bias="1.0"
@@ -73,7 +73,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/inter"
         android:text="NTN "
-        android:textColor="#9CA3A0"
+        android:textColor="@color/text_secondary"
         android:textSize="10sp"
         android:layout_marginTop="1dp"
         app:layout_constraintEnd_toEndOf="@id/workspaceName"
@@ -97,7 +97,7 @@
             android:fontFamily="@font/inter_semibold"
             android:text="● Active"
             android:textAllCaps="true"
-            android:textColor="#0C861A"
+            android:textColor="@color/primary_green"
             android:textSize="10sp"
             android:letterSpacing="0.06"
             android:visibility="gone" />
@@ -112,7 +112,7 @@
             android:paddingHorizontal="4dp"
             android:paddingVertical="4dp"
             android:text="Edit"
-            android:textColor="#5C625E"
+            android:textColor="@color/text_grey"
             android:textSize="11sp" />
     </LinearLayout>
 

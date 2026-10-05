@@ -2,14 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    >
+    android:layout_height="wrap_content">
 
     <View
         android:id="@+id/bottomDivider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#EFEDE7"
+        android:background="@color/btn_border_light"
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <!-- Avatar circle -->
@@ -19,7 +18,7 @@
         android:layout_height="36dp"
         android:background="@drawable/client_profile_circle_bg"
         android:backgroundTint="@color/primary_green_alpha"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/on_primary_text"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:gravity="center"
@@ -32,12 +31,11 @@
         <ImageView
             android:layout_width="18dp"
             android:layout_height="18dp"
-            android:background="@drawable/ic_inv"
+            android:src="@drawable/ic_invoices"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            />
+            app:layout_constraintEnd_toEndOf="parent" />
         
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -48,7 +46,7 @@
         android:layout_height="wrap_content"
         android:text="Northern Logistics"
         android:textSize="13sp"
-        android:textColor="#171817"
+        android:textColor="@color/btn_text_dark"
         android:fontFamily="@font/inter_semibold"
         android:maxLines="1"
         android:ellipsize="end"
@@ -64,7 +62,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="00010"
-        android:textColor="#9CA3A0"
+        android:textColor="@color/sectionsHeadingColor"
         android:textSize="11sp"
         android:fontFamily="@font/inter"
         android:layout_marginStart="12dp"
@@ -72,13 +70,13 @@
         app:layout_constraintStart_toEndOf="@id/client_avatar"
         app:layout_constraintTop_toBottomOf="@id/client_name" />
 
-    <!-- Dot separator (plain text, no extra drawable) -->
+    <!-- Dot separator -->
     <TextView
         android:id="@+id/dot_separator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="•"
-        android:textColor="#9CA3A0"
+        android:textColor="@color/sectionsHeadingColor"
         android:textSize="11sp"
         android:layout_marginStart="6dp"
         app:layout_constraintStart_toEndOf="@id/invoice_number"
@@ -91,7 +89,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="26 Sept 2026"
-        android:textColor="#5C625E"
+        android:textColor="@color/text_grey"
         android:textSize="11sp"
         android:fontFamily="@font/inter"
         android:layout_marginStart="6dp"
@@ -105,7 +103,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Rs 5,170"
-        android:textColor="#171817"
+        android:textColor="@color/btn_text_dark"
         android:textSize="13sp"
         android:fontFamily="@font/inter_bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -129,7 +127,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Unpaid"
-        android:textColor="#D9534F"
+        android:textColor="@color/carrot_red_shade"
         android:textSize="11sp"
         android:fontFamily="@font/inter_medium"
         android:layout_marginStart="6dp"

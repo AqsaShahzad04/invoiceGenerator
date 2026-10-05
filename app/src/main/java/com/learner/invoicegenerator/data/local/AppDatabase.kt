@@ -8,36 +8,48 @@ import androidx.room.TypeConverters
 import com.learner.invoicegenerator.data.local.Dao.Clientdao
 import com.learner.invoicegenerator.data.local.Dao.InvoiceDao
 import com.learner.invoicegenerator.data.local.Dao.InvoiceItemLineDao
-import com.learner.invoicegenerator.data.local.Dao.Userdao
 import com.learner.invoicegenerator.data.local.Dao.ItemDao
+import com.learner.invoicegenerator.data.local.Dao.NotificationDao
+import com.learner.invoicegenerator.data.local.Dao.Userdao
 import com.learner.invoicegenerator.data.local.Dao.WorkspaceDao
 import com.learner.invoicegenerator.data.local.Dao.WorkspaceSettingsDao
-import com.learner.invoicegenerator.data.local.entity.User
-import com.learner.invoicegenerator.data.local.entity.Workspace
+import com.learner.invoicegenerator.data.local.entity.AppNotification
 import com.learner.invoicegenerator.data.local.entity.Client
 import com.learner.invoicegenerator.data.local.entity.Invoice
 import com.learner.invoicegenerator.data.local.entity.InvoiceItemLine
 import com.learner.invoicegenerator.data.local.entity.Item
 import com.learner.invoicegenerator.data.local.entity.SettingsConverter
+import com.learner.invoicegenerator.data.local.entity.User
+import com.learner.invoicegenerator.data.local.entity.Workspace
 import com.learner.invoicegenerator.data.local.entity.WorkspaceSettings
 
-
-@Database(entities = [User::class,Client::class,Item::class,Workspace::class, Invoice::class, InvoiceItemLine::class, WorkspaceSettings::class], version = 16)
-@TypeConverters(convertor::class,SettingsConverter::class)
-abstract class InvoiceDatabase: RoomDatabase() {
+@Database(
+    entities = [
+        User::class,
+        Client::class,
+        Item::class,
+        Workspace::class,
+        Invoice::class,
+        InvoiceItemLine::class,
+        WorkspaceSettings::class,
+        AppNotification::class
+    ],
+    version = 18,
+    exportSchema = true
+)
+@TypeConverters(convertor::class, SettingsConverter::class)
+abstract class InvoiceDatabase : RoomDatabase() {
     abstract fun userDao(): Userdao
     abstract fun clientDao(): Clientdao
     abstract fun itemDao(): ItemDao
-
     abstract fun workspaceDao(): WorkspaceDao
-
-     abstract fun invoiceDao(): InvoiceDao
-
+    abstract fun invoiceDao(): InvoiceDao
     abstract fun invoiceItemLineDao(): InvoiceItemLineDao
-
     abstract fun workspaceSettingsDao(): WorkspaceSettingsDao
+    abstract fun notificationDao(): NotificationDao
 }
-object DatabaseProvider{
+
+object DatabaseProvider {
     @Volatile
     private var INSTANCE: InvoiceDatabase? = null
 
@@ -53,8 +65,5 @@ object DatabaseProvider{
             INSTANCE = instance
             instance
         }
-
     }
-
 }
-

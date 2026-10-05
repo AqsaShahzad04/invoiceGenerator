@@ -33,17 +33,14 @@ interface InvoiceDao {
     @Query("SELECT * From Invoices WHERE workspaceId=:workspaceId ORDER BY id DESC LIMIT 1 ")
     suspend fun getLatestInvoice(workspaceId: Int):Invoice?
 
-    @Query("SELECT * FROM Invoices WHERE status='Paid' AND (paidDate>=:startOfMonth AND paidDate<:startOfNextMonth) AND workspaceId=:workspaceId ORDER BY issueDate DESC")
+    @Query("SELECT * FROM Invoices WHERE workspaceId=:workspaceId AND status='Paid' AND ((paidDate>=:startOfMonth AND paidDate<:startOfNextMonth) OR (issueDate>=:startOfMonth AND issueDate<:startOfNextMonth)) ORDER BY issueDate DESC")
     suspend fun getPaidInvoicesThisMonth(startOfMonth: LocalDate,startOfNextMonth: LocalDate,workspaceId: Int): List<Invoice>
 
-
-    @Query("SELECT * FROM Invoices WHERE status='Pending' AND dueDate<:today AND workspaceId=:workspaceId ORDER BY issueDate DESC")
+    @Query("SELECT * FROM Invoices WHERE workspaceId=:workspaceId AND status!='Paid' AND dueDate<:today ORDER BY issueDate DESC")
     suspend fun getUnpaidInvoices(today: LocalDate,workspaceId: Int):List<Invoice>
 
-
-    @Query("SELECT * FROM Invoices WHERE status='Pending' AND dueDate>=:today AND workspaceId=:workspaceId ORDER BY issueDate DESC")
+    @Query("SELECT * FROM Invoices WHERE workspaceId=:workspaceId AND status!='Paid' AND dueDate>=:today ORDER BY issueDate DESC")
     suspend fun getPendingInvoicesThisMonth(today: LocalDate,workspaceId: Int):List<Invoice>
-
 
     @Query("SELECT * FROM Invoices WHERE workspaceId=:workspaceId AND (clientBusinessName LIKE '%' || :query || '%' OR SUBSTR(invoiceNum,-4) LIKE '%' || :query) ORDER BY issueDate DESC")
     fun searchInvoices(workspaceId:Int,query:String): Flow<List<Invoice>>
@@ -51,7 +48,11 @@ interface InvoiceDao {
     @Query("""
     SELECT * FROM Invoices 
     WHERE workspaceId = :workspaceId 
-      AND issueDate BETWEEN :fromDate AND :toDate
+      AND (
+          (issueDate BETWEEN :fromDate AND :toDate)
+          OR (status = 'Paid' AND paidDate BETWEEN :fromDate AND :toDate)
+          OR (status != 'Paid')
+      )
       AND (
           clientBusinessName LIKE '%' || :query || '%' 
           OR SUBSTR(invoiceNum, -4) LIKE '%' || :query
@@ -68,7 +69,11 @@ interface InvoiceDao {
     @Query("""
     SELECT * FROM Invoices 
     WHERE workspaceId = :workspaceId 
-      AND issueDate BETWEEN :fromDate AND :toDate
+      AND (
+          (issueDate BETWEEN :fromDate AND :toDate)
+          OR (status = 'Paid' AND paidDate BETWEEN :fromDate AND :toDate)
+          OR (status != 'Paid')
+      )
     ORDER BY issueDate DESC
 """)
     fun getInvoicesByDateRange(workspaceId: Int, fromDate: LocalDate, toDate: LocalDate): Flow<List<Invoice>>

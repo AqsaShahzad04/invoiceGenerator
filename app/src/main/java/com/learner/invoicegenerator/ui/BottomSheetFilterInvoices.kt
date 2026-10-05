@@ -163,12 +163,14 @@ class BottomSheetFilterInvoices(
 
             QuickRange.THIS_WEEK -> {
                 val startOfWeek = today.minusDays(today.dayOfWeek.value.toLong() - 1)
-                DateFilterResult(startOfWeek, today, range.label)
+                val endOfWeek = startOfWeek.plusDays(6)
+                DateFilterResult(startOfWeek, endOfWeek, range.label)
             }
 
             QuickRange.THIS_MONTH -> {
                 val startOfMonth = today.withDayOfMonth(1)
-                DateFilterResult(startOfMonth, today, range.label)
+                val endOfMonth = startOfMonth.plusMonths(1).minusDays(1)
+                DateFilterResult(startOfMonth, endOfMonth, range.label)
             }
 
             QuickRange.LAST_MONTH -> {
@@ -185,10 +187,11 @@ class BottomSheetFilterInvoices(
 
             QuickRange.THIS_YEAR -> {
                 val startOfYear = today.withDayOfYear(1)
-                DateFilterResult(startOfYear, today, range.label)
+                val endOfYear = today.withDayOfYear(today.lengthOfYear())
+                DateFilterResult(startOfYear, endOfYear, range.label)
             }
 
-            QuickRange.ALL_TIME -> DateFilterResult(LocalDate.of(2000, 1, 1), today, range.label)
+            QuickRange.ALL_TIME -> DateFilterResult(LocalDate.of(2000, 1, 1), LocalDate.of(2099, 12, 31), range.label)
         }
     }
 

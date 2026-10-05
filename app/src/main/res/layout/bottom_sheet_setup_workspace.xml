@@ -28,7 +28,7 @@
         android:fontFamily="@font/inter_bold"
         android:letterSpacing="-0.015"
         android:text="Name your workspace"
-        android:textColor="#171817"
+        android:textColor="@color/text_primary"
         android:textSize="17sp"
         app:layout_constraintEnd_toStartOf="@+id/closeBtn"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +42,7 @@
         android:fontFamily="@font/inter"
         android:lineSpacingExtra="4dp"
         android:text="Just the name for now — you can add address &amp; tax number later in Settings."
-        android:textColor="#5C625E"
+        android:textColor="@color/text_grey"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="@id/title"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,7 +53,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:background="@drawable/avatar_crossed_state_bg"
-        android:backgroundTint="#F4F2EE"
+        android:backgroundTint="@color/greyish_white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/title">
 
@@ -65,7 +65,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="#5C625E" />
+            app:tint="@color/text_grey" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Input Field -->
@@ -80,7 +80,7 @@
         android:inputType="textCapWords"
         android:paddingHorizontal="14dp"
         android:paddingVertical="13dp"
-        android:textColor="#171817"
+        android:textColor="@color/text_primary"
         android:textSize="15sp"
         app:layout_constraintTop_toBottomOf="@id/subtitle" />
 
@@ -95,7 +95,7 @@
         android:gravity="center"
         android:paddingVertical="14dp"
         android:text="Save &amp; continue"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/on_primary_text"
         android:textSize="14sp"
         app:layout_constraintTop_toBottomOf="@id/workspaceNameInput" />
 

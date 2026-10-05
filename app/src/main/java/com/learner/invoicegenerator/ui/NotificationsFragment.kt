@@ -19,6 +19,7 @@ import com.learner.invoicegenerator.ui.adaptor.NotificationAdapter
 import com.learner.invoicegenerator.ui.auth.ViewModel.InvoiceViewModel
 import com.learner.invoicegenerator.ui.auth.ViewModel.NotificationViewModel
 import com.learner.invoicegenerator.ui.auth.ViewModel.NotificationViewModelFactory
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -72,35 +73,43 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
         binding.rvNotifications.adapter = adapter
 
         binding.btnMarkAllRead.setOnClickListener {
-            notificationViewModel.markAllAsRead()
+            if (binding.btnMarkAllRead.text.toString() == "Clear all") {
+                notificationViewModel.clearAllNotifications()
+            } else {
+                notificationViewModel.markAllAsRead()
+            }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    notificationViewModel.allNotifications.collect { notifications ->
-                        adapter.notifications = notifications
-                        adapter.notifyDataSetChanged()
+                combine(
+                    notificationViewModel.allNotifications,
+                    notificationViewModel.unreadCount
+                ) { notifications, unread ->
+                    Pair(notifications, unread)
+                }.collect { (notifications, unread) ->
+                    adapter.notifications = notifications
+                    adapter.notifyDataSetChanged()
 
-                        if (notifications.isEmpty()) {
-                            binding.emptyStateLayout.visibility = View.VISIBLE
-                            binding.rvNotifications.visibility = View.GONE
-                            binding.tvSectionHeader.visibility = View.GONE
-                        } else {
-                            binding.emptyStateLayout.visibility = View.GONE
-                            binding.rvNotifications.visibility = View.VISIBLE
-                            binding.tvSectionHeader.visibility = View.VISIBLE
-                        }
-                    }
-                }
+                    if (notifications.isEmpty()) {
+                        binding.emptyStateLayout.visibility = View.VISIBLE
+                        binding.rvNotifications.visibility = View.GONE
+                        binding.tvSectionHeader.visibility = View.GONE
+                        binding.btnMarkAllRead.visibility = View.GONE
+                        binding.tvUnreadBadge.visibility = View.GONE
+                    } else {
+                        binding.emptyStateLayout.visibility = View.GONE
+                        binding.rvNotifications.visibility = View.VISIBLE
+                        binding.tvSectionHeader.visibility = View.VISIBLE
+                        binding.btnMarkAllRead.visibility = View.VISIBLE
 
-                launch {
-                    notificationViewModel.unreadCount.collect { count ->
-                        if (count > 0) {
+                        if (unread > 0) {
                             binding.tvUnreadBadge.visibility = View.VISIBLE
-                            binding.tvUnreadBadge.text = count.toString()
+                            binding.tvUnreadBadge.text = unread.toString()
+                            binding.btnMarkAllRead.text = "Mark all read"
                         } else {
                             binding.tvUnreadBadge.visibility = View.GONE
+                            binding.btnMarkAllRead.text = "Clear all"
                         }
                     }
                 }

@@ -1,5 +1,6 @@
 package com.learner.invoicegenerator.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -31,6 +32,15 @@ import com.learner.invoicegenerator.databinding.BottomSheetPaymentMethodsBinding
 import com.learner.invoicegenerator.ui.auth.ViewModel.WorkspaceSettingsViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import android.widget.Toast
+import com.learner.invoicegenerator.data.local.DatabaseProvider
+import com.learner.invoicegenerator.data.local.Dao.Clientdao
+import com.learner.invoicegenerator.data.local.Dao.InvoiceDao
+import com.learner.invoicegenerator.data.local.Dao.InvoiceItemLineDao
+import com.learner.invoicegenerator.data.local.Dao.ItemDao
+import com.learner.invoicegenerator.data.local.Dao.Userdao
+import com.learner.invoicegenerator.data.local.Dao.WorkspaceDao
+import com.learner.invoicegenerator.data.local.Dao.WorkspaceSettingsDao
 
 class SettingsFragment: Fragment(R.layout.fragment_settings)  {
     private var _binding: FragmentSettingsBinding? = null
@@ -147,7 +157,35 @@ class SettingsFragment: Fragment(R.layout.fragment_settings)  {
             BottomSheetPaymentMethods(methods).show(childFragmentManager,"paymentMethodsBottomSheet")
         }
         binding.lateFeeSection.setOnClickListener {
-            BottomSheetLateFee(currentSettings?.lateFee?:0.0).show(childFragmentManager,"lateFeeRateBottomSheet")
+            BottomSheetLateFee(currentSettings?.lateFee?:0.0).show(childFragmentManager,"lateFeeRateBottomSheet") }
+
+        binding.autoReminderTogglebtn.isChecked = sessionManager.isAutoRemindersEnabled()
+        binding.autoReminderTogglebtn.setOnCheckedChangeListener { _, isChecked ->
+            sessionManager.setAutoRemindersEnabled(isChecked)
+        }
+        binding.autoRemindersSection.setOnClickListener {
+            binding.autoReminderTogglebtn.toggle()
+        }
+
+        binding.darkmodeToggleBtn.isChecked = sessionManager.isDarkModeEnabled()
+
+        binding.darkmodeToggleBtn.setOnCheckedChangeListener { _, isChecked ->
+            if (sessionManager.isDarkModeEnabled() != isChecked) {
+                sessionManager.setDarkModeEnabled(isChecked)
+                val mode = if (isChecked) androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES else androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
+                androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode(mode)
+            }
+        }
+
+        binding.darkmodeSection.setOnClickListener {
+            binding.darkmodeToggleBtn.toggle()
+        }
+
+        binding.currentHomeHeader.text = sessionManager.getHomeHeaderStyle()
+        binding.homeHeaderSection.setOnClickListener {
+            BottomSheetHomeHeader { newStyle ->
+                binding.currentHomeHeader.text = newStyle
+            }.show(childFragmentManager, "homeHeaderBottomSheet")
         }
 
 
@@ -170,9 +208,61 @@ class SettingsFragment: Fragment(R.layout.fragment_settings)  {
 
         }
 
+        binding.clearCacheSection.setOnClickListener {
+            clearCache(it.context)
+        }
+
+        binding.ResetAllDataSection.setOnClickListener {
+            resetAllData(it.context)
+        }
 
 
+    }
 
+    private fun clearCache(context: Context) {
+        val sessionManager = SessionManager.getInstance(context)
+        val db = DatabaseProvider.getDatabase(context)
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                // Clear database tables
+                db.clearAllTables()
+
+                // Clear session data
+                sessionManager.clearSessionData()
+
+                // Clear any cached files
+                context.cacheDir.listFiles()?.forEach { it.deleteRecursively() }
+
+                Toast.makeText(context, "Cache cleared successfully", Toast.LENGTH_SHORT).show()
+            } catch (e: Exception) {
+                Log.e("SettingsFragment", "Error clearing cache", e)
+                Toast.makeText(context, "Failed to clear cache", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun resetAllData(context: Context) {
+        val sessionManager = SessionManager.getInstance(context)
+        val db = DatabaseProvider.getDatabase(context)
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                // Clear all database tables
+                db.clearAllTables()
+
+                // Clear session data
+                sessionManager.clearSessionData()
+
+                // Navigate to login screen
+                findNavController().navigate(R.id.action_settingsFragment_to_loginScreenFragment)
+
+                Toast.makeText(context, "All data deleted. Returning to login.", Toast.LENGTH_LONG).show()
+            } catch (e: Exception) {
+                Log.e("SettingsFragment", "Error resetting all data", e)
+                Toast.makeText(context, "Failed to reset data", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
 }

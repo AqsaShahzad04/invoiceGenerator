@@ -16,7 +16,6 @@ import com.learner.invoicegenerator.data.local.SessionManager
 import com.learner.invoicegenerator.databinding.FragmentQuickSearchBinding
 import com.learner.invoicegenerator.ui.auth.ViewModel.InvoiceViewModel
 import com.learner.invoicegenerator.ui.auth.ViewModel.ItemViewModel
-import com.learner.invoicegenerator.ui.auth.ViewModel.WorkspaceViewModel
 import com.learner.invoicegenerator.ui.clients.viewmodel.ClientViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -29,7 +28,6 @@ class QuickSearchFragment : Fragment(R.layout.fragment_quick_search) {
     val invoiceViewModel: InvoiceViewModel by activityViewModels()
     val clientViewModel: ClientViewModel by activityViewModels()
     val itemViewModel: ItemViewModel by activityViewModels()
-    val workspaceViewModel: WorkspaceViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

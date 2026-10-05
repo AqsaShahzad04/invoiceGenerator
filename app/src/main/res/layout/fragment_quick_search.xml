@@ -14,7 +14,7 @@
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:background="@drawable/bg_back_btn_items"
-        android:contentDescription="Back"
+        android:contentDescription="@null"
         android:src="@drawable/ic_back"
         app:layout_constraintBottom_toBottomOf="@id/searchBar"
         app:layout_constraintStart_toStartOf="parent"
@@ -105,7 +105,7 @@
                     android:layout_height="18dp"
                     android:layout_gravity="center"
                     android:contentDescription="@null"
-                    android:src="@drawable/ic_file"
+                    android:src="@drawable/ic_invoices"
                     app:tint="@color/btn_bg_dark" />
 
             </FrameLayout>
@@ -132,7 +132,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:fontFamily="@font/inter_medium"
-                    android:text="2 total"
+                    android:text="0 total"
                     android:textColor="@color/subheading_color_home"
                     android:textSize="12sp" />
 
@@ -150,7 +150,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#0F171817" />
+            android:background="@color/divider_color" />
 
         <!-- 2. All clients -->
         <LinearLayout
@@ -173,7 +173,7 @@
                     android:layout_height="18dp"
                     android:layout_gravity="center"
                     android:contentDescription="@null"
-                    android:src="@drawable/ic_users"
+                    android:src="@drawable/ic_clients"
                     app:tint="@color/btn_bg_dark" />
 
             </FrameLayout>
@@ -200,7 +200,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:fontFamily="@font/inter_medium"
-                    android:text="2 active"
+                    android:text="0 active"
                     android:textColor="@color/subheading_color_home"
                     android:textSize="12sp" />
 
@@ -218,7 +218,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#0F171817" />
+            android:background="@color/divider_color" />
 
         <!-- 3. All items -->
         <LinearLayout
@@ -268,7 +268,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:fontFamily="@font/inter_medium"
-                    android:text="8 in catalogue"
+                    android:text="0 in catalogue"
                     android:textColor="@color/subheading_color_home"
                     android:textSize="12sp" />
 
@@ -286,7 +286,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#0F171817" />
+            android:background="@color/divider_color" />
 
         <!-- 4. Unpaid invoices -->
         <LinearLayout
@@ -309,7 +309,7 @@
                     android:layout_height="18dp"
                     android:layout_gravity="center"
                     android:contentDescription="@null"
-                    android:src="@drawable/ic_file"
+                    android:src="@drawable/ic_invoices"
                     app:tint="@color/carrot_red_shade" />
 
             </FrameLayout>
@@ -336,7 +336,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:fontFamily="@font/inter_medium"
-                    android:text="1 to collect"
+                    android:text="0 to collect"
                     android:textColor="@color/subheading_color_home"
                     android:textSize="12sp" />
 

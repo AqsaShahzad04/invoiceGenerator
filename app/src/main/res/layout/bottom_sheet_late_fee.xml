@@ -56,7 +56,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:background="@drawable/bg_cross_button"
-        android:backgroundTint="#F4F2EE"
+        android:backgroundTint="@color/greyish_white"
         android:src="@drawable/ic_close"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/taxRateTitle"
@@ -115,7 +115,7 @@
             android:text="per month overdue"
             android:fontFamily="@font/inter"
             android:textSize="11sp"
-            android:textColor="#5C625E"/>
+            android:textColor="@color/text_grey"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -141,7 +141,7 @@
         android:text="Custom rate"
         android:fontFamily="@font/inter_medium"
         android:textSize="11sp"
-        android:textColor="#5C625E"
+        android:textColor="@color/text_grey"
         android:layout_marginTop="6dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/latefeeRatesChipGroup"/>
@@ -155,7 +155,7 @@
         android:background="@drawable/bg_input_field"
         android:padding="12dp"
         android:textSize="14sp"
-        android:textColor="#171817"
+        android:textColor="@color/text_primary"
         android:layout_marginTop="6dp"
         app:layout_constraintTop_toBottomOf="@id/customRateHeading"
         app:layout_constraintStart_toStartOf="parent"

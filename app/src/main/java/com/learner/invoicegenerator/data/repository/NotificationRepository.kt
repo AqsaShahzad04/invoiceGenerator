@@ -22,6 +22,10 @@ class NotificationRepository(private val dao: NotificationDao) {
         dao.markAllAsRead()
     }
 
+    suspend fun clearAllNotifications() {
+        dao.clearAllNotifications()
+    }
+
     suspend fun getCountByType(type: String): Int {
         return dao.getCountByType(type)
     }

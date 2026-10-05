@@ -30,4 +30,7 @@ interface WorkspaceDao {
 
     @Query("SELECT * From Workspaces WHERE ownerUserId=:userId ORDER BY id DESC LIMIT 1 ")
     suspend fun getLatestWorkspace(userId: Int):Workspace?
+
+    @Query("DELETE FROM Workspaces")
+    suspend fun deleteAll()
 }

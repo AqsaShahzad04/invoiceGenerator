@@ -62,4 +62,8 @@ class WorkspaceViewModel(
     suspend fun deleteWorkspace(workspace: Workspace) {
         repository.deleteWorkspace(workspace)
     }
+
+    suspend fun deleteAllData() {
+        repository.deleteAllData()
+    }
 }

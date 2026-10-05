@@ -50,8 +50,8 @@ android:background="@color/bg_cream">
                     android:hint="Search settings…"
                     android:fontFamily="@font/inter_medium"
                     android:textSize="13sp"
-                    android:textColor="#171817"
-                    android:textColorHint="#9CA3A0"
+                    android:textColor="@color/btn_text_dark"
+                    android:textColorHint="@color/sectionsHeadingColor"
                     android:paddingStart="36dp"
                     android:paddingEnd="32dp"
                     android:paddingTop="9dp"
@@ -67,7 +67,7 @@ android:background="@color/bg_cream">
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="12dp"
                     android:src="@drawable/ic_search"
-                    app:tint="#9CA3A0"
+                    app:tint="@color/sectionsHeadingColor"
                     android:contentDescription="@null" />
 
             </FrameLayout>
@@ -128,7 +128,7 @@ android:background="@color/bg_cream">
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#0F171817"
+                android:background="@color/btn_border_light"
                 />
 
 
@@ -184,7 +184,7 @@ android:background="@color/bg_cream">
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#0F171817"
+                android:background="@color/btn_border_light"
                 />
 
             <LinearLayout
@@ -221,7 +221,7 @@ android:background="@color/bg_cream">
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#0F171817"
+                android:background="@color/btn_border_light"
                 />
             <LinearLayout
                 android:id="@+id/paymentTermsSection"
@@ -262,7 +262,7 @@ android:background="@color/bg_cream">
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#0F171817"
+                android:background="@color/btn_border_light"
                 />
 
 
@@ -322,7 +322,7 @@ android:background="@color/bg_cream">
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#0F171817"
+                android:background="@color/btn_border_light"
                 />
 
             <LinearLayout
@@ -359,7 +359,7 @@ android:background="@color/bg_cream">
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#0F171817"
+                android:background="@color/btn_border_light"
                 />
             <LinearLayout
                 android:id="@+id/lateFeeSection"
@@ -400,7 +400,7 @@ android:background="@color/bg_cream">
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#0F171817"
+                android:background="@color/btn_border_light"
                 />
             <LinearLayout
                 android:id="@+id/PaymentMethodsSection"
@@ -440,7 +440,7 @@ android:background="@color/bg_cream">
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#0F171817"
+                android:background="@color/btn_border_light"
                 />
 
 
@@ -500,7 +500,7 @@ android:background="@color/bg_cream">
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#0F171817"
+                android:background="@color/btn_border_light"
                 />
 
             <LinearLayout
@@ -541,7 +541,7 @@ android:background="@color/bg_cream">
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#0F171817"
+                android:background="@color/btn_border_light"
                 />
             <LinearLayout
                 android:id="@+id/notesSection"
@@ -587,7 +587,7 @@ android:background="@color/bg_cream">
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#0F171817"
+                android:background="@color/btn_border_light"
                 />
 
 
@@ -630,7 +630,7 @@ android:background="@color/bg_cream">
                     <TextView
                         style="@style/settings_row_subtitle_styles"
                         android:id="@+id/autoRemindersSubtitle"
-                        android:text="Email overdue clients automatically"/>
+                        android:text="Remind me about overdue invoices"/>
                 </LinearLayout>
 
                 <androidx.appcompat.widget.SwitchCompat
@@ -648,7 +648,7 @@ android:background="@color/bg_cream">
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#0F171817"
+                android:background="@color/btn_border_light"
                 />
 
             <LinearLayout
@@ -690,7 +690,7 @@ android:background="@color/bg_cream">
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#0F171817"
+                android:background="@color/btn_border_light"
                 />
 
 
@@ -751,7 +751,7 @@ android:background="@color/bg_cream">
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#0F171817"
+                android:background="@color/btn_border_light"
                 />
 
             <LinearLayout
@@ -794,7 +794,7 @@ android:background="@color/bg_cream">
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#0F171817"
+                android:background="@color/btn_border_light"
                 />
             <LinearLayout
                 android:id="@+id/currencySection"
@@ -835,7 +835,7 @@ android:background="@color/bg_cream">
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#0F171817"
+                android:background="@color/btn_border_light"
                 />
             <LinearLayout
                 android:id="@+id/homeHeaderSection"
@@ -875,7 +875,7 @@ android:background="@color/bg_cream">
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#0F171817"
+                android:background="@color/btn_border_light"
                 />
 
 
@@ -936,7 +936,7 @@ android:background="@color/bg_cream">
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#0F171817"
+                android:background="@color/btn_border_light"
                 />
 
 
@@ -989,7 +989,7 @@ android:background="@color/bg_cream">
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#0F171817"
+                android:background="@color/btn_border_light"
                 />
 
             <LinearLayout
@@ -1008,7 +1008,7 @@ android:background="@color/bg_cream">
                     <TextView
                         android:id="@+id/resetDataTitle"
                         android:text="Reset all data"
-                        android:textColor="#D9534F"
+                        android:textColor="@color/carrot_red_shade"
                         style="@style/settings_row_title_styles"/>
                 </LinearLayout>
                 <ImageView

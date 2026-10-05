@@ -1,6 +1,6 @@
 package com.learner.invoicegenerator.ui.clients.viewmodel
 
-import androidx.compose.ui.graphics.Path.Companion.combine
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -45,14 +45,15 @@ class ClientViewModel(
         _selectedClient.value=null
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     val allClients: Flow<List<Client>> = combine(sessionManager.activeWorkspaceId,searchQuery){id,query->
         Pair(id,query)
     }.flatMapLatest {(id,query)->
-        (if(query.isEmpty()){
+        if(query.isEmpty()){
             repository.getAllClients(id)
         } else{
            repository.searchClients(id,query)
-        }) as Flow<List<Client>>
+        }
     }
 
     suspend fun getClientsByWorkspaceId(workspaceId: Int): List<Client> {

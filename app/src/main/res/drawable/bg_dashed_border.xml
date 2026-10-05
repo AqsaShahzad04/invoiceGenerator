@@ -2,9 +2,9 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <stroke
         android:width="1dp"
-        android:color="#E8E5DF"
-        android:dashWidth="4dp"
-        android:dashGap="4dp" />
-    <corners android:radius="14dp" />
-    <solid android:color="@android:color/transparent" />
+        android:dashWidth="6dp"
+        android:color="@color/btn_border_light"
+        android:dashGap="4dp"
+        />
+    <corners android:radius="12dp"/>
 </shape>

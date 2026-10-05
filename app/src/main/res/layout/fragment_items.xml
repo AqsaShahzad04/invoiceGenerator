@@ -6,9 +6,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingHorizontal="16dp"
     android:paddingBottom="16dp"
-    android:background="#FBFAF7"
-    android:paddingTop="8dp"
-    >
+    android:background="@color/bg_cream"
+    android:paddingTop="8dp">
 
     <!-- Header -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,10 +25,10 @@
             android:scaleType="fitCenter"
             android:background="@drawable/bg_back_btn_items"
             android:src="@drawable/ic_back"
+            app:tint="@color/btn_text_dark"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <TextView
             android:id="@+id/ItemsHeading"
@@ -37,14 +36,13 @@
             android:layout_height="wrap_content"
             android:text="Items"
             android:textSize="22sp"
-            android:textColor="#171817"
+            android:textColor="@color/btn_text_dark"
             android:fontFamily="@font/inter_bold"
             android:letterSpacing="-0.02"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/backbtn"
-            android:layout_marginStart="10dp"
-            />
+            android:layout_marginStart="10dp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/scanbtn"
@@ -56,8 +54,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/addclientBtn2"
-            android:layout_marginEnd="6dp"
-            >
+            android:layout_marginEnd="6dp">
 
             <ImageView
                 android:id="@+id/scanIcon"
@@ -67,6 +64,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -78,8 +76,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/scanIcon"
-                />
+                app:layout_constraintStart_toEndOf="@id/scanIcon" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -92,8 +89,7 @@
             android:paddingVertical="8dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            >
+            app:layout_constraintEnd_toEndOf="parent">
 
             <ImageView
                 android:id="@+id/plusIcon"
@@ -103,19 +99,19 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Add"
                 android:textSize="12sp"
                 android:fontFamily="@font/inter_semibold"
-                android:textColor="#FBFAF7"
+                android:textColor="@color/btn_text_light"
                 android:layout_marginStart="6dp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/plusIcon"
-                />
+                app:layout_constraintStart_toEndOf="@id/plusIcon" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -130,8 +126,7 @@
         app:layout_constraintTop_toBottomOf="@id/header"
         android:layout_marginTop="14dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        >
+        app:layout_constraintEnd_toEndOf="parent">
 
         <ImageView
             android:id="@+id/ivSearch"
@@ -150,8 +145,8 @@
             android:fontFamily="@font/inter_medium"
             android:hint="Search items"
             android:textSize="13sp"
-            android:textColor="#171817"
-            android:textColorHint="#9CA3A0"
+            android:textColor="@color/btn_text_dark"
+            android:textColorHint="@color/sectionsHeadingColor"
             android:background="@null"
             android:paddingStart="38dp"
             android:paddingEnd="12dp"
@@ -177,8 +172,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="18dp"
-        android:visibility="gone"
-        >
+        android:visibility="gone">
+
         <view class="android.widget.ImageView"
             android:id="@+id/client_icon_bg"
             android:layout_width="64dp"
@@ -186,8 +181,8 @@
             android:background="@drawable/bg_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ImageView
             android:layout_width="28dp"
             android:layout_height="28dp"
@@ -205,11 +200,11 @@
             android:text="your catalogue is empty"
             android:textSize="16sp"
             android:fontFamily="@font/inter_bold"
-            android:textColor="#171817"
+            android:textColor="@color/btn_text_dark"
             app:layout_constraintTop_toBottomOf="@id/client_icon_bg"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            />
+            app:layout_constraintEnd_toEndOf="parent" />
+
         <TextView
             android:id="@+id/noClientsDesc"
             android:layout_width="250dp"
@@ -217,13 +212,12 @@
             android:text="Add product or services with a price and unit so you can drop them into invoices fast"
             android:textSize="13sp"
             android:fontFamily="@font/inter"
-            android:textColor="#5C625E"
+            android:textColor="@color/text_grey"
             android:layout_marginTop="6dp"
             android:lineSpacingMultiplier="1.2"
             app:layout_constraintTop_toBottomOf="@id/noClientsYet"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/addClientbtn"
@@ -236,8 +230,8 @@
             app:layout_constraintTop_toBottomOf="@id/noClientsDesc"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="20dp"
-            >
+            android:layout_marginTop="20dp">
+
             <ImageView
                 android:id="@+id/addClientIcon"
                 android:layout_width="16dp"
@@ -246,19 +240,19 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Add Item"
                 android:textSize="14sp"
                 android:fontFamily="@font/inter_semibold"
-                android:textColor="#FBFAF7"
+                android:textColor="@color/btn_text_light"
                 android:layout_marginStart="6dp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/addClientIcon"
-                />
+                app:layout_constraintStart_toEndOf="@id/addClientIcon" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -272,15 +266,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="14dp"
-        />
+        android:layout_marginTop="14dp" />
 
     <TextView
         android:id="@+id/tvNoSearchResults"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="No items match your search."
-        android:textColor="#9CA3A0"
+        android:textColor="@color/sectionsHeadingColor"
         android:textSize="13sp"
         android:fontFamily="@font/inter_medium"
         android:visibility="gone"
@@ -289,7 +282,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="60dp"
-        app:layout_constraintVertical_bias="0.2"
-        />
+        app:layout_constraintVertical_bias="0.2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

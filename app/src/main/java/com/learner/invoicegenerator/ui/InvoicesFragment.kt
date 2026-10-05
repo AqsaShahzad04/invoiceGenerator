@@ -23,6 +23,7 @@ import com.learner.invoicegenerator.ui.auth.ViewModel.InvoiceViewModel
 import com.learner.invoicegenerator.ui.invoice.filter.BottomSheetFilterInvoices
 import com.learner.invoicegenerator.util.conversions
 import com.learner.invoicegenerator.utils.CurrencyData
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -39,7 +40,7 @@ class InvoicesFragment: Fragment(R.layout.fragment_invoices) {
     var pendingInvoices: List<Invoice> = emptyList()
 
     var activeFromDate: LocalDate = LocalDate.now().withDayOfMonth(1)
-    var activeToDate: LocalDate = LocalDate.now()
+    var activeToDate: LocalDate = LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth())
 
     private val dateFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy")
     private val invoiceViewModel: InvoiceViewModel by activityViewModels()
@@ -120,7 +121,7 @@ class InvoicesFragment: Fragment(R.layout.fragment_invoices) {
     private fun updateFilteredLists() {
         paidInvoices = allInvoices.filter { it.status == "Paid" }
         unpaidInvoices = allInvoices.filter { it.status != "Paid" && it.dueDate.isBefore(today) }
-        pendingInvoices = allInvoices.filter { it.status == "Pending" && !it.dueDate.isBefore(today) }
+        pendingInvoices = allInvoices.filter { it.status != "Paid" && !it.dueDate.isBefore(today) }
     }
 
     private fun drawUI(selectedState: invoicesState, currencySymbol: String) {
@@ -144,7 +145,9 @@ class InvoicesFragment: Fragment(R.layout.fragment_invoices) {
         binding.invoiceSummaryText.text = "${invoices.size} invoices ($formattedFrom - $formattedTo)"
 
         if (invoices.isNotEmpty()) {
-            adapter = InvoiceAdapter(invoices)
+            adapter = InvoiceAdapter(invoices) { selectedInvoice ->
+                openInvoiceDetails(selectedInvoice)
+            }
             val total = invoices.sumOf { it.totalAmount }
             binding.emptyStateLayout.visibility = View.GONE
             binding.invoicesRv.visibility = View.VISIBLE
@@ -173,6 +176,16 @@ class InvoicesFragment: Fragment(R.layout.fragment_invoices) {
         }
         view.setBackgroundResource(R.drawable.bg_segment_active)
         view.setTextColor(ContextCompat.getColor(requireContext(), R.color.btn_bg_dark))
+    }
+
+    private fun openInvoiceDetails(invoice: Invoice) {
+        invoiceViewModel.updateInvoiceDraft(invoice)
+        invoiceViewModel.setSelectedTemplate(invoice.templateId)
+        viewLifecycleOwner.lifecycleScope.launch {
+            val items = invoiceViewModel.getItemsbyInvoiceId(invoice.id).first()
+            invoiceViewModel.updateSelectedItems(items.toMutableList())
+            findNavController().navigate(R.id.action_invoices_fragment_to_fragmentFinalInvoice)
+        }
     }
 
     override fun onDestroyView() {

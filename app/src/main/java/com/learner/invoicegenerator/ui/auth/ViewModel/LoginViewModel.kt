@@ -5,7 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.learner.invoicegenerator.data.repository.UserRepository
+import com.learner.invoicegenerator.utils.PasswordHasher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class LoginViewModel(val repository: UserRepository): ViewModel() {
@@ -16,8 +19,11 @@ class LoginViewModel(val repository: UserRepository): ViewModel() {
         viewModelScope.launch {
             try {
                 val user = repository.getUserByEmail(email)
-                if (user != null && user.password == password) {
-                    _loginState.value = LoginState.Success(user)
+                val isValid = withContext(Dispatchers.Default) {
+                    user != null && PasswordHasher.verify(password, user.password)
+                }
+                if (isValid) {
+                    _loginState.value = LoginState.Success(user!!)
                 } else {
                     _loginState.value = LoginState.Error("Invalid email or password")
                 }

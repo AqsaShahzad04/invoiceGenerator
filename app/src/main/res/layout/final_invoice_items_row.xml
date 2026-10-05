@@ -18,7 +18,7 @@
                 android:layout_height="wrap_content"
                 android:text="daal"
                 android:fontFamily="@font/inter_medium"
-                android:textColor="#171817"
+                android:textColor="@color/text_primary"
                 android:textSize="12sp" />
 
             <TextView
@@ -28,7 +28,7 @@
                 android:layout_marginTop="1dp"
                 android:text="Rs 300 / piece"
                 android:fontFamily="@font/inter"
-                android:textColor="#9CA3A0"
+                android:textColor="@color/text_secondary"
                 android:textSize="11sp" />
 
         </LinearLayout>
@@ -40,7 +40,7 @@
             android:gravity="center"
             android:text="1"
             android:fontFamily="@font/inter"
-            android:textColor="#171817"
+            android:textColor="@color/text_primary"
             android:textSize="12sp" />
 
         <TextView
@@ -50,7 +50,7 @@
             android:gravity="end"
             android:text="300"
             android:fontFamily="@font/inter_semibold"
-            android:textColor="#171817"
+            android:textColor="@color/text_primary"
             android:textSize="12sp" />
 
     </LinearLayout>

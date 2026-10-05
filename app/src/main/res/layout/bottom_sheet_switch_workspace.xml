@@ -28,7 +28,7 @@
         android:fontFamily="@font/inter_bold"
         android:letterSpacing="-0.015"
         android:text="Switch workspace"
-        android:textColor="#171817"
+        android:textColor="@color/text_primary"
         android:textSize="17sp"
         app:layout_constraintEnd_toStartOf="@+id/closeBtn"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +42,7 @@
         android:fontFamily="@font/inter"
         android:lineSpacingExtra="4dp"
         android:text="Each one keeps its own invoices, clients and books."
-        android:textColor="#5C625E"
+        android:textColor="@color/text_grey"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="@id/title"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,7 +53,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:background="@drawable/avatar_crossed_state_bg"
-        android:backgroundTint="#F4F2EE"
+        android:backgroundTint="@color/greyish_white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/title">
 
@@ -65,7 +65,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="#5C625E" />
+            app:tint="@color/text_grey" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Workspace List -->
@@ -94,11 +94,11 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="@drawable/avatar_circle"
-                android:backgroundTint="#0C861A"
+                android:backgroundTint="@color/primary_green"
                 android:fontFamily="@font/inter_bold"
                 android:gravity="center"
                 android:text=":)"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/on_primary_text"
                 android:textSize="14sp"
                 />
             <com.google.android.material.imageview.ShapeableImageView
@@ -118,7 +118,7 @@
             android:layout_marginStart="12dp"
             android:fontFamily="@font/inter_semibold"
             android:text="Create your first workspace"
-            android:textColor="#171817"
+            android:textColor="@color/text_primary"
             android:textSize="14sp"
             app:layout_constraintEnd_toStartOf="@+id/activeIndicator"
             app:layout_constraintStart_toEndOf="@id/logoArea"
@@ -130,7 +130,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/inter"
             android:text="isolated Data across every workspace"
-            android:textColor="#9CA3A0"
+            android:textColor="@color/text_secondary"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="@id/workspaceName"
             app:layout_constraintStart_toStartOf="@id/workspaceName"
@@ -143,7 +143,7 @@
             android:layout_marginEnd="8dp"
             android:fontFamily="@font/inter_bold"
             android:text="ACTIVE"
-            android:textColor="#22A06B"
+            android:textColor="@color/signal_green"
             android:textSize="10sp"
 
             app:layout_constraintBottom_toBottomOf="parent"
@@ -199,7 +199,7 @@
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="#171817" />
+                app:tint="@color/text_primary" />
 
             <TextView
                 android:id="@+id/tvNewWorkspace"
@@ -208,7 +208,7 @@
                 android:layout_marginStart="6dp"
                 android:fontFamily="@font/inter_semibold"
                 android:text="New workspace"
-                android:textColor="#171817"
+                android:textColor="@color/text_primary"
                 android:textSize="13sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -230,7 +230,7 @@
             android:fontFamily="@font/inter_semibold"
             android:gravity="center"
             android:text="Manage"
-            android:textColor="#171817"
+            android:textColor="@color/text_primary"
             android:textSize="13sp" />
 
     </LinearLayout>

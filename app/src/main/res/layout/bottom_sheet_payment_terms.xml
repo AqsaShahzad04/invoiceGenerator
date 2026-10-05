@@ -49,7 +49,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:background="@drawable/bg_cross_button"
-        android:backgroundTint="#F4F2EE"
+        android:backgroundTint="@color/greyish_white"
         android:src="@drawable/ic_close"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/paymentTermsTitle"
@@ -72,7 +72,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Due"
-            android:textColor="#9CA3A0"
+            android:textColor="@color/text_secondary"
             android:textSize="10sp"
             android:textAllCaps="true"
             android:letterSpacing="0.1"
@@ -116,7 +116,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="after invoice date"
-            android:textColor="#5C625E"
+            android:textColor="@color/text_grey"
             android:textSize="11sp"
             app:layout_constraintEnd_toEndOf="parent"
             android:fontFamily="@font/inter"
@@ -186,7 +186,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="12dp"
-                android:background="#0F171817"
+                android:background="@color/divider_color"
                 />
 
 
@@ -254,7 +254,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="12dp"
-                android:background="#0F171817"
+                android:background="@color/divider_color"
                 />
 
 
@@ -322,7 +322,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="12dp"
-                android:background="#0F171817"
+                android:background="@color/divider_color"
                 />
 
 
@@ -390,7 +390,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="12dp"
-                android:background="#0F171817"
+                android:background="@color/divider_color"
                 />
 
 
@@ -458,7 +458,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="12dp"
-                android:background="#0F171817"
+                android:background="@color/divider_color"
                 />
 
 
@@ -526,7 +526,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                android:layout_marginTop="12dp"
-                android:background="#0F171817"
+                android:background="@color/divider_color"
                 />
 
 

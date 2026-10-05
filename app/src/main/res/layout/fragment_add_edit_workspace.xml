@@ -38,7 +38,7 @@
             android:fontFamily="@font/inter_bold"
             android:letterSpacing="-0.015"
             android:text="New workspace"
-            android:textColor="#171817"
+            android:textColor="@color/text_primary"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/backbtn"
@@ -84,7 +84,7 @@
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:background="@drawable/avatar_circle"
-                    android:backgroundTint="#F4F2EE"
+                    android:backgroundTint="@color/greyish_white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -98,7 +98,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:tint="#9CA3A0" />
+                        app:tint="@color/text_secondary" />
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/logoImage"
@@ -117,7 +117,7 @@
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/inter_semibold"
                     android:text="Add logo · optional"
-                    android:textColor="#0C861A"
+                    android:textColor="@color/primary_green"
                     android:textSize="12sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -147,7 +147,7 @@
                 android:fontFamily="@font/inter_medium"
                 android:letterSpacing="0.02"
                 android:text="Workspace Name"
-                android:textColor="#5C625E"
+                android:textColor="@color/text_grey"
                 android:textSize="11sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/logoSection" />
@@ -163,7 +163,7 @@
                 android:inputType="textCapWords"
                 android:paddingHorizontal="14dp"
                 android:paddingVertical="12dp"
-                android:textColor="#171817"
+                android:textColor="@color/text_primary"
                 android:textSize="13sp"
                 app:layout_constraintTop_toBottomOf="@id/nameHeading" />
 
@@ -176,7 +176,7 @@
                 android:fontFamily="@font/inter_medium"
                 android:letterSpacing="0.02"
                 android:text="Email"
-                android:textColor="#5C625E"
+                android:textColor="@color/text_grey"
                 android:textSize="11sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/workspaceNameInput" />
@@ -192,7 +192,7 @@
                 android:inputType="textEmailAddress"
                 android:paddingHorizontal="14dp"
                 android:paddingVertical="12dp"
-                android:textColor="#171817"
+                android:textColor="@color/text_primary"
                 android:textSize="13sp"
                 app:layout_constraintTop_toBottomOf="@id/emailHeading" />
 
@@ -205,7 +205,7 @@
                 android:fontFamily="@font/inter_medium"
                 android:letterSpacing="0.02"
                 android:text="Phone"
-                android:textColor="#5C625E"
+                android:textColor="@color/text_grey"
                 android:textSize="11sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/emailInput" />
@@ -221,7 +221,7 @@
                 android:inputType="phone"
                 android:paddingHorizontal="14dp"
                 android:paddingVertical="12dp"
-                android:textColor="#171817"
+                android:textColor="@color/text_primary"
                 android:textSize="13sp"
                 app:layout_constraintTop_toBottomOf="@id/phoneHeading" />
 
@@ -234,7 +234,7 @@
                 android:fontFamily="@font/inter_medium"
                 android:letterSpacing="0.02"
                 android:text="NTN / Tax #"
-                android:textColor="#5C625E"
+                android:textColor="@color/text_grey"
                 android:textSize="11sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/phoneInput" />
@@ -250,7 +250,7 @@
                 android:inputType="text"
                 android:paddingHorizontal="14dp"
                 android:paddingVertical="12dp"
-                android:textColor="#171817"
+                android:textColor="@color/text_primary"
                 android:textSize="13sp"
                 app:layout_constraintTop_toBottomOf="@id/taxHeading" />
 
@@ -263,7 +263,7 @@
                 android:fontFamily="@font/inter_medium"
                 android:letterSpacing="0.02"
                 android:text="Address"
-                android:textColor="#5C625E"
+                android:textColor="@color/text_grey"
                 android:textSize="11sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/taxInput" />
@@ -281,7 +281,7 @@
                 android:minHeight="80dp"
                 android:paddingHorizontal="14dp"
                 android:paddingVertical="11dp"
-                android:textColor="#171817"
+                android:textColor="@color/text_primary"
                 android:textSize="13sp"
                 app:layout_constraintTop_toBottomOf="@id/addressHeading" />
 

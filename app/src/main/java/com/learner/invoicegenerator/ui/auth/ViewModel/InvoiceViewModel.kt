@@ -10,6 +10,7 @@ import com.learner.invoicegenerator.data.local.entity.Invoice
 import com.learner.invoicegenerator.data.local.entity.InvoiceItemLine
 import com.learner.invoicegenerator.data.local.entity.NumberingReset
 import com.learner.invoicegenerator.data.repository.InvoiceRepository
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -32,6 +33,9 @@ class InvoiceViewModel(
     private val _invoiceDraft=MutableStateFlow<Invoice?>(null)
     val invoiceDraft: StateFlow<Invoice?> = _invoiceDraft
 
+    private val _selectedTemplate = MutableStateFlow<Int>(1)
+    val selectedTemplate: StateFlow<Int> = _selectedTemplate
+
 
     private val _paidInvoices = MutableStateFlow<List<Invoice>>(emptyList())
     val paidInvoices: StateFlow<List<Invoice>> = _paidInvoices
@@ -45,7 +49,7 @@ class InvoiceViewModel(
 
     val searchQuery = MutableStateFlow("")
 
-    private val defaultRange = LocalDate.now().withDayOfMonth(1) to LocalDate.now()
+    private val defaultRange = LocalDate.now().withDayOfMonth(1) to LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth())
     val dateRange = MutableStateFlow(defaultRange)
 
     fun setSearchQuery(query: String) {
@@ -60,6 +64,7 @@ class InvoiceViewModel(
         dateRange.value = defaultRange
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     val allInvoices: Flow<List<Invoice>> = combine(
         sessionManager.activeWorkspaceId,
         searchQuery,
@@ -104,8 +109,12 @@ class InvoiceViewModel(
         _invoiceDraft.value=draft
 
     }
+    fun setSelectedTemplate(templateId: Int) {
+        _selectedTemplate.value = templateId
+    }
     fun resetInvoiceDraft(){
         _invoiceDraft.value=null
+        _selectedTemplate.value=1
     }
     fun resetState(){
         _addInvoiceState.value= InvoiceState.Idle

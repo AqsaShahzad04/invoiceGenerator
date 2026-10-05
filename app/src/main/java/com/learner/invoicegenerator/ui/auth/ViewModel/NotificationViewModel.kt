@@ -44,6 +44,12 @@ class NotificationViewModel(private val repository: NotificationRepository) : Vi
         }
     }
 
+    fun clearAllNotifications() {
+        viewModelScope.launch {
+            repository.clearAllNotifications()
+        }
+    }
+
     fun addTestNotification(title: String, message: String) {
         viewModelScope.launch {
             repository.insertNotification(
