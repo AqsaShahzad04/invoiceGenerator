@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="text_primary">#FBFAF7</color>
+    <color name="text_secondary">#8696A0</color>
+    <color name="background_app">#12181F</color>
+    <color name="surface_card">#1E262C</color>
+    <color name="button_accent">#10B981</color>
+
+    <color name="black">#FBFAF7</color>
+    <color name="white">#1E262C</color>
+    <color name="bg_cream">#12181F</color>
+    <color name="text_grey">#9CA3A0</color>
+    <color name="onboarding_line">#00A884</color>
+    <color name="btn_text_dark">#FBFAF7</color>
+    <color name="btn_border_light">#2A343C</color>
+    <color name="btn_bg_dark">#10B981</color>
+    <color name="btn_text_light">#12181F</color>
+    <color name="avatar_green_bg">#2A3942</color>
+    <color name="subheading_color_home">#9CA3A0</color>
+    <color name="primary_green">#10B981</color>
+    <color name="primary_green_alpha">#2610B981</color>
+    <color name="tickedColorbg">#10B981</color>
+    <color name="sectionsHeadingColor">#8696A0</color>
+    <color name="toggleBtn_offColor">#2A343C</color>
+    <color name="carrot_red_shade">#EF5350</color>
+    <color name="orange_red_shade">#FFA726</color>
+    <color name="greyish_white">#263038</color>
+    <color name="grey">#8696A0</color>
+    <color name="divider_color">#2A343C</color>
+    <color name="green_light_start_color">#8010B981</color>
+    <color name="error_red_colour">#33EF5350</color>
+    <color name="signal_green">#10B981</color>
+</resources>

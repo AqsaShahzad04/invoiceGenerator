@@ -74,11 +74,12 @@
             app:layout_constraintStart_toEndOf="@id/homelogo"
             app:layout_constraintTop_toBottomOf="@id/myBusiness"
             android:layout_marginStart="8dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
             >
             <FrameLayout
-                android:layout_width="10dp"
-                android:layout_height="10dp"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
                 >
                 <View
                     android:layout_width="match_parent"
@@ -87,18 +88,19 @@
                     android:background="@drawable/ripple_circle"
                     />
                 <View
-                    android:layout_width="5dp"
-                    android:layout_height="5dp"
+                    android:layout_width="4dp"
+                    android:layout_height="4dp"
                     android:background="@drawable/ripple_circle"
                     android:id="@+id/mainDot"
                     android:layout_gravity="center"/>
             </FrameLayout>
             <TextView
+                android:id="@+id/headerGreetingText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Good evening · 10:29 PM"
                 android:textSize="9sp"
-                android:textColor="#9CA3A0"
+                    android:textColor="@color/text_secondary"
                 android:fontFamily="@font/inter_medium"
                 android:letterSpacing="0.04"
                 android:layout_marginStart="4dp"
@@ -108,9 +110,14 @@
 
 
            <ImageView
-               android:layout_width="16dp"
-               android:layout_height="16dp"
+               android:id="@+id/btnSearchHome"
+               android:layout_width="28dp"
+               android:layout_height="28dp"
+               android:padding="6dp"
                android:src="@drawable/ic_search"
+               android:clickable="true"
+               android:focusable="true"
+               android:contentDescription="Search"
                app:layout_constraintEnd_toStartOf="@id/bellIcon"
                app:layout_constraintTop_toTopOf="parent"
                app:layout_constraintBottom_toBottomOf="parent"
@@ -136,6 +143,7 @@
                  app:layout_constraintBottom_toBottomOf="parent"/>
              <view
                  class="android.widget.TextView"
+                 android:id="@+id/bellNotificationDot"
                  android:layout_width="5dp"
                  android:layout_height="5dp"
                  android:background="@drawable/red_dot_notification"
@@ -666,7 +674,7 @@
    </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 
-<!--home screen actual UI-->
+    <!--home screen actual UI-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -676,12 +684,225 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:orientation="vertical">
+
+        <!-- Editorial Hero Card (Shown when Home Header == "Editorial") -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/editorialHeaderCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_home_stats_cards"
+            android:padding="16dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tvEditorialHeading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_semibold"
+                android:letterSpacing="0.08"
+                android:text="EARNED THIS MONTH"
+                android:textAllCaps="true"
+                android:textColor="@color/sectionsHeadingColor"
+                android:textSize="10sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvEditorialEarnedValue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/inter_bold"
+                android:letterSpacing="-0.025"
+                android:text="0"
+                android:textColor="@color/primary_green"
+                android:textSize="28sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvEditorialHeading" />
+
+            <!-- MoM Badge Row -->
+            <LinearLayout
+                android:id="@+id/editorialMOMRow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvEditorialEarnedValue">
+
+                <ImageView
+                    android:id="@+id/editorialMOMArrow"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/insights_upper_arrow"
+                    app:tint="@color/primary_green" />
+
+                <TextView
+                    android:id="@+id/tvEditorialMOMPercent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:fontFamily="@font/inter_bold"
+                    android:text="0.0%"
+                    android:textColor="@color/primary_green"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tvEditorialMOMVsMonth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:fontFamily="@font/inter_medium"
+                    android:text="vs Prev"
+                    android:textColor="@color/subheading_color_home"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/editorialDivider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="#0F171817"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/editorialMOMRow" />
+
+            <!-- Outstanding Row -->
+            <TextView
+                android:id="@+id/tvEditorialOutstandingLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:fontFamily="@font/inter_medium"
+                android:text="Outstanding"
+                android:textColor="@color/btn_bg_dark"
+                android:textSize="13sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/editorialDivider" />
+
+            <TextView
+                android:id="@+id/tvEditorialOutstandingValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_bold"
+                android:text="0"
+                android:textColor="@color/btn_bg_dark"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@id/tvEditorialOutstandingLabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tvEditorialOutstandingLabel" />
+
+            <!-- Multi-color Stacked Progress Bar -->
+            <LinearLayout
+                android:id="@+id/editorialProgressBarContainer"
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bg_input_field"
+                android:clipToOutline="true"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvEditorialOutstandingLabel">
+
+                <View
+                    android:id="@+id/barPaid"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="7"
+                    android:background="@color/primary_green" />
+
+                <View
+                    android:id="@+id/barUnpaid"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:background="@color/carrot_red_shade" />
+
+                <View
+                    android:id="@+id/barPending"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/orange_red_shade" />
+
+            </LinearLayout>
+
+            <!-- Legend Row -->
+            <LinearLayout
+                android:id="@+id/editorialLegendRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/editorialProgressBarContainer">
+
+                <!-- Paid Dot + Label -->
+                <View
+                    android:layout_width="7dp"
+                    android:layout_height="7dp"
+                    android:background="@drawable/avatar_circle"
+                    android:backgroundTint="@color/primary_green" />
+
+                <TextView
+                    android:id="@+id/tvLegendPaid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/inter_medium"
+                    android:text="Paid 0%"
+                    android:textColor="@color/subheading_color_home"
+                    android:textSize="11sp" />
+
+                <!-- Unpaid Dot + Label -->
+                <View
+                    android:layout_width="7dp"
+                    android:layout_height="7dp"
+                    android:layout_marginStart="14dp"
+                    android:background="@drawable/avatar_circle"
+                    android:backgroundTint="@color/carrot_red_shade" />
+
+                <TextView
+                    android:id="@+id/tvLegendUnpaid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/inter_medium"
+                    android:text="Unpaid"
+                    android:textColor="@color/subheading_color_home"
+                    android:textSize="11sp" />
+
+                <!-- Pending Dot + Label -->
+                <View
+                    android:layout_width="7dp"
+                    android:layout_height="7dp"
+                    android:layout_marginStart="14dp"
+                    android:background="@drawable/avatar_circle"
+                    android:backgroundTint="@color/orange_red_shade" />
+
+                <TextView
+                    android:id="@+id/tvLegendPending"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/inter_medium"
+                    android:text="Pending"
+                    android:textColor="@color/subheading_color_home"
+                    android:textSize="11sp" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/homeStatsCardsParent"
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
          <androidx.constraintlayout.widget.ConstraintLayout
              android:layout_width="0dp"
              android:layout_weight="1"
@@ -778,7 +999,7 @@
                          android:id="@+id/insightArrow"
                          android:layout_width="10dp"
                          android:layout_height="10dp"
-                         android:background="@drawable/insights_upper_arrow"
+                         android:src="@drawable/insights_upper_arrow"
                          app:layout_constraintStart_toStartOf="parent"
                          app:layout_constraintTop_toTopOf="parent"
                          app:layout_constraintBottom_toBottomOf="parent"
@@ -961,12 +1182,15 @@
             android:layout_marginTop="14dp"
             android:orientation="horizontal">
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cardCatalogue"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:paddingVertical="12dp"
                 android:paddingHorizontal="13dp"
                 android:layout_marginEnd="8dp"
+                android:clickable="true"
+                android:focusable="true"
                 android:background="@drawable/bg_home_stats_cards">
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="34dp"
@@ -1031,11 +1255,14 @@
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cardClients"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:paddingVertical="12dp"
                 android:paddingHorizontal="13dp"
+                android:clickable="true"
+                android:focusable="true"
                 android:background="@drawable/bg_home_stats_cards">
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="34dp"
@@ -1117,12 +1344,15 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"/>
             <TextView
+                android:id="@+id/viewAllBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="View all →"
                 android:textColor="@color/primary_green"
                 android:textSize="12sp"
                 android:fontFamily="@font/inter_medium"
+                android:clickable="true"
+                android:focusable="true"
                 />
 
         </LinearLayout>

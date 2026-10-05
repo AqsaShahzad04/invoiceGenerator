@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="10dp"
+    android:paddingHorizontal="4dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?attr/selectableItemBackground">
+
+    <FrameLayout
+        android:id="@+id/iconContainer"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:background="@drawable/bg_icon_box"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/notificationIcon"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_notifications"
+            app:tint="@color/text_grey" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/notificationTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome to Ledger"
+        android:textColor="@color/btn_text_dark"
+        android:textSize="13sp"
+        android:fontFamily="@font/inter_bold"
+        android:layout_marginStart="12dp"
+        app:layout_constraintStart_toEndOf="@id/iconContainer"
+        app:layout_constraintTop_toTopOf="@id/iconContainer" />
+
+    <View
+        android:id="@+id/unreadDot"
+        android:layout_width="6dp"
+        android:layout_height="6dp"
+        android:background="@drawable/home_num_circle_selected"
+        android:backgroundTint="@color/primary_green"
+        android:layout_marginStart="6dp"
+        app:layout_constraintStart_toEndOf="@id/notificationTitle"
+        app:layout_constraintTop_toTopOf="@id/notificationTitle"
+        app:layout_constraintBottom_toBottomOf="@id/notificationTitle" />
+
+    <TextView
+        android:id="@+id/notificationMessage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Add a client and an item, then send your first invoice."
+        android:textColor="@color/text_grey"
+        android:textSize="11sp"
+        android:fontFamily="@font/inter"
+        android:layout_marginTop="2dp"
+        app:layout_constraintStart_toStartOf="@id/notificationTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/notificationTitle" />
+
+    <TextView
+        android:id="@+id/notificationTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Just now"
+        android:textColor="@color/sectionsHeadingColor"
+        android:textSize="10sp"
+        android:fontFamily="@font/inter"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="@id/notificationTitle"
+        app:layout_constraintTop_toBottomOf="@id/notificationMessage" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

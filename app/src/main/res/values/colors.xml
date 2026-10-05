@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="text_primary">#171817</color>
+    <color name="text_secondary">#9CA3A0</color>
+    <color name="background_app">#FBFAF7</color>
+    <color name="surface_card">#FFFFFF</color>
+    <color name="button_accent">#0C867E</color>
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="bg_cream">#FBFAF7</color>
@@ -20,6 +26,7 @@
     <color name="orange_red_shade">#D9A24F</color>
     <color name="greyish_white">#F4F2EE</color>
     <color name="grey">#9CA3A0</color>
+    <color name="divider_color">#0F171817</color>
     <color name="green_light_start_color">#800C861A</color>
     <color name="error_red_colour">#66D9534F</color>
     <color name="signal_green">#22A06B</color>

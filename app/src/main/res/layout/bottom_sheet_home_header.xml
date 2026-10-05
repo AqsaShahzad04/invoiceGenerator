@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_currency_picker_sheet"
+    android:paddingHorizontal="20dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="28dp">
+
+    <View
+        android:id="@+id/dragHandleHomeHeader"
+        android:layout_width="36dp"
+        android:layout_height="4dp"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/drag_handle_bg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/homeHeaderTitleGroup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="12dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toStartOf="@id/closebtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dragHandleHomeHeader">
+
+        <TextView
+            android:id="@+id/homeHeaderTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter_bold"
+            android:letterSpacing="-0.015"
+            android:text="Home header"
+            android:textColor="@color/btn_text_dark"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/homeHeaderSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/inter_medium"
+            android:lineSpacingMultiplier="1.3"
+            android:text="Choose how the dashboard greets you."
+            android:textColor="@color/subheading_color_home"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/closebtn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/bg_cross_button"
+        android:backgroundTint="#F4F2EE"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_close"
+        app:layout_constraintBottom_toBottomOf="@id/homeHeaderTitleGroup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/homeHeaderTitleGroup" />
+
+    <!-- Options Container -->
+    <LinearLayout
+        android:id="@+id/optionsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/homeHeaderTitleGroup">
+
+        <!-- Option 1: Compact -->
+        <LinearLayout
+            android:id="@+id/optionCompact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingVertical="12dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvCompactTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter_bold"
+                    android:text="Compact"
+                    android:textColor="@color/btn_text_dark"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tvCompactSubtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="@font/inter_medium"
+                    android:text="Two-card overview with quick chips"
+                    android:textColor="@color/subheading_color_home"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/ivCompactCheck"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_check"
+                app:tint="@color/primary_green" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#0F171817" />
+
+        <!-- Option 2: Editorial -->
+        <LinearLayout
+            android:id="@+id/optionEditorial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingVertical="12dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvEditorialTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter_bold"
+                    android:text="Editorial"
+                    android:textColor="@color/btn_text_dark"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tvEditorialSubtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="@font/inter_medium"
+                    android:text="Big hero number with sparkline"
+                    android:textColor="@color/subheading_color_home"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/ivEditorialCheck"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_check"
+                android:visibility="gone"
+                app:tint="@color/primary_green" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/doneBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/green_btn_bg"
+        android:backgroundTint="@color/btn_bg_dark"
+        android:fontFamily="@font/inter_semibold"
+        android:text="Done"
+        android:textAllCaps="false"
+        android:textColor="@color/bg_cream"
+        android:textSize="14sp"
+        app:backgroundTint="@null"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/optionsContainer" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

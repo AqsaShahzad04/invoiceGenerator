@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_cream"
+    android:paddingHorizontal="16dp"
+    android:paddingTop="12dp">
+
+    <!-- Header Row -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:background="@drawable/bg_back_btn_items"
+            android:src="@drawable/ic_back"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Notifications"
+            android:textColor="@color/btn_text_dark"
+            android:textSize="20sp"
+            android:fontFamily="@font/inter_bold"
+            android:layout_marginStart="10dp"
+            app:layout_constraintStart_toEndOf="@id/btnBack"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <TextView
+            android:id="@+id/tvUnreadBadge"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:text="1"
+            android:textColor="@color/primary_green"
+            android:textSize="11sp"
+            android:fontFamily="@font/inter_bold"
+            android:gravity="center"
+            android:background="@drawable/home_num_circle_selected"
+            android:backgroundTint="@color/primary_green_alpha"
+            android:layout_marginStart="8dp"
+            android:visibility="gone"
+            app:layout_constraintStart_toEndOf="@id/tvTitle"
+            app:layout_constraintTop_toTopOf="@id/tvTitle"
+            app:layout_constraintBottom_toBottomOf="@id/tvTitle" />
+
+        <TextView
+            android:id="@+id/btnMarkAllRead"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mark all read"
+            android:textColor="@color/primary_green"
+            android:textSize="13sp"
+            android:fontFamily="@font/inter_semibold"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Section Label -->
+    <TextView
+        android:id="@+id/tvSectionHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="NEW"
+        android:textColor="@color/sectionsHeadingColor"
+        android:textSize="11sp"
+        android:fontFamily="@font/inter_bold"
+        android:letterSpacing="0.08"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header" />
+
+    <!-- RecyclerView -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvNotifications"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/tvSectionHeader"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Empty State -->
+    <LinearLayout
+        android:id="@+id/emptyStateLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <FrameLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/bg_icon_box"
+            android:layout_marginBottom="16dp">
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_notifications"
+                app:tint="@color/sectionsHeadingColor" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tvEmptyTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="All caught up"
+            android:textColor="@color/btn_text_dark"
+            android:textSize="16sp"
+            android:fontFamily="@font/inter_bold" />
+
+        <TextView
+            android:id="@+id/tvEmptySubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New activity will appear here."
+            android:textColor="@color/text_grey"
+            android:textSize="12sp"
+            android:fontFamily="@font/inter"
+            android:layout_marginTop="4dp" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
