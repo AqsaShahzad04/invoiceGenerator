@@ -1,14 +1,22 @@
 package com.learner.invoicegenerator.ui.template
 
+import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.RectF
 import android.graphics.Typeface
+import com.learner.invoicegenerator.utils.ThemeUtils
 import java.time.format.DateTimeFormatter
 
 class BoldTemplateRenderer : InvoiceTemplate {
+
+    private lateinit var context: Context
+
+    fun setContext(ctx: Context) {
+        context = ctx
+    }
 
     private val dateFormatter = DateTimeFormatter.ofPattern("dd/MMM/yyyy")
 

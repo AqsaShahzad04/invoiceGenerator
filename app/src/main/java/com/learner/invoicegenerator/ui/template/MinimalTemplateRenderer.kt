@@ -1,16 +1,23 @@
 package com.learner.invoicegenerator.ui.template
 
+import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.RectF
 import android.graphics.Typeface
+import com.learner.invoicegenerator.utils.ThemeUtils
 import java.time.format.DateTimeFormatter
 
 class MinimalTemplateRenderer : InvoiceTemplate {
 
+    private lateinit var context: Context
     private val dateFormatter = DateTimeFormatter.ofPattern("dd MMM, yyyy")
+
+    fun setContext(ctx: Context) {
+        context = ctx
+    }
 
     override fun draw(canvas: Canvas, width: Float, height: Float, data: InvoiceRenderData) {
         canvas.drawColor(Color.WHITE)

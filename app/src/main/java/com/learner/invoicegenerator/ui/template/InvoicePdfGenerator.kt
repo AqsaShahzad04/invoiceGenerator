@@ -35,6 +35,7 @@ object InvoicePdfGenerator {
         bitmapCanvas.scale(SCALE_FACTOR, SCALE_FACTOR)
 
         val template = TemplateFactory.getTemplate(templateId)
+        template.setContext(context)
         template.draw(bitmapCanvas, A4_WIDTH_PTS.toFloat(), A4_HEIGHT_PTS.toFloat(), data)
 
         val paint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG or Paint.DITHER_FLAG)
