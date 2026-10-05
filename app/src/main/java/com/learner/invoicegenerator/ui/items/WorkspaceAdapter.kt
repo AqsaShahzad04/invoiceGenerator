@@ -36,10 +36,10 @@ class WorkspaceAdapter(
 
                 if (workspace.id == activeWorkspaceId) {
                     activeIndicator.visibility = View.VISIBLE
-                    workspaceName.setTextColor(Color.parseColor("#0C861A"))
+                    workspaceName.setTextColor(ThemeUtils.getPrimaryColor(context))
                 } else {
                     activeIndicator.visibility = View.GONE
-                    workspaceName.setTextColor(Color.parseColor("#171817"))
+                    workspaceName.setTextColor(ThemeUtils.getTextColorPrimary(context))
                 }
 
                 rootLayout.setOnClickListener { onWorkspaceClick(workspace) }

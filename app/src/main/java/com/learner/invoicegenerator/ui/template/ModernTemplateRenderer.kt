@@ -17,7 +17,7 @@ class ModernTemplateRenderer : InvoiceTemplate {
 
         val margin = 36f
         val tealSecondary = Color.parseColor("#007A78")
-        val darkHeader = Color.parseColor("#171817")
+        val darkHeader = ThemeUtils.getTextColorPrimary(context)
 
         val textFlags = Paint.ANTI_ALIAS_FLAG or Paint.SUBPIXEL_TEXT_FLAG or Paint.LINEAR_TEXT_FLAG
 
@@ -33,19 +33,19 @@ class ModernTemplateRenderer : InvoiceTemplate {
         }
 
         val textDark = Paint(textFlags).apply {
-            color = Color.parseColor("#171817")
+            color = ThemeUtils.getTextColorPrimary(context)
             textSize = 11f
             typeface = Typeface.SANS_SERIF
         }
 
         val textBold = Paint(textFlags).apply {
-            color = Color.parseColor("#171817")
+            color = ThemeUtils.getTextColorPrimary(context)
             textSize = 12f
             typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)
         }
 
         val textGrey = Paint(textFlags).apply {
-            color = Color.parseColor("#5C625E")
+            color = ThemeUtils.getTextColorGrey(context)
             textSize = 10f
             typeface = Typeface.SANS_SERIF
         }
@@ -140,7 +140,7 @@ class ModernTemplateRenderer : InvoiceTemplate {
         textBold.color = tealSecondary
         textBold.textSize = 11f
         canvas.drawText("INVOICE TO:", margin, currentY, textBold)
-        textBold.color = Color.parseColor("#171817")
+        textBold.color = ThemeUtils.getTextColorPrimary(context)
 
         textBold.textSize = 14f
         canvas.drawText(data.invoice.clientBusinessName, margin, currentY + 18f, textBold)
@@ -161,7 +161,7 @@ class ModernTemplateRenderer : InvoiceTemplate {
         textBold.textSize = 13f
         textBold.color = if (data.invoice.status == "Paid") tealSecondary else Color.parseColor("#E05A10")
         canvas.drawText(data.invoice.status.uppercase(), width - margin, currentY + 18f, textBold)
-        textBold.color = Color.parseColor("#171817")
+        textBold.color = ThemeUtils.getTextColorPrimary(context)
 
         if (data.workspace != null) {
             textGrey.textSize = 9.5f

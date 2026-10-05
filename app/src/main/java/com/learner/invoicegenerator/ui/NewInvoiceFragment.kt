@@ -125,13 +125,13 @@ class NewInvoiceFragment: Fragment(R.layout.fragment_new_invoice) {
                                 binding.continueBtn.isEnabled=true
                                 binding.continueBtn.backgroundTintList=
                                     context?.let { ContextCompat.getColorStateList(it,R.color.btn_bg_dark) }
-                                binding.continueBtn.setTextColor(android.graphics.Color.parseColor("#FFFFFF"))
+                                binding.continueBtn.setTextColor(android.graphics.ThemeUtils.getButtonOnAccentColor(context))
                             }
                             else{
                                 binding.continueBtn.isEnabled=false
                                 binding.continueBtn.backgroundTintList=
                                     context?.let { ContextCompat.getColorStateList(it,R.color.greyish_white) }
-                                binding.continueBtn.setTextColor(android.graphics.Color.parseColor("#9CA3A0"))
+                                binding.continueBtn.setTextColor(android.graphics.ThemeUtils.getTextColorSecondary(context))
                             }
 
                         }

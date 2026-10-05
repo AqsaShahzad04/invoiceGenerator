@@ -103,31 +103,31 @@ class ClientDetailFragment : Fragment(R.layout.fragment_client_detail) {
 
                 if (client.email.isNullOrBlank()) {
                     binding.clientMail.text = "Add email Address"
-                    binding.clientMail.setTextColor(Color.parseColor("#0C861A"))
+                    binding.clientMail.setTextColor(ThemeUtils.getPrimaryColor(context))
                     binding.emailAddBtn.visibility = View.VISIBLE
                 } else {
                     binding.clientMail.text = client.email
-                    binding.clientMail.setTextColor(Color.parseColor("#171817"))
+                    binding.clientMail.setTextColor(ThemeUtils.getTextColorPrimary(context))
                     binding.emailAddBtn.visibility = View.GONE
                 }
 
                 if (client.phone.isNullOrBlank()) {
                     binding.clientNum.text = "Add Phone Number"
-                    binding.clientNum.setTextColor(Color.parseColor("#0C861A"))
+                    binding.clientNum.setTextColor(ThemeUtils.getPrimaryColor(context))
                     binding.phoneAddBtn.visibility = View.VISIBLE
                 } else {
                     binding.clientNum.text = client.phone
-                    binding.clientNum.setTextColor(Color.parseColor("#171817"))
+                    binding.clientNum.setTextColor(ThemeUtils.getTextColorPrimary(context))
                     binding.phoneAddBtn.visibility = View.GONE
                 }
 
                 if (client.address.isNullOrBlank()) {
                     binding.clientAddress.text = "Add billing Address"
-                    binding.clientAddress.setTextColor(Color.parseColor("#0C861A"))
+                    binding.clientAddress.setTextColor(ThemeUtils.getPrimaryColor(context))
                     binding.addressAddBtn.visibility = View.VISIBLE
                 } else {
                     binding.clientAddress.text = client.address
-                    binding.clientAddress.setTextColor(Color.parseColor("#171817"))
+                    binding.clientAddress.setTextColor(ThemeUtils.getTextColorPrimary(context))
                     binding.addressAddBtn.visibility = View.GONE
                 }
             } else {

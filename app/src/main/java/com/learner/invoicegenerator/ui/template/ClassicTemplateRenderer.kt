@@ -19,25 +19,25 @@ class ClassicTemplateRenderer : InvoiceTemplate {
         val textFlags = Paint.ANTI_ALIAS_FLAG or Paint.SUBPIXEL_TEXT_FLAG or Paint.LINEAR_TEXT_FLAG
 
         val greyPaint = Paint(textFlags).apply {
-            color = Color.parseColor("#5C625E")
+            color = ThemeUtils.getTextColorGrey(context)
             textSize = 10f
             typeface = Typeface.SANS_SERIF
         }
 
         val titlePaint = Paint(textFlags).apply {
-            color = Color.parseColor("#171817")
+            color = ThemeUtils.getTextColorPrimary(context)
             textSize = 28f
             typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)
         }
 
         val boldPaint = Paint(textFlags).apply {
-            color = Color.parseColor("#171817")
+            color = ThemeUtils.getTextColorPrimary(context)
             textSize = 11f
             typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)
         }
 
         val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = Color.parseColor("#171817")
+            color = ThemeUtils.getTextColorPrimary(context)
             strokeWidth = 1.5f
             style = Paint.Style.STROKE
         }

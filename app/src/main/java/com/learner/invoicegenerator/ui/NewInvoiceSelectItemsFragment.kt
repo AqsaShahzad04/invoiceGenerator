@@ -166,7 +166,7 @@ class NewInvoiceSelectItemsFragment: Fragment(R.layout.fragment_newinvoice_selec
                     itemViewModel.clearLastAddedItemId()
                     val newItemChip = TextView(styledContext).apply {
                         text = "New Item"
-                        setTextColor(Color.parseColor("#0C861A"))
+                        setTextColor(ThemeUtils.getPrimaryColor(context))
                         textSize = 11f
                         typeface = ResourcesCompat.getFont(context, R.font.inter_semibold)
 
@@ -179,7 +179,7 @@ class NewInvoiceSelectItemsFragment: Fragment(R.layout.fragment_newinvoice_selec
                             requireContext(),
                             R.drawable.ic_plus
                         )?.mutate()?.apply {
-                            setTint(Color.parseColor("#5C625E"))
+                            setTint(ThemeUtils.getTextColorGrey(context))
                             setBounds(
                                 0,
                                 0,

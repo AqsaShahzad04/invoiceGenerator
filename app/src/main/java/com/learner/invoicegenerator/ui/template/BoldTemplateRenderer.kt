@@ -40,13 +40,13 @@ class BoldTemplateRenderer : InvoiceTemplate {
         }
 
         val textBold = Paint(textFlags).apply {
-            color = Color.parseColor("#171817")
+            color = ThemeUtils.getTextColorPrimary(context)
             textSize = 12f
             typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)
         }
 
         val textGrey = Paint(textFlags).apply {
-            color = Color.parseColor("#5C625E")
+            color = ThemeUtils.getTextColorGrey(context)
             textSize = 10f
             typeface = Typeface.SANS_SERIF
         }
@@ -128,7 +128,7 @@ class BoldTemplateRenderer : InvoiceTemplate {
 
         // --- INVOICE Title & Details ---
         val titlePaint = Paint(textFlags).apply {
-            color = Color.parseColor("#171817")
+            color = ThemeUtils.getTextColorPrimary(context)
             textSize = 30f
             typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
         }
@@ -184,7 +184,7 @@ class BoldTemplateRenderer : InvoiceTemplate {
         canvas.drawRect(darkHeaderRect, darkPaint)
 
         textBold.textSize = 10f
-        textBold.color = Color.parseColor("#171817")
+        textBold.color = ThemeUtils.getTextColorPrimary(context)
         canvas.drawText("ITEM DESCRIPTION", margin + 12f, currentY + 18f, textBold)
 
         whitePaint.textSize = 10f
@@ -219,7 +219,7 @@ class BoldTemplateRenderer : InvoiceTemplate {
             }
 
             textBold.textSize = 12f
-            textBold.color = Color.parseColor("#171817")
+            textBold.color = ThemeUtils.getTextColorPrimary(context)
             canvas.drawText(item.itemName, margin + 12f, currentY + 18f, textBold)
 
             textGrey.textSize = 11f

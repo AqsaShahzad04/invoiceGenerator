@@ -55,7 +55,7 @@ class ManageWorkspaceAdapter(
                 if (workspace.id == activeWorkspaceId) {
                     rootLayout.setBackgroundResource(R.drawable.bg_active_workspace)
                     activeLabel.visibility = View.VISIBLE
-                    workspaceAvatar.background.setTint(Color.parseColor("#0C861A"))
+                    workspaceAvatar.background.setTint(ThemeUtils.getPrimaryColor(context))
                 } else {
                     rootLayout.setBackgroundResource(R.drawable.bg_workspace)
                     activeLabel.visibility = View.GONE

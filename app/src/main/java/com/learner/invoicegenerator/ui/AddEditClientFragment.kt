@@ -1,6 +1,7 @@
 package com.learner.invoicegenerator.ui
 
 import android.graphics.Color
+import com.learner.invoicegenerator.utils.ThemeUtils
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -135,7 +136,14 @@ class AddEditClientFragment : Fragment(R.layout.fragment_add_edit_client) {
                 if (name.isNotBlank()) {
                     binding.previewAvatar.visibility = View.VISIBLE
                     binding.previewAvatar.text = AvatarUtils.getLetter(name)
-                    binding.previewAvatar.background.setTint(Color.parseColor(AvatarUtils.getColor(name)))
+                    val avatarColor = AvatarUtils.getColor(name)
+                    binding.previewAvatar.background.setTint(
+                        when {
+                            avatarColor == "#171817" -> ThemeUtils.getTextColorPrimary(requireContext())
+                            avatarColor == "#0C861A" -> ThemeUtils.getPrimaryColor(requireContext())
+                            else -> Color.parseColor(avatarColor)
+                        }
+                    )
                 } else {
                     binding.previewAvatar.visibility = View.GONE
                 }

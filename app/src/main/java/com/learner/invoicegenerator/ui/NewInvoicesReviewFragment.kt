@@ -161,7 +161,7 @@ class NewInvoicesReviewFragment : Fragment(R.layout.fragment_newinvoice_review) 
         )
 
         val activeColor = ContextCompat.getColor(requireContext(), R.color.btn_bg_dark)
-        val inactiveColor = Color.parseColor("#5C625E")
+        val inactiveColor = ThemeUtils.getTextColorGrey(context)
 
         containers.forEachIndexed { index, container ->
             val isSelected = (index + 1) == selectedTemplate

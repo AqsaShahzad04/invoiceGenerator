@@ -17,8 +17,8 @@ class MinimalTemplateRenderer : InvoiceTemplate {
 
         val margin = 36f
         val orangeColor = Color.parseColor("#E05A10")
-        val darkColor = Color.parseColor("#171817")
-        val greyColor = Color.parseColor("#5C625E")
+        val darkColor = ThemeUtils.getTextColorPrimary(context)
+        val greyColor = ThemeUtils.getTextColorGrey(context)
 
         val textFlags = Paint.ANTI_ALIAS_FLAG or Paint.SUBPIXEL_TEXT_FLAG or Paint.LINEAR_TEXT_FLAG
 
