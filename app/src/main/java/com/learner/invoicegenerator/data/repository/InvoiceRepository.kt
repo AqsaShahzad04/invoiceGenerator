@@ -19,6 +19,9 @@ class InvoiceRepository(private val invoiceDao: InvoiceDao,private val invoiceIt
     suspend fun deleteInvoice(invoice: Invoice){
         invoiceDao.deleteInvoice(invoice)
     }
+    suspend fun deleteAllInvoices(workspaceId: Int) {
+        invoiceDao.deleteAllInvoices(workspaceId)
+    }
     suspend fun getInvoiceByInvoiceNum(invoiceNum:String): Invoice?{
        return invoiceDao.getInvoiceByInvoiceNum(invoiceNum)
 

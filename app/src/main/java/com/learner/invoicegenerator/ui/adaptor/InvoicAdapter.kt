@@ -9,8 +9,10 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.learner.invoicegenerator.R
 import com.learner.invoicegenerator.data.local.entity.Invoice
+import com.learner.invoicegenerator.utils.CurrencyData
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 class InvoiceAdapter(
     var invoicesList: List<Invoice>,
@@ -31,7 +33,15 @@ class InvoiceAdapter(
         holder.clientName.text = data.clientBusinessName
         holder.invoiceNumber.text = if (data.invoiceNum.length >= 4) data.invoiceNum.takeLast(4) else data.invoiceNum
         holder.invoiceDate.text = data.issueDate.format(formatter)
-        holder.amount.text = String.format("%.2f", data.totalAmount)
+
+        val symbol = CurrencyData.currencies.find { it.code == data.currencyCode }?.symbol
+            ?: (if (data.currencyCode.length <= 3 && !data.currencyCode.contains("-")) data.currencyCode else "$")
+        val formattedAmount = if (data.totalAmount % 1.0 == 0.0) {
+            data.totalAmount.toLong().toString()
+        } else {
+            String.format(Locale.getDefault(), "%.2f", data.totalAmount)
+        }
+        holder.amount.text = "$symbol $formattedAmount"
 
         val paymentStatus = data.status
         when {

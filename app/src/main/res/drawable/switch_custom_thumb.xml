@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="oval">
-    <solid android:color="#FFFFFF"/>
-    <size
-        android:width="16dp"
-        android:height="16dp"/>
-
-</shape>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Unselected state: White thumb -->
+    <item android:state_checked="false">
+        <shape android:shape="oval">
+            <solid android:color="@color/white"/>
+            <size
+                android:width="20dp"
+                android:height="20dp"/>
+        </shape>
+    </item>
+    <!-- Selected state: Green thumb with white border for contrast -->
+    <item android:state_checked="true">
+        <shape android:shape="oval">
+            <solid android:color="@color/primary_green"/>
+            <size
+                android:width="20dp"
+                android:height="20dp"/>
+        </shape>
+    </item>
+</selector>

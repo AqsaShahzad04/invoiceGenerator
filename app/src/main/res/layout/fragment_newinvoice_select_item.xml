@@ -55,7 +55,7 @@
         app:iconGravity="textStart"
         app:iconPadding="7dp"
         app:iconSize="15dp"
-        app:strokeColor="#E8E5DF"
+        app:strokeColor="@color/border_color"
         app:strokeWidth="1dp"
         app:cornerRadius="999dp"
         app:backgroundTint="@android:color/transparent"

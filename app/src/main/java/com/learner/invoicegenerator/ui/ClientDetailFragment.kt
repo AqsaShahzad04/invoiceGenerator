@@ -19,7 +19,10 @@ import com.learner.invoicegenerator.ui.auth.ViewModel.InvoiceViewModel
 import com.learner.invoicegenerator.data.local.SessionManager
 import com.learner.invoicegenerator.databinding.FragmentClientDetailBinding
 import com.learner.invoicegenerator.ui.clients.viewmodel.ClientViewModel
+import com.learner.invoicegenerator.data.local.entity.Invoice
 import com.learner.invoicegenerator.utils.CurrencyData
+import com.learner.invoicegenerator.utils.ThemeUtils
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class ClientDetailFragment : Fragment(R.layout.fragment_client_detail) {
@@ -66,11 +69,13 @@ class ClientDetailFragment : Fragment(R.layout.fragment_client_detail) {
 
                     binding.totalbill.text = String.format("%.2f", totalBilled)
                     binding.outstandingValue.text = String.format("%.2f", outstanding)
+                    binding.invoicesCountText.text = "(${clientInvoices.size})"
 
                     if (clientInvoices.isNotEmpty()) {
                         binding.noInvoicesText.visibility = View.GONE
+                        binding.invoiceRv.visibility = View.VISIBLE
                         val adapter = InvoiceAdapter(clientInvoices) { selectedInvoice ->
-                            // TODO: Add navigation logic here
+                            openInvoiceDetails(selectedInvoice)
                         }
                         binding.invoiceRv.adapter = adapter
                     } else {
@@ -103,31 +108,31 @@ class ClientDetailFragment : Fragment(R.layout.fragment_client_detail) {
 
                 if (client.email.isNullOrBlank()) {
                     binding.clientMail.text = "Add email Address"
-                    binding.clientMail.setTextColor(ThemeUtils.getPrimaryColor(context))
+                    binding.clientMail.setTextColor(ThemeUtils.getPrimaryColor(requireContext()))
                     binding.emailAddBtn.visibility = View.VISIBLE
                 } else {
                     binding.clientMail.text = client.email
-                    binding.clientMail.setTextColor(ThemeUtils.getTextColorPrimary(context))
+                    binding.clientMail.setTextColor(ThemeUtils.getTextColorPrimary(requireContext()))
                     binding.emailAddBtn.visibility = View.GONE
                 }
 
                 if (client.phone.isNullOrBlank()) {
                     binding.clientNum.text = "Add Phone Number"
-                    binding.clientNum.setTextColor(ThemeUtils.getPrimaryColor(context))
+                    binding.clientNum.setTextColor(ThemeUtils.getPrimaryColor(requireContext()))
                     binding.phoneAddBtn.visibility = View.VISIBLE
                 } else {
                     binding.clientNum.text = client.phone
-                    binding.clientNum.setTextColor(ThemeUtils.getTextColorPrimary(context))
+                    binding.clientNum.setTextColor(ThemeUtils.getTextColorPrimary(requireContext()))
                     binding.phoneAddBtn.visibility = View.GONE
                 }
 
                 if (client.address.isNullOrBlank()) {
                     binding.clientAddress.text = "Add billing Address"
-                    binding.clientAddress.setTextColor(ThemeUtils.getPrimaryColor(context))
+                    binding.clientAddress.setTextColor(ThemeUtils.getPrimaryColor(requireContext()))
                     binding.addressAddBtn.visibility = View.VISIBLE
                 } else {
                     binding.clientAddress.text = client.address
-                    binding.clientAddress.setTextColor(ThemeUtils.getTextColorPrimary(context))
+                    binding.clientAddress.setTextColor(ThemeUtils.getTextColorPrimary(requireContext()))
                     binding.addressAddBtn.visibility = View.GONE
                 }
             } else {
@@ -167,6 +172,16 @@ class ClientDetailFragment : Fragment(R.layout.fragment_client_detail) {
         binding.addressAddBtn.setOnClickListener {
             val action = ClientDetailFragmentDirections.actionClientDetailFragmentToAddEditClientFragment(clientId = clientId)
             findNavController().navigate(action)
+        }
+    }
+
+    private fun openInvoiceDetails(invoice: Invoice) {
+        invoiceViewModel.updateInvoiceDraft(invoice)
+        invoiceViewModel.setSelectedTemplate(invoice.templateId)
+        viewLifecycleOwner.lifecycleScope.launch {
+            val items = invoiceViewModel.getItemsbyInvoiceId(invoice.id).first()
+            invoiceViewModel.updateSelectedItems(items.toMutableList())
+            findNavController().navigate(R.id.action_clientDetailFragment_to_fragmentFinalInvoice)
         }
     }
 

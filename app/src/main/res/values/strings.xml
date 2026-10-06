@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">invoiceGenerator</string>
+    <string name="delete_all_data_title">Delete All Data</string>
+    <string name="delete_all_data_subtitle">Deletes all clients, items, and invoices in this workspace. The workspace and its settings stay untouched.</string>
+    <string name="delete_all_data_confirm_title">Delete All Data</string>
+    <string name="delete_all_data_confirm_message">This will permanently delete all clients, items, and invoices in this workspace. Your workspace, currency, theme, and settings will not be changed.</string>
+    <string name="delete_all_data_success">All data deleted successfully</string>
 </resources>

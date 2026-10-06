@@ -67,7 +67,7 @@ android:background="@color/bg_cream">
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="12dp"
                     android:src="@drawable/ic_search"
-                    app:tint="@color/sectionsHeadingColor"
+                    app:tint="@color/text_secondary"
                     android:contentDescription="@null" />
 
             </FrameLayout>
@@ -313,9 +313,9 @@ android:background="@color/bg_cream">
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:thumb="@drawable/switch_custom_thumb"
-                    app:thumbTint="#ffffff"
+                    app:thumbTint="@color/switch_thumb_on"
                     app:track="@drawable/switch_custom_track"
-                    app:trackTint="@color/switch_track_tint"
+                    app:trackTint="@color/switch_track_tint_toggle"
                     />
             </LinearLayout>
 
@@ -361,47 +361,7 @@ android:background="@color/bg_cream">
                 android:layout_height="1dp"
                 android:background="@color/btn_border_light"
                 />
-            <LinearLayout
-                android:id="@+id/lateFeeSection"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingVertical="14dp"
-                >
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1"
-                    >
-                    <TextView
-                        android:id="@+id/lateFeeTitle"
-                        android:text="Late fee"
-                        style="@style/settings_row_title_styles"/>
-                    <TextView
-                        android:id="@+id/latefeeSubtitle"
-                        android:text="Per month after due date"
-                        style="@style/settings_row_subtitle_styles"
-                        />
-                </LinearLayout>
-                <TextView
-                    android:id="@+id/LateFeeValue"
-                    android:text="off"
-                    style="@style/settings_row_rightSideText_style"/>
-                <ImageView
-                    android:id="@+id/ic_chiv_lateFee"
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
-                    android:src="@drawable/ic_chivron_right"
-                    android:layout_marginLeft="8dp"
-                    android:layout_gravity="center_vertical"/>
-            </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/btn_border_light"
-                />
             <LinearLayout
                 android:id="@+id/PaymentMethodsSection"
                 android:layout_width="match_parent"
@@ -491,9 +451,9 @@ android:background="@color/bg_cream">
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:thumb="@drawable/switch_custom_thumb"
-                    app:thumbTint="#ffffff"
+                    app:thumbTint="@color/switch_thumb_on"
                     app:track="@drawable/switch_custom_track"
-                    app:trackTint="@color/switch_track_tint"
+                    app:trackTint="@color/switch_track_tint_toggle"
                     />
             </LinearLayout>
 
@@ -639,9 +599,9 @@ android:background="@color/bg_cream">
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:thumb="@drawable/switch_custom_thumb"
-                    app:thumbTint="#ffffff"
+                    app:thumbTint="@color/switch_thumb_on"
                     app:track="@drawable/switch_custom_track"
-                    app:trackTint="@color/switch_track_tint"
+                    app:trackTint="@color/switch_track_tint_toggle"
                     />
             </LinearLayout>
 
@@ -742,9 +702,9 @@ android:background="@color/bg_cream">
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:thumb="@drawable/switch_custom_thumb"
-                    app:thumbTint="#ffffff"
+                    app:thumbTint="@color/switch_thumb_on"
                     app:track="@drawable/switch_custom_track"
-                    app:trackTint="@color/switch_track_tint"
+                    app:trackTint="@color/switch_track_tint_toggle"
                     />
             </LinearLayout>
 
@@ -754,48 +714,7 @@ android:background="@color/bg_cream">
                 android:background="@color/btn_border_light"
                 />
 
-            <LinearLayout
-                android:id="@+id/accentColorSection"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingVertical="14dp"
-                >
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1"
-                    >
-                    <TextView
-                        android:id="@+id/accentColorTitle"
-                        android:text="Accent color"
-                        style="@style/settings_row_title_styles"/>
 
-                    <TextView
-                        android:id="@+id/accentColorSubheading"
-                        style="@style/settings_row_subtitle_styles"
-                        android:text="Brand color across the app"
-                        />
-                </LinearLayout>
-                <ImageView
-                    android:id="@+id/accentcolorCircle"
-                    android:src="@drawable/accent_color_circle"
-                    style="@style/settings_row_rightSideText_style"/>
-                <ImageView
-                    android:id="@+id/ic_chiv_accentColor"
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
-                    android:src="@drawable/ic_chivron_right"
-                    android:layout_marginLeft="8dp"
-                    android:layout_gravity="center_vertical"/>
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/btn_border_light"
-                />
             <LinearLayout
                 android:id="@+id/currencySection"
                 android:layout_width="match_parent"
@@ -927,9 +846,9 @@ android:background="@color/bg_cream">
                     android:layout_gravity="center_vertical"
                     android:checked="true"
                     android:thumb="@drawable/switch_custom_thumb"
-                    app:thumbTint="#ffffff"
+                    app:thumbTint="@color/switch_thumb_on"
                     app:track="@drawable/switch_custom_track"
-                    app:trackTint="@color/switch_track_tint"
+                    app:trackTint="@color/switch_track_tint_toggle"
                     />
             </LinearLayout>
 
@@ -1007,9 +926,13 @@ android:background="@color/bg_cream">
                     >
                     <TextView
                         android:id="@+id/resetDataTitle"
-                        android:text="Reset all data"
+                        android:text="@string/delete_all_data_title"
                         android:textColor="@color/carrot_red_shade"
                         style="@style/settings_row_title_styles"/>
+                    <TextView
+                        android:id="@+id/resetDataSubtitle"
+                        android:text="@string/delete_all_data_subtitle"
+                        style="@style/settings_row_subtitle_styles"/>
                 </LinearLayout>
                 <ImageView
                     android:id="@+id/ic_chiv_resetAllData"

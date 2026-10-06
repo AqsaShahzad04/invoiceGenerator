@@ -64,8 +64,6 @@ class FragmentFinalInvoice : Fragment(R.layout.fragment_final_invoice) {
 
         val sessionManager = SessionManager.getInstance(requireContext())
         val activeWorkspaceId = sessionManager.getActiveWorkspaceId()
-        val currencyCode = sessionManager.getCurrencyCode()
-        val currencySymbol = CurrencyData.currencies.find { it.code == currencyCode }?.symbol ?: "$"
 
         setButtonState(binding.btnShare, false)
         setButtonState(binding.btnDownloadPdf, false)
@@ -78,6 +76,10 @@ class FragmentFinalInvoice : Fragment(R.layout.fragment_final_invoice) {
         val itemsList = invoiceViewModel.selectedItems.value
         val chosenTemplateId = invoiceViewModel.selectedTemplate.value
         var file: File? = null
+
+        val invoiceCurrencyCode = draft?.currencyCode ?: sessionManager.getCurrencyCode() ?: "USD"
+        val currencySymbol = CurrencyData.currencies.find { it.code == invoiceCurrencyCode }?.symbol
+            ?: (if (invoiceCurrencyCode.length <= 3 && !invoiceCurrencyCode.contains("-")) invoiceCurrencyCode else "$")
 
         if (draft != null) {
             updatePaymentStatusUI(draft.status)

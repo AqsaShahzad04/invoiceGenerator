@@ -159,14 +159,14 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="#E8E5DF" />
+            app:tint="@color/border_color" />
 
         <View
             android:id="@+id/divider"
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_marginTop="12dp"
-            android:background="#F1F0EC"
+            android:background="@color/workspace_selected_bg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/workspaceName"
             app:layout_constraintTop_toBottomOf="@id/workspaceSubtitle" />

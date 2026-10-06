@@ -44,7 +44,6 @@ class InvoiceCanvasView @JvmOverloads constructor(
         canvas.scale(scale, scale)
 
         val template = TemplateFactory.getTemplate(templateId)
-        template.setContext(context)
         template.draw(canvas, a4Width, a4Height, data)
 
         canvas.restore()

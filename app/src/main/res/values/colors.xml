@@ -31,6 +31,15 @@
     <color name="green_light_start_color">#800C861A</color>
     <color name="error_red_colour">#66D9534F</color>
     <color name="signal_green">#22A06B</color>
-
-
+    <color name="bg_layout_light">#FBFAF7</color>
+    <color name="surface_white">#FFFFFF</color>
+    <color name="delete_button_bg">#FCE9E8</color>
+    <color name="signature_bg">#D9D9D9</color>
+    <color name="barcode_tint">#E8E5DF</color>
+    <color name="workspace_selected_bg">#F1F0EC</color>
+    <color name="switch_thumb_on">#FFFFFF</color>
+    <color name="switch_thumb_off">#8696A0</color>
+    <color name="delete_button_text">#D9534F</color>
+    <color name="text_disabled">#9CA3A0</color>
+    <color name="border_color">#E8E5DF</color>
 </resources>

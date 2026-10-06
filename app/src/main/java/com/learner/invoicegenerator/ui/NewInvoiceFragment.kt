@@ -20,6 +20,7 @@ import com.learner.invoicegenerator.databinding.FragmentNewInvoiceBinding
 import com.learner.invoicegenerator.ui.auth.ViewModel.InvoiceViewModel
 import com.learner.invoicegenerator.ui.auth.ViewModel.ItemViewModel
 import com.learner.invoicegenerator.ui.clients.viewmodel.ClientViewModel
+import com.learner.invoicegenerator.utils.ThemeUtils
 import kotlinx.coroutines.launch
 
 class NewInvoiceFragment: Fragment(R.layout.fragment_new_invoice) {
@@ -108,7 +109,7 @@ class NewInvoiceFragment: Fragment(R.layout.fragment_new_invoice) {
                                     ContextCompat.getColor(requireContext(), R.color.greyish_white)
                                 )
                                 binding.continueBtn.setTextColor(
-                                    ContextCompat.getColor(requireContext(),R.color.grey)
+                                    ContextCompat.getColor(requireContext(),R.color.text_disabled)
                                 )
                             }
 
@@ -125,13 +126,13 @@ class NewInvoiceFragment: Fragment(R.layout.fragment_new_invoice) {
                                 binding.continueBtn.isEnabled=true
                                 binding.continueBtn.backgroundTintList=
                                     context?.let { ContextCompat.getColorStateList(it,R.color.btn_bg_dark) }
-                                binding.continueBtn.setTextColor(android.graphics.ThemeUtils.getButtonOnAccentColor(context))
+                                binding.continueBtn.setTextColor(ThemeUtils.getButtonOnAccentColor(requireContext()))
                             }
                             else{
                                 binding.continueBtn.isEnabled=false
                                 binding.continueBtn.backgroundTintList=
                                     context?.let { ContextCompat.getColorStateList(it,R.color.greyish_white) }
-                                binding.continueBtn.setTextColor(android.graphics.ThemeUtils.getTextColorSecondary(context))
+                                binding.continueBtn.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_disabled))
                             }
 
                         }

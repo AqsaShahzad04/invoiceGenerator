@@ -21,6 +21,9 @@ class ItemRepository(private val itemDao: ItemDao) {
         val finalItem=item.copy(workspaceId=workspaceId)
         itemDao.deleteItem(finalItem)
     }
+    suspend fun deleteAllItems(workspaceId: Int) {
+        itemDao.deleteAllItems(workspaceId)
+    }
     fun getAllItems(workspaceId: Int): Flow<List<Item>> = itemDao.getAllItemsOfWorkspace(workspaceId)
     suspend fun getItemById(id: Int,workspaceId: Int): Item? = itemDao.getItemById(id,workspaceId)
     fun searchItems(query: String, workspaceId: Int): Flow<List<Item>> = itemDao.searchItemsByName(query, workspaceId)

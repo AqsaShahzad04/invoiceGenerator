@@ -102,6 +102,18 @@ class ClientViewModel(
         }
     }
 
+    fun deleteAllClients(workspaceId: Int) {
+        viewModelScope.launch {
+            _addClientState.value = ClientState.Loading
+            try {
+                repository.deleteAllClients(workspaceId)
+                _addClientState.value = ClientState.Success
+            } catch (e: Exception) {
+                _addClientState.value = ClientState.Error(e.message ?: "Unknown error")
+            }
+        }
+    }
+
     suspend fun getClientById(id: Int,workspaceId: Int): Client? {
         return repository.getClientById(id,workspaceId)
     }

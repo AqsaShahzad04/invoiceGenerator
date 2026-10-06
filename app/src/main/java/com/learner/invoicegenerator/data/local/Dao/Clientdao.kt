@@ -27,12 +27,14 @@ interface Clientdao {
     @Update
     suspend fun updateClient(client: Client)
 
+    @Query("DELETE FROM Clients WHERE workspaceId = :workspaceId")
+    suspend fun deleteAllClients(workspaceId: Int)
+
     @Query("""
-    SELECT * FROM Clients 
-    WHERE workspaceId = :workspaceId 
+    SELECT * FROM Clients
+    WHERE workspaceId = :workspaceId
     AND (businessName LIKE  :query || '%' OR contactPerson LIKE  :query || '%')
 """) fun searchClients(workspaceId: Int,query: String): Flow<List<Client>>
-
 
 
 }

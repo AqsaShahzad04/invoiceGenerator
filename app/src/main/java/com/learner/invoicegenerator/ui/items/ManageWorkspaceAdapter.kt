@@ -12,6 +12,7 @@ import com.learner.invoicegenerator.R
 import com.learner.invoicegenerator.data.local.entity.Workspace
 import com.learner.invoicegenerator.databinding.ManageWorkspaceRowBinding
 import com.learner.invoicegenerator.utils.AvatarUtils
+import com.learner.invoicegenerator.utils.ThemeUtils
 
 class ManageWorkspaceAdapter(
     private var activeWorkspaceId: Int,
@@ -55,7 +56,7 @@ class ManageWorkspaceAdapter(
                 if (workspace.id == activeWorkspaceId) {
                     rootLayout.setBackgroundResource(R.drawable.bg_active_workspace)
                     activeLabel.visibility = View.VISIBLE
-                    workspaceAvatar.background.setTint(ThemeUtils.getPrimaryColor(context))
+                    workspaceAvatar.background.setTint(ThemeUtils.getPrimaryColor(binding.root.context))
                 } else {
                     rootLayout.setBackgroundResource(R.drawable.bg_workspace)
                     activeLabel.visibility = View.GONE

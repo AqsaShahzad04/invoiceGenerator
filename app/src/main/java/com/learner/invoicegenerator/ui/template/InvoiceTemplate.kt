@@ -1,6 +1,5 @@
 package com.learner.invoicegenerator.ui.template
 
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapShader
 import android.graphics.Canvas
@@ -8,13 +7,10 @@ import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.RectF
 import android.graphics.Shader
-import com.learner.invoicegenerator.utils.ThemeUtils
 import kotlin.math.min
 
 interface InvoiceTemplate {
     fun draw(canvas: Canvas, width: Float, height: Float, data: InvoiceRenderData)
-
-    fun setContext(ctx: Context) {}
 
     fun drawCircularLogo(canvas: Canvas, bitmap: Bitmap, dst: RectF, paint: Paint) {
         if (bitmap.width <= 0 || bitmap.height <= 0) return

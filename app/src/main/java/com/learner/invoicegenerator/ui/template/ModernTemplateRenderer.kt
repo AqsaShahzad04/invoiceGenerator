@@ -1,30 +1,23 @@
 package com.learner.invoicegenerator.ui.template
 
-import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.RectF
 import android.graphics.Typeface
-import com.learner.invoicegenerator.utils.ThemeUtils
 import java.time.format.DateTimeFormatter
 
 class ModernTemplateRenderer : InvoiceTemplate {
 
-    private lateinit var context: Context
     private val dateFormatter = DateTimeFormatter.ofPattern("dd MMM, yyyy")
-
-    fun setContext(ctx: Context) {
-        context = ctx
-    }
 
     override fun draw(canvas: Canvas, width: Float, height: Float, data: InvoiceRenderData) {
         canvas.drawColor(Color.WHITE)
 
         val margin = 36f
         val tealSecondary = Color.parseColor("#007A78")
-        val darkHeader = ThemeUtils.getTextColorPrimary(context)
+        val darkHeader = Color.parseColor("#171817")
 
         val textFlags = Paint.ANTI_ALIAS_FLAG or Paint.SUBPIXEL_TEXT_FLAG or Paint.LINEAR_TEXT_FLAG
 
@@ -40,19 +33,19 @@ class ModernTemplateRenderer : InvoiceTemplate {
         }
 
         val textDark = Paint(textFlags).apply {
-            color = ThemeUtils.getTextColorPrimary(context)
+            color = Color.parseColor("#171817")
             textSize = 11f
             typeface = Typeface.SANS_SERIF
         }
 
         val textBold = Paint(textFlags).apply {
-            color = ThemeUtils.getTextColorPrimary(context)
+            color = Color.parseColor("#171817")
             textSize = 12f
             typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)
         }
 
         val textGrey = Paint(textFlags).apply {
-            color = ThemeUtils.getTextColorGrey(context)
+            color = Color.parseColor("#5C625E")
             textSize = 10f
             typeface = Typeface.SANS_SERIF
         }
@@ -147,7 +140,7 @@ class ModernTemplateRenderer : InvoiceTemplate {
         textBold.color = tealSecondary
         textBold.textSize = 11f
         canvas.drawText("INVOICE TO:", margin, currentY, textBold)
-        textBold.color = ThemeUtils.getTextColorPrimary(context)
+        textBold.color = Color.parseColor("#171817")
 
         textBold.textSize = 14f
         canvas.drawText(data.invoice.clientBusinessName, margin, currentY + 18f, textBold)
@@ -168,7 +161,7 @@ class ModernTemplateRenderer : InvoiceTemplate {
         textBold.textSize = 13f
         textBold.color = if (data.invoice.status == "Paid") tealSecondary else Color.parseColor("#E05A10")
         canvas.drawText(data.invoice.status.uppercase(), width - margin, currentY + 18f, textBold)
-        textBold.color = ThemeUtils.getTextColorPrimary(context)
+        textBold.color = Color.parseColor("#171817")
 
         if (data.workspace != null) {
             textGrey.textSize = 9.5f
@@ -272,6 +265,9 @@ class ModernTemplateRenderer : InvoiceTemplate {
         }
 
         // Total Teal Box Fill
+        // Grand Total calculation: (subtotal - discount) + tax
+        val grandTotal = (subtotal - discAmount) + taxAmount
+
         val totalBoxRect = RectF(boxLeft, currentY, width - margin, currentY + 28f)
         canvas.drawRect(totalBoxRect, tealPaint)
 
@@ -280,7 +276,7 @@ class ModernTemplateRenderer : InvoiceTemplate {
         canvas.drawText("TOTAL:", boxLeft + 12f, currentY + 18f, whitePaint)
 
         whitePaint.textAlign = Paint.Align.RIGHT
-        canvas.drawText("${data.currencySymbol} ${String.format("%.2f", data.invoice.totalAmount)}", width - margin - 12f, currentY + 18f, whitePaint)
+        canvas.drawText("${data.currencySymbol} ${String.format("%.2f", grandTotal)}", width - margin - 12f, currentY + 18f, whitePaint)
         whitePaint.textAlign = Paint.Align.LEFT
 
         // --- Bottom Section: Payment Info & Terms ---

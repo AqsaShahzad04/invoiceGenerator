@@ -35,4 +35,7 @@ interface ItemDao {
 
     @Query("SELECT * FROM Items WHERE barcode=:code AND workspaceId=:workspaceId")
     suspend fun searchItemByBarcode(code:String,workspaceId: Int):Item?
+
+    @Query("DELETE FROM Items WHERE workspaceId = :workspaceId")
+    suspend fun deleteAllItems(workspaceId: Int)
 }

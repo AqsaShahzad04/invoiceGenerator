@@ -23,6 +23,9 @@ class ClientRepository(private val ClientDao: Clientdao) {
         val finalClient=client.copy(workspaceId=workspaceId)
         ClientDao.deleteClient(finalClient)
     }
+    suspend fun deleteAllClients(workspaceId: Int) {
+        ClientDao.deleteAllClients(workspaceId)
+    }
     suspend fun updateClient(client: Client,workspaceId: Int) {
         val finalClient=client.copy(workspaceId=workspaceId)
         ClientDao.updateClient(finalClient)

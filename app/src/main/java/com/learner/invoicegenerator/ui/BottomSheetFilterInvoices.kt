@@ -169,7 +169,7 @@ class BottomSheetFilterInvoices(
 
             QuickRange.THIS_MONTH -> {
                 val startOfMonth = today.withDayOfMonth(1)
-                val endOfMonth = startOfMonth.plusMonths(1).minusDays(1)
+                val endOfMonth = startOfMonth.withDayOfMonth(startOfMonth.lengthOfMonth())
                 DateFilterResult(startOfMonth, endOfMonth, range.label)
             }
 

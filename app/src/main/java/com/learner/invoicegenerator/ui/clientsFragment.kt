@@ -14,20 +14,28 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.learner.invoicegenerator.R
+import com.learner.invoicegenerator.data.local.SessionManager
 import com.learner.invoicegenerator.data.local.entity.Client
 import com.learner.invoicegenerator.databinding.FragmentClientsBinding
+import com.learner.invoicegenerator.ui.auth.ViewModel.InvoiceViewModel
 import com.learner.invoicegenerator.ui.clients.adapter.ClientAdapter
+import com.learner.invoicegenerator.ui.clients.adapter.ClientRowStats
 import com.learner.invoicegenerator.ui.clients.viewmodel.ClientViewModel
 import com.learner.invoicegenerator.utils.AvatarUtils
+import com.learner.invoicegenerator.utils.CurrencyData
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 class clientsFragment : Fragment(R.layout.fragment_clients) {
     private var _binding: FragmentClientsBinding? = null
     private val binding get() = _binding!!
-    
+
     private val viewModel: ClientViewModel by activityViewModels()
-    
+    private val invoiceViewModel: InvoiceViewModel by activityViewModels()
+
     private var fullClientList: List<Client> = emptyList()
+    private var currentStatsMap: Map<Int, ClientRowStats> = emptyMap()
+    private var currentCurrencySymbol: String = "$"
     private lateinit var clientAdapter: ClientAdapter
 
     override fun onCreateView(
@@ -41,6 +49,9 @@ class clientsFragment : Fragment(R.layout.fragment_clients) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val sessionManager = SessionManager.getInstance(requireContext())
+        val activeWorkspaceId = sessionManager.getActiveWorkspaceId()
 
         clientAdapter = ClientAdapter(emptyList()) { client ->
             val letter = AvatarUtils.getLetter(client.businessName)
@@ -60,12 +71,12 @@ class clientsFragment : Fragment(R.layout.fragment_clients) {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val query = s.toString().trim()
                 if (query.isEmpty()) {
-                    clientAdapter.updateList(fullClientList)
+                    clientAdapter.updateData(fullClientList, currentStatsMap, currentCurrencySymbol)
                 } else {
                     val filteredList = fullClientList.filter {
                         it.businessName.contains(query, ignoreCase = true)
                     }
-                    clientAdapter.updateList(filteredList)
+                    clientAdapter.updateData(filteredList, currentStatsMap, currentCurrencySymbol)
                 }
             }
         })
@@ -75,9 +86,28 @@ class clientsFragment : Fragment(R.layout.fragment_clients) {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.allClients.collect { clientsList ->
+                combine(
+                    viewModel.allClients,
+                    invoiceViewModel.getInvoicesByWorkspaceId(activeWorkspaceId),
+                    sessionManager.currencyCode
+                ) { clientsList, invoicesList, currencyCode ->
+                    val currencySymbol = CurrencyData.currencies.find { it.code == currencyCode }?.symbol ?: "$"
+
+                    val statsMap = clientsList.associate { client ->
+                        val clientInvoices = invoicesList.filter { it.clientId == client.id }
+                        client.id to ClientRowStats(
+                            totalBilled = clientInvoices.sumOf { it.totalAmount },
+                            invoiceCount = clientInvoices.size
+                        )
+                    }
+
+                    Triple(clientsList, statsMap, currencySymbol)
+                }.collect { (clientsList, statsMap, currencySymbol) ->
                     fullClientList = clientsList
-                    clientAdapter.updateList(clientsList)
+                    currentStatsMap = statsMap
+                    currentCurrencySymbol = currencySymbol
+
+                    clientAdapter.updateData(clientsList, statsMap, currencySymbol)
 
                     if (clientsList.isEmpty()) {
                         binding.emptyStateLayout.visibility = View.VISIBLE

@@ -127,7 +127,7 @@
         android:fontFamily="@font/inter"
         android:paddingHorizontal="14dp"
         android:text="Continue"
-        android:textColor="#FBFAF7"
+        android:textColor="@color/on_primary_text"
         android:textSize="14sp"
         android:textStyle="bold"
         app:backgroundTint="@color/btn_bg_dark"

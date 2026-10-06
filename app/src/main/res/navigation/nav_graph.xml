@@ -188,6 +188,9 @@
         <action
             android:id="@+id/action_clientDetailFragment_to_addEditClientFragment"
             app:destination="@id/addEditClientFragment"/>
+        <action
+            android:id="@+id/action_clientDetailFragment_to_fragmentFinalInvoice"
+            app:destination="@id/fragmentFinalInvoice"/>
 
         <argument
             android:name="clientId"

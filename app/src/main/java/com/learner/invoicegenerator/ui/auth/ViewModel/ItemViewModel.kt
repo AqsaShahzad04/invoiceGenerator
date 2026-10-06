@@ -123,6 +123,16 @@ class ItemViewModel(
         }
     }
 
+    fun deleteAllItems(workspaceId: Int) {
+        viewModelScope.launch {
+            try {
+                repository.deleteAllItems(workspaceId)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
     suspend fun getItemById(id: Int,workspaceId: Int): Item? {
         return repository.getItemById(id,workspaceId)
     }

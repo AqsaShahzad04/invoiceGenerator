@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#FBFAF7">
+    android:background="@color/bg_layout_light">
 
     <!-- Top Bar -->
     <ImageView
@@ -368,7 +368,7 @@
                 android:background="@drawable/bg_create_item_btn"
                 android:text="Create item"
                 android:textAllCaps="false"
-                android:textColor="#FBFAF7"
+                android:textColor="@color/on_primary_text"
                 android:textSize="14sp"
                 android:fontFamily="@font/inter_semibold"
                 android:gravity="center"

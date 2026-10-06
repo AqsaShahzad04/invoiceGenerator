@@ -213,6 +213,18 @@ class InvoiceViewModel(
         }
     }
 
+    fun deleteAllInvoices(workspaceId: Int) {
+        _deleteInvoiceState.value = InvoiceState.Loading
+        viewModelScope.launch {
+            try {
+                repository.deleteAllInvoices(workspaceId)
+                _deleteInvoiceState.value = InvoiceState.Success(workspaceId)
+            } catch (error: Exception) {
+                _deleteInvoiceState.value = InvoiceState.Error(error.message ?: "invalid error")
+            }
+        }
+    }
+
     fun resetDeleteState(){
         _deleteInvoiceState.value = InvoiceState.Idle
     }

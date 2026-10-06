@@ -1,31 +1,24 @@
 package com.learner.invoicegenerator.ui.template
 
-import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.RectF
 import android.graphics.Typeface
-import com.learner.invoicegenerator.utils.ThemeUtils
 import java.time.format.DateTimeFormatter
 
 class MinimalTemplateRenderer : InvoiceTemplate {
 
-    private lateinit var context: Context
     private val dateFormatter = DateTimeFormatter.ofPattern("dd MMM, yyyy")
-
-    fun setContext(ctx: Context) {
-        context = ctx
-    }
 
     override fun draw(canvas: Canvas, width: Float, height: Float, data: InvoiceRenderData) {
         canvas.drawColor(Color.WHITE)
 
         val margin = 36f
         val orangeColor = Color.parseColor("#E05A10")
-        val darkColor = ThemeUtils.getTextColorPrimary(context)
-        val greyColor = ThemeUtils.getTextColorGrey(context)
+        val darkColor = Color.parseColor("#171817")
+        val greyColor = Color.parseColor("#5C625E")
 
         val textFlags = Paint.ANTI_ALIAS_FLAG or Paint.SUBPIXEL_TEXT_FLAG or Paint.LINEAR_TEXT_FLAG
 
@@ -253,8 +246,15 @@ class MinimalTemplateRenderer : InvoiceTemplate {
         textBold.textAlign = Paint.Align.LEFT
         currentY += 18f
 
+        // Calculate tax and discount for display and total
+        val taxAmt = if (data.invoice.taxPercentage > 0) subtotal * (data.invoice.taxPercentage / 100) else 0.0
+        val discAmt = if (data.invoice.discountValue > 0) {
+            if (data.invoice.discountType == "Percent") subtotal * (data.invoice.discountValue / 100) else data.invoice.discountValue
+        } else 0.0
+        val grandTotal = (subtotal - discAmt) + taxAmt
+
+        // Discount
         if (data.invoice.discountValue > 0) {
-            val discAmt = if (data.invoice.discountType == "Percent") subtotal * (data.invoice.discountValue / 100) else data.invoice.discountValue
             canvas.drawText("Discount", labelX, currentY, textGrey)
             textBold.textAlign = Paint.Align.RIGHT
             canvas.drawText("- ${data.currencySymbol} ${String.format("%.2f", discAmt)}", tableRightX, currentY, textBold)
@@ -262,8 +262,8 @@ class MinimalTemplateRenderer : InvoiceTemplate {
             currentY += 18f
         }
 
+        // Tax
         if (data.invoice.taxPercentage > 0) {
-            val taxAmt = subtotal * (data.invoice.taxPercentage / 100)
             canvas.drawText("Tax (${data.invoice.taxPercentage.toInt()}%)", labelX, currentY, textGrey)
             textBold.textAlign = Paint.Align.RIGHT
             canvas.drawText("${data.currencySymbol} ${String.format("%.2f", taxAmt)}", tableRightX, currentY, textBold)
@@ -274,6 +274,7 @@ class MinimalTemplateRenderer : InvoiceTemplate {
         currentY += 8f
 
         // GRAND TOTAL Orange Box
+
         val boxWidth = 240f
         val boxLeft = width - margin - boxWidth
         val grandTotalRect = RectF(boxLeft, currentY, width - margin, currentY + 30f)
@@ -287,7 +288,7 @@ class MinimalTemplateRenderer : InvoiceTemplate {
         canvas.drawText("GRAND TOTAL", boxLeft + 12f, currentY + 20f, whitePaint)
 
         whitePaint.textAlign = Paint.Align.RIGHT
-        canvas.drawText("${data.currencySymbol} ${String.format("%.2f", data.invoice.totalAmount)}", width - margin - 12f, currentY + 20f, whitePaint)
+        canvas.drawText("${data.currencySymbol} ${String.format("%.2f", grandTotal)}", width - margin - 12f, currentY + 20f, whitePaint)
         whitePaint.textAlign = Paint.Align.LEFT
 
         // --- Bottom Section: Payment Info, Notes & Signature ---

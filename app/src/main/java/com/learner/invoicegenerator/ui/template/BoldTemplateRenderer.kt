@@ -1,22 +1,14 @@
 package com.learner.invoicegenerator.ui.template
 
-import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.RectF
 import android.graphics.Typeface
-import com.learner.invoicegenerator.utils.ThemeUtils
 import java.time.format.DateTimeFormatter
 
 class BoldTemplateRenderer : InvoiceTemplate {
-
-    private lateinit var context: Context
-
-    fun setContext(ctx: Context) {
-        context = ctx
-    }
 
     private val dateFormatter = DateTimeFormatter.ofPattern("dd/MMM/yyyy")
 
@@ -48,13 +40,13 @@ class BoldTemplateRenderer : InvoiceTemplate {
         }
 
         val textBold = Paint(textFlags).apply {
-            color = ThemeUtils.getTextColorPrimary(context)
+            color = Color.parseColor("#171817")
             textSize = 12f
             typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)
         }
 
         val textGrey = Paint(textFlags).apply {
-            color = ThemeUtils.getTextColorGrey(context)
+            color = Color.parseColor("#5C625E")
             textSize = 10f
             typeface = Typeface.SANS_SERIF
         }
@@ -136,7 +128,7 @@ class BoldTemplateRenderer : InvoiceTemplate {
 
         // --- INVOICE Title & Details ---
         val titlePaint = Paint(textFlags).apply {
-            color = ThemeUtils.getTextColorPrimary(context)
+            color = Color.parseColor("#171817")
             textSize = 30f
             typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
         }
@@ -192,7 +184,7 @@ class BoldTemplateRenderer : InvoiceTemplate {
         canvas.drawRect(darkHeaderRect, darkPaint)
 
         textBold.textSize = 10f
-        textBold.color = ThemeUtils.getTextColorPrimary(context)
+        textBold.color = Color.parseColor("#171817")
         canvas.drawText("ITEM DESCRIPTION", margin + 12f, currentY + 18f, textBold)
 
         whitePaint.textSize = 10f
@@ -227,7 +219,7 @@ class BoldTemplateRenderer : InvoiceTemplate {
             }
 
             textBold.textSize = 12f
-            textBold.color = ThemeUtils.getTextColorPrimary(context)
+            textBold.color = Color.parseColor("#171817")
             canvas.drawText(item.itemName, margin + 12f, currentY + 18f, textBold)
 
             textGrey.textSize = 11f
@@ -254,8 +246,15 @@ class BoldTemplateRenderer : InvoiceTemplate {
         textBold.textAlign = Paint.Align.LEFT
         currentY += 18f
 
+        // Calculate tax and discount for display and total
+        val taxAmt = if (data.invoice.taxPercentage > 0) subtotal * (data.invoice.taxPercentage / 100) else 0.0
+        val discAmt = if (data.invoice.discountValue > 0) {
+            if (data.invoice.discountType == "Percent") subtotal * (data.invoice.discountValue / 100) else data.invoice.discountValue
+        } else 0.0
+        val grandTotal = (subtotal - discAmt) + taxAmt
+
+        // Tax
         if (data.invoice.taxPercentage > 0) {
-            val taxAmt = subtotal * (data.invoice.taxPercentage / 100)
             canvas.drawText("Tax (${data.invoice.taxPercentage.toInt()}%)", labelX, currentY, textGrey)
             textBold.textAlign = Paint.Align.RIGHT
             canvas.drawText("${data.currencySymbol} ${String.format("%.2f", taxAmt)}", col3, currentY, textBold)
@@ -263,8 +262,8 @@ class BoldTemplateRenderer : InvoiceTemplate {
             currentY += 18f
         }
 
+        // Discount
         if (data.invoice.discountValue > 0) {
-            val discAmt = if (data.invoice.discountType == "Percent") subtotal * (data.invoice.discountValue / 100) else data.invoice.discountValue
             canvas.drawText("Discount", labelX, currentY, textGrey)
             textBold.textAlign = Paint.Align.RIGHT
             canvas.drawText("- ${data.currencySymbol} ${String.format("%.2f", discAmt)}", col3, currentY, textBold)
@@ -282,7 +281,7 @@ class BoldTemplateRenderer : InvoiceTemplate {
         canvas.drawText("GRAND TOTAL", width - margin - 218f, currentY + 20f, textBold)
 
         textBold.textAlign = Paint.Align.RIGHT
-        canvas.drawText("${data.currencySymbol} ${String.format("%.2f", data.invoice.totalAmount)}", col3 - 10f, currentY + 20f, textBold)
+        canvas.drawText("${data.currencySymbol} ${String.format("%.2f", grandTotal)}", col3 - 10f, currentY + 20f, textBold)
         textBold.textAlign = Paint.Align.LEFT
 
         // --- Bottom Section: Payment Info, Terms & Signature ---

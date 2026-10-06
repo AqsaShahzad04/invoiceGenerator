@@ -14,6 +14,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.learner.invoicegenerator.R
 import com.learner.invoicegenerator.data.local.entity.Invoice
 import com.learner.invoicegenerator.data.local.entity.InvoiceItemLine
+import com.learner.invoicegenerator.utils.ThemeUtils
 import com.learner.invoicegenerator.databinding.FragmentNewinvoiceReviewBinding
 import com.learner.invoicegenerator.ui.auth.ViewModel.InvoiceViewModel
 import com.learner.invoicegenerator.ui.template.InvoiceRenderData
@@ -161,7 +162,7 @@ class NewInvoicesReviewFragment : Fragment(R.layout.fragment_newinvoice_review) 
         )
 
         val activeColor = ContextCompat.getColor(requireContext(), R.color.btn_bg_dark)
-        val inactiveColor = ThemeUtils.getTextColorGrey(context)
+        val inactiveColor = ThemeUtils.getTextColorGrey(requireContext())
 
         containers.forEachIndexed { index, container ->
             val isSelected = (index + 1) == selectedTemplate

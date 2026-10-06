@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FBFAF7"
+    android:background="@color/bg_layout_light"
     android:paddingHorizontal="16dp"
     android:paddingTop="8dp"
     android:paddingBottom="28dp">
@@ -296,7 +296,7 @@
                 android:gravity="center"
                 android:paddingVertical="14dp"
                 android:text="Create workspace"
-                android:textColor="#FBFAF7"
+                android:textColor="@color/on_primary_text"
                 android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@id/addressInput" />
 

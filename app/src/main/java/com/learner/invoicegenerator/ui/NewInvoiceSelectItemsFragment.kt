@@ -31,6 +31,7 @@ import com.learner.invoicegenerator.ui.auth.ViewModel.InvoiceViewModel
 import com.learner.invoicegenerator.ui.auth.ViewModel.ItemViewModel
 import com.learner.invoicegenerator.util.conversions.dpToPx
 import com.learner.invoicegenerator.utils.CurrencyData
+import com.learner.invoicegenerator.utils.ThemeUtils
 import kotlinx.coroutines.launch
 
 class NewInvoiceSelectItemsFragment: Fragment(R.layout.fragment_newinvoice_select_item) {
@@ -166,9 +167,9 @@ class NewInvoiceSelectItemsFragment: Fragment(R.layout.fragment_newinvoice_selec
                     itemViewModel.clearLastAddedItemId()
                     val newItemChip = TextView(styledContext).apply {
                         text = "New Item"
-                        setTextColor(ThemeUtils.getPrimaryColor(context))
+                        setTextColor(ThemeUtils.getPrimaryColor(requireContext()))
                         textSize = 11f
-                        typeface = ResourcesCompat.getFont(context, R.font.inter_semibold)
+                        typeface = ResourcesCompat.getFont(requireContext(), R.font.inter_semibold)
 
                         background = ContextCompat.getDrawable(
                             requireContext(),
@@ -179,29 +180,29 @@ class NewInvoiceSelectItemsFragment: Fragment(R.layout.fragment_newinvoice_selec
                             requireContext(),
                             R.drawable.ic_plus
                         )?.mutate()?.apply {
-                            setTint(ThemeUtils.getTextColorGrey(context))
+                            setTint(ThemeUtils.getTextColorGrey(requireContext()))
                             setBounds(
                                 0,
                                 0,
-                                11.dpToPx(context),
-                                11.dpToPx(context)
+                                11.dpToPx(requireContext()),
+                                11.dpToPx(requireContext())
                             )
                         }
 
                         setCompoundDrawablesRelative(icon, null, null, null)
-                        compoundDrawablePadding = 5.dpToPx(context)
+                        compoundDrawablePadding = 5.dpToPx(requireContext())
 
-                        minHeight = 32.dpToPx(context)
+                        minHeight = 32.dpToPx(requireContext())
 
                         setPadding(
-                            11.dpToPx(context),
+                            11.dpToPx(requireContext()),
                             0,
-                            7.dpToPx(context),
+                            7.dpToPx(requireContext()),
                             0
                         )
 
                         gravity = Gravity.CENTER
-                        translationY = 6.dpToPx(context).toFloat()
+                        translationY = 6.dpToPx(requireContext()).toFloat()
 
                         isClickable = true
                         isFocusable = true

@@ -341,7 +341,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         invoiceViewModel.fetchPendingInvoices(today,activeWorkspaceId)
         val currentMonthName = currentMonth.getDisplayName(java.time.format.TextStyle.SHORT, java.util.Locale.getDefault()).uppercase()
         val prevMonthName = previousMonth.getDisplayName(java.time.format.TextStyle.SHORT, java.util.Locale.getDefault()).lowercase().replaceFirstChar { it.uppercase() }
-        binding.currentMonth.text = "EARNED · $currentMonthName"
+        binding.currentMonth.text = "· $currentMonthName"
         binding.previousMonth.text = "vs $prevMonthName"
     }
 
@@ -379,7 +379,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun updateProgressUI(clientsCount: Int, itemsCount: Int,currencyselectedByUser:Boolean) {
         val sessionManager = SessionManager.getInstance(requireContext())
-        val step1Done = sessionManager.getActiveWorkspaceId() > 0 // Simplification for now
+        val step1Done = sessionManager.getActiveWorkspaceId() > 0
         val step2Done = clientsCount > 0
         val step3Done = currencyselectedByUser
         val step4Done = itemsCount > 0
@@ -394,6 +394,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             sessionManager.setInitialStepsCompleted()
         }
 
+        // Determine the active step (next step to be completed)
+        val activeStep = when {
+            !step1Done -> 1
+            !step2Done -> 2
+            !step3Done -> 3
+            !step4Done -> 4
+            else -> 0 // All done
+        }
+
         if (sessionManager.isInitialSetupCompleted()) {
             binding.homeInitialSetupCards.visibility = View.GONE
             binding.homeScreenParentCard.visibility = View.VISIBLE
@@ -402,11 +411,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             binding.homeScreenParentCard.visibility = View.GONE
         }
 
+        // Set click listeners for each step card
+        setupStepCard(binding.cardone, 1, step1Done, activeStep == 1)
+        setupStepCard(binding.cardtwo, 2, step2Done, activeStep == 2)
+        setupStepCard(binding.cardThree, 3, step3Done, activeStep == 3)
+        setupStepCard(binding.cardFour, 4, step4Done, activeStep == 4)
 
-        updateStepUI(step1Done, binding.homeNumCircle, binding.homeNumCircle1done, binding.nameWorkspace, binding.setupBtn, binding.cardone)
-        updateStepUI(step2Done, binding.homeNumCircle2, binding.homeNumCircle2done, binding.addFirstCient, binding.AddBtn, binding.cardtwo)
-        updateStepUI(step3Done, binding.homeNumCircle3, binding.homeNumCircle3done, binding.setCurrency, binding.chooseBtn, binding.cardThree)
-        updateStepUI(step4Done, binding.homeNumCircle4, binding.homeNumCircle4done, binding.addItems, binding.Add4Btn, binding.cardFour)
+        updateStepUI(step1Done, activeStep == 1, binding.homeNumCircle, binding.homeNumCircle1done, binding.nameWorkspace, binding.setupBtn, binding.cardone)
+        updateStepUI(step2Done, activeStep == 2, binding.homeNumCircle2, binding.homeNumCircle2done, binding.addFirstCient, binding.AddBtn, binding.cardtwo)
+        updateStepUI(step3Done, activeStep == 3, binding.homeNumCircle3, binding.homeNumCircle3done, binding.setCurrency, binding.chooseBtn, binding.cardThree)
+        updateStepUI(step4Done, activeStep == 4, binding.homeNumCircle4, binding.homeNumCircle4done, binding.addItems, binding.Add4Btn, binding.cardFour)
 
         binding.progressText.text = "$completedCount/4"
         binding.progressbarEmpty.post {
@@ -421,7 +435,21 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
-    private fun updateStepUI(isDone: Boolean, circle: View, doneCircle: View, text: android.widget.TextView, button: View, card: View) {
+    private fun setupStepCard(card: View, stepNum: Int, isDone: Boolean, isActive: Boolean) {
+        card.setOnClickListener {
+            if (!isDone) {
+                // Navigate to the appropriate screen based on step
+                when (stepNum) {
+                    1 -> BottomSheetSetupWorkspace().show(parentFragmentManager, "Setup Workspace")
+                    2 -> findNavController().navigate(R.id.action_homeScreenFragment_to_clientFragment)
+                    3 -> BottomSheetCurrencyPicker().show(parentFragmentManager, "currencyPickerBottomSheet")
+                    4 -> findNavController().navigate(R.id.action_homeScreenFragment_to_itemsFragment)
+                }
+            }
+        }
+    }
+
+    private fun updateStepUI(isDone: Boolean, isActive: Boolean, circle: View, doneCircle: View, text: android.widget.TextView, button: View, card: View) {
         if (isDone) {
             circle.visibility = View.INVISIBLE
             doneCircle.visibility = View.VISIBLE
@@ -435,7 +463,20 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             text.paintFlags = text.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
             text.setTextColor(requireContext().getColor(R.color.btn_text_dark))
             button.visibility = View.VISIBLE
-            card.setBackgroundResource(R.drawable.bg_onboarding_steps_cards_selected)
+
+            // Apply green stroke only to active step on circle
+            if (isActive) {
+                circle.setBackgroundResource(R.drawable.home_num_circle_active)
+            } else {
+                circle.setBackgroundResource(R.drawable.home_num_circle_inactive)
+            }
+
+            // Apply green stroke only to active step on card
+            if (isActive) {
+                card.setBackgroundResource(R.drawable.bg_onboarding_steps_cards_selected)
+            } else {
+                card.setBackgroundResource(R.drawable.bg_onboarding_steps_cards_unselected)
+            }
         }
     }
 

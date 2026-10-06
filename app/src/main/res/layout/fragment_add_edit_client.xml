@@ -240,7 +240,7 @@
         android:fontFamily="@font/inter_semibold"
         android:paddingHorizontal="14dp"
         android:text="Create client"
-        android:textColor="#FBFAF7"
+        android:textColor="@color/btn_text_light"
         android:textSize="14sp"
         app:backgroundTint="@null"
         app:layout_constraintEnd_toEndOf="parent"

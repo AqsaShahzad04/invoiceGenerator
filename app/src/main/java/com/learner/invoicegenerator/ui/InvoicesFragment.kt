@@ -33,7 +33,6 @@ class InvoicesFragment: Fragment(R.layout.fragment_invoices) {
     val binding get() = _binding!!
     var selectedState = invoicesState.All
     lateinit var adapter: InvoiceAdapter
-    val today = LocalDate.now()
     var allInvoices: List<Invoice> = emptyList()
     var paidInvoices: List<Invoice> = emptyList()
     var unpaidInvoices: List<Invoice> = emptyList()
@@ -119,6 +118,7 @@ class InvoicesFragment: Fragment(R.layout.fragment_invoices) {
     }
 
     private fun updateFilteredLists() {
+        val today = LocalDate.now()
         paidInvoices = allInvoices.filter { it.status == "Paid" }
         unpaidInvoices = allInvoices.filter { it.status != "Paid" && it.dueDate.isBefore(today) }
         pendingInvoices = allInvoices.filter { it.status != "Paid" && !it.dueDate.isBefore(today) }

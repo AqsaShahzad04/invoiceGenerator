@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.learner.invoicegenerator.data.local.entity.Workspace
 import com.learner.invoicegenerator.databinding.WorkspaceRowBinding
 import com.learner.invoicegenerator.utils.AvatarUtils
+import com.learner.invoicegenerator.utils.ThemeUtils
 
 class WorkspaceAdapter(
     private val activeWorkspaceId: Int,
@@ -36,10 +37,10 @@ class WorkspaceAdapter(
 
                 if (workspace.id == activeWorkspaceId) {
                     activeIndicator.visibility = View.VISIBLE
-                    workspaceName.setTextColor(ThemeUtils.getPrimaryColor(context))
+                    workspaceName.setTextColor(ThemeUtils.getPrimaryColor(binding.root.context))
                 } else {
                     activeIndicator.visibility = View.GONE
-                    workspaceName.setTextColor(ThemeUtils.getTextColorPrimary(context))
+                    workspaceName.setTextColor(ThemeUtils.getTextColorPrimary(binding.root.context))
                 }
 
                 rootLayout.setOnClickListener { onWorkspaceClick(workspace) }

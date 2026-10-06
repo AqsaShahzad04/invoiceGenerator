@@ -50,8 +50,7 @@ interface InvoiceDao {
     WHERE workspaceId = :workspaceId 
       AND (
           (issueDate BETWEEN :fromDate AND :toDate)
-          OR (status = 'Paid' AND paidDate BETWEEN :fromDate AND :toDate)
-          OR (status != 'Paid')
+          OR (paidDate BETWEEN :fromDate AND :toDate)
       )
       AND (
           clientBusinessName LIKE '%' || :query || '%' 
@@ -67,17 +66,23 @@ interface InvoiceDao {
     ): Flow<List<Invoice>>
 
     @Query("""
-    SELECT * FROM Invoices 
-    WHERE workspaceId = :workspaceId 
+    SELECT * FROM Invoices
+    WHERE workspaceId = :workspaceId
       AND (
           (issueDate BETWEEN :fromDate AND :toDate)
-          OR (status = 'Paid' AND paidDate BETWEEN :fromDate AND :toDate)
-          OR (status != 'Paid')
+          OR (paidDate BETWEEN :fromDate AND :toDate)
       )
     ORDER BY issueDate DESC
 """)
     fun getInvoicesByDateRange(workspaceId: Int, fromDate: LocalDate, toDate: LocalDate): Flow<List<Invoice>>
 
+    @Query("DELETE FROM Invoices WHERE workspaceId = :workspaceId")
+    suspend fun deleteAllInvoices(workspaceId: Int)
 
+    @Query("DELETE FROM Items WHERE workspaceId = :workspaceId")
+    suspend fun deleteItemsByWorkspace(workspaceId: Int)
+
+    @Query("DELETE FROM Clients WHERE workspaceId = :workspaceId")
+    suspend fun deleteClientsByWorkspace(workspaceId: Int)
 
 }
