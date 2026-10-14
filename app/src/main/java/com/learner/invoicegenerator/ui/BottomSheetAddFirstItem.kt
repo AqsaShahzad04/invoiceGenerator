@@ -33,6 +33,25 @@ class BottomSheetAddFirstItem: BottomSheetDialogFragment() {
         val session= SessionManager.getInstance(requireContext())
         val workspaceId=session.getActiveWorkspaceId()
 
+        val currencyCode = session.getCurrencyCode()
+        val currencySymbol = com.learner.invoicegenerator.utils.CurrencyData.currencies.find { it.code == currencyCode }?.symbol
+            ?: (if (currencyCode != null && currencyCode.length <= 3 && !currencyCode.contains("-")) currencyCode else "$")
+
+        binding.dollarSign.text = currencySymbol
+        binding.dollarSign.post {
+            if (_binding != null) {
+                val symbolWidth = binding.dollarSign.width
+                val minPadding = (symbolWidth + (18 * resources.displayMetrics.density).toInt())
+                    .coerceAtLeast((36 * resources.displayMetrics.density).toInt())
+                binding.priceInput.setPadding(
+                    minPadding,
+                    binding.priceInput.paddingTop,
+                    binding.priceInput.paddingEnd,
+                    binding.priceInput.paddingBottom
+                )
+            }
+        }
+
         viewModel.itemState.observe(viewLifecycleOwner){state->
             when(state){
                 is ItemState.Loading->{
@@ -59,14 +78,23 @@ class BottomSheetAddFirstItem: BottomSheetDialogFragment() {
                 binding.itemNameInput.error="Item name is required"
                 return@setOnClickListener
             }
-            if(price.isEmpty()){
-                binding.priceInput.error="Price is required"
+            if (price.isEmpty()) {
+                binding.priceInput.error = "Price is required"
                 return@setOnClickListener
             }
-            val item= Item(
+            val parsedPrice = price.toDoubleOrNull()
+            if (parsedPrice == null) {
+                binding.priceInput.error = "Enter a valid price"
+                return@setOnClickListener
+            }
+            if (parsedPrice < 0) {
+                binding.priceInput.error = "Price cannot be negative"
+                return@setOnClickListener
+            }
+            val item = Item(
                 itemName = itemName,
                 barcode = null,
-                price = price.toDoubleOrNull()?:0.0,
+                price = parsedPrice,
                 unit = "piece",
                 category = "Grocery",
                 workspaceId = workspaceId

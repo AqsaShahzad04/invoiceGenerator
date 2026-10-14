@@ -32,8 +32,11 @@ class BottomSheetNumberingReset(reset: NumberingReset): BottomSheetDialogFragmen
         return binding.root
     }
 
+    private var isSubmitting = false
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        settingsViewModel.resetState()
         val sessionManager=SessionManager.getInstance(requireContext())
         val activeWorkspaceId=sessionManager.getActiveWorkspaceId()
         var selectedNumReset=defaultNumReset
@@ -46,14 +49,17 @@ class BottomSheetNumberingReset(reset: NumberingReset): BottomSheetDialogFragmen
         }
 
         settingsViewModel.state.observe(viewLifecycleOwner){state->
+            if (!isSubmitting) return@observe
             when(state){
                 is WorkspaceSettingsState.Success->{
+                    isSubmitting = false
                     dismiss()
                     binding.doneBtn.isEnabled=false
                     Toast.makeText(context,"Reset updated",Toast.LENGTH_SHORT).show()
                     settingsViewModel.resetState()
                 }
                 is WorkspaceSettingsState.Error->{
+                    isSubmitting = false
                     binding.doneBtn.isEnabled=true
                     Toast.makeText(context,"Error updating reset,Try again",Toast.LENGTH_SHORT).show()
                     settingsViewModel.resetState()
@@ -66,6 +72,7 @@ class BottomSheetNumberingReset(reset: NumberingReset): BottomSheetDialogFragmen
 
 
         binding.doneBtn.setOnClickListener {
+            isSubmitting = true
             viewLifecycleOwner.lifecycleScope.launch{
                 settingsViewModel.updateNumberingReset(activeWorkspaceId, selectedNumReset)
             }

@@ -7,11 +7,15 @@ import androidx.lifecycle.viewModelScope
 import com.learner.invoicegenerator.data.local.entity.User
 import com.learner.invoicegenerator.data.repository.UserRepository
 import com.learner.invoicegenerator.utils.PasswordHasher
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class SignUPViewModel(private val repository: UserRepository) : ViewModel()  {
+class SignUPViewModel(
+    private val repository: UserRepository,
+    private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
+) : ViewModel()  {
     private val _signUpState = MutableLiveData<SignUpState>()
     val signUpState: LiveData<SignUpState> get() = _signUpState
 
@@ -24,7 +28,7 @@ class SignUPViewModel(private val repository: UserRepository) : ViewModel()  {
                     _signUpState.value = SignUpState.Error("An account with this email already exists")
                     return@launch
                 }
-                val hashedPassword = withContext(Dispatchers.Default) {
+                val hashedPassword = withContext(defaultDispatcher) {
                     PasswordHasher.hash(user.password)
                 }
                 val userToInsert = user.copy(password = hashedPassword)

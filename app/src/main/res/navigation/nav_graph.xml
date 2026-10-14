@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/onboardingFragmentOne">
+    app:startDestination="@id/homeScreenFragment">
 
     <fragment
         android:id="@+id/onboardingFragmentOne"
@@ -17,7 +17,7 @@
         <action
             android:id="@+id/action_onboardingFragmentOne_to_logInFragment"
             app:destination="@id/loginScreenFragment"
-            app:popUpTo="@id/onboardingFragmentOne"
+            app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true"
             />
     </fragment>
@@ -32,7 +32,7 @@
         <action
             android:id="@+id/action_onboardingFragmentTwo_to_logInFragment"
             app:destination="@id/loginScreenFragment"
-            app:popUpTo="@id/onboardingFragmentTwo"
+            app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true"
             />
     </fragment>
@@ -43,7 +43,10 @@
         tools:layout="@layout/fragment_onboarding_three">
         <action
             android:id="@+id/action_onboardingFragmentThree_to_login_screen_fragment"
-            app:destination="@id/loginScreenFragment"/>
+            app:destination="@id/loginScreenFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true"
+        />
 
     </fragment>
 
@@ -51,12 +54,6 @@
         android:id="@+id/loginScreenFragment"
         android:name="com.learner.invoicegenerator.ui.auth.LoginScreenFragment"
         tools:layout="@layout/fragment_login_screen">
-        <action
-            android:id="@+id/action_loginScreenFragment_to_onboardingFragmentThree"
-            app:destination="@id/OnboardingFragmentThree"
-            app:popUpTo="@id/OnboardingFragmentThree"
-            app:popUpToInclusive="true"
-            />
         <action
             android:id="@+id/action_loginScreenFragment_to_signUpScreenFragment"
             app:destination="@id/signUpScreenFragment"
@@ -75,12 +72,6 @@
         android:id="@+id/signUpScreenFragment"
         android:name="com.learner.invoicegenerator.ui.auth.SignupScreenFragment"
         tools:layout="@layout/fragment_signup_screen">
-        <action
-            android:id="@+id/action_signUpScreenFragment_to_onboardingFragmentThree"
-            app:destination="@id/OnboardingFragmentThree"
-            app:popUpTo="@id/OnboardingFragmentThree"
-            app:popUpToInclusive="true"
-            />
         <action
             android:id="@+id/action_signUpScreenFragment_to_loginScreenFragment"
             app:destination="@id/loginScreenFragment"

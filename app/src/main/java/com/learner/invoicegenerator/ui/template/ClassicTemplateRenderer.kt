@@ -138,12 +138,20 @@ class ClassicTemplateRenderer : InvoiceTemplate {
             }
         }
 
+        // Calculate totals up-front for consistent rendering throughout template
+        val subtotal = data.items.sumOf { it.unitPrice * it.itemQuantity }
+        val taxAmount = if (data.invoice.taxPercentage > 0) subtotal * (data.invoice.taxPercentage / 100) else 0.0
+        val discountAmount = if (data.invoice.discountValue > 0) {
+            if (data.invoice.discountType == "Percent") subtotal * (data.invoice.discountValue / 100) else data.invoice.discountValue
+        } else 0.0
+        val grandTotal = (subtotal - discountAmount) + taxAmount
+
         // Total Due (Right Side)
         greyPaint.textAlign = Paint.Align.RIGHT
         boldPaint.textAlign = Paint.Align.RIGHT
         canvas.drawText("TOTAL DUE", rightX, currentY, greyPaint)
         boldPaint.textSize = 20f
-        canvas.drawText("${data.currencySymbol} ${String.format("%.2f", data.invoice.totalAmount)}", rightX, currentY + 22f, boldPaint)
+        canvas.drawText("${data.currencySymbol} ${String.format("%.2f", grandTotal)}", rightX, currentY + 22f, boldPaint)
 
         greyPaint.textAlign = Paint.Align.LEFT
         boldPaint.textAlign = Paint.Align.LEFT
@@ -173,7 +181,6 @@ class ClassicTemplateRenderer : InvoiceTemplate {
 
         // --- Draw Table Items ---
         var itemY = tableHeaderBottomY + 22f
-        val subtotal = data.items.sumOf { it.unitPrice * it.itemQuantity }
 
         data.items.forEach { item ->
             boldPaint.textSize = 12f
@@ -215,12 +222,6 @@ class ClassicTemplateRenderer : InvoiceTemplate {
         boldPaint.textAlign = Paint.Align.LEFT
         currentY += 20f
 
-        // Calculate tax and discount for display and total
-        val taxAmount = if (data.invoice.taxPercentage > 0) subtotal * (data.invoice.taxPercentage / 100) else 0.0
-        val discountAmount = if (data.invoice.discountValue > 0) {
-            if (data.invoice.discountType == "Percent") subtotal * (data.invoice.discountValue / 100) else data.invoice.discountValue
-        } else 0.0
-
         // Tax
         if (data.invoice.taxPercentage > 0) {
             canvas.drawText("Tax (${data.invoice.taxPercentage.toInt()}%)", totalLabelX, currentY, greyPaint)
@@ -241,9 +242,6 @@ class ClassicTemplateRenderer : InvoiceTemplate {
 
         canvas.drawLine(totalLabelX, currentY, width - margin, currentY, linePaint)
         currentY += 20f
-
-        // Grand Total calculation: (subtotal - discount) + tax
-        val grandTotal = (subtotal - discountAmount) + taxAmount
 
         boldPaint.textSize = 14f
         canvas.drawText("GRAND TOTAL", totalLabelX, currentY, boldPaint)
@@ -273,11 +271,6 @@ class ClassicTemplateRenderer : InvoiceTemplate {
         if (sigBitmap != null) {
             val sigDst = RectF(width - margin - 120f, footerY - 15f, width - margin, footerY + 35f)
             canvas.drawBitmap(sigBitmap, null, sigDst, bitmapPaint)
-            canvas.drawLine(width - margin - 130f, footerY + 40f, width - margin, footerY + 40f, lightLinePaint)
-            greyPaint.textAlign = Paint.Align.RIGHT
-            canvas.drawText("Authorized Signature", width - margin, footerY + 54f, greyPaint)
-            greyPaint.textAlign = Paint.Align.LEFT
-        } else {
             canvas.drawLine(width - margin - 130f, footerY + 40f, width - margin, footerY + 40f, lightLinePaint)
             greyPaint.textAlign = Paint.Align.RIGHT
             canvas.drawText("Authorized Signature", width - margin, footerY + 54f, greyPaint)

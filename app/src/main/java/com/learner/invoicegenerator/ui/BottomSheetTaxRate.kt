@@ -61,8 +61,11 @@ class BottomSheetTaxRate(rate: Double) : BottomSheetDialogFragment() {
         isUpdatingUI = wasUpdating
     }
 
+    private var isSubmitting = false
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        settingsViewModel.resetState()
         val sessionManager = SessionManager.getInstance(requireContext())
         val activeWorkspaceId = sessionManager.getActiveWorkspaceId()
 
@@ -118,10 +121,27 @@ class BottomSheetTaxRate(rate: Double) : BottomSheetDialogFragment() {
             dismiss()
         }
 
+        settingsViewModel.state.observe(viewLifecycleOwner) { state ->
+            if (!isSubmitting) return@observe
+            when (state) {
+                is com.learner.invoicegenerator.ui.auth.ViewModel.WorkspaceSettingsState.Success -> {
+                    isSubmitting = false
+                    dismiss()
+                    settingsViewModel.resetState()
+                }
+                is com.learner.invoicegenerator.ui.auth.ViewModel.WorkspaceSettingsState.Error -> {
+                    isSubmitting = false
+                    android.widget.Toast.makeText(context, state.message, android.widget.Toast.LENGTH_SHORT).show()
+                    settingsViewModel.resetState()
+                }
+                else -> {}
+            }
+        }
+
         binding.doneBtn.setOnClickListener {
+            isSubmitting = true
             viewLifecycleOwner.lifecycleScope.launch {
                 settingsViewModel.updateTaxRate(activeWorkspaceId, selectedRate)
-                dismiss()
             }
         }
     }

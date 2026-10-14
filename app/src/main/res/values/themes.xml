@@ -5,6 +5,9 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowBackground">@color/bg_cream</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+        <item name="colorPrimary">@color/primary_green</item>
+        <item name="colorSecondary">@color/primary_green</item>
+        <item name="colorControlActivated">@color/primary_green</item>
     </style>
 
     <style name="Theme.InvoiceGenerator" parent="Base.Theme.InvoiceGenerator" />
@@ -23,5 +26,12 @@
         <item name="chipMinHeight">36dp</item>
         <item name="checkedIconVisible">false</item>
         <item name="android:textAlignment">center</item>
+    </style>
+    <style name="Theme.InvoiceGenerator.Splash" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowBackground">@color/bg_cream</item>
+        <item name="android:statusBarColor">@color/bg_cream</item>
+        <item name="android:navigationBarColor">@color/bg_cream</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
     </style>
 </resources>

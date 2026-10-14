@@ -94,6 +94,28 @@ class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
 
+    private var isKeyboardVisible = false
+
+    private fun updateBottomBarVisibility() {
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host) as? NavHostFragment
+        val currentDestId = navHostFragment?.navController?.currentDestination?.id
+
+        val isBottomNavTab = currentDestId == R.id.homeScreenFragment ||
+                currentDestId == R.id.invoicesFragment ||
+                currentDestId == R.id.clientsFragment ||
+                currentDestId == R.id.settingsFragment
+
+        if (isBottomNavTab && !isKeyboardVisible) {
+            binding.bottomNavBar.visibility = View.VISIBLE
+            binding.fab.visibility = View.VISIBLE
+            binding.fabRing.visibility = View.VISIBLE
+        } else {
+            binding.bottomNavBar.visibility = View.GONE
+            binding.fab.visibility = View.GONE
+            binding.fabRing.visibility = View.GONE
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -124,6 +146,7 @@ class MainActivity : AppCompatActivity() {
 
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
+            val imeVisible = insets.isVisible(WindowInsetsCompat.Type.ime()) || ime.bottom > 0
 
             v.setPadding(
                 systemBars.left,
@@ -131,6 +154,23 @@ class MainActivity : AppCompatActivity() {
                 systemBars.right,
                 ime.bottom   // keyboard khule to iski height, band ho to 0
             )
+
+            if (isKeyboardVisible != imeVisible) {
+                isKeyboardVisible = imeVisible
+                updateBottomBarVisibility()
+
+                if (imeVisible) {
+                    val currentFocusView = currentFocus
+                    if (currentFocusView is android.widget.EditText) {
+                        currentFocusView.post {
+                            currentFocusView.requestRectangleOnScreen(
+                                android.graphics.Rect(0, 0, currentFocusView.width, currentFocusView.height),
+                                true
+                            )
+                        }
+                    }
+                }
+            }
 
             insets
         }
@@ -143,19 +183,16 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
 
         /*
-         * If the user is already logged in, start at Home (only on fresh launch, not activity recreation).
+         * Set the initial graph start destination according to user state.
          */
-        if (savedInstanceState == null && sessionManager.isLoggedIn()) {
-
-            val navGraph =
-                navController.navInflater.inflate(
-                    R.navigation.nav_graph
-                )
-
-            navGraph.setStartDestination(
-                R.id.homeScreenFragment
-            )
-
+        if (savedInstanceState == null) {
+            val navGraph = navController.navInflater.inflate(R.navigation.nav_graph)
+            val startDest = when {
+                sessionManager.isLoggedIn() -> R.id.homeScreenFragment
+                sessionManager.isOnboardingCompleted() -> R.id.loginScreenFragment
+                else -> R.id.onboardingFragmentOne
+            }
+            navGraph.setStartDestination(startDest)
             navController.graph = navGraph
 
             if (intent?.getStringExtra("OPEN_DESTINATION") == "NOTIFICATIONS") {
@@ -206,24 +243,7 @@ class MainActivity : AppCompatActivity() {
                 destination,
                 _ ->
 
-            if (
-                destination.id == R.id.homeScreenFragment ||
-                destination.id == R.id.invoicesFragment ||
-                destination.id == R.id.clientsFragment ||
-                destination.id == R.id.settingsFragment
-            ) {
-
-                bottomNavBar.visibility = View.VISIBLE
-                fabbtn.visibility = View.VISIBLE
-                fabRing.visibility= View.VISIBLE
-
-            } else {
-
-                bottomNavBar.visibility = View.GONE
-                fabbtn.visibility = View.GONE
-                fabRing.visibility=View.GONE
-            }
-
+            updateBottomBarVisibility()
             updateSelectedTab(destination.id)
 
             /*

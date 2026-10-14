@@ -29,29 +29,39 @@
 
     <TextView
         android:id="@+id/BusinessName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="al-jannat"
         android:textSize="13sp"
         android:textColor="@color/btn_text_dark"
         android:fontFamily="@font/inter_semibold"
         android:layout_marginStart="12dp"
+        android:layout_marginEnd="8dp"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:ellipsize="end"
         app:layout_constraintStart_toEndOf="@id/client_profile"
+        app:layout_constraintEnd_toStartOf="@id/amount"
         app:layout_constraintTop_toTopOf="@id/client_profile"
         />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/clientname"
         android:text="jannat"
         android:textColor="@color/text_grey"
         android:textSize="11sp"
         android:fontFamily="@font/inter"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:ellipsize="end"
         app:layout_constraintStart_toEndOf="@id/client_profile"
+        app:layout_constraintEnd_toStartOf="@id/amount"
         app:layout_constraintTop_toBottomOf="@id/BusinessName"
         app:layout_constraintBottom_toBottomOf="@id/client_profile"
         android:layout_marginStart="12dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginTop="2dp"/>
 
     <TextView

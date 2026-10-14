@@ -37,8 +37,11 @@ class BottomSheetSendRemindersAfterDays(currentDays: Int) : BottomSheetDialogFra
         return binding.root
     }
 
+    private var isSubmitting = false
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        settingsViewModel.resetState()
         val sessionManager= SessionManager.getInstance(requireContext())
         val activeWorkspaceId=sessionManager.getActiveWorkspaceId()
         selectedDays = currentDays
@@ -61,13 +64,29 @@ class BottomSheetSendRemindersAfterDays(currentDays: Int) : BottomSheetDialogFra
             highlightMatchingChip()
         }
 
+        settingsViewModel.state.observe(viewLifecycleOwner) { state ->
+            if (!isSubmitting) return@observe
+            when (state) {
+                is com.learner.invoicegenerator.ui.auth.ViewModel.WorkspaceSettingsState.Success -> {
+                    isSubmitting = false
+                    dismiss()
+                    settingsViewModel.resetState()
+                }
+                is com.learner.invoicegenerator.ui.auth.ViewModel.WorkspaceSettingsState.Error -> {
+                    isSubmitting = false
+                    android.widget.Toast.makeText(context, state.message, android.widget.Toast.LENGTH_SHORT).show()
+                    settingsViewModel.resetState()
+                }
+                else -> {}
+            }
+        }
+
         binding.doneBtn.setOnClickListener {
             sessionManager.setReminderDays(selectedDays)
+            isSubmitting = true
             viewLifecycleOwner.lifecycleScope.launch{
                 settingsViewModel.updateSendReminderAfterDueDays(activeWorkspaceId,selectedDays)
             }
-
-            dismiss()
         }
 
         binding.closebtn.setOnClickListener {

@@ -313,9 +313,10 @@ android:background="@color/bg_cream">
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:thumb="@drawable/switch_custom_thumb"
-                    app:thumbTint="@color/switch_thumb_on"
+                    app:thumbTint="@null"
                     app:track="@drawable/switch_custom_track"
                     app:trackTint="@color/switch_track_tint_toggle"
+                    android:splitTrack="false"
                     />
             </LinearLayout>
 
@@ -451,9 +452,10 @@ android:background="@color/bg_cream">
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:thumb="@drawable/switch_custom_thumb"
-                    app:thumbTint="@color/switch_thumb_on"
+                    app:thumbTint="@null"
                     app:track="@drawable/switch_custom_track"
                     app:trackTint="@color/switch_track_tint_toggle"
+                    android:splitTrack="false"
                     />
             </LinearLayout>
 
@@ -487,7 +489,7 @@ android:background="@color/bg_cream">
                 </LinearLayout>
                 <TextView
                     android:id="@+id/Addsign"
-                    android:text="Add sign here"
+                    android:text="Add signature"
                     style="@style/settings_row_rightSideText_style"/>
                 <ImageView
                     android:id="@+id/ic_chiv_sign"
@@ -599,9 +601,10 @@ android:background="@color/bg_cream">
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:thumb="@drawable/switch_custom_thumb"
-                    app:thumbTint="@color/switch_thumb_on"
+                    app:thumbTint="@null"
                     app:track="@drawable/switch_custom_track"
                     app:trackTint="@color/switch_track_tint_toggle"
+                    android:splitTrack="false"
                     />
             </LinearLayout>
 
@@ -702,9 +705,10 @@ android:background="@color/bg_cream">
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:thumb="@drawable/switch_custom_thumb"
-                    app:thumbTint="@color/switch_thumb_on"
+                    app:thumbTint="@null"
                     app:track="@drawable/switch_custom_track"
                     app:trackTint="@color/switch_track_tint_toggle"
+                    android:splitTrack="false"
                     />
             </LinearLayout>
 
@@ -846,9 +850,10 @@ android:background="@color/bg_cream">
                     android:layout_gravity="center_vertical"
                     android:checked="true"
                     android:thumb="@drawable/switch_custom_thumb"
-                    app:thumbTint="@color/switch_thumb_on"
+                    app:thumbTint="@null"
                     app:track="@drawable/switch_custom_track"
                     app:trackTint="@color/switch_track_tint_toggle"
+                    android:splitTrack="false"
                     />
             </LinearLayout>
 

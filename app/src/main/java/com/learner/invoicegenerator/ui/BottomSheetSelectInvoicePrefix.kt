@@ -49,9 +49,12 @@ class BottomSheetSelectInvoicePrefix(defaultPrefix:String): BottomSheetDialogFra
 
 
     }
+    private var isSubmitting = false
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-           init()
+        settingsViewModel.resetState()
+        init()
         val sessionManager= SessionManager.getInstance(requireContext())
         val activeWorkspaceId=sessionManager.getActiveWorkspaceId()
 
@@ -63,13 +66,16 @@ class BottomSheetSelectInvoicePrefix(defaultPrefix:String): BottomSheetDialogFra
         
 
         settingsViewModel.state.observe(viewLifecycleOwner) { state ->
+            if (!isSubmitting) return@observe
             when(state){
                is WorkspaceSettingsState.Success->{
+                   isSubmitting = false
                    dismiss()
                    Toast.makeText(context,"prefix updated", Toast.LENGTH_SHORT).show()
                    settingsViewModel.resetState()
                }
                 is WorkspaceSettingsState.Error->{
+                    isSubmitting = false
                     Toast.makeText(context,state.message,Toast.LENGTH_SHORT).show()
                 }
                 else->{}
@@ -79,6 +85,7 @@ class BottomSheetSelectInvoicePrefix(defaultPrefix:String): BottomSheetDialogFra
 
         binding.doneBtn.setOnClickListener {
             val finalPrefix=binding.invoicePrefixDisplay.text.toString()
+            isSubmitting = true
             viewLifecycleOwner.lifecycleScope.launch {
                 settingsViewModel.updateInvoicePrefix(activeWorkspaceId,finalPrefix)
 

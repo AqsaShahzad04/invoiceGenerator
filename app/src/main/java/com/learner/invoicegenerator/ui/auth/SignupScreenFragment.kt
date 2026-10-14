@@ -49,7 +49,10 @@ class SignupScreenFragment: Fragment(R.layout.fragment_signup_screen) {
                     binding.createAccountbtn.isEnabled = true
                     binding.signupProgressBar.visibility = View.GONE
                     sessionManager.createLoginSession(state.user.id)
-                    findNavController().navigate(R.id.action_signUpScreenFragment_to_homeScreenFragment)
+                    val navController = findNavController()
+                    val navGraph = navController.navInflater.inflate(R.navigation.nav_graph)
+                    navGraph.setStartDestination(R.id.homeScreenFragment)
+                    navController.graph = navGraph
                 }
                 is SignUpState.Error->{
                     binding.createAccountbtn.isEnabled = true
@@ -95,7 +98,11 @@ class SignupScreenFragment: Fragment(R.layout.fragment_signup_screen) {
         }
 
         binding.backbtn.setOnClickListener {
-            findNavController().navigate(R.id.action_signUpScreenFragment_to_onboardingFragmentThree)
+            if (findNavController().previousBackStackEntry != null) {
+                findNavController().navigateUp()
+            } else {
+                findNavController().navigate(R.id.action_signUpScreenFragment_to_loginScreenFragment)
+            }
         }
         binding.signin.setOnClickListener {
             findNavController().navigate(R.id.action_signUpScreenFragment_to_loginScreenFragment)

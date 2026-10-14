@@ -48,7 +48,10 @@ class LoginScreenFragment : Fragment(R.layout.fragment_login_screen) {
                   binding.button2.isEnabled=true
                   binding.loginProgressBar.visibility=View.GONE
                   sessionManager.createLoginSession(state.user.id)
-                  findNavController().navigate(R.id.action_loginScreenFragment_to_homeScreenFragment)
+                  val navController = findNavController()
+                  val navGraph = navController.navInflater.inflate(R.navigation.nav_graph)
+                  navGraph.setStartDestination(R.id.homeScreenFragment)
+                  navController.graph = navGraph
               }
                is LoginState.Error->{
                    binding.button2.isEnabled=true
@@ -63,11 +66,12 @@ class LoginScreenFragment : Fragment(R.layout.fragment_login_screen) {
             val email = binding.editTextTextEmailAddress.text.toString().trim()
             val password = binding.editTextTextPassword.text.toString().trim()
 
-             if(email.isEmpty()||password.isEmpty()) {
-                 binding.editTextTextEmailAddress.error = "All fields are required"
-                 binding.editTextTextPassword.error = "All fields are required"
+             if (email.isEmpty() || password.isEmpty()) {
+                 if (email.isEmpty()) binding.editTextTextEmailAddress.error = "Email is required"
+                 if (password.isEmpty()) binding.editTextTextPassword.error = "Password is required"
+                 return@setOnClickListener
              }
-            else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                 binding.editTextTextEmailAddress.error = "Enter a valid email address"
                 return@setOnClickListener
             }
@@ -76,7 +80,16 @@ class LoginScreenFragment : Fragment(R.layout.fragment_login_screen) {
 
 
         binding.backbtn.setOnClickListener {
-            findNavController().navigate(R.id.action_loginScreenFragment_to_onboardingFragmentThree)
+            val prevId = findNavController().previousBackStackEntry?.destination?.id
+            if (prevId != null &&
+                prevId != R.id.onboardingFragmentOne &&
+                prevId != R.id.onboardingFragmentTwo &&
+                prevId != R.id.OnboardingFragmentThree
+            ) {
+                findNavController().navigateUp()
+            } else {
+                requireActivity().finish()
+            }
         }
         binding.createone.setOnClickListener {
             findNavController().navigate(R.id.action_loginScreenFragment_to_signUpScreenFragment)

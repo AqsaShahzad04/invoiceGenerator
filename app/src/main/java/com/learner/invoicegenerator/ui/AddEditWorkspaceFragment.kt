@@ -196,6 +196,11 @@ class AddEditWorkspaceFragment : Fragment(R.layout.fragment_add_edit_workspace) 
             return
         }
 
+        if (email.isNotEmpty() && !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            binding.emailInput.error = "Enter a valid email address"
+            return
+        }
+
         val workspace = Workspace(
             id = if (args.workspaceId == -1) 0 else args.workspaceId,
             name = name,

@@ -48,8 +48,11 @@ class BottomSheetDefaultNotes(currentNote: String) : BottomSheetDialogFragment()
 
 
     }
+    private var isSubmitting = false
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        settingsViewModel.resetState()
         val sessionManager= SessionManager.getInstance(requireContext())
         val activeWorkspaceId=sessionManager.getActiveWorkspaceId()
 
@@ -68,13 +71,29 @@ class BottomSheetDefaultNotes(currentNote: String) : BottomSheetDialogFragment()
             UpdateselectedNote(binding.quickFill1Btn,binding.quickFill1Btn.text.toString())
         }
 
+        settingsViewModel.state.observe(viewLifecycleOwner) { state ->
+            if (!isSubmitting) return@observe
+            when (state) {
+                is com.learner.invoicegenerator.ui.auth.ViewModel.WorkspaceSettingsState.Success -> {
+                    isSubmitting = false
+                    dismiss()
+                    settingsViewModel.resetState()
+                }
+                is com.learner.invoicegenerator.ui.auth.ViewModel.WorkspaceSettingsState.Error -> {
+                    isSubmitting = false
+                    android.widget.Toast.makeText(context, state.message, android.widget.Toast.LENGTH_SHORT).show()
+                    settingsViewModel.resetState()
+                }
+                else -> {}
+            }
+        }
+
         binding.doneBtn.setOnClickListener {
             val note = binding.defaultNotesInput.text.toString()
+            isSubmitting = true
             viewLifecycleOwner.lifecycleScope.launch {
                 settingsViewModel.updateDefaultNotes(activeWorkspaceId,note)
             }
-
-            dismiss()
         }
 
         binding.closebtn.setOnClickListener {

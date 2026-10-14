@@ -21,7 +21,14 @@ class SettingsConverter {
         value.joinToString(",") { it.name }
 
     @TypeConverter
-    fun toPaymentMethodsList(value: String): MutableList<PaymentMethods> =
-        (if (value.isBlank()) emptyList()
-        else value.split(",").map { PaymentMethods.valueOf(it) }) as MutableList<PaymentMethods>
+    fun toPaymentMethodsList(value: String): MutableList<PaymentMethods> {
+        if (value.isBlank()) return mutableListOf()
+        return value.split(",").mapNotNull {
+            try {
+                PaymentMethods.valueOf(it.trim())
+            } catch (e: Exception) {
+                null
+            }
+        }.toMutableList()
+    }
 }

@@ -22,7 +22,7 @@
     <color name="primary_green_alpha">#2610B981</color>
     <color name="tickedColorbg">#10B981</color>
     <color name="sectionsHeadingColor">#8696A0</color>
-    <color name="toggleBtn_offColor">#E8E5DF</color>
+    <color name="toggleBtn_offColor">#2A343C</color>
     <color name="carrot_red_shade">#EF5350</color>
     <color name="orange_red_shade">#FFA726</color>
     <color name="greyish_white">#263038</color>
@@ -42,5 +42,6 @@
     <color name="delete_button_text">#EF5350</color>
     <color name="text_disabled">#5C625E</color>
     <color name="border_color">#2A343C</color>
-    <color name="switch_track_tint_toggle">#E8E5DF</color>
+    <color name="invoice_icon_tint">#FFFFFF</color>
+    <color name="splash_bg_dark">#121212</color>
 </resources>

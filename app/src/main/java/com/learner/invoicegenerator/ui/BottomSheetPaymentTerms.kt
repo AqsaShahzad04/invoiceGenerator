@@ -31,8 +31,11 @@ class BottomSheetPaymentTerms(paymentDueDateOffset: PaymentDueDateOffset): Botto
         return binding.root
     }
 
+    private var isSubmitting = false
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        settingViewModel.resetState()
         initOffset(offset)
         disableRadioButtonDefaultBehaviour()
         val sessionManager= SessionManager.getInstance(requireContext())
@@ -67,12 +70,15 @@ class BottomSheetPaymentTerms(paymentDueDateOffset: PaymentDueDateOffset): Botto
         }
 
         settingViewModel.state.observe(viewLifecycleOwner){state->
+            if (!isSubmitting) return@observe
             when(state){
                 is WorkspaceSettingsState.Success->{
+                    isSubmitting = false
                     dismiss()
                     settingViewModel.resetState()
                 }
                 is WorkspaceSettingsState.Error->{
+                    isSubmitting = false
                     Toast.makeText(context,"update failed , Try again",Toast.LENGTH_SHORT).show()
                     settingViewModel.resetState()
                 }
@@ -82,6 +88,7 @@ class BottomSheetPaymentTerms(paymentDueDateOffset: PaymentDueDateOffset): Botto
         }
 
         binding.doneBtn.setOnClickListener {
+            isSubmitting = true
             viewLifecycleOwner.lifecycleScope.launch{
                 settingViewModel.updatePaymentDueDateOffset(activeWorkspaceId,offset)
             }

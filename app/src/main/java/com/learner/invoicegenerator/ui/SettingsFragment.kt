@@ -105,6 +105,11 @@ class SettingsFragment: Fragment(R.layout.fragment_settings)  {
                 binding.NumOfPaymentMethods.text = "${paymentMethods.size} active"
                 binding.defaultNotesValue.text = settings?.defaultNotes ?: "Thank you"
                 binding.sendAfterdaysNum.text = settings?.sendReminderAfterDueDays?.let { "$it days" } ?: "3 days"
+                if (!settings?.signatureBlock.isNullOrEmpty()) {
+                    binding.Addsign.text = "Update signature"
+                } else {
+                    binding.Addsign.text = "Add signature"
+                }
                 currentSettings=settings
 
 
@@ -142,7 +147,7 @@ class SettingsFragment: Fragment(R.layout.fragment_settings)  {
 
         }
         binding.signSection.setOnClickListener {
-            BottomSheetAddSignature().show(parentFragmentManager,"AddSignatureBottomSheet")
+            BottomSheetAddSignature(currentSettings?.signatureBlock).show(childFragmentManager, "AddSignatureBottomSheet")
 
         }
         binding.notesSection.setOnClickListener {

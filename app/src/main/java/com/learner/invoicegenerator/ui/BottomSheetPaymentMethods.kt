@@ -33,8 +33,12 @@ class BottomSheetPaymentMethods(paymentMethods: MutableList<PaymentMethods>): Bo
         return binding.root
     }
 
+    private var isSubmitting = false
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        settingsViewModel.resetState()
+
         val sessionManager=SessionManager.getInstance(requireContext())
         val activeWorkspaceId=sessionManager.getActiveWorkspaceId()
 
@@ -73,16 +77,19 @@ class BottomSheetPaymentMethods(paymentMethods: MutableList<PaymentMethods>): Bo
         }
 
         settingsViewModel.state.observe(viewLifecycleOwner){state->
+            if (!isSubmitting) return@observe
             when(state){
                 is WorkspaceSettingsState.Success->{
+                    isSubmitting = false
                     dismiss()
                     binding.doneBtn.isEnabled=false
-                    Toast.makeText(context,"Reset updated",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context,"Payment methods updated",Toast.LENGTH_SHORT).show()
                     settingsViewModel.resetState()
                 }
                 is WorkspaceSettingsState.Error->{
+                    isSubmitting = false
                     binding.doneBtn.isEnabled=true
-                    Toast.makeText(context,"Error updating reset,Try again",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context,"Error updating payment methods, Try again",Toast.LENGTH_SHORT).show()
                     settingsViewModel.resetState()
                 }
                 else->{}
@@ -91,6 +98,7 @@ class BottomSheetPaymentMethods(paymentMethods: MutableList<PaymentMethods>): Bo
         }
 
         binding.doneBtn.setOnClickListener{
+            isSubmitting = true
             viewLifecycleOwner.lifecycleScope.launch{
                 settingsViewModel.updatePaymentMethods(activeWorkspaceId,selectedMethods)
             }

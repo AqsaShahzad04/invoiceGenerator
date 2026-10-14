@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+
+    <group
+        android:name="stamp_group"
+        android:pivotX="60"
+        android:pivotY="60"
+        android:rotation="-5">
+
+        <!-- Outer rough/stamped border rectangle -->
+        <path
+            android:fillColor="#00000000"
+            android:strokeColor="@color/primary_green"
+            android:strokeWidth="4"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:pathData="M 12,32 C 12,24 18,18 26,18 L 94,18 C 102,18 108,24 108,32 L 108,88 C 108,96 102,102 94,102 L 26,102 C 18,102 12,96 12,88 Z" />
+
+        <!-- Inner border line with dashed/rough look -->
+        <path
+            android:fillColor="#00000000"
+            android:strokeColor="@color/primary_green"
+            android:strokeWidth="2"
+            android:strokeLineCap="round"
+            android:pathData="M 18,35 C 18,29 23,24 29,24 L 91,24 C 97,24 102,29 102,35 L 102,85 C 102,91 97,96 91,96 L 29,96 C 23,96 18,91 18,85 Z" />
+
+        <!-- "PAID" Text Paths in bold stamped lettering -->
+        <!-- P -->
+        <path
+            android:fillColor="@color/primary_green"
+            android:pathData="M 28,42 H 41 C 46,42 49,45 49,49.5 C 49,54 46,57 41,57 H 34 V 78 H 28 Z M 34,48 H 40 C 42.5,48 43.5,48.8 43.5,49.5 C 43.5,50.2 42.5,51 40,51 H 34 Z" />
+
+        <!-- A -->
+        <path
+            android:fillColor="@color/primary_green"
+            android:pathData="M 52,78 L 61,42 H 67 L 76,78 H 69.5 L 67.5,69.5 H 60.5 L 58.5,78 Z M 62,63.5 H 66 L 64,52.5 Z" />
+
+        <!-- I -->
+        <path
+            android:fillColor="@color/primary_green"
+            android:pathData="M 79,42 H 86 V 78 H 79 Z" />
+
+        <!-- D -->
+        <path
+            android:fillColor="@color/primary_green"
+            android:pathData="M 89,42 H 100 C 106,42 110,47 110,60 C 110,73 106,78 100,78 H 89 Z M 95,48 V 72 H 99.5 C 102.5,72 104,68 104,60 C 104,52 102.5,48 99.5,48 Z" />
+
+        <!-- Star accents on top and bottom -->
+        <path
+            android:fillColor="@color/primary_green"
+            android:pathData="M 60,28 L 61.2,30.8 L 64,31.2 L 61.9,33.1 L 62.5,36 L 60,34.5 L 57.5,36 L 58.1,33.1 L 56,31.2 L 58.8,30.8 Z" />
+        <path
+            android:fillColor="@color/primary_green"
+            android:pathData="M 60,84 L 61.2,86.8 L 64,87.2 L 61.9,89.1 L 62.5,92 L 60,90.5 L 57.5,92 L 58.1,89.1 L 56,87.2 L 58.8,86.8 Z" />
+
+    </group>
+</vector>

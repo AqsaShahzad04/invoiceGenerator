@@ -33,6 +33,7 @@ import com.learner.invoicegenerator.ui.template.InvoicePdfGenerator
 import com.learner.invoicegenerator.ui.template.InvoiceRenderData
 import com.learner.invoicegenerator.utils.CurrencyData
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -74,7 +75,11 @@ class FragmentFinalInvoice : Fragment(R.layout.fragment_final_invoice) {
 
         val draft = invoiceViewModel.invoiceDraft.value
         val itemsList = invoiceViewModel.selectedItems.value
-        val chosenTemplateId = invoiceViewModel.selectedTemplate.value
+        val chosenTemplateId = if (draft != null && draft.id > 0) {
+            draft.templateId
+        } else {
+            invoiceViewModel.selectedTemplate.value
+        }
         var file: File? = null
 
         val invoiceCurrencyCode = draft?.currencyCode ?: sessionManager.getCurrencyCode() ?: "USD"
@@ -84,27 +89,48 @@ class FragmentFinalInvoice : Fragment(R.layout.fragment_final_invoice) {
         if (draft != null) {
             updatePaymentStatusUI(draft.status)
 
+            // Compute accurate grand total (subtotal - discount + tax) up-front
+            val subtotal = itemsList.sumOf { it.unitPrice * it.itemQuantity }
+            val taxAmount = if (draft.taxPercentage > 0) subtotal * (draft.taxPercentage / 100) else 0.0
+            val discAmount = if (draft.discountValue > 0) {
+                if (draft.discountType == "Percent") subtotal * (draft.discountValue / 100) else draft.discountValue
+            } else 0.0
+            val calculatedGrandTotal = (subtotal - discAmount) + taxAmount
+            val updatedDraft = draft.copy(totalAmount = calculatedGrandTotal, templateId = chosenTemplateId)
+
+            // Render on canvas immediately to eliminate blank screen loading delay
+            val initialRenderData = InvoiceRenderData(
+                invoice = updatedDraft,
+                items = itemsList,
+                workspace = null,
+                client = null,
+                logoBitmap = null,
+                signatureBitmap = null,
+                currencySymbol = currencySymbol,
+                paymentInfo = null
+            )
+            binding.invoiceCanvasView.templateId = chosenTemplateId
+            binding.invoiceCanvasView.renderData = initialRenderData
+
             binding.btnMarkPaid.setOnClickListener {
                 val currentDraft = invoiceViewModel.invoiceDraft.value ?: return@setOnClickListener
                 val newStatus = if (currentDraft.status == "Paid") "Pending" else "Paid"
-                val updatedDraft = currentDraft.copy(
+                val updatedStatusDraft = currentDraft.copy(
                     status = newStatus,
                     paidDate = if (newStatus == "Paid") java.time.LocalDate.now() else null
                 )
-                invoiceViewModel.updateInvoiceDraft(updatedDraft)
+                invoiceViewModel.updateInvoiceDraft(updatedStatusDraft)
                 updatePaymentStatusUI(newStatus)
 
                 val currentData = binding.invoiceCanvasView.renderData
                 if (currentData != null) {
-                    val updatedData = currentData.copy(invoice = updatedDraft)
+                    val updatedData = currentData.copy(invoice = updatedStatusDraft)
                     binding.invoiceCanvasView.renderData = updatedData
 
                     viewLifecycleOwner.lifecycleScope.launch {
-                        val updatedPdf = withContext(Dispatchers.IO) {
-                            InvoicePdfGenerator.generatePdf(requireContext(), updatedData, chosenTemplateId)
-                        }
+                        val updatedPdf = InvoicePdfGenerator.generatePdf(requireContext(), updatedData, chosenTemplateId)
                         file = updatedPdf
-                        val updatedInvoiceWithPdf = updatedDraft.copy(pdfPath = updatedPdf.absolutePath)
+                        val updatedInvoiceWithPdf = updatedStatusDraft.copy(pdfPath = updatedPdf.absolutePath)
                         if (updatedInvoiceWithPdf.id > 0) {
                             invoiceViewModel.updateInvoice(updatedInvoiceWithPdf)
                         }
@@ -117,14 +143,18 @@ class FragmentFinalInvoice : Fragment(R.layout.fragment_final_invoice) {
                 bottomSheet.show(parentFragmentManager, "deleteInvoiceBottomSheet")
             }
 
+            // Fetch workspace, client, settings, logo, and signature concurrently on IO thread
             viewLifecycleOwner.lifecycleScope.launch {
-                val activeWorkspace = workspaceViewModel.getWorkspaceById(activeWorkspaceId)
-                val client = clientViewModel.getClientById(draft.clientId, activeWorkspaceId)
-                val settings = settingsViewModel.getSettingsByWorkspaceId(activeWorkspaceId).first()
+                val activeWorkspaceDeferred = async(Dispatchers.IO) { workspaceViewModel.getWorkspaceById(activeWorkspaceId) }
+                val clientDeferred = async(Dispatchers.IO) { clientViewModel.getClientById(draft.clientId, activeWorkspaceId) }
+                val settingsDeferred = async(Dispatchers.IO) { settingsViewModel.getSettingsByWorkspaceId(activeWorkspaceId).first() }
+
+                val activeWorkspace = activeWorkspaceDeferred.await()
+                val client = clientDeferred.await()
+                val settings = settingsDeferred.await()
                 val paymentMethodsStr = settings?.paymentMethods?.joinToString(", ") { it.name }
 
-                // Load Logo Bitmap
-                val logoBitmap: Bitmap? = withContext(Dispatchers.IO) {
+                val logoDeferred = async(Dispatchers.IO) {
                     val uriStr = activeWorkspace?.logoUri
                     if (!uriStr.isNullOrEmpty()) {
                         try {
@@ -142,8 +172,7 @@ class FragmentFinalInvoice : Fragment(R.layout.fragment_final_invoice) {
                     } else null
                 }
 
-                // Load Signature Bitmap
-                val sigBitmap: Bitmap? = withContext(Dispatchers.IO) {
+                val sigDeferred = async(Dispatchers.IO) {
                     if (!draft.signaturePath.isNullOrEmpty()) {
                         try {
                             val options = BitmapFactory.Options().apply {
@@ -157,8 +186,11 @@ class FragmentFinalInvoice : Fragment(R.layout.fragment_final_invoice) {
                     } else null
                 }
 
+                val logoBitmap = logoDeferred.await()
+                val sigBitmap = sigDeferred.await()
+
                 val renderData = InvoiceRenderData(
-                    invoice = draft.copy(templateId = chosenTemplateId),
+                    invoice = updatedDraft,
                     items = itemsList,
                     workspace = activeWorkspace,
                     client = client,
@@ -168,23 +200,29 @@ class FragmentFinalInvoice : Fragment(R.layout.fragment_final_invoice) {
                     paymentInfo = paymentMethodsStr
                 )
 
-                // Set data to screen canvas
+                // Update canvas with complete information
                 binding.invoiceCanvasView.templateId = chosenTemplateId
                 binding.invoiceCanvasView.renderData = renderData
 
-                // Generate fresh high-res PDF file
-                val pdfFile = withContext(Dispatchers.IO) {
-                    InvoicePdfGenerator.generatePdf(requireContext(), renderData, chosenTemplateId)
-                }
-                file = pdfFile
+                // Check if PDF file already exists on disk
+                val existingPdfPath = draft.pdfPath
+                val existingFile = if (!existingPdfPath.isNullOrEmpty()) File(existingPdfPath) else null
 
-                val finalInvoice = draft.copy(pdfPath = pdfFile.absolutePath, templateId = chosenTemplateId)
-                if (draft.id > 0) {
-                    invoiceViewModel.updateInvoice(finalInvoice)
+                if (existingFile != null && existingFile.exists()) {
+                    file = existingFile
                 } else {
-                    val invoiceId = invoiceViewModel.insertInvoiceWithItems(finalInvoice, itemsList)
-                    val savedInvoice = finalInvoice.copy(id = invoiceId.toInt())
-                    invoiceViewModel.updateInvoiceDraft(savedInvoice)
+                    // Generate fresh high-res PDF file if it doesn't exist on disk yet
+                    val pdfFile = InvoicePdfGenerator.generatePdf(requireContext(), renderData, chosenTemplateId)
+                    file = pdfFile
+
+                    val finalInvoice = updatedDraft.copy(pdfPath = pdfFile.absolutePath)
+                    if (draft.id > 0) {
+                        invoiceViewModel.updateInvoice(finalInvoice)
+                    } else {
+                        val invoiceId = invoiceViewModel.insertInvoiceWithItems(finalInvoice, itemsList)
+                        val savedInvoice = finalInvoice.copy(id = invoiceId.toInt())
+                        invoiceViewModel.updateInvoiceDraft(savedInvoice)
+                    }
                 }
 
                 // Enable Share & Download Buttons

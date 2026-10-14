@@ -42,4 +42,6 @@
     <color name="delete_button_text">#D9534F</color>
     <color name="text_disabled">#9CA3A0</color>
     <color name="border_color">#E8E5DF</color>
+    <color name="invoice_icon_tint">#5C625E</color>
+    <color name="splash_bg_dark">#121212</color>
 </resources>

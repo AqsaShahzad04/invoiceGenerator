@@ -321,11 +321,6 @@ class ModernTemplateRenderer : InvoiceTemplate {
             textGrey.textAlign = Paint.Align.RIGHT
             canvas.drawText("Authorized Signature", width - margin, footerY + 54f, textGrey)
             textGrey.textAlign = Paint.Align.LEFT
-        } else {
-            canvas.drawLine(width - margin - 130f, footerY + 40f, width - margin, footerY + 40f, gridPaint)
-            textGrey.textAlign = Paint.Align.RIGHT
-            canvas.drawText("Authorized Signature", width - margin, footerY + 54f, textGrey)
-            textGrey.textAlign = Paint.Align.LEFT
         }
     }
 }

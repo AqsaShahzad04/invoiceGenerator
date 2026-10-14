@@ -74,6 +74,26 @@ class AddEditItemsFragment : Fragment(R.layout.fragment_add_edit_items) {
     }
 
     private fun setupUI(workspaceId:Int) {
+        val sessionManager = SessionManager.getInstance(requireContext())
+        val currencyCode = sessionManager.getCurrencyCode()
+        val currencySymbol = com.learner.invoicegenerator.utils.CurrencyData.currencies.find { it.code == currencyCode }?.symbol
+            ?: (if (currencyCode != null && currencyCode.length <= 3 && !currencyCode.contains("-")) currencyCode else "$")
+
+        binding.dollarSign.text = currencySymbol
+        binding.dollarSign.post {
+            if (_binding != null) {
+                val symbolWidth = binding.dollarSign.width
+                val minPadding = (symbolWidth + (18 * resources.displayMetrics.density).toInt())
+                    .coerceAtLeast((36 * resources.displayMetrics.density).toInt())
+                binding.priceInput.setPadding(
+                    minPadding,
+                    binding.priceInput.paddingTop,
+                    binding.priceInput.paddingEnd,
+                    binding.priceInput.paddingBottom
+                )
+            }
+        }
+
         val itemId = args.itemId
         val code=args.code
 
@@ -148,6 +168,16 @@ class AddEditItemsFragment : Fragment(R.layout.fragment_add_edit_items) {
 
         if (name.isEmpty()) {
             binding.itemNameInput.error = "Item name is required"
+            return
+        }
+
+        if (priceStr.isNotEmpty() && priceStr.toDoubleOrNull() == null) {
+            binding.priceInput.error = "Enter a valid price"
+            return
+        }
+
+        if (price < 0) {
+            binding.priceInput.error = "Price cannot be negative"
             return
         }
 

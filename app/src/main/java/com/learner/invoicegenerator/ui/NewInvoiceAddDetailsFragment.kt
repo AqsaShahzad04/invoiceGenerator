@@ -89,6 +89,7 @@ class NewInvoiceAddDetailsFragment : Fragment(R.layout.fragment_newinvoice_add_d
                 val fullInvoiceNum = prefix + String.format("%04d", number)
 
                 val daysOffset = convertOffsetIntoLong(settings?.paymentDueDateOffset ?: PaymentDueDateOffset.NET14)
+                val chosenTemplate = invoiceViewModel.selectedTemplate.value
 
                 val draft = Invoice(
                     invoiceNum = fullInvoiceNum,
@@ -106,7 +107,8 @@ class NewInvoiceAddDetailsFragment : Fragment(R.layout.fragment_newinvoice_add_d
                     signaturePath = settings?.signatureBlock,
                     endNote = settings?.defaultNotes ?: "Thank you",
                     pdfPath = null,
-                    totalAmount = total
+                    totalAmount = total,
+                    templateId = if (chosenTemplate > 0) chosenTemplate else 1
                 )
                 invoiceViewModel.updateInvoiceDraft(draft)
             }
@@ -388,6 +390,10 @@ class NewInvoiceAddDetailsFragment : Fragment(R.layout.fragment_newinvoice_add_d
     private fun updateTotal() {
         total = (subtotal - discount) + tax
         binding.totalValue.text = String.format("%.2f", total)
+        val currentDraft = invoiceViewModel.invoiceDraft.value
+        if (currentDraft != null && currentDraft.totalAmount != total) {
+            invoiceViewModel.updateInvoiceDraft(currentDraft.copy(totalAmount = total))
+        }
     }
 
     private fun updateDiscountNamesUI(view: TextView, allViews: List<TextView>) {

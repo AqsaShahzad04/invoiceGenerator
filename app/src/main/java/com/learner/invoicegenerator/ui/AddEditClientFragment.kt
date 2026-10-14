@@ -62,6 +62,11 @@ class AddEditClientFragment : Fragment(R.layout.fragment_add_edit_client) {
                     return@setOnClickListener
                 }
 
+                if (email.isNotEmpty() && !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    binding.email.error = "Enter a valid email address"
+                    return@setOnClickListener
+                }
+
                 val client = Client(
                     businessName = businessName,
                     contactPerson = contactPerson,
@@ -103,6 +108,11 @@ class AddEditClientFragment : Fragment(R.layout.fragment_add_edit_client) {
 
                 if (businessName.isEmpty()) {
                     binding.BusinessName.error = "Business name is required"
+                    return@setOnClickListener
+                }
+
+                if (email.isNotEmpty() && !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    binding.email.error = "Enter a valid email address"
                     return@setOnClickListener
                 }
 

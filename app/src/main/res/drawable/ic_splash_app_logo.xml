@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp"
+    android:height="64dp"
+    android:viewportWidth="64"
+    android:viewportHeight="64">
+
+    <!-- Document outline with folded corner -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="@color/primary_green"
+        android:strokeWidth="4"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M 18,10 H 38 L 50,22 V 54 C 50,56.2 48.2,58 46,58 H 18 C 15.8,58 14,56.2 14,54 V 14 C 14,11.8 15.8,10 18,10 Z" />
+
+    <!-- Folded corner top-right -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="@color/primary_green"
+        android:strokeWidth="4"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M 38,10 V 22 H 50" />
+
+    <!-- Invoice line items inside -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="@color/primary_green"
+        android:strokeWidth="3.5"
+        android:strokeLineCap="round"
+        android:pathData="M 22,30 H 42 M 22,38 H 36 M 22,46 H 30" />
+
+    <!-- Accent dot at bottom right -->
+    <path
+        android:fillColor="@color/primary_green"
+        android:pathData="M 40,46 A 4,4 0 1,1 48,46 A 4,4 0 1,1 40,46 Z" />
+
+</vector>

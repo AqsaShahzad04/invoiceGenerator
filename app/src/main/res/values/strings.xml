@@ -5,4 +5,5 @@
     <string name="delete_all_data_confirm_title">Delete All Data</string>
     <string name="delete_all_data_confirm_message">This will permanently delete all clients, items, and invoices in this workspace. Your workspace, currency, theme, and settings will not be changed.</string>
     <string name="delete_all_data_success">All data deleted successfully</string>
+    <string name="splash_invoice_text">INVOICE</string>
 </resources>

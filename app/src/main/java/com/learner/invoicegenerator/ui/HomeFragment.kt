@@ -127,10 +127,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                         invoices.forEach { invoice->
                             totalEarningThisMonth += invoice.totalAmount
                         }
-                        binding.earnedThisMonthValue.text = conversions.formatAmount(totalEarningThisMonth)
 
                         val currencySymbol = CurrencyData.currencies.find { it.code == sessionManager.getCurrencyCode() }?.symbol ?: "$"
-                        binding.tvEditorialEarnedValue.text = "$currencySymbol ${conversions.formatAmount(totalEarningThisMonth)}"
 
                         earningPrevMonth = 0.0
                         val prevMonthPaidInvoices = invoiceViewModel.fetchPrevMonthPaidNum(startOfPreviousMonth, startOfMonth, activeWorkspaceId)
@@ -172,7 +170,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                         }
                         binding.pendingCountValue.text=invoices.size.toString()
                         totalOutstandingAmount=pendingTotalAmount+unpaidTotalAmount
-                        binding.outstandingValue.text= conversions.formatAmount(totalOutstandingAmount)
 
                         val currencySymbol = CurrencyData.currencies.find { it.code == sessionManager.getCurrencyCode() }?.symbol ?: "$"
                         updateEditorialCardStats(currencySymbol)
@@ -186,9 +183,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                         }
                         binding.unpaidCountValue.text=invoices.size.toString()
                         totalOutstandingAmount=pendingTotalAmount+unpaidTotalAmount
-                        binding.outstandingValue.text= conversions.formatAmount(totalOutstandingAmount)
 
                         val currencySymbol = CurrencyData.currencies.find { it.code == sessionManager.getCurrencyCode() }?.symbol ?: "$"
+                        updateEditorialCardStats(currencySymbol)
+                    }
+                }
+                launch {
+                    sessionManager.currencyCode.collect { currencyCode ->
+                        val currencySymbol = CurrencyData.currencies.find { it.code == currencyCode }?.symbol ?: "$"
                         updateEditorialCardStats(currencySymbol)
                     }
                 }
@@ -318,6 +320,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val total = totalEarningThisMonth + totalOutstandingAmount
         val paidRatio = if (total > 0) (totalEarningThisMonth / total * 100).toInt() else 0
 
+        binding.earnedThisMonthValue.text = "$currencySymbol ${conversions.formatAmount(totalEarningThisMonth)}"
+        binding.outstandingValue.text = "$currencySymbol ${conversions.formatAmount(totalOutstandingAmount)}"
         binding.tvEditorialEarnedValue.text = "$currencySymbol ${conversions.formatAmount(totalEarningThisMonth)}"
         binding.tvEditorialOutstandingValue.text = "$currencySymbol ${conversions.formatAmount(totalOutstandingAmount)}"
         binding.tvLegendPaid.text = "Paid $paidRatio%"
@@ -391,7 +395,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         if (step4Done) completedCount++
 
         if (completedCount == 4) {
-            sessionManager.setInitialStepsCompleted()
+            sessionManager.setHomeSetupCompleted(true)
         }
 
         // Determine the active step (next step to be completed)
@@ -403,7 +407,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             else -> 0 // All done
         }
 
-        if (sessionManager.isInitialSetupCompleted()) {
+        if (sessionManager.isHomeSetupCompleted() || completedCount == 4) {
             binding.homeInitialSetupCards.visibility = View.GONE
             binding.homeScreenParentCard.visibility = View.VISIBLE
         } else {

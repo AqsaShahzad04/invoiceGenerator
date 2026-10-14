@@ -59,8 +59,8 @@
         android:backgroundTint="@color/greyish_white"
         android:src="@drawable/ic_close"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/taxRateTitle"
-        app:layout_constraintBottom_toBottomOf="@id/taxRateTitle"/>
+        app:layout_constraintTop_toTopOf="@id/taxRateTitleGroup"
+        app:layout_constraintBottom_toBottomOf="@id/taxRateTitleGroup"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/lateFeeDisplayBox"

@@ -306,11 +306,6 @@ class BoldTemplateRenderer : InvoiceTemplate {
             textGrey.textAlign = Paint.Align.RIGHT
             canvas.drawText("Authorized Signature", width - margin, footerY + 50f, textGrey)
             textGrey.textAlign = Paint.Align.LEFT
-        } else {
-            canvas.drawLine(width - margin - 130f, footerY + 35f, width - margin, footerY + 35f, linePaint)
-            textGrey.textAlign = Paint.Align.RIGHT
-            canvas.drawText("Authorized Signature", width - margin, footerY + 50f, textGrey)
-            textGrey.textAlign = Paint.Align.LEFT
         }
     }
 }

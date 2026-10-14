@@ -29,9 +29,11 @@
         app:layout_constraintBottom_toBottomOf="parent" >
         
         <ImageView
+            android:id="@+id/invoice_icon"
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:src="@drawable/ic_invoices"
+            app:tint="@color/invoice_icon_tint"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

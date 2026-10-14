@@ -59,8 +59,8 @@
         android:backgroundTint="@color/greyish_white"
         android:src="@drawable/ic_close"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/reminderTitle"
-        app:layout_constraintBottom_toBottomOf="@id/reminderTitle"/>
+        app:layout_constraintTop_toTopOf="@id/reminderTitleGroup"
+        app:layout_constraintBottom_toBottomOf="@id/reminderTitleGroup"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/reminderDisplayBox"

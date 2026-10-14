@@ -111,6 +111,21 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <!-- Remove button -->
+    <TextView
+        android:id="@+id/removeSignatureBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Remove signature"
+        android:textColor="@color/delete_button_text"
+        android:textSize="12sp"
+        android:fontFamily="@font/inter_semibold"
+        android:padding="6dp"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/signatureBox"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <!-- Clear button -->
     <TextView
         android:id="@+id/clearSignatureBtn"

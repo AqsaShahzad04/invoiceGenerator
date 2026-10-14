@@ -12,6 +12,7 @@ class SessionManager private constructor(context: Context) {
     private val _activeWorkspaceId = MutableStateFlow(prefs.getInt(KEY_ACTIVE_WORKSPACE_ID, -1))
     private val _darkModeEnabled = MutableStateFlow(prefs.getBoolean(KEY_DARK_MODE_ENABLED, false))
 
+    @get:JvmName("getActiveWorkspaceIdFlow")
     val activeWorkspaceId: StateFlow<Int> = _activeWorkspaceId
     val darkModeEnabledFlow: StateFlow<Boolean> = _darkModeEnabled.asStateFlow()
 
@@ -25,9 +26,11 @@ class SessionManager private constructor(context: Context) {
         private const val KEY_SELECTED_CURRENCY="selected_currency"
         private const val KEY_CURRENCY_SELECTED_BY_USER="Currency_selected_by_user"
 
-        private const val KEY_INITIAL_STEPS_COMPLETED="initial_steps_completed"
-        private const val KEY_DARK_MODE_ENABLED="dark_mode_enabled"
-        private const val KEY_HOME_HEADER_STYLE="home_header_style"
+        private const val KEY_ONBOARDING_COMPLETED = "onboarding_completed"
+        private const val KEY_INITIAL_STEPS_COMPLETED = "initial_steps_completed"
+        private const val KEY_HOME_SETUP_COMPLETED = "home_setup_completed"
+        private const val KEY_DARK_MODE_ENABLED = "dark_mode_enabled"
+        private const val KEY_HOME_HEADER_STYLE = "home_header_style"
 
         private const val KEY_WELCOME_NOTIFICATION_SENT = "welcome_notification_sent"
         private const val KEY_AUTO_REMINDERS_ENABLED = "auto_reminders_enabled"
@@ -83,12 +86,28 @@ class SessionManager private constructor(context: Context) {
 
     fun getActiveWorkspaceId(): Int = prefs.getInt(KEY_ACTIVE_WORKSPACE_ID, -1)
 
+    fun isOnboardingCompleted(): Boolean {
+        return prefs.getBoolean(KEY_ONBOARDING_COMPLETED, false) || prefs.getBoolean(KEY_INITIAL_STEPS_COMPLETED, false)
+    }
+
+    fun setOnboardingCompleted() {
+        prefs.edit().putBoolean(KEY_ONBOARDING_COMPLETED, true).putBoolean(KEY_INITIAL_STEPS_COMPLETED, true).apply()
+    }
+
     fun isInitialSetupCompleted(): Boolean {
-        return prefs.getBoolean(KEY_INITIAL_STEPS_COMPLETED, false)
+        return isOnboardingCompleted()
     }
 
     fun setInitialStepsCompleted() {
-        prefs.edit().putBoolean(KEY_INITIAL_STEPS_COMPLETED, true).apply()
+        setOnboardingCompleted()
+    }
+
+    fun isHomeSetupCompleted(): Boolean {
+        return prefs.getBoolean(KEY_HOME_SETUP_COMPLETED, false)
+    }
+
+    fun setHomeSetupCompleted(completed: Boolean = true) {
+        prefs.edit().putBoolean(KEY_HOME_SETUP_COMPLETED, completed).apply()
     }
 
     fun isDarkModeEnabled(): Boolean = prefs.getBoolean(KEY_DARK_MODE_ENABLED, false)
@@ -137,7 +156,11 @@ class SessionManager private constructor(context: Context) {
     }
 
     fun clearSessionData() {
+        val onboardingCompleted = isOnboardingCompleted()
         prefs.edit().clear().apply()
+        if (onboardingCompleted) {
+            setOnboardingCompleted()
+        }
         _activeWorkspaceId.value = -1
         _darkModeEnabled.value = false
     }

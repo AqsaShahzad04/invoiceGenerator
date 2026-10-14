@@ -105,12 +105,20 @@ class InvoiceViewModel(
     }
 
 
-    fun updateInvoiceDraft(draft:Invoice){
-        _invoiceDraft.value=draft
-
+    fun updateInvoiceDraft(draft: Invoice) {
+        _invoiceDraft.value = draft
+        if (draft.templateId > 0) {
+            _selectedTemplate.value = draft.templateId
+        }
     }
+
     fun setSelectedTemplate(templateId: Int) {
         _selectedTemplate.value = templateId
+        _invoiceDraft.value?.let { current ->
+            if (current.templateId != templateId) {
+                _invoiceDraft.value = current.copy(templateId = templateId)
+            }
+        }
     }
     fun resetInvoiceDraft(){
         _invoiceDraft.value=null
